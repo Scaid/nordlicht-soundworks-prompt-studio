@@ -65,3 +65,13 @@ OFFLINE SMART ASSISTANT:
 - zeigt Vorschläge vor dem Übernehmen
 - Übernahme kann pro Bereich gesteuert werden
 - kein Internet, keine API und kein Schlüssel erforderlich
+
+
+PHASE 1 – PROFESSIONELLER AUFTRITT:
+- Versionsnummer 1.0.0
+- neues Logo im Header und in der Sidebar
+- eigenes Browser-Favicon
+- animierter Ladebildschirm
+- integriertes Changelog-Fenster
+- Social- und Suchmaschinen-Metadaten
+- separate CHANGELOG.md

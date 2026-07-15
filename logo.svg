@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" role="img" aria-labelledby="title desc">
+<title id="title">Nordlicht Soundworks</title>
+<desc id="desc">Nordlicht Soundworks Logo mit Audio-Wellen und Nordlicht-Farbverlauf</desc>
+<defs>
+  <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#6ff7ec"/>
+    <stop offset="0.55" stop-color="#24cfd2"/>
+    <stop offset="1" stop-color="#62a8ff"/>
+  </linearGradient>
+</defs>
+<g fill="url(#g)">
+  <rect x="12" y="48" width="8" height="24" rx="4"/>
+  <rect x="27" y="37" width="8" height="46" rx="4"/>
+  <rect x="42" y="25" width="8" height="70" rx="4"/>
+  <rect x="57" y="34" width="8" height="52" rx="4"/>
+  <rect x="72" y="43" width="8" height="34" rx="4"/>
+</g>
+<text x="104" y="63" font-family="Arial,Helvetica,sans-serif" font-size="42" font-weight="700" letter-spacing="5" fill="#eefcff">NORDLICHT</text>
+<text x="108" y="91" font-family="Arial,Helvetica,sans-serif" font-size="18" letter-spacing="9" fill="url(#g)">SOUNDWORKS</text>
+</svg>

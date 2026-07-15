@@ -4,18 +4,26 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Nordlicht Soundworks Prompt Studio</title>
+  <meta name="description" content="Erstelle intelligente Suno-Styles, MetaTags, Vocal-Rollen und Instrumentenkombinationen mit dem Nordlicht Soundworks Prompt Studio.">
+  <meta name="theme-color" content="#061827">
+  <meta property="og:title" content="Nordlicht Soundworks Prompt Studio">
+  <meta property="og:description" content="Professionelles Prompt Studio für Suno AI – Style Builder, MetaTags, Presets und Offline Smart Assistant.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <header class="topbar">
   <div class="brand">
-    <span class="brand-icon">▥</span>
-    <div>
-      <strong>Nordlicht Soundworks Prompt Studio</strong>
-      <small>Styles für Suno erstellen, speichern und verwalten</small>
+    <img class="brand-logo" src="logo.svg" alt="Nordlicht Soundworks">
+    <div class="brand-copy">
+      <strong>Prompt Studio</strong>
+      <small>Styles, MetaTags und Songideen für Suno</small>
     </div>
   </div>
   <div class="top-actions">
+    <span class="version-badge" title="Aktuelle Version">v1.0.0</span>
+    <button id="openChangelog">📋 Changelog</button>
     <button id="topSavePreset">💾 Preset speichern</button>
     <button id="topImport">📂 Import</button>
     <button id="topExport">📤 Export</button>
@@ -25,8 +33,12 @@
 <div class="shell">
   <aside class="sidebar">
     <div class="logo">
-      <span>NORDLICHT</span>
-      <small>SOUNDWORKS</small>
+      <img src="logo.svg" alt="Nordlicht Soundworks">
+    </div>
+    <div class="sidebar-version">
+      <b>Prompt Studio</b>
+      <span>Version 1.0.0</span>
+      <small>© 2026 Nordlicht Soundworks</small>
     </div>
     <nav id="navigation">
       <button class="nav active" data-view="assistantView">🤖 <span><b>Offline Smart Assistant</b><small>Songidee analysieren und übernehmen</small></span></button>
@@ -385,6 +397,38 @@
       <button id="copyMetaTags" class="full">METATAGS KOPIEREN</button>
     </section>
   </aside>
+</div>
+
+
+<div id="appLoader" class="app-loader" aria-live="polite">
+  <div class="loader-card">
+    <img src="logo.svg" alt="Nordlicht Soundworks">
+    <div class="aurora-loader"><i></i><i></i><i></i><i></i><i></i></div>
+    <strong>Prompt Studio wird geladen …</strong>
+    <small>Style Builder, MetaTags und Datenbanken werden vorbereitet.</small>
+  </div>
+</div>
+
+<div id="changelogModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="changelogTitle">
+  <div class="modal-backdrop" data-close-modal></div>
+  <section class="modal-card">
+    <button class="modal-close" id="closeChangelog" aria-label="Changelog schließen">×</button>
+    <img class="modal-logo" src="logo.svg" alt="Nordlicht Soundworks">
+    <h2 id="changelogTitle">Changelog</h2>
+    <article class="release-note">
+      <div><b>Version 1.0.0</b><span>Erste öffentliche Veröffentlichung</span></div>
+      <ul>
+        <li>Style Builder mit Genre, BPM, Vocals, Instrumenten und Produktion</li>
+        <li>Offline Smart Assistant für freie Songideen</li>
+        <li>Suno MetaTag Builder mit automatischen Vorschlägen</li>
+        <li>Benannte Sänger und klare Duettsteuerung</li>
+        <li>Smart Randomizer und intelligente Energy-/Dynamics-Tags</li>
+        <li>Preset-Verwaltung, Favoriten sowie Import und Export</li>
+        <li>Responsive Nutzung auf PC, Tablet und Smartphone</li>
+      </ul>
+    </article>
+    <p class="changelog-note">Weitere Aktualisierungen werden künftig hier dokumentiert.</p>
+  </section>
 </div>
 
 <input id="importFile" type="file" accept=".json" hidden>

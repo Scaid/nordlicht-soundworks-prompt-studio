@@ -235,3 +235,81 @@ h3{font-size:13px;margin:14px 0 8px}.chips{display:flex;gap:6px;flex-wrap:wrap}.
   .assistant-result-head{display:block}
   .assistant-confidence{text-align:left;margin-top:10px}
 }
+
+/* ===== Phase 1 · Professional Branding v1.0.0 ===== */
+.brand{display:flex;align-items:center;gap:13px;min-width:0}
+.brand-logo{width:285px;max-width:38vw;height:58px;object-fit:contain;object-position:left center}
+.brand-copy{padding-left:11px;border-left:1px solid rgba(177,255,248,.18)}
+.brand-copy strong{display:block;color:#eaffff;font-size:15px}
+.brand-copy small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.version-badge{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:36px;padding:0 11px;border:1px solid rgba(91,239,225,.25);
+  border-radius:999px;background:rgba(0,24,41,.36);color:#81f5e8;
+  font-size:11px;font-weight:800;letter-spacing:.05em;
+}
+.logo img{display:block;width:100%;height:63px;object-fit:contain}
+.sidebar-version{
+  padding:11px 10px;margin-bottom:10px;border-bottom:1px solid var(--line);
+  text-align:center;color:#dff8fa
+}
+.sidebar-version b,.sidebar-version span,.sidebar-version small{display:block}
+.sidebar-version b{font-size:12px}.sidebar-version span{margin-top:4px;color:#65eee2;font-size:10px}
+.sidebar-version small{margin-top:5px;color:var(--muted);font-size:9px}
+
+.app-loader{
+  position:fixed;inset:0;z-index:9999;display:grid;place-items:center;
+  background:
+    radial-gradient(circle at 65% 20%,rgba(25,211,190,.17),transparent 32%),
+    linear-gradient(145deg,#02101a,#061c2c 55%,#04111e);
+  transition:opacity .45s ease,visibility .45s ease;
+}
+.app-loader.loaded{opacity:0;visibility:hidden;pointer-events:none}
+.loader-card{
+  width:min(440px,88vw);padding:26px;text-align:center;border:1px solid rgba(145,250,240,.17);
+  border-radius:18px;background:rgba(0,14,25,.68);box-shadow:0 24px 90px rgba(0,0,0,.34);
+  backdrop-filter:blur(8px)
+}
+.loader-card img{width:min(360px,90%);height:auto}
+.loader-card strong,.loader-card small{display:block}
+.loader-card strong{margin-top:14px;color:#dffffc;font-size:15px}
+.loader-card small{margin-top:6px;color:#91aebd;font-size:10px}
+.aurora-loader{display:flex;justify-content:center;align-items:center;gap:6px;height:46px;margin-top:12px}
+.aurora-loader i{
+  width:7px;height:16px;border-radius:999px;background:linear-gradient(#67f3e6,#4b9cff);
+  animation:auroraBars 1s ease-in-out infinite
+}
+.aurora-loader i:nth-child(2){animation-delay:.12s}.aurora-loader i:nth-child(3){animation-delay:.24s}
+.aurora-loader i:nth-child(4){animation-delay:.36s}.aurora-loader i:nth-child(5){animation-delay:.48s}
+@keyframes auroraBars{0%,100%{height:14px;opacity:.55}50%{height:42px;opacity:1}}
+
+.modal{position:fixed;inset:0;z-index:9000;display:grid;place-items:center;padding:18px}
+.modal.hidden{display:none}
+.modal-backdrop{position:absolute;inset:0;background:rgba(0,5,12,.76);backdrop-filter:blur(4px)}
+.modal-card{
+  position:relative;z-index:1;width:min(650px,94vw);max-height:88vh;overflow:auto;
+  padding:22px;border:1px solid rgba(128,245,235,.22);border-radius:16px;
+  background:linear-gradient(155deg,rgba(4,28,43,.97),rgba(1,13,25,.98));
+  box-shadow:0 30px 120px rgba(0,0,0,.55)
+}
+.modal-logo{width:285px;max-width:75%;height:auto}
+.modal-card h2{margin:12px 0;color:#65eee2}
+.modal-close{
+  position:absolute;right:12px;top:12px;width:36px;height:36px;padding:0;
+  font-size:25px;line-height:1
+}
+.release-note{padding:14px;border:1px solid var(--line);border-radius:11px;background:rgba(0,12,24,.74)}
+.release-note>div{display:flex;justify-content:space-between;gap:12px}
+.release-note>div b{color:#74f1e5}.release-note>div span{color:var(--muted);font-size:11px}
+.release-note ul{padding-left:19px;margin:12px 0 0;color:#d8e9ed;font-size:12px;line-height:1.65}
+.changelog-note{color:var(--muted);font-size:10px;margin:11px 0 0}
+
+@media(max-width:900px){
+  .brand-logo{width:230px}.brand-copy{display:none}
+}
+@media(max-width:620px){
+  .topbar{padding:10px}.brand-logo{max-width:100%;width:230px}
+  .top-actions{display:grid;grid-template-columns:1fr 1fr;margin-top:9px}
+  .version-badge{grid-column:1/-1}
+  .release-note>div{display:block}.release-note>div span{display:block;margin-top:4px}
+}

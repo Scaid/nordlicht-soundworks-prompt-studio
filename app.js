@@ -634,6 +634,12 @@ function applyAssistantResult(forceAll=false,metaOnly=false){
 function initSelects(){fillSelect(id("genreFamily"),Object.keys(GENRE_LIBRARY));refreshSubgenres();fillSelect(id("secondGenre"),["None",...Object.keys(GENRE_LIBRARY)]);fillSelect(id("songType"),SONG_TYPES);fillSelect(id("language"),LANGUAGES);fillSelect(id("voicePreset"),Object.keys(VOICE_PRESETS));fillSelect(id("leadVoiceCategory"),Object.keys(LEAD_VOICE_LIBRARY));refreshLeadVoices();fillSelect(id("voiceFx"),VOICE_FX);fillSelect(id("choir"),CHOIRS);fillSelect(id("secondVoice"),SECOND_VOICES);fillSelect(id("voiceSeparation"),SEPARATIONS);fillSelect(id("voiceCharacterCategory"),["All",...Object.keys(VOICE_CHARACTER_LIBRARY)]);fillSelect(id("singerOneVoice"),["Male Vocal","Female Vocal","Deep Male Vocal Spoken","Female Vocal Spoken","Operatic Lead","Whispered Vocal"]);
 fillSelect(id("singerTwoVoice"),["Female Vocal","Male Vocal","Deep Male Vocal Spoken","Female Vocal Spoken","Operatic Lead","Whispered Vocal"]);fillSelect(id("instrumentRegion"),["Alle Regionen",...unique(INSTRUMENT_DB.map(x=>x.region)).sort()]);fillSelect(id("instrumentCountry"),["Alle Länder",...unique(INSTRUMENT_DB.map(x=>x.country)).sort()]);fillSelect(id("instrumentFamily"),["Alle Familien",...unique(INSTRUMENT_DB.map(x=>x.family)).sort()]);fillSelect(id("world"),WORLDS);fillSelect(id("emotion"),EMOTIONS);fillSelect(id("narrative"),["None",...NARRATIVES]);fillSelect(id("scene"),["None",...SCENES]);fillSelect(id("atmosphere"),["None",...ATMOSPHERES]);fillSelect(id("energyCategory"),Object.keys(ENERGY_LIBRARY));fillSelect(id("production"),PRODUCTIONS);fillSelect(id("mix"),MIXES);fillSelect(id("dynamics"),DYNAMICS)}
 function wire(){
+ const changelog=id("changelogModal");
+ id("openChangelog").onclick=()=>changelog.classList.remove("hidden");
+ id("closeChangelog").onclick=()=>changelog.classList.add("hidden");
+ changelog.querySelectorAll("[data-close-modal]").forEach(el=>el.onclick=()=>changelog.classList.add("hidden"));
+ document.addEventListener("keydown",event=>{if(event.key==="Escape")changelog.classList.add("hidden")});
+
  id("assistantAnalyze").onclick=analyzeAssistantPrompt;
  id("assistantExample").onclick=()=>{id("assistantPrompt").value="Ein düsteres Anime-Opening über einen Wikinger, der in einer Cyberwelt erwacht. Weibliche Hauptstimme, tiefer männlicher Erzähler, großer Opernchor, Tagelharpa, War Drums, harte elektronische Drops und ein riesiges cineastisches Finale.";};
  id("assistantClear").onclick=()=>{id("assistantPrompt").value="";assistantLastResult=null;id("assistantResultPanel").classList.add("hidden");id("assistantStatus").textContent="Noch keine Analyse durchgeführt.";};
@@ -653,5 +659,13 @@ id("clearMetaTags").onclick=()=>{appState.metaStructure=[];appState.metaMusic=[]
 id("autoMetaTags").onchange=generateOutput;
 id("customMetaTags").oninput=generateOutput;
 id("rightSavePreset").onclick=saveCurrentPreset;id("centerSavePreset").onclick=saveCurrentPreset;id("topSavePreset").onclick=saveCurrentPreset;id("presetSearch").oninput=renderPresetManager;document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{appState.activePresetTab=b.dataset.tab;renderPresetManager()});id("topExport").onclick=()=>exportBackup({form:collectFormState(),presets:appState.presets,favorites:appState.favorites,history:appState.history});id("topImport").onclick=()=>id("importFile").click();id("importFile").onchange=e=>{const file=e.target.files[0];if(file)importBackup(file,data=>{appState.presets=data.presets||[];appState.favorites=data.favorites||[];appState.history=data.history||[];if(data.form)applyFormState(data.form);renderPresetManager();persist();showToast("Import erfolgreich")},()=>alert("Ungültige Backup-Datei"))}}
+
+function finishAppLoading(){
+ const loader=id("appLoader");
+ if(!loader)return;
+ requestAnimationFrame(()=>setTimeout(()=>loader.classList.add("loaded"),350));
+}
+
 function init(){initSelects();renderRandomOptions();wire();restore();updateNamedSingerPreview();renderDynamicLists();updateBpmDisplay();updateRangeLabels();generateOutput();renderPresetManager()}
 init();
+finishAppLoading();
