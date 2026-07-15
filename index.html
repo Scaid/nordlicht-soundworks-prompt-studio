@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Nordlicht Soundworks Prompt Studio</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-icon">▥</span>
+    <div>
+      <strong>Nordlicht Soundworks Prompt Studio</strong>
+      <small>Styles für Suno erstellen, speichern und verwalten</small>
+    </div>
+  </div>
+  <div class="top-actions">
+    <button id="topSavePreset">💾 Preset speichern</button>
+    <button id="topImport">📂 Import</button>
+    <button id="topExport">📤 Export</button>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="sidebar">
+    <div class="logo">
+      <span>NORDLICHT</span>
+      <small>SOUNDWORKS</small>
+    </div>
+    <nav id="navigation">
+      <button class="nav active" data-view="assistantView">🤖 <span><b>Offline Smart Assistant</b><small>Songidee analysieren und übernehmen</small></span></button>
+      <button class="nav" data-view="randomView">🎲 <span><b>Smart Randomizer</b><small>Zufall gezielt steuern</small></span></button>
+      <button class="nav" data-view="styleView">🎼 <span><b>Musikstil</b><small>Genres, Sprache und BPM</small></span></button>
+      <button class="nav" data-view="vocalsView">🎤 <span><b>Vocals</b><small>Lead Voice und Charakter</small></span></button>
+      <button class="nav" data-view="instrumentsView">🎻 <span><b>Instrumente</b><small>Länder- und Regionenfilter</small></span></button>
+      <button class="nav" data-view="storyView">🌍 <span><b>Story & Emotion</b><small>Welt, Szene und Energie</small></span></button>
+      <button class="nav" data-view="productionView">🎧 <span><b>Produktion</b><small>Mix und Klangbild</small></span></button>
+      <button class="nav" data-view="theoryView">♫ <span><b>Musiktheorie</b><small>Tonart, Skala und Takt</small></span></button>
+      <button class="nav" data-view="metatagsView">🏷️ <span><b>Suno MetaTags</b><small>Passende Performance-Tags</small></span></button>
+      <button class="nav" data-view="presetsView">⭐ <span><b>Presets</b><small>Verwalten, ändern und löschen</small></span></button>
+    </nav>
+  </aside>
+
+  <main class="workspace">
+    
+    <section id="assistantView" class="view active">
+      <div class="view-head">
+        <h1>Offline Smart Assistant</h1>
+        <p>Beschreibe deinen gewünschten Song in normaler Sprache. Der Assistent analysiert deine Idee lokal und schlägt passende Einstellungen vor.</p>
+      </div>
+
+      <div class="panel dark-content">
+        <label>Songidee beschreiben
+          <textarea id="assistantPrompt" class="assistant-prompt" placeholder="Beispiel: Ein düsteres Anime-Opening über einen Wikinger, der in einer Cyberwelt erwacht. Weibliche Hauptstimme, tiefer männlicher Erzähler, großer Chor, Tagelharpa und harte elektronische Drops."></textarea>
+        </label>
+
+        <div class="grid three">
+          <label>Arbeitsmodus
+            <select id="assistantMode">
+              <option value="balanced">Ausgewogen</option>
+              <option value="creative">Kreativ</option>
+              <option value="precise">Präzise</option>
+            </select>
+          </label>
+          <label>Umfang
+            <select id="assistantScope">
+              <option value="all">Kompletten Builder analysieren</option>
+              <option value="instruments">Nur Instrumente empfehlen</option>
+              <option value="metatags">Nur MetaTags erzeugen</option>
+              <option value="vocals">Nur Vocals empfehlen</option>
+            </select>
+          </label>
+          <label>Sprache der Beschreibung
+            <select id="assistantInputLanguage">
+              <option value="auto">Automatisch erkennen</option>
+              <option value="de">Deutsch</option>
+              <option value="en">Englisch</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="assistant-actions">
+          <button id="assistantAnalyze" class="primary huge">🧠 SONGIDEE ANALYSIEREN</button>
+          <button id="assistantExample">Beispiel einsetzen</button>
+          <button id="assistantClear">Leeren</button>
+        </div>
+
+        <div id="assistantStatus" class="assistant-status">Noch keine Analyse durchgeführt.</div>
+      </div>
+
+      <div id="assistantResultPanel" class="panel dark-content assistant-result-panel hidden">
+        <div class="assistant-result-head">
+          <div>
+            <h2>Erkannte Richtung</h2>
+            <p>Prüfe die Vorschläge und übernimm sie anschließend in den Builder.</p>
+          </div>
+          <div class="assistant-confidence">
+            <span>Erkennungs-Sicherheit</span>
+            <strong id="assistantConfidence">0%</strong>
+          </div>
+        </div>
+
+        <div id="assistantSummaryCards" class="assistant-summary-grid"></div>
+
+        <h3>Erkannte Schlüsselbegriffe</h3>
+        <div id="assistantKeywords" class="chips"></div>
+
+        <h3>Empfohlene Einstellungen</h3>
+        <div id="assistantSuggestions" class="assistant-suggestions"></div>
+
+        <div class="assistant-apply-grid">
+          <label class="toggle"><input id="applyGenres" type="checkbox" checked> Genres & BPM</label>
+          <label class="toggle"><input id="applyVocals" type="checkbox" checked> Vocals</label>
+          <label class="toggle"><input id="applyInstruments" type="checkbox" checked> Instrumente</label>
+          <label class="toggle"><input id="applyStory" type="checkbox" checked> Story & Emotion</label>
+          <label class="toggle"><input id="applyProduction" type="checkbox" checked> Produktion</label>
+          <label class="toggle"><input id="applyMetatags" type="checkbox" checked> MetaTags</label>
+        </div>
+
+        <div class="assistant-actions">
+          <button id="assistantApply" class="primary huge">✅ AUSWAHL ÜBERNEHMEN</button>
+          <button id="assistantApplyAll">Alles automatisch übernehmen</button>
+          <button id="assistantOnlyMeta">Nur MetaTags übernehmen</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="randomView" class="view">
+      <div class="view-head">
+        <h1>Smart Randomizer</h1>
+        <p>Nur angehakte Bereiche werden verändert. Beide Zufallsbuttons nutzen dieselbe zentrale Funktion.</p>
+      </div>
+      <div class="panel dark-content">
+        <div id="randomOptions" class="check-grid"></div>
+        <label class="toggle"><input type="checkbox" id="compatibleRandom" checked> Stilistisch kompatible Kombinationen bevorzugen</label>
+        <button id="mainRandomButton" class="primary huge">🎲 STYLE ZUFÄLLIG ERZEUGEN</button>
+      </div>
+    </section>
+
+    <section id="styleView" class="view">
+      <div class="view-head"><h1>Musikstil & Tempo</h1><p>Bestimmt die musikalische Grundlage und Sprache.</p></div>
+      <div class="panel dark-content">
+        <div class="grid four">
+          <label>Genre-Familie<select id="genreFamily"></select></label>
+          <label>Subgenre<select id="subgenre"></select></label>
+          <label>Zweitgenre<select id="secondGenre"></select></label>
+          <label>Genre Blend<select id="blend"><option>90/10</option><option>80/20</option><option selected>70/30</option><option>60/40</option><option>50/50</option></select></label>
+          <label>Songtyp<select id="songType"></select></label>
+          <label>Sprache<select id="language"></select></label>
+        </div>
+        <div class="bpm-card">
+          <div><small>BPM</small><strong id="bpmValue">148</strong></div>
+          <div class="bpm-desc"><b id="tempoLabel">Fast</b><span id="tempoHint"></span></div>
+          <input id="bpm" type="range" min="40" max="240" value="148">
+        </div>
+      </div>
+    </section>
+
+    <section id="vocalsView" class="view">
+      <div class="view-head"><h1>Vocal Engine</h1><p>Lead Voice, Presets, Chor, Zweitstimme und Voice Character.</p></div>
+      <div class="panel dark-content">
+        <div class="grid four">
+          <label>Voice Preset<select id="voicePreset"></select></label>
+          <label>Lead-Voice-Kategorie<select id="leadVoiceCategory"></select></label>
+          <label>Lead Voice<select id="leadVoice"></select></label>
+          <label>Voice FX<select id="voiceFx"></select></label>
+          <label>Chor<select id="choir"></select></label>
+          <label>Zweitstimme<select id="secondVoice"></select></label>
+          <label>Voice Separation<select id="voiceSeparation"></select></label>
+          <label>Character-Kategorie<select id="voiceCharacterCategory"></select></label>
+        </div>
+        
+        <div class="named-singer-box">
+          <div class="named-singer-head">
+            <div>
+              <h3>Benannte Sänger & klare Duettsteuerung</h3>
+              <p>Vergib konkrete Namen, damit Suno verschiedene Sänger und gemeinsame Parts klarer auseinanderhalten kann.</p>
+            </div>
+            <label class="toggle compact"><input id="useNamedSingers" type="checkbox"> Benannte Sänger verwenden</label>
+          </div>
+
+          <div class="grid four">
+            <label>Sänger 1 – Name<input id="singerOneName" placeholder="z. B. Niclas"></label>
+            <label>Sänger 1 – Stimme<select id="singerOneVoice"></select></label>
+            <label>Sänger 2 – Name<input id="singerTwoName" placeholder="z. B. Kristina"></label>
+            <label>Sänger 2 – Stimme<select id="singerTwoVoice"></select></label>
+          </div>
+
+          <div class="grid three">
+            <label>Gemeinsame Parts<select id="namedSingerTogether">
+              <option value="Both: together">Both: together</option>
+              <option value="Both: layered harmony">Both: layered harmony</option>
+              <option value="Both: call and response">Both: call and response</option>
+              <option value="Both: alternating lines">Both: alternating lines</option>
+              <option value="Both: unison chorus">Both: unison chorus</option>
+            </select></label>
+            <label>Duett-Modus<select id="namedDuetMode">
+              <option value="clear voice separation">Clear voice separation</option>
+              <option value="strict singer separation">Strict singer separation</option>
+              <option value="dialogue duet">Dialogue duet</option>
+              <option value="alternating verses">Alternating verses</option>
+              <option value="shared chorus only">Shared chorus only</option>
+            </select></label>
+            <label>Header-Vorschau<textarea id="namedSingerPreview" readonly></textarea></label>
+          </div>
+        </div>
+
+        <label>Voice Character suchen<input id="voiceSearch" placeholder="z. B. warm, heroic, robotic"></label>
+        <h3>Voice Character</h3>
+        <div id="voiceCharacterList" class="chips scroll"></div>
+        <h3>Ausgewählte Voice Character</h3>
+        <div id="selectedVoiceCharacters" class="chips selected"></div>
+        <h3>Zusätzliche Vocal-Merkmale</h3>
+        <div id="vocalExtras" class="chips"></div>
+      </div>
+    </section>
+
+    <section id="instrumentsView" class="view">
+      <div class="view-head"><h1>Instrumentenbibliothek</h1><p>Instrumente nach Region, Land und Familie filtern.</p></div>
+      <div class="panel dark-content">
+        <div class="grid four">
+          <label>Region<select id="instrumentRegion"></select></label>
+          <label>Land / Herkunft<select id="instrumentCountry"></select></label>
+          <label>Instrumentenfamilie<select id="instrumentFamily"></select></label>
+          <label>Suche<input id="instrumentSearch" placeholder="Koto, Drum, Harp ..."></label>
+        </div>
+        <div class="toolbar">
+          <span id="instrumentCount"></span>
+          <div><button id="recommendedInstruments">Empfehlungen</button><button id="clearInstruments">Auswahl leeren</button></div>
+        </div>
+        <div id="instrumentLibrary" class="instrument-grid"></div>
+        <h3>Ausgewählte Instrumente</h3>
+        <div id="selectedInstruments" class="chips selected"></div>
+      </div>
+    </section>
+
+    <section id="storyView" class="view">
+      <div class="view-head"><h1>Story-Welt, Emotion & Energie</h1><p>Definiert die erzählerische und emotionale Richtung.</p></div>
+      <div class="panel dark-content">
+        <div class="grid four">
+          <label>Story-Welt<select id="world"></select></label>
+          <label>Emotion<select id="emotion"></select></label>
+          <label>Erzählmodus<select id="narrative"></select></label>
+          <label>Szene<select id="scene"></select></label>
+          <label>Atmosphäre<select id="atmosphere"></select></label>
+          <label>Energie-Kategorie<select id="energyCategory"></select></label>
+          <label>Energie-Suche<input id="energySearch" placeholder="Slow Burn, Viking Charge ..."></label>
+        </div>
+        <h3>Energie-Stile</h3>
+        <div id="energyList" class="chips scroll"></div>
+        <h3>Ausgewählte Energie-Stile</h3>
+        <div id="selectedEnergy" class="chips selected"></div>
+        <div class="grid two">
+          <label>Energie-Level <span id="energyValue">55 / 100</span><input id="energyLevel" type="range" min="0" max="100" value="55"><small class="translated-tags" id="energyTranslatedTags"></small></label>
+          <label>Dynamik-Level <span id="dynamicValue">65 / 100</span><input id="dynamicLevel" type="range" min="0" max="100" value="65"><small class="translated-tags" id="dynamicTranslatedTags"></small></label>
+        </div>
+      </div>
+    </section>
+
+    <section id="productionView" class="view">
+      <div class="view-head"><h1>Produktion & Mix</h1><p>Bestimmt Klangbild, Stereobreite, Dynamik und Finish.</p></div>
+      <div class="panel dark-content">
+        <div class="grid three">
+          <label>Production<select id="production"></select></label>
+          <label>Mix<select id="mix"></select></label>
+          <label>Dynamik<select id="dynamics"></select></label>
+        </div>
+        <h3>Produktionsmerkmale</h3>
+        <div id="productionExtras" class="chips"></div>
+        <h3>Exclude Styles</h3>
+        <div id="excludeChips" class="chips"></div>
+        <label>Eigene Ausschlüsse<textarea id="customExclude"></textarea></label>
+        <label>Eigene Style-Ergänzungen<textarea id="customStyle"></textarea></label>
+      </div>
+    </section>
+
+    <section id="theoryView" class="view">
+      <div class="view-head"><h1>Musiktheorie-Assistent</h1><p>Optionale Empfehlungen passend zum gewählten Stil.</p></div>
+      <div class="panel dark-content">
+        <div class="theory-grid">
+          <div><small>Tonart</small><strong id="theoryKey"></strong></div>
+          <div><small>Skala</small><strong id="theoryScale"></strong></div>
+          <div><small>Taktart</small><strong id="theoryMeter"></strong></div>
+          <div><small>BPM-Bereich</small><strong id="theoryBpm"></strong></div>
+        </div>
+        <label class="toggle"><input id="includeTheory" type="checkbox"> Empfehlungen in den STYLE übernehmen</label>
+      </div>
+    </section>
+
+    
+    <section id="metatagsView" class="view">
+      <div class="view-head">
+        <h1>Suno MetaTag Builder</h1>
+        <p>Erstellt getrennte Lyrics-Metatags. Alles, was kein gesungener Text ist, wird vollständig in eckige Klammern gesetzt.</p>
+      </div>
+      <div class="panel dark-content">
+        <div class="metatag-toolbar">
+          <label class="toggle"><input id="autoMetaTags" type="checkbox" checked> Passende MetaTags automatisch aus dem aktuellen STYLE ableiten</label>
+          <button id="refreshMetaSuggestions">✨ Vorschläge aktualisieren</button>
+          <button id="clearMetaTags">Auswahl leeren</button>
+        </div>
+
+        
+        <div class="named-singer-meta-info">
+          <b>Duettsteuerung mit Namen:</b>
+          <code>[Duet – Niclas (male) & Kristina (female)]</code>
+          <code>[Male vocals: Niclas, Female vocals: Kristina, Both: together]</code>
+          <code>[Niclas] Songtext</code>
+          <code>[Kristina] Songtext</code>
+          <code>[Both] Songtext</code>
+        </div>
+
+        <div class="meta-help">
+          <b>Empfohlenes Format:</b>
+          <code>[Verse 1] [Female Vocal: Warm, intimate] [Style: Storytelling, emotional] [Music: Gentle piano melody, soft strings]</code>
+        </div>
+
+        <h3>Songstruktur</h3>
+        <div id="metaStructure" class="chips"></div>
+
+        <h3>Music Cues & Klangereignisse</h3>
+        <div id="metaMusic" class="chips scroll"></div>
+
+        <h3>Stimmen & Performance</h3>
+        <div id="metaVoices" class="chips scroll"></div>
+
+        <h3>Section Style Directions</h3>
+        <div id="metaStyles" class="chips scroll"></div>
+
+        <h3>Ad-libs & Calls</h3>
+        <div id="metaAdlibs" class="chips"></div>
+
+        <h3>Chöre</h3>
+        <div id="metaChoirs" class="chips"></div>
+
+        <h3>Automatisch empfohlene MetaTags</h3>
+        <div id="metaSuggestions" class="meta-suggestions"></div>
+
+        <label>Eigene MetaTags – ein Tag pro Zeile
+          <textarea id="customMetaTags" placeholder="[Break: Abrupt silence, tension]&#10;[Instrumental Solo: Chaotic strings and heavy drums]"></textarea>
+        </label>
+      </div>
+    </section>
+
+    <section id="presetsView" class="view">
+      <div class="view-head"><h1>Preset-Verwaltung</h1><p>Presets in der Mitte suchen, laden, umbenennen, duplizieren, favorisieren und löschen.</p></div>
+      <div class="panel dark-content">
+        <div class="preset-toolbar">
+          <input id="presetSearch" placeholder="Presets durchsuchen ...">
+          <button id="centerSavePreset" class="primary">Aktuellen Style speichern</button>
+        </div>
+        <div class="tabs">
+          <button data-tab="presets" class="active">Eigene Presets</button>
+          <button data-tab="favorites">Favoriten</button>
+          <button data-tab="history">Verlauf</button>
+        </div>
+        <div id="presetManager" class="preset-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <aside class="rightbar">
+    <section class="glass score-card">
+      <h2>KOMPATIBILITÄTS-SCORE <span title="Zeigt, wie klar und widerspruchsfrei die aktuelle Kombination ist.">ⓘ</span></h2>
+      <div class="score"><span id="score">100</span><small>/100</small></div>
+      <div id="stars" class="stars">★★★★★</div>
+      <p>Bewertet Genre, Vocals, Instrumente, Story und Produktion.</p>
+      <div id="scoreDetails"></div>
+    </section>
+
+    <section class="glass">
+      <h2>SMART RANDOMIZER</h2>
+      <div id="randomMirror" class="random-mirror"></div>
+      <button id="rightRandomButton" class="primary full">🎲 ZUFÄLLIG AUSWÄHLEN</button>
+    </section>
+
+    <section class="glass">
+      <h2>LIVE-AUSGABE</h2>
+      <label>STYLE<textarea id="styleOutput" readonly></textarea></label>
+      <div class="quick"><button id="copyStyle">STYLE KOPIEREN</button><button id="rightSavePreset">PRESET SPEICHERN</button></div>
+      <label>EXCLUDE STYLE<textarea id="excludeOutput" readonly></textarea></label>
+      <button id="copyExclude" class="full">EXCLUDE KOPIEREN</button>
+      <label>METATAGS<textarea id="metaTagsOutput" readonly></textarea></label>
+      <button id="copyMetaTags" class="full">METATAGS KOPIEREN</button>
+    </section>
+  </aside>
+</div>
+
+<input id="importFile" type="file" accept=".json" hidden>
+<div id="toast" class="toast"></div>
+
+<script src="instruments.js"></script>
+<script src="genres.js"></script>
+<script src="vocals.js"></script>
+<script src="story.js"></script>
+<script src="storage.js"></script>
+<script src="clipboard.js"></script>
+<script src="presetManager.js"></script>
+<script src="randomizer.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
