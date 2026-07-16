@@ -1,5 +1,18 @@
 # Nordlicht Soundworks Prompt Studio – Changelog
 
+## Version 1.5.0 – Hybrid Complete Translation
+
+- English, German and Spanish remain locally translated and work offline
+- All other existing interface languages use full-page online machine translation
+- The custom language selector controls both local and online translations
+- Style, Exclude, MetaTag and user-input fields are protected from translation
+- Canonical Suno export values remain English
+- Selected language is saved locally
+- Simplified and Traditional Chinese, Japanese, Korean, Arabic and all other configured languages are available
+- Graceful English fallback when the online translation service is unavailable
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
 ## Version 1.4.0 – MetaTag Composer
 
 - Added Classic, Compact and AI Optimized MetaTag output formats
