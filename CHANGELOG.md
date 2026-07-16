@@ -1,13 +1,15 @@
 # Nordlicht Soundworks Prompt Studio – Changelog
 
-## Version 1.3.4 – Sidebar Translation Fix
+## Version 1.4.0 – MetaTag Composer
 
-- Added dedicated translations for the complete left sidebar in all 24 languages
-- Added dedicated translations for the complete right sidebar in all 24 languages
-- Smart Randomizer mirror labels now refresh after every language change
-- Compatibility score title, description and categories follow the selected language
-- Live Output labels and copy/save buttons follow the selected language
-- The selected language still remains visible in its native name
+- Added Classic, Compact and AI Optimized MetaTag output formats
+- Compact format places section and performance tags on one line
+- AI Optimized mode assigns suitable tags to Intro, Verse, Pre-Chorus, Chorus, Bridge, Final Chorus and Outro
+- Optional section-aware tag assignment
+- Optional duplicate-tag suppression
+- Format preview updates instantly
+- Named singer tags, instrumental mode and custom MetaTags remain supported
+- New controls translated into all 24 interface languages
 
 # Nordlicht Soundworks Prompt Studio – Changelog
 

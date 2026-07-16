@@ -169,7 +169,62 @@ function updateNamedSingerPreview(){
  id("namedSingerPreview").value=tags.length?tags.join("\n"):"Enable named singers and assign two names.";
 }
 
-function metaTagsOutput(){
+
+function metaTagFormatMode(){return id("metaTagFormat")?.value||"compact"}
+function metaSectionAware(){return id("sectionAwareMetaTags")?.checked!==false}
+function metaAvoidRepetition(){return id("avoidMetaRepetition")?.checked!==false}
+
+function sectionRole(section){
+ const s=String(section||"").toLowerCase();
+ if(s.includes("intro"))return"intro";
+ if(s.includes("pre-chorus")||s.includes("pre chorus"))return"pre";
+ if(s.includes("final chorus"))return"final";
+ if(s.includes("chorus"))return"chorus";
+ if(s.includes("verse"))return"verse";
+ if(s.includes("bridge"))return"bridge";
+ if(s.includes("break")||s.includes("solo"))return"break";
+ if(s.includes("outro")||s.includes("end"))return"outro";
+ return"other";
+}
+function chooseSectionTags(role,data){
+ const pickTags=(list,start,count)=>list.slice(start,start+count);
+ const result=[];
+ const add=(...items)=>items.flat().filter(Boolean).forEach(x=>result.push(x));
+ const lead=data.voices[0],second=data.voices[1];
+ switch(role){
+  case"intro":
+   add(...pickTags(data.music,0,3),lead,...pickTags(data.styles,0,2));
+   break;
+  case"verse":
+   add(lead,...pickTags(data.styles,0,2),data.music[0]);
+   break;
+  case"pre":
+   add(data.styles.find(x=>/build|tension|rising/i.test(x))||data.styles[1],data.music.find(x=>/drum|tension|faster/i.test(x)),data.adlibTag);
+   break;
+  case"chorus":
+   add(...pickTags(data.choirs,0,2),data.styles.find(x=>/anthem|explosive|huge|festival/i.test(x))||data.styles[0],second);
+   break;
+  case"bridge":
+   add(second||lead,data.styles.find(x=>/dark|emotional|cold|dream/i.test(x))||data.styles[1],data.music.find(x=>/silence|strings|piano|tension/i.test(x)));
+   break;
+  case"break":
+   add(data.music.find(x=>/solo|chaotic|drum|bass|silence/i.test(x))||data.music[1],data.styles.find(x=>/aggressive|maximum|huge/i.test(x)));
+   break;
+  case"final":
+   add(...pickTags(data.choirs,0,2),data.styles.find(x=>/finale|maximum|huge|anthem|triumphant/i.test(x))||data.styles.at(-1),data.adlibTag);
+   break;
+  case"outro":
+   add(data.music.find(x=>/piano|strings|soft|wind|ocean/i.test(x))||data.music.at(-1),data.voices.at(-1),data.styles.find(x=>/soft|dream|emotional|warm/i.test(x)));
+   break;
+  default:
+   add(lead,data.styles[0]);
+ }
+ return result.filter(Boolean);
+}
+function compactSectionLine(section,tags){
+ return [section,...tags].filter(Boolean).join(" ");
+}
+function optimizedSectionData(){
  const suggested=id("autoMetaTags")?.checked?recommendedMetaTags():{structure:[],music:[],voices:[],styles:[],adlibs:[],choirs:[]};
  const structure=unique([...appState.metaStructure,...suggested.structure]).map(x=>ensureBracketTag(x));
  const voices=unique([...appState.metaVoices,...suggested.voices]).map(x=>ensureBracketTag(x));
@@ -177,30 +232,77 @@ function metaTagsOutput(){
  const music=unique([...appState.metaMusic,...suggested.music]).map(x=>ensureBracketTag(x,"Music"));
  const adlibs=unique([...appState.metaAdlibs,...suggested.adlibs]);
  const choirs=unique([...appState.metaChoirs,...suggested.choirs]).map(x=>ensureBracketTag(x,"Chorus"));
+ return{
+   structure:structure.length?structure:["[Intro]","[Verse 1]","[Pre-Chorus]","[Chorus]","[Verse 2]","[Bridge]","[Final Chorus]","[Outro]"],
+   voices,styles,music,choirs,
+   adlibTag:adlibs.length?ensureBracketTag(adlibs.slice(0,4).join(", "),"Ad libs"):null
+ };
+}
+function classicMetaTagsOutput(data){
  const blocks=[...namedSingerHeaderTags(),""];
- const max=Math.max(structure.length,1);
- for(let i=0;i<max;i++){
-   if(structure[i])blocks.push(structure[i]);
+ for(let i=0;i<data.structure.length;i++){
+   blocks.push(data.structure[i]);
    const singerSections=namedSingerSectionTags();
    if(singerSections.length){
      if(i===1)blocks.push(singerSections[0]);
      else if(i===2)blocks.push(singerSections[1]);
      else if(i===3)blocks.push(singerSections[2]);
    }
-   if(i===0){
-     blocks.push(...music.slice(0,3),...voices.slice(0,2),...styles.slice(0,2));
-   }else if(i===1){
-     blocks.push(...voices.slice(2,4),...styles.slice(2,4));
-   }else if(i===2&&adlibs.length){
-     blocks.push(ensureBracketTag(adlibs.join(", "),"Ad libs"));
-   }else if(i===3){
-     blocks.push(...choirs.slice(0,2));
-   }
-   blocks.push("");
+   const role=metaSectionAware()?sectionRole(data.structure[i]):"other";
+   const tags=metaSectionAware()?chooseSectionTags(role,data):chooseSectionTags(i===0?"intro":"other",data);
+   blocks.push(...tags,"");
  }
+ return blocks;
+}
+function compactMetaTagsOutput(data,optimized=false){
+ const blocks=[...namedSingerHeaderTags(),""];
+ const used=new Set();
+ const singerSections=namedSingerSectionTags();
+ data.structure.forEach((section,i)=>{
+   const role=metaSectionAware()?sectionRole(section):"other";
+   let tags=chooseSectionTags(role,data);
+   if(singerSections.length){
+     if(i===1)tags.unshift(singerSections[0]);
+     else if(i===2)tags.unshift(singerSections[1]);
+     else if(i===3)tags.unshift(singerSections[2]);
+   }
+   if(metaAvoidRepetition()){
+     tags=tags.filter(tag=>{
+       const normalized=String(tag).toLowerCase();
+       if(used.has(normalized)&&!/\[chorus:|\[ad libs:/i.test(tag))return false;
+       used.add(normalized);return true;
+     });
+   }
+   if(optimized){
+     const maxTags=role==="chorus"||role==="final"?4:3;
+     tags=tags.slice(0,maxTags);
+   }
+   blocks.push(compactSectionLine(section,tags),"");
+ });
+ return blocks;
+}
+function metaTagsOutput(){
+ const data=optimizedSectionData();
+ const mode=metaTagFormatMode();
+ let blocks;
+ if(mode==="classic")blocks=classicMetaTagsOutput(data);
+ else if(mode==="optimized")blocks=compactMetaTagsOutput(data,true);
+ else blocks=compactMetaTagsOutput(data,false);
  blocks.push(...customMetaTagLines());
  return [...instrumentalMetaTags(),"",...blocks].join("\n").replace(/\n{3,}/g,"\n\n").trim();
 }
+
+
+function updateMetaFormatExample(){
+ const mode=metaTagFormatMode();
+ const examples={
+  classic:"[Verse 1]\\n[Male Vocal]\\n[Style: Warm, storytelling]",
+  compact:"[Verse 1] [Male Vocal] [Style: Warm, storytelling]",
+  optimized:"[Verse 1] [Male Vocal] [Style: Warm, intimate, storytelling] [Music: Acoustic guitar strums]"
+ };
+ if(id("metaFormatExample"))id("metaFormatExample").textContent=examples[mode]||examples.compact;
+}
+
 function renderMetaSuggestions(){
  if(!id("metaSuggestions"))return;
  const r=recommendedMetaTags();
@@ -679,6 +781,9 @@ function wire(){buildLanguageMenu();const languageButton=id("languageButton"),la
  }
 });
 id("voiceCharacterCategory").onchange=renderDynamicLists;id("voiceSearch").oninput=renderDynamicLists;["instrumentRegion","instrumentCountry","instrumentFamily"].forEach(x=>id(x).onchange=renderDynamicLists);id("instrumentSearch").oninput=renderDynamicLists;id("recommendedInstruments").onclick=()=>{appState.instruments=shuffleArray(INSTRUMENT_DB).slice(0,6).map(x=>x.name);renderDynamicLists();generateOutput()};id("clearInstruments").onclick=()=>{appState.instruments=[];renderDynamicLists();generateOutput()};id("energyCategory").onchange=renderDynamicLists;id("energySearch").oninput=renderDynamicLists;id("bpm").oninput=()=>{updateBpmDisplay();generateOutput()};id("energyLevel").oninput=()=>{updateRangeLabels();generateOutput()};id("dynamicLevel").oninput=()=>{updateRangeLabels();generateOutput()};document.querySelectorAll("select,textarea,input").forEach(el=>{if(!el.onchange&&el.type!=="range")el.addEventListener("change",generateOutput);if(el.tagName==="TEXTAREA")el.addEventListener("input",generateOutput)});id("mainRandomButton").onclick=runSmartRandom;id("rightRandomButton").onclick=runSmartRandom;id("copyStyle").onclick=()=>copyField("styleOutput");id("copyExclude").onclick=()=>copyField("excludeOutput");id("copyMetaTags").onclick=()=>copyField("metaTagsOutput");id("refreshMetaSuggestions").onclick=()=>{renderMetaSuggestions();generateOutput();showToast("MetaTag suggestions refreshed")};
+ id("metaTagFormat").onchange=()=>{updateMetaFormatExample();generateOutput()};
+ id("sectionAwareMetaTags").onchange=generateOutput;
+ id("avoidMetaRepetition").onchange=generateOutput;
 id("clearMetaTags").onclick=()=>{appState.metaStructure=[];appState.metaMusic=[];appState.metaVoices=[];appState.metaStyles=[];appState.metaAdlibs=[];appState.metaChoirs=[];id("customMetaTags").value="";renderDynamicLists();generateOutput();showToast("MetaTags geleert")};
 id("autoMetaTags").onchange=generateOutput;
 id("customMetaTags").oninput=generateOutput;
@@ -690,7 +795,7 @@ function finishAppLoading(){
  requestAnimationFrame(()=>setTimeout(()=>loader.classList.add("loaded"),350));
 }
 
-function init(){currentUiLanguage=detectLanguage();initSelects();renderRandomOptions();wire();restore();setVocalMode(currentVocalMode());updateNamedSingerPreview();renderDynamicLists();updateBpmDisplay();updateRangeLabels();generateOutput();renderPresetManager()}
+function init(){currentUiLanguage=detectLanguage();initSelects();renderRandomOptions();wire();restore();setVocalMode(currentVocalMode());updateNamedSingerPreview();updateMetaFormatExample();renderDynamicLists();updateBpmDisplay();updateRangeLabels();generateOutput();renderPresetManager()}
 init();
 applyLanguage(currentUiLanguage);
 finishAppLoading();

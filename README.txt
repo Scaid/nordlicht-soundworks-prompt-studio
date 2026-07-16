@@ -116,6 +116,9 @@ VERSION 1.3.3 – ALL LANGUAGES COMPLETE:
 - Suno export values remain canonical English
 
 
-VERSION 1.3.4 – SIDEBAR TRANSLATION FIX:
-- dedicated left and right sidebar dictionaries for all 24 languages
-- randomizer mirror, score panel and live-output controls refresh after language changes
+VERSION 1.4.0 – METATAG COMPOSER:
+- Classic, Compact and AI Optimized output formats
+- section-aware MetaTag assignment
+- duplicate-tag suppression
+- compact one-line Suno formatting
+- compatible with Named Singers, Instrumental Mode and custom tags

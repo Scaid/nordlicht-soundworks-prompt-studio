@@ -330,3 +330,32 @@ select option{font-family:inherit}
 
 /* v1.3.0 complete i18n */
 [data-i18n-full]{unicode-bidi:plaintext}
+
+/* ===== v1.4.0 MetaTag Composer ===== */
+.metatag-composer-card{
+  margin-bottom:12px;
+  padding:13px;
+  border:1px solid rgba(102,239,229,.24);
+  border-radius:12px;
+  background:linear-gradient(145deg,rgba(0,25,42,.83),rgba(0,13,27,.72));
+}
+.metatag-composer-card h3{margin:0 0 4px;color:#74efe4}
+.metatag-composer-card p{margin:0 0 11px;color:var(--muted);font-size:11px}
+.metatag-format-grid{align-items:end}
+.composer-toggle{
+  min-height:43px;
+  align-items:center;
+  padding:8px 10px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:rgba(0,12,24,.52);
+}
+.format-examples{
+  margin-top:10px;
+  padding:9px 11px;
+  border-left:3px solid var(--cyan);
+  border-radius:8px;
+  background:rgba(0,11,22,.74);
+}
+.format-examples code{white-space:normal;color:#dffbff;font-size:10px;line-height:1.5}
+@media(max-width:800px){.metatag-format-grid{grid-template-columns:1fr}}
