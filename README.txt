@@ -103,3 +103,19 @@ VERSION 1.3.1 – I18N BUGFIX:
 - fixes disappearing select fields and controls
 - translations now replace only label text, never nested form elements
 - all builder functions remain usable after language changes
+
+
+VERSION 1.3.2: language selector fix, complete Spanish UI, dynamic label localization.
+
+
+VERSION 1.3.3 – ALL LANGUAGES COMPLETE:
+- all 24 existing languages are enabled as complete
+- no Beta labels
+- selected language remains visible
+- complete UI dictionaries are generated for every language
+- Suno export values remain canonical English
+
+
+VERSION 1.3.4 – SIDEBAR TRANSLATION FIX:
+- dedicated left and right sidebar dictionaries for all 24 languages
+- randomizer mirror, score panel and live-output controls refresh after language changes

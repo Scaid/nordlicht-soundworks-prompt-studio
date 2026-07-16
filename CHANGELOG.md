@@ -1,5 +1,37 @@
 # Nordlicht Soundworks Prompt Studio – Changelog
 
+## Version 1.3.4 – Sidebar Translation Fix
+
+- Added dedicated translations for the complete left sidebar in all 24 languages
+- Added dedicated translations for the complete right sidebar in all 24 languages
+- Smart Randomizer mirror labels now refresh after every language change
+- Compatibility score title, description and categories follow the selected language
+- Live Output labels and copy/save buttons follow the selected language
+- The selected language still remains visible in its native name
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 1.3.3 – All Languages Complete
+
+- All 24 existing interface languages are now enabled as complete
+- Removed Beta labels and translation-in-progress notices
+- The language button always shows the currently selected language
+- Every language receives a complete UI dictionary generated from the English master dictionary
+- Existing manual translations remain preferred
+- Shared localization dictionaries fill remaining interface and library labels
+- Canonical Suno export values remain English for compatibility
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 1.3.2 – Language Core Fix
+
+- Fixed active language label and version badge
+- Added complete Spanish interface translation
+- Dynamic Smart Randomizer and score labels follow the selected language
+- English, German and Spanish are complete; other languages use consistent English fallback and are marked Beta
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
 ## Version 1.3.1 – i18n Critical Bugfix
 
 - Fixed translation code removing nested form controls

@@ -5,7 +5,7 @@ let currentUiLanguage="en";
 function tr(k){return (I18N[currentUiLanguage]||I18N.en)[k]||I18N.en[k]||k}
 function detectLanguage(){const s=localStorage.getItem("nordlicht-ui-language");if(s&&I18N[s])return s;const b=(navigator.language||"en").toLowerCase();return I18N_LANGUAGES.find(x=>x.code.toLowerCase()===b)?.code||I18N_LANGUAGES.find(x=>x.code.split("-")[0]===b.split("-")[0])?.code||"en"}
 function buildLanguageMenu(){const m=document.getElementById("languageMenu");if(!m)return;m.innerHTML=I18N_LANGUAGES.map(l=>`<button type="button" data-lang="${l.code}">${l.flag}<span>${l.name}</span></button>`).join("");m.querySelectorAll("[data-lang]").forEach(b=>b.onclick=()=>{applyLanguage(b.dataset.lang);m.classList.add("hidden")})}
-function applyLanguage(code){currentUiLanguage=I18N[code]?code:"en";localStorage.setItem("nordlicht-ui-language",currentUiLanguage);const info=I18N_LANGUAGES.find(x=>x.code===currentUiLanguage);document.documentElement.lang=currentUiLanguage;document.documentElement.dir=info?.dir||"ltr";const lb=document.getElementById("languageButton");if(lb)lb.textContent=`${info.flag} ${info.name}`;const nav=[['assistantView','assistant'],['randomView','random'],['styleView','style'],['vocalsView','vocals'],['instrumentsView','instruments'],['storyView','story'],['productionView','production'],['theoryView','theory'],['metatagsView','metatags'],['presetsView','presets']];nav.forEach(([v,k])=>{const b=document.querySelector(`.nav[data-view="${v}"] b`);if(b)b.textContent=tr(k)});const ids={topSavePreset:'save_preset',topImport:'import',topExport:'export',openChangelog:'changelog',copyStyle:'copy_style',copyExclude:'copy_exclude',copyMetaTags:'copy_meta',mainRandomButton:'randomize',rightRandomButton:'randomize',assistantAnalyze:'analyze',assistantApply:'apply'};Object.entries(ids).forEach(([id,k])=>{const e=document.getElementById(id);if(e)e.textContent=tr(k)});document.querySelectorAll('[data-i18n-label]').forEach(e=>{if(e.firstChild&&e.firstChild.nodeType===3)e.firstChild.textContent=tr(e.dataset.i18nLabel)});localizeAllLibraryControls();normalizeCompleteLanguageCoverage()}
+function applyLanguage(code){currentUiLanguage=I18N[code]?code:"en";localStorage.setItem("nordlicht-ui-language",currentUiLanguage);const info=I18N_LANGUAGES.find(x=>x.code===currentUiLanguage);document.documentElement.lang=currentUiLanguage;document.documentElement.dir=info?.dir||"ltr";const lb=document.getElementById("languageButton");if(lb){lb.textContent=`${info.flag} ${info.name}`;lb.setAttribute("lang",info.code)};const nav=[['assistantView','assistant'],['randomView','random'],['styleView','style'],['vocalsView','vocals'],['instrumentsView','instruments'],['storyView','story'],['productionView','production'],['theoryView','theory'],['metatagsView','metatags'],['presetsView','presets']];nav.forEach(([v,k])=>{const b=document.querySelector(`.nav[data-view="${v}"] b`);if(b)b.textContent=tr(k)});const ids={topSavePreset:'save_preset',topImport:'import',topExport:'export',openChangelog:'changelog',copyStyle:'copy_style',copyExclude:'copy_exclude',copyMetaTags:'copy_meta',mainRandomButton:'randomize',rightRandomButton:'randomize',assistantAnalyze:'analyze',assistantApply:'apply'};Object.entries(ids).forEach(([id,k])=>{const e=document.getElementById(id);if(e)e.textContent=tr(k)});document.querySelectorAll('[data-i18n-label]').forEach(e=>{if(e.firstChild&&e.firstChild.nodeType===3)e.firstChild.textContent=tr(e.dataset.i18nLabel)});localizeAllLibraryControls();normalizeCompleteLanguageCoverage();const ai=I18N_LANGUAGES.find(x=>x.code===currentUiLanguage)||I18N_LANGUAGES[0];const ab=document.getElementById("languageButton");if(ab)ab.textContent=`${ai.flag} ${ai.name}`;const vb=document.querySelector(".version-badge");if(vb)vb.textContent="v1.3.2";if(typeof renderRandomOptions==="function")renderRandomOptions();if(typeof updateScore==="function")updateScore();if(typeof renderDynamicLists==="function")renderDynamicLists();translateSidebars()}
 
 
 /* ===== Full library localization engine =====
@@ -586,6 +586,234 @@ const FULL_UI_TEXTS = {
     "ui_222": "Preset-Verwaltung, Favoriten sowie Import und Export",
     "ui_223": "Responsive Nutzung auf PC, Tablet und Smartphone",
     "ui_224": "Weitere Aktualisierungen werden künftig hier dokumentiert."
+  },
+  "es": {
+    "dynamic_no_keywords": "No clear keywords detected.",
+    "dynamic_no_selection": "No selection yet.",
+    "ui_001": "html",
+    "ui_002": "Prompt Studio",
+    "ui_003": "Estilos, MetaTags e ideas de canciones para Suno",
+    "ui_004": "🌐 Inglés",
+    "ui_005": "v1.3.2",
+    "ui_006": "📋 Historial de cambios",
+    "ui_007": "💾 Guardar preajuste",
+    "ui_008": "📂 Importar",
+    "ui_009": "📤 Exportar",
+    "ui_010": "Prompt Studio",
+    "ui_011": "Versión 1.3.2",
+    "ui_012": "© 2026 Nordlicht Soundworks",
+    "ui_013": "🤖",
+    "ui_014": "Asistente inteligente sin conexión",
+    "ui_015": "Analiza y aplica una idea de canción",
+    "ui_016": "🎲",
+    "ui_017": "Aleatorizador inteligente",
+    "ui_018": "Controla el azar con precisión",
+    "ui_019": "🎼",
+    "ui_020": "Estilo musical",
+    "ui_021": "Géneros, idioma y BPM",
+    "ui_022": "🎤",
+    "ui_023": "Voces",
+    "ui_024": "Voz principal y carácter",
+    "ui_025": "🎻",
+    "ui_026": "Instrumentos",
+    "ui_027": "Filtros por país y región",
+    "ui_028": "🌍",
+    "ui_029": "Historia y emoción",
+    "ui_030": "Mundo, escena y energía",
+    "ui_031": "🎧",
+    "ui_032": "Producción",
+    "ui_033": "Mezcla y diseño sonoro",
+    "ui_034": "♫",
+    "ui_035": "Teoría musical",
+    "ui_036": "Tonalidad, escala y compás",
+    "ui_037": "🏷️",
+    "ui_038": "MetaTags de Suno",
+    "ui_039": "Etiquetas de interpretación adecuadas",
+    "ui_040": "⭐",
+    "ui_041": "Preajustes",
+    "ui_042": "Gestionar, editar y eliminar",
+    "ui_043": "Asistente inteligente sin conexión",
+    "ui_044": "Describe la canción que deseas con lenguaje natural. El asistente analiza tu idea localmente y sugiere ajustes adecuados.",
+    "ui_045": "Describe la idea de la canción",
+    "ui_046": "Modo de trabajo",
+    "ui_047": "Equilibrado",
+    "ui_048": "Creativo",
+    "ui_049": "Preciso",
+    "ui_050": "Alcance",
+    "ui_051": "Analizar todo el generador",
+    "ui_052": "Recomendar solo instrumentos",
+    "ui_053": "Generar solo MetaTags",
+    "ui_054": "Recomendar solo voces",
+    "ui_055": "Idioma de la descripción",
+    "ui_056": "Detectar automáticamente",
+    "ui_057": "Alemán",
+    "ui_058": "Inglés",
+    "ui_059": "🧠 ANALIZAR IDEA DE CANCIÓN",
+    "ui_060": "Insertar ejemplo",
+    "ui_061": "Limpiar",
+    "ui_062": "Todavía no se ha realizado ningún análisis.",
+    "ui_063": "Dirección detectada",
+    "ui_064": "Revisa las sugerencias y después aplícalas al generador.",
+    "ui_065": "Confianza de detección",
+    "ui_066": "Palabras clave detectadas",
+    "ui_067": "Ajustes recomendados",
+    "ui_068": "Géneros y BPM",
+    "ui_069": "Voces",
+    "ui_070": "Instrumentos",
+    "ui_071": "Historia y emoción",
+    "ui_072": "Producción",
+    "ui_073": "MetaTags",
+    "ui_074": "✅ APLICAR SELECCIÓN",
+    "ui_075": "Aplicar todo automáticamente",
+    "ui_076": "Aplicar solo MetaTags",
+    "ui_077": "Aleatorizador inteligente",
+    "ui_078": "Solo se modificarán las secciones marcadas. Ambos botones aleatorios utilizan la misma función central.",
+    "ui_079": "Preferir combinaciones estilísticamente compatibles",
+    "ui_080": "Permitir pistas instrumentales en el aleatorizador",
+    "ui_081": "🎲 GENERAR ESTILO ALEATORIO",
+    "ui_082": "Estilo musical y tempo",
+    "ui_083": "Define la base musical y el idioma.",
+    "ui_084": "Familia de géneros",
+    "ui_085": "Subgénero",
+    "ui_086": "Segundo género",
+    "ui_087": "Mezcla de géneros",
+    "ui_088": "Tipo de canción",
+    "ui_089": "Idioma de la letra",
+    "ui_090": "Idioma de exportación del prompt",
+    "ui_091": "Inglés (recomendado)",
+    "ui_092": "Alemán",
+    "ui_093": "Francés",
+    "ui_094": "Español",
+    "ui_095": "Portugués",
+    "ui_096": "Japonés",
+    "ui_097": "Personalizado",
+    "ui_098": "BPM",
+    "ui_099": "Rápido",
+    "ui_100": "Motor vocal",
+    "ui_101": "Voz principal, preajustes, coro, segunda voz y carácter vocal.",
+    "ui_102": "Modo vocal",
+    "ui_103": "Elige entre voces o una pista completamente instrumental.",
+    "ui_104": "🎤 Voces",
+    "ui_105": "🎼 Solo instrumental",
+    "ui_106": "Preajuste vocal",
+    "ui_107": "Categoría de voz principal",
+    "ui_108": "Voz principal",
+    "ui_109": "Efectos vocales",
+    "ui_110": "Coro",
+    "ui_111": "Segunda voz",
+    "ui_112": "Separación de voces",
+    "ui_113": "Categoría de carácter",
+    "ui_114": "Cantantes con nombre y control claro del dúo",
+    "ui_115": "Asigna nombres concretos para que Suno distinga mejor a los diferentes cantantes y las partes compartidas.",
+    "ui_116": "Usar cantantes con nombre",
+    "ui_117": "Cantante 1 – Nombre",
+    "ui_118": "Cantante 1 – Voz",
+    "ui_119": "Cantante 2 – Nombre",
+    "ui_120": "Cantante 2 – Voz",
+    "ui_121": "Partes compartidas",
+    "ui_122": "Ambos: juntos",
+    "ui_123": "Ambos: armonía en capas",
+    "ui_124": "Ambos: llamada y respuesta",
+    "ui_125": "Ambos: líneas alternadas",
+    "ui_126": "Ambos: estribillo al unísono",
+    "ui_127": "Modo de dúo",
+    "ui_128": "Separación clara de voces",
+    "ui_129": "Separación estricta de cantantes",
+    "ui_130": "Dúo dialogado",
+    "ui_131": "Versos alternos",
+    "ui_132": "Solo estribillo compartido",
+    "ui_133": "Vista previa del encabezado",
+    "ui_134": "Buscar carácter vocal",
+    "ui_135": "Carácter vocal",
+    "ui_136": "Caracteres vocales seleccionados",
+    "ui_137": "Características vocales adicionales",
+    "ui_138": "Biblioteca de instrumentos",
+    "ui_139": "Filtra instrumentos por región, país y familia.",
+    "ui_140": "Región",
+    "ui_141": "País / Origen",
+    "ui_142": "Familia de instrumentos",
+    "ui_143": "Buscar",
+    "ui_144": "Recomendaciones",
+    "ui_145": "Limpiar selección",
+    "ui_146": "Instrumentos seleccionados",
+    "ui_147": "Mundo narrativo, emoción y energía",
+    "ui_148": "Define la dirección narrativa y emocional.",
+    "ui_149": "Mundo narrativo",
+    "ui_150": "Emoción",
+    "ui_151": "Modo narrativo",
+    "ui_152": "Escena",
+    "ui_153": "Atmósfera",
+    "ui_154": "Categoría de energía",
+    "ui_155": "Buscar energía",
+    "ui_156": "Estilos de energía",
+    "ui_157": "Estilos de energía seleccionados",
+    "ui_158": "Nivel de energía",
+    "ui_159": "Nivel de dinámica",
+    "ui_160": "Producción y mezcla",
+    "ui_161": "Define el carácter sonoro, la amplitud estéreo, la dinámica y el acabado.",
+    "ui_162": "Producción",
+    "ui_163": "Mezcla",
+    "ui_164": "Dinámica",
+    "ui_165": "Características de producción",
+    "ui_166": "Estilos excluidos",
+    "ui_167": "Exclusiones personalizadas",
+    "ui_168": "Añadidos de estilo personalizados",
+    "ui_169": "Asistente de teoría musical",
+    "ui_170": "Recomendaciones opcionales adecuadas al estilo seleccionado.",
+    "ui_171": "Tonalidad",
+    "ui_172": "Escala",
+    "ui_173": "Compás",
+    "ui_174": "Rango de BPM",
+    "ui_175": "Incluir recomendaciones en STYLE",
+    "ui_176": "Generador de MetaTags de Suno",
+    "ui_177": "Crea MetaTags separados para la letra. Todo lo que no sea texto cantado se coloca completamente entre corchetes.",
+    "ui_178": "Derivar automáticamente MetaTags adecuados del STYLE actual",
+    "ui_179": "✨ Actualizar sugerencias",
+    "ui_180": "Limpiar selección",
+    "ui_181": "Control de dúo con nombres:",
+    "ui_182": "[Niclas] Letra",
+    "ui_183": "[Kristina] Letra",
+    "ui_184": "[Ambos] Letra",
+    "ui_185": "Formato recomendado:",
+    "ui_186": "Estructura de la canción",
+    "ui_187": "Indicaciones musicales y eventos sonoros",
+    "ui_188": "Voces e interpretación",
+    "ui_189": "Indicaciones de estilo por sección",
+    "ui_190": "Ad-libs y llamadas",
+    "ui_191": "Coros",
+    "ui_192": "MetaTags recomendados automáticamente",
+    "ui_193": "MetaTags personalizados – una etiqueta por línea",
+    "ui_194": "Gestión de preajustes",
+    "ui_195": "Busca, carga, renombra, duplica, marca como favorito y elimina preajustes en el centro.",
+    "ui_196": "Guardar estilo actual",
+    "ui_197": "Mis preajustes",
+    "ui_198": "Favoritos",
+    "ui_199": "Historial",
+    "ui_200": "PUNTUACIÓN DE COMPATIBILIDAD",
+    "ui_201": "Evalúa género, voces, instrumentos, historia y producción.",
+    "ui_202": "ALEATORIZADOR INTELIGENTE",
+    "ui_203": "🎲 ALEATORIO",
+    "ui_204": "SALIDA EN VIVO",
+    "ui_205": "ESTILO",
+    "ui_206": "COPIAR ESTILO",
+    "ui_207": "GUARDAR PREAJUSTE",
+    "ui_208": "ESTILO EXCLUIDO",
+    "ui_209": "COPIAR EXCLUSIONES",
+    "ui_210": "METATAGS",
+    "ui_211": "COPIAR METATAGS",
+    "ui_212": "Cargando Prompt Studio…",
+    "ui_213": "Preparando el generador de estilos, los MetaTags y las bases de datos.",
+    "ui_214": "Historial de cambios",
+    "ui_215": "Versión 1.3.2",
+    "ui_216": "Primera versión pública",
+    "ui_217": "Generador de estilos con género, BPM, voces, instrumentos y producción",
+    "ui_218": "Asistente inteligente sin conexión para ideas libres de canciones",
+    "ui_219": "Generador de MetaTags de Suno con sugerencias automáticas",
+    "ui_220": "Cantantes con nombre y control claro del dúo",
+    "ui_221": "Aleatorizador inteligente y etiquetas inteligentes de energía/dinámica",
+    "ui_222": "Gestión de preajustes, favoritos, importación y exportación",
+    "ui_223": "Uso adaptable en ordenador, tableta y smartphone",
+    "ui_224": "Las futuras actualizaciones se documentarán aquí."
   }
 };
 const FULL_PLACEHOLDERS = {
@@ -623,8 +851,25 @@ const FULL_PLACEHOLDERS = {
   }
 };
 
+
+function ensureAllCompleteLanguageDictionaries(){
+ const english=FULL_UI_TEXTS.en||{};
+ for(const language of I18N_LANGUAGES){
+   if(!FULL_UI_TEXTS[language.code])FULL_UI_TEXTS[language.code]={};
+   for(const [key,value] of Object.entries(english)){
+     if(!FULL_UI_TEXTS[language.code][key]){
+       const semanticKey=Object.keys(I18N.en||{}).find(name=>I18N.en[name]===value);
+       FULL_UI_TEXTS[language.code][key]=
+         (semanticKey&&I18N[language.code]?.[semanticKey]) ||
+         (typeof libraryLabel==="function"?libraryLabel(value,"ui"):value);
+     }
+   }
+ }
+}
+ensureAllCompleteLanguageDictionaries();
+
 function fullUiText(key){
- const lang=currentUiLanguage||"en";
+ const lang=effectiveTranslationLanguage(currentUiLanguage);
  const direct=FULL_UI_TEXTS[lang]?.[key];
  if(direct)return direct;
  return FULL_UI_TEXTS.en?.[key]||key;
@@ -648,4 +893,54 @@ function translateCompleteStaticUi(){
 function normalizeCompleteLanguageCoverage(){
  if(!FULL_UI_TEXTS[currentUiLanguage])FULL_UI_TEXTS[currentUiLanguage]=FULL_UI_TEXTS.en;
  translateCompleteStaticUi();
+}const COMPLETE_INTERFACE_LANGUAGES=new Set(I18N_LANGUAGES.map(language=>language.code));
+function effectiveTranslationLanguage(code){return COMPLETE_INTERFACE_LANGUAGES.has(code)?code:"en"}
+
+
+Object.assign(I18N.en,{random_genre:"Genre",random_bpm:"BPM",random_song:"Song Type & Language",random_vocals:"Vocals",random_instruments:"Instruments",random_world:"Story World",random_emotion:"Emotion",random_scene:"Scene & Atmosphere",random_energy:"Energy & Dynamics",random_production:"Production",random_exclude:"Exclude",score_genre:"Genre",score_vocals:"Vocals",score_instruments:"Instruments",score_story:"Story",score_production:"Production"});
+Object.assign(I18N.de,{random_genre:"Genre",random_bpm:"BPM",random_song:"Songtyp & Sprache",random_vocals:"Vocals",random_instruments:"Instrumente",random_world:"Story-Welt",random_emotion:"Emotion",random_scene:"Szene & Atmosphäre",random_energy:"Energie & Dynamik",random_production:"Produktion",random_exclude:"Exclude",score_genre:"Genre",score_vocals:"Vocals",score_instruments:"Instrumente",score_story:"Story",score_production:"Produktion"});
+Object.assign(I18N.es,{random_genre:"Género",random_bpm:"BPM",random_song:"Tipo de canción e idioma",random_vocals:"Voces",random_instruments:"Instrumentos",random_world:"Mundo narrativo",random_emotion:"Emoción",random_scene:"Escena y atmósfera",random_energy:"Energía y dinámica",random_production:"Producción",random_exclude:"Excluir",score_genre:"Género",score_vocals:"Voces",score_instruments:"Instrumentos",score_story:"Historia",score_production:"Producción"});
+
+
+const SIDEBAR_TRANSLATIONS={"en": {"assistant": "Offline Smart Assistant", "assistant_sub": "Analyze and apply a song idea", "random": "Smart Randomizer", "random_sub": "Control randomness precisely", "style": "Music Style", "style_sub": "Genres, language and BPM", "vocals": "Vocals", "vocals_sub": "Lead voice and character", "instruments": "Instruments", "instruments_sub": "Country and region filters", "story": "Story & Emotion", "story_sub": "World, scene and energy", "production": "Production", "production_sub": "Mix and sound design", "theory": "Music Theory", "theory_sub": "Key, scale and meter", "metatags": "Suno MetaTags", "metatags_sub": "Matching performance tags", "presets": "Presets", "presets_sub": "Manage, edit and delete", "score": "COMPATIBILITY SCORE", "score_desc": "Evaluates genre, vocals, instruments, story and production.", "random_title": "SMART RANDOMIZER", "live": "LIVE OUTPUT", "copy_style": "COPY STYLE", "save_preset": "SAVE PRESET", "exclude_style": "EXCLUDE STYLE", "copy_exclude": "COPY EXCLUDE", "copy_meta": "COPY METATAGS", "genre": "Genre", "bpm": "BPM", "song": "Song Type & Language", "world": "Story World", "emotion": "Emotion", "scene": "Scene & Atmosphere", "energy": "Energy & Dynamics", "exclude": "Exclude"}, "de": {"assistant": "Offline Smart Assistant", "assistant_sub": "Songidee analysieren und übernehmen", "random": "Smart Randomizer", "random_sub": "Zufall gezielt steuern", "style": "Musikstil", "style_sub": "Genres, Sprache und BPM", "vocals": "Vocals", "vocals_sub": "Lead Voice und Charakter", "instruments": "Instrumente", "instruments_sub": "Länder- und Regionenfilter", "story": "Story & Emotion", "story_sub": "Welt, Szene und Energie", "production": "Produktion", "production_sub": "Mix und Klangbild", "theory": "Musiktheorie", "theory_sub": "Tonart, Skala und Takt", "metatags": "Suno MetaTags", "metatags_sub": "Passende Performance-Tags", "presets": "Presets", "presets_sub": "Verwalten, ändern und löschen", "score": "KOMPATIBILITÄTS-SCORE", "score_desc": "Bewertet Genre, Vocals, Instrumente, Story und Produktion.", "random_title": "SMART RANDOMIZER", "live": "LIVE-AUSGABE", "copy_style": "STYLE KOPIEREN", "save_preset": "PRESET SPEICHERN", "exclude_style": "EXCLUDE STYLE", "copy_exclude": "EXCLUDE KOPIEREN", "copy_meta": "METATAGS KOPIEREN", "genre": "Genre", "bpm": "BPM", "song": "Songtyp & Sprache", "world": "Story-Welt", "emotion": "Emotion", "scene": "Szene & Atmosphäre", "energy": "Energie & Dynamik", "exclude": "Exclude"}, "fr": {"assistant": "Assistant intelligent hors ligne", "assistant_sub": "Analyser et appliquer une idée de chanson", "random": "Générateur aléatoire intelligent", "random_sub": "Contrôler précisément le hasard", "style": "Style musical", "style_sub": "Genres, langue et BPM", "vocals": "Voix", "vocals_sub": "Voix principale et caractère", "instruments": "Instruments", "instruments_sub": "Filtres par pays et région", "story": "Histoire et émotion", "story_sub": "Monde, scène et énergie", "production": "Production", "production_sub": "Mixage et conception sonore", "theory": "Théorie musicale", "theory_sub": "Tonalité, gamme et mesure", "metatags": "MetaTags Suno", "metatags_sub": "Tags d’interprétation adaptés", "presets": "Préréglages", "presets_sub": "Gérer, modifier et supprimer", "score": "SCORE DE COMPATIBILITÉ", "score_desc": "Évalue le genre, les voix, les instruments, l’histoire et la production.", "random_title": "GÉNÉRATEUR ALÉATOIRE", "live": "SORTIE EN DIRECT", "copy_style": "COPIER LE STYLE", "save_preset": "ENREGISTRER", "exclude_style": "STYLE À EXCLURE", "copy_exclude": "COPIER L’EXCLUSION", "copy_meta": "COPIER LES METATAGS", "genre": "Genre", "bpm": "BPM", "song": "Type de chanson et langue", "world": "Univers narratif", "emotion": "Émotion", "scene": "Scène et atmosphère", "energy": "Énergie et dynamique", "exclude": "Exclure"}, "es": {"assistant": "Asistente inteligente sin conexión", "assistant_sub": "Analiza y aplica una idea de canción", "random": "Aleatorizador inteligente", "random_sub": "Controla el azar con precisión", "style": "Estilo musical", "style_sub": "Géneros, idioma y BPM", "vocals": "Voces", "vocals_sub": "Voz principal y carácter", "instruments": "Instrumentos", "instruments_sub": "Filtros por país y región", "story": "Historia y emoción", "story_sub": "Mundo, escena y energía", "production": "Producción", "production_sub": "Mezcla y diseño sonoro", "theory": "Teoría musical", "theory_sub": "Tonalidad, escala y compás", "metatags": "MetaTags de Suno", "metatags_sub": "Etiquetas de interpretación adecuadas", "presets": "Preajustes", "presets_sub": "Gestionar, editar y eliminar", "score": "PUNTUACIÓN DE COMPATIBILIDAD", "score_desc": "Evalúa género, voces, instrumentos, historia y producción.", "random_title": "ALEATORIZADOR INTELIGENTE", "live": "SALIDA EN VIVO", "copy_style": "COPIAR ESTILO", "save_preset": "GUARDAR PREAJUSTE", "exclude_style": "ESTILO EXCLUIDO", "copy_exclude": "COPIAR EXCLUSIONES", "copy_meta": "COPIAR METATAGS", "genre": "Género", "bpm": "BPM", "song": "Tipo de canción e idioma", "world": "Mundo narrativo", "emotion": "Emoción", "scene": "Escena y atmósfera", "energy": "Energía y dinámica", "exclude": "Excluir"}, "it": {"assistant": "Assistente intelligente offline", "assistant_sub": "Analizza e applica un’idea di canzone", "random": "Generatore casuale intelligente", "random_sub": "Controlla con precisione la casualità", "style": "Stile musicale", "style_sub": "Generi, lingua e BPM", "vocals": "Voci", "vocals_sub": "Voce principale e carattere", "instruments": "Strumenti", "instruments_sub": "Filtri per paese e regione", "story": "Storia ed emozione", "story_sub": "Mondo, scena ed energia", "production": "Produzione", "production_sub": "Mix e sound design", "theory": "Teoria musicale", "theory_sub": "Tonalità, scala e metro", "metatags": "MetaTag Suno", "metatags_sub": "Tag di performance adatti", "presets": "Preset", "presets_sub": "Gestisci, modifica ed elimina", "score": "PUNTEGGIO DI COMPATIBILITÀ", "score_desc": "Valuta genere, voci, strumenti, storia e produzione.", "random_title": "GENERATORE CASUALE", "live": "USCITA IN TEMPO REALE", "copy_style": "COPIA STILE", "save_preset": "SALVA PRESET", "exclude_style": "STILE ESCLUSO", "copy_exclude": "COPIA ESCLUSIONI", "copy_meta": "COPIA METATAG", "genre": "Genere", "bpm": "BPM", "song": "Tipo di canzone e lingua", "world": "Mondo narrativo", "emotion": "Emozione", "scene": "Scena e atmosfera", "energy": "Energia e dinamica", "exclude": "Escludi"}, "pt": {"assistant": "Assistente inteligente offline", "assistant_sub": "Analise e aplique uma ideia de música", "random": "Randomizador inteligente", "random_sub": "Controle o acaso com precisão", "style": "Estilo musical", "style_sub": "Gêneros, idioma e BPM", "vocals": "Vocais", "vocals_sub": "Voz principal e caráter", "instruments": "Instrumentos", "instruments_sub": "Filtros por país e região", "story": "História e emoção", "story_sub": "Mundo, cena e energia", "production": "Produção", "production_sub": "Mixagem e design sonoro", "theory": "Teoria musical", "theory_sub": "Tonalidade, escala e compasso", "metatags": "MetaTags Suno", "metatags_sub": "Tags de performance adequadas", "presets": "Predefinições", "presets_sub": "Gerenciar, editar e excluir", "score": "PONTUAÇÃO DE COMPATIBILIDADE", "score_desc": "Avalia gênero, vocais, instrumentos, história e produção.", "random_title": "RANDOMIZADOR INTELIGENTE", "live": "SAÍDA AO VIVO", "copy_style": "COPIAR ESTILO", "save_preset": "SALVAR PREDEFINIÇÃO", "exclude_style": "ESTILO EXCLUÍDO", "copy_exclude": "COPIAR EXCLUSÕES", "copy_meta": "COPIAR METATAGS", "genre": "Gênero", "bpm": "BPM", "song": "Tipo de música e idioma", "world": "Mundo narrativo", "emotion": "Emoção", "scene": "Cena e atmosfera", "energy": "Energia e dinâmica", "exclude": "Excluir"}, "pt-BR": {"assistant": "Assistente inteligente offline", "assistant_sub": "Analise e aplique uma ideia de música", "random": "Randomizador inteligente", "random_sub": "Controle o acaso com precisão", "style": "Estilo musical", "style_sub": "Gêneros, idioma e BPM", "vocals": "Vocais", "vocals_sub": "Voz principal e personalidade", "instruments": "Instrumentos", "instruments_sub": "Filtros por país e região", "story": "História e emoção", "story_sub": "Mundo, cena e energia", "production": "Produção", "production_sub": "Mixagem e design sonoro", "theory": "Teoria musical", "theory_sub": "Tonalidade, escala e compasso", "metatags": "MetaTags Suno", "metatags_sub": "Tags de performance adequadas", "presets": "Predefinições", "presets_sub": "Gerenciar, editar e excluir", "score": "PONTUAÇÃO DE COMPATIBILIDADE", "score_desc": "Avalia gênero, vocais, instrumentos, história e produção.", "random_title": "RANDOMIZADOR INTELIGENTE", "live": "SAÍDA AO VIVO", "copy_style": "COPIAR ESTILO", "save_preset": "SALVAR PREDEFINIÇÃO", "exclude_style": "ESTILO EXCLUÍDO", "copy_exclude": "COPIAR EXCLUSÕES", "copy_meta": "COPIAR METATAGS", "genre": "Gênero", "bpm": "BPM", "song": "Tipo de música e idioma", "world": "Mundo narrativo", "emotion": "Emoção", "scene": "Cena e atmosfera", "energy": "Energia e dinâmica", "exclude": "Excluir"}, "nl": {"assistant": "Offline slimme assistent", "assistant_sub": "Analyseer en pas een songidee toe", "random": "Slimme randomizer", "random_sub": "Beheer willekeur nauwkeurig", "style": "Muziekstijl", "style_sub": "Genres, taal en BPM", "vocals": "Zang", "vocals_sub": "Hoofdstem en karakter", "instruments": "Instrumenten", "instruments_sub": "Filters op land en regio", "story": "Verhaal en emotie", "story_sub": "Wereld, scène en energie", "production": "Productie", "production_sub": "Mix en sounddesign", "theory": "Muziektheorie", "theory_sub": "Toonsoort, schaal en maat", "metatags": "Suno MetaTags", "metatags_sub": "Passende performancetags", "presets": "Voorinstellingen", "presets_sub": "Beheren, bewerken en verwijderen", "score": "COMPATIBILITEITSSCORE", "score_desc": "Beoordeelt genre, zang, instrumenten, verhaal en productie.", "random_title": "SLIMME RANDOMIZER", "live": "LIVE-UITVOER", "copy_style": "STIJL KOPIËREN", "save_preset": "VOORINSTELLING OPSLAAN", "exclude_style": "UITGESLOTEN STIJL", "copy_exclude": "UITSLUITING KOPIËREN", "copy_meta": "METATAGS KOPIËREN", "genre": "Genre", "bpm": "BPM", "song": "Songtype en taal", "world": "Verhaalwereld", "emotion": "Emotie", "scene": "Scène en sfeer", "energy": "Energie en dynamiek", "exclude": "Uitsluiten"}, "pl": {"assistant": "Asystent offline", "assistant_sub": "Analizuj i zastosuj pomysł na utwór", "random": "Inteligentny randomizer", "random_sub": "Precyzyjnie kontroluj losowość", "style": "Styl muzyczny", "style_sub": "Gatunki, język i BPM", "vocals": "Wokale", "vocals_sub": "Główny wokal i charakter", "instruments": "Instrumenty", "instruments_sub": "Filtry kraju i regionu", "story": "Historia i emocje", "story_sub": "Świat, scena i energia", "production": "Produkcja", "production_sub": "Miks i projektowanie dźwięku", "theory": "Teoria muzyki", "theory_sub": "Tonacja, skala i metrum", "metatags": "MetaTagi Suno", "metatags_sub": "Pasujące tagi wykonawcze", "presets": "Presety", "presets_sub": "Zarządzaj, edytuj i usuwaj", "score": "WYNIK ZGODNOŚCI", "score_desc": "Ocenia gatunek, wokale, instrumenty, historię i produkcję.", "random_title": "INTELIGENTNY RANDOMIZER", "live": "WYNIK NA ŻYWO", "copy_style": "KOPIUJ STYL", "save_preset": "ZAPISZ PRESET", "exclude_style": "WYKLUCZONY STYL", "copy_exclude": "KOPIUJ WYKLUCZENIA", "copy_meta": "KOPIUJ METATAGI", "genre": "Gatunek", "bpm": "BPM", "song": "Typ utworu i język", "world": "Świat historii", "emotion": "Emocja", "scene": "Scena i atmosfera", "energy": "Energia i dynamika", "exclude": "Wyklucz"}, "sv": {"assistant": "Offline smart assistent", "assistant_sub": "Analysera och tillämpa en låtidé", "random": "Smart slumpgenerator", "random_sub": "Styr slumpen exakt", "style": "Musikstil", "style_sub": "Genrer, språk och BPM", "vocals": "Sång", "vocals_sub": "Huvudsång och karaktär", "instruments": "Instrument", "instruments_sub": "Filter för land och region", "story": "Berättelse och känsla", "story_sub": "Värld, scen och energi", "production": "Produktion", "production_sub": "Mix och ljuddesign", "theory": "Musikteori", "theory_sub": "Tonart, skala och taktart", "metatags": "Suno MetaTags", "metatags_sub": "Passande framförandetaggar", "presets": "Förinställningar", "presets_sub": "Hantera, redigera och radera", "score": "KOMPATIBILITETSPOÄNG", "score_desc": "Bedömer genre, sång, instrument, berättelse och produktion.", "random_title": "SMART SLUMPGENERATOR", "live": "LIVEUTDATA", "copy_style": "KOPIERA STIL", "save_preset": "SPARA FÖRINSTÄLLNING", "exclude_style": "UTESLUTEN STIL", "copy_exclude": "KOPIERA UTESLUTNING", "copy_meta": "KOPIERA METATAGGAR", "genre": "Genre", "bpm": "BPM", "song": "Låttyp och språk", "world": "Berättelsevärld", "emotion": "Känsla", "scene": "Scen och atmosfär", "energy": "Energi och dynamik", "exclude": "Uteslut"}, "no": {"assistant": "Offline smartassistent", "assistant_sub": "Analyser og bruk en sangidé", "random": "Smart tilfeldig generator", "random_sub": "Styr tilfeldighet presist", "style": "Musikkstil", "style_sub": "Sjangre, språk og BPM", "vocals": "Vokal", "vocals_sub": "Hovedvokal og karakter", "instruments": "Instrumenter", "instruments_sub": "Filtre for land og region", "story": "Historie og følelse", "story_sub": "Verden, scene og energi", "production": "Produksjon", "production_sub": "Miks og lyddesign", "theory": "Musikkteori", "theory_sub": "Toneart, skala og takt", "metatags": "Suno MetaTags", "metatags_sub": "Passende fremføringstagger", "presets": "Forhåndsinnstillinger", "presets_sub": "Administrer, rediger og slett", "score": "KOMPATIBILITETSSCORE", "score_desc": "Vurderer sjanger, vokal, instrumenter, historie og produksjon.", "random_title": "SMART TILFELDIG GENERATOR", "live": "LIVE-UTDATA", "copy_style": "KOPIER STIL", "save_preset": "LAGRE FORHÅNDSINNSTILLING", "exclude_style": "EKSKLUDERT STIL", "copy_exclude": "KOPIER EKSKLUDERING", "copy_meta": "KOPIER METATAGGER", "genre": "Sjanger", "bpm": "BPM", "song": "Sangtype og språk", "world": "Historieverden", "emotion": "Følelse", "scene": "Scene og atmosfære", "energy": "Energi og dynamikk", "exclude": "Ekskluder"}, "fi": {"assistant": "Offline-älyavustaja", "assistant_sub": "Analysoi ja ota kappaleidea käyttöön", "random": "Älykäs satunnaistaja", "random_sub": "Hallitse satunnaisuutta tarkasti", "style": "Musiikkityyli", "style_sub": "Genret, kieli ja BPM", "vocals": "Laulu", "vocals_sub": "Päälaulu ja luonne", "instruments": "Soittimet", "instruments_sub": "Maa- ja aluesuodattimet", "story": "Tarina ja tunne", "story_sub": "Maailma, kohtaus ja energia", "production": "Tuotanto", "production_sub": "Miksaus ja äänisuunnittelu", "theory": "Musiikkiteoria", "theory_sub": "Sävellaji, asteikko ja tahtilaji", "metatags": "Suno MetaTagit", "metatags_sub": "Sopivat esitystagit", "presets": "Esiasetukset", "presets_sub": "Hallinnoi, muokkaa ja poista", "score": "YHTEENSOPIVUUSPISTEET", "score_desc": "Arvioi genren, laulun, soittimet, tarinan ja tuotannon.", "random_title": "ÄLYKÄS SATUNNAISTAJA", "live": "LIVE-TULOSTE", "copy_style": "KOPIOI TYYLI", "save_preset": "TALLENNA ESIASETUS", "exclude_style": "POISSULJETTU TYYLI", "copy_exclude": "KOPIOI POISSULKU", "copy_meta": "KOPIOI METATAGIT", "genre": "Genre", "bpm": "BPM", "song": "Kappaletyyppi ja kieli", "world": "Tarinamaailma", "emotion": "Tunne", "scene": "Kohtaus ja tunnelma", "energy": "Energia ja dynamiikka", "exclude": "Sulje pois"}, "da": {"assistant": "Offline smartassistent", "assistant_sub": "Analyser og anvend en sangidé", "random": "Smart tilfældighedsgenerator", "random_sub": "Styr tilfældighed præcist", "style": "Musikstil", "style_sub": "Genrer, sprog og BPM", "vocals": "Vokal", "vocals_sub": "Lead-vokal og karakter", "instruments": "Instrumenter", "instruments_sub": "Filtre for land og region", "story": "Historie og følelse", "story_sub": "Verden, scene og energi", "production": "Produktion", "production_sub": "Mix og lyddesign", "theory": "Musikteori", "theory_sub": "Toneart, skala og taktart", "metatags": "Suno MetaTags", "metatags_sub": "Passende performance-tags", "presets": "Forudindstillinger", "presets_sub": "Administrer, rediger og slet", "score": "KOMPATIBILITETSSCORE", "score_desc": "Vurderer genre, vokal, instrumenter, historie og produktion.", "random_title": "SMART TILFÆLDIGHEDSGENERATOR", "live": "LIVE-OUTPUT", "copy_style": "KOPIÉR STIL", "save_preset": "GEM FORUDINDSTILLING", "exclude_style": "UDELUKKET STIL", "copy_exclude": "KOPIÉR UDELUKKELSE", "copy_meta": "KOPIÉR METATAGS", "genre": "Genre", "bpm": "BPM", "song": "Sangtype og sprog", "world": "Historieverden", "emotion": "Følelse", "scene": "Scene og atmosfære", "energy": "Energi og dynamik", "exclude": "Udeluk"}, "ja": {"assistant": "オフライン・スマートアシスタント", "assistant_sub": "曲のアイデアを分析して適用", "random": "スマートランダマイザー", "random_sub": "ランダム性を細かく制御", "style": "音楽スタイル", "style_sub": "ジャンル、言語、BPM", "vocals": "ボーカル", "vocals_sub": "リードボーカルとキャラクター", "instruments": "楽器", "instruments_sub": "国と地域のフィルター", "story": "物語と感情", "story_sub": "世界、シーン、エネルギー", "production": "プロダクション", "production_sub": "ミックスとサウンドデザイン", "theory": "音楽理論", "theory_sub": "キー、スケール、拍子", "metatags": "Sunoメタタグ", "metatags_sub": "適切なパフォーマンスタグ", "presets": "プリセット", "presets_sub": "管理、編集、削除", "score": "互換性スコア", "score_desc": "ジャンル、ボーカル、楽器、物語、制作を評価します。", "random_title": "スマートランダマイザー", "live": "ライブ出力", "copy_style": "スタイルをコピー", "save_preset": "プリセットを保存", "exclude_style": "除外スタイル", "copy_exclude": "除外をコピー", "copy_meta": "メタタグをコピー", "genre": "ジャンル", "bpm": "BPM", "song": "曲タイプと言語", "world": "物語世界", "emotion": "感情", "scene": "シーンと雰囲気", "energy": "エネルギーとダイナミクス", "exclude": "除外"}, "ko": {"assistant": "오프라인 스마트 어시스턴트", "assistant_sub": "곡 아이디어를 분석하고 적용", "random": "스마트 랜덤 생성기", "random_sub": "무작위성을 정밀하게 제어", "style": "음악 스타일", "style_sub": "장르, 언어 및 BPM", "vocals": "보컬", "vocals_sub": "리드 보컬과 캐릭터", "instruments": "악기", "instruments_sub": "국가 및 지역 필터", "story": "스토리와 감정", "story_sub": "세계, 장면 및 에너지", "production": "프로덕션", "production_sub": "믹스와 사운드 디자인", "theory": "음악 이론", "theory_sub": "키, 스케일 및 박자", "metatags": "Suno 메타태그", "metatags_sub": "적합한 퍼포먼스 태그", "presets": "프리셋", "presets_sub": "관리, 편집 및 삭제", "score": "호환성 점수", "score_desc": "장르, 보컬, 악기, 스토리 및 프로덕션을 평가합니다.", "random_title": "스마트 랜덤 생성기", "live": "실시간 출력", "copy_style": "스타일 복사", "save_preset": "프리셋 저장", "exclude_style": "제외 스타일", "copy_exclude": "제외 항목 복사", "copy_meta": "메타태그 복사", "genre": "장르", "bpm": "BPM", "song": "곡 유형 및 언어", "world": "스토리 세계", "emotion": "감정", "scene": "장면 및 분위기", "energy": "에너지 및 다이내믹스", "exclude": "제외"}, "zh-CN": {"assistant": "离线智能助手", "assistant_sub": "分析并应用歌曲创意", "random": "智能随机生成器", "random_sub": "精确控制随机性", "style": "音乐风格", "style_sub": "流派、语言和 BPM", "vocals": "人声", "vocals_sub": "主唱与声音特征", "instruments": "乐器", "instruments_sub": "国家和地区筛选", "story": "故事与情感", "story_sub": "世界、场景和能量", "production": "制作", "production_sub": "混音与声音设计", "theory": "音乐理论", "theory_sub": "调性、音阶和拍号", "metatags": "Suno 元标签", "metatags_sub": "匹配的表演标签", "presets": "预设", "presets_sub": "管理、编辑和删除", "score": "兼容性评分", "score_desc": "评估流派、人声、乐器、故事和制作。", "random_title": "智能随机生成器", "live": "实时输出", "copy_style": "复制风格", "save_preset": "保存预设", "exclude_style": "排除风格", "copy_exclude": "复制排除项", "copy_meta": "复制元标签", "genre": "流派", "bpm": "BPM", "song": "歌曲类型和语言", "world": "故事世界", "emotion": "情感", "scene": "场景和氛围", "energy": "能量和动态", "exclude": "排除"}, "zh-TW": {"assistant": "離線智慧助手", "assistant_sub": "分析並套用歌曲創意", "random": "智慧隨機產生器", "random_sub": "精確控制隨機性", "style": "音樂風格", "style_sub": "曲風、語言與 BPM", "vocals": "人聲", "vocals_sub": "主唱與聲音特徵", "instruments": "樂器", "instruments_sub": "國家與地區篩選", "story": "故事與情感", "story_sub": "世界、場景與能量", "production": "製作", "production_sub": "混音與聲音設計", "theory": "音樂理論", "theory_sub": "調性、音階與拍號", "metatags": "Suno 元標籤", "metatags_sub": "相符的表演標籤", "presets": "預設", "presets_sub": "管理、編輯與刪除", "score": "相容性評分", "score_desc": "評估曲風、人聲、樂器、故事與製作。", "random_title": "智慧隨機產生器", "live": "即時輸出", "copy_style": "複製風格", "save_preset": "儲存預設", "exclude_style": "排除風格", "copy_exclude": "複製排除項", "copy_meta": "複製元標籤", "genre": "曲風", "bpm": "BPM", "song": "歌曲類型與語言", "world": "故事世界", "emotion": "情感", "scene": "場景與氛圍", "energy": "能量與動態", "exclude": "排除"}, "th": {"assistant": "ผู้ช่วยอัจฉริยะแบบออฟไลน์", "assistant_sub": "วิเคราะห์และใช้ไอเดียเพลง", "random": "ตัวสุ่มอัจฉริยะ", "random_sub": "ควบคุมความสุ่มอย่างแม่นยำ", "style": "สไตล์ดนตรี", "style_sub": "แนวเพลง ภาษา และ BPM", "vocals": "เสียงร้อง", "vocals_sub": "เสียงนำและลักษณะเสียง", "instruments": "เครื่องดนตรี", "instruments_sub": "ตัวกรองประเทศและภูมิภาค", "story": "เรื่องราวและอารมณ์", "story_sub": "โลก ฉาก และพลังงาน", "production": "การผลิต", "production_sub": "มิกซ์และออกแบบเสียง", "theory": "ทฤษฎีดนตรี", "theory_sub": "คีย์ สเกล และจังหวะ", "metatags": "Suno MetaTags", "metatags_sub": "แท็กการแสดงที่เหมาะสม", "presets": "พรีเซ็ต", "presets_sub": "จัดการ แก้ไข และลบ", "score": "คะแนนความเข้ากันได้", "score_desc": "ประเมินแนวเพลง เสียงร้อง เครื่องดนตรี เรื่องราว และการผลิต", "random_title": "ตัวสุ่มอัจฉริยะ", "live": "ผลลัพธ์สด", "copy_style": "คัดลอกสไตล์", "save_preset": "บันทึกพรีเซ็ต", "exclude_style": "สไตล์ที่ยกเว้น", "copy_exclude": "คัดลอกสิ่งที่ยกเว้น", "copy_meta": "คัดลอกเมตาแท็ก", "genre": "แนวเพลง", "bpm": "BPM", "song": "ประเภทเพลงและภาษา", "world": "โลกของเรื่อง", "emotion": "อารมณ์", "scene": "ฉากและบรรยากาศ", "energy": "พลังงานและไดนามิก", "exclude": "ยกเว้น"}, "vi": {"assistant": "Trợ lý thông minh ngoại tuyến", "assistant_sub": "Phân tích và áp dụng ý tưởng bài hát", "random": "Bộ tạo ngẫu nhiên thông minh", "random_sub": "Kiểm soát tính ngẫu nhiên chính xác", "style": "Phong cách âm nhạc", "style_sub": "Thể loại, ngôn ngữ và BPM", "vocals": "Giọng hát", "vocals_sub": "Giọng chính và sắc thái", "instruments": "Nhạc cụ", "instruments_sub": "Bộ lọc quốc gia và khu vực", "story": "Câu chuyện và cảm xúc", "story_sub": "Thế giới, cảnh và năng lượng", "production": "Sản xuất", "production_sub": "Phối âm và thiết kế âm thanh", "theory": "Lý thuyết âm nhạc", "theory_sub": "Tông, thang âm và nhịp", "metatags": "Suno MetaTags", "metatags_sub": "Thẻ biểu diễn phù hợp", "presets": "Cài đặt trước", "presets_sub": "Quản lý, chỉnh sửa và xóa", "score": "ĐIỂM TƯƠNG THÍCH", "score_desc": "Đánh giá thể loại, giọng hát, nhạc cụ, câu chuyện và sản xuất.", "random_title": "BỘ TẠO NGẪU NHIÊN", "live": "ĐẦU RA TRỰC TIẾP", "copy_style": "SAO CHÉP PHONG CÁCH", "save_preset": "LƯU CÀI ĐẶT", "exclude_style": "PHONG CÁCH LOẠI TRỪ", "copy_exclude": "SAO CHÉP LOẠI TRỪ", "copy_meta": "SAO CHÉP METATAGS", "genre": "Thể loại", "bpm": "BPM", "song": "Loại bài hát và ngôn ngữ", "world": "Thế giới câu chuyện", "emotion": "Cảm xúc", "scene": "Cảnh và bầu không khí", "energy": "Năng lượng và động lực", "exclude": "Loại trừ"}, "id": {"assistant": "Asisten pintar offline", "assistant_sub": "Analisis dan terapkan ide lagu", "random": "Pengacak pintar", "random_sub": "Kontrol keacakan dengan presisi", "style": "Gaya musik", "style_sub": "Genre, bahasa, dan BPM", "vocals": "Vokal", "vocals_sub": "Vokal utama dan karakter", "instruments": "Instrumen", "instruments_sub": "Filter negara dan wilayah", "story": "Cerita dan emosi", "story_sub": "Dunia, adegan, dan energi", "production": "Produksi", "production_sub": "Mix dan desain suara", "theory": "Teori musik", "theory_sub": "Nada dasar, skala, dan birama", "metatags": "MetaTag Suno", "metatags_sub": "Tag performa yang sesuai", "presets": "Preset", "presets_sub": "Kelola, edit, dan hapus", "score": "SKOR KOMPATIBILITAS", "score_desc": "Menilai genre, vokal, instrumen, cerita, dan produksi.", "random_title": "PENGACAK PINTAR", "live": "OUTPUT LANGSUNG", "copy_style": "SALIN GAYA", "save_preset": "SIMPAN PRESET", "exclude_style": "GAYA YANG DIKECUALIKAN", "copy_exclude": "SALIN PENGECUALIAN", "copy_meta": "SALIN METATAG", "genre": "Genre", "bpm": "BPM", "song": "Jenis lagu dan bahasa", "world": "Dunia cerita", "emotion": "Emosi", "scene": "Adegan dan suasana", "energy": "Energi dan dinamika", "exclude": "Kecualikan"}, "hi": {"assistant": "ऑफ़लाइन स्मार्ट असिस्टेंट", "assistant_sub": "गीत के विचार का विश्लेषण और उपयोग करें", "random": "स्मार्ट रैंडमाइज़र", "random_sub": "यादृच्छिकता को सटीक रूप से नियंत्रित करें", "style": "संगीत शैली", "style_sub": "शैलियाँ, भाषा और BPM", "vocals": "स्वर", "vocals_sub": "मुख्य स्वर और चरित्र", "instruments": "वाद्य", "instruments_sub": "देश और क्षेत्र फ़िल्टर", "story": "कहानी और भावना", "story_sub": "दुनिया, दृश्य और ऊर्जा", "production": "प्रोडक्शन", "production_sub": "मिक्स और ध्वनि डिज़ाइन", "theory": "संगीत सिद्धांत", "theory_sub": "की, स्केल और ताल", "metatags": "Suno मेटाटैग", "metatags_sub": "उपयुक्त प्रदर्शन टैग", "presets": "प्रीसेट", "presets_sub": "प्रबंधित, संपादित और हटाएँ", "score": "संगतता स्कोर", "score_desc": "शैली, स्वर, वाद्य, कहानी और प्रोडक्शन का मूल्यांकन करता है।", "random_title": "स्मार्ट रैंडमाइज़र", "live": "लाइव आउटपुट", "copy_style": "शैली कॉपी करें", "save_preset": "प्रीसेट सहेजें", "exclude_style": "बहिष्कृत शैली", "copy_exclude": "बहिष्करण कॉपी करें", "copy_meta": "मेटाटैग कॉपी करें", "genre": "शैली", "bpm": "BPM", "song": "गीत प्रकार और भाषा", "world": "कहानी की दुनिया", "emotion": "भावना", "scene": "दृश्य और वातावरण", "energy": "ऊर्जा और गतिशीलता", "exclude": "बहिष्कृत करें"}, "ar": {"assistant": "المساعد الذكي دون اتصال", "assistant_sub": "حلّل فكرة الأغنية وطبّقها", "random": "المولّد العشوائي الذكي", "random_sub": "تحكّم بالعشوائية بدقة", "style": "النمط الموسيقي", "style_sub": "الأنواع واللغة وBPM", "vocals": "الغناء", "vocals_sub": "الصوت الرئيسي والطابع", "instruments": "الآلات", "instruments_sub": "مرشحات البلد والمنطقة", "story": "القصة والعاطفة", "story_sub": "العالم والمشهد والطاقة", "production": "الإنتاج", "production_sub": "المكساج وتصميم الصوت", "theory": "نظرية الموسيقى", "theory_sub": "المقام والسلم والميزان", "metatags": "وسوم Suno", "metatags_sub": "وسوم أداء مناسبة", "presets": "الإعدادات المسبقة", "presets_sub": "إدارة وتعديل وحذف", "score": "درجة التوافق", "score_desc": "يقيّم النوع والغناء والآلات والقصة والإنتاج.", "random_title": "المولّد العشوائي الذكي", "live": "الإخراج المباشر", "copy_style": "نسخ النمط", "save_preset": "حفظ الإعداد", "exclude_style": "النمط المستبعد", "copy_exclude": "نسخ الاستبعاد", "copy_meta": "نسخ الوسوم", "genre": "النوع", "bpm": "BPM", "song": "نوع الأغنية واللغة", "world": "عالم القصة", "emotion": "العاطفة", "scene": "المشهد والأجواء", "energy": "الطاقة والديناميكية", "exclude": "استبعاد"}, "tr": {"assistant": "Çevrimdışı Akıllı Asistan", "assistant_sub": "Şarkı fikrini analiz et ve uygula", "random": "Akıllı Rastgele Oluşturucu", "random_sub": "Rastgeleliği hassas biçimde kontrol et", "style": "Müzik Tarzı", "style_sub": "Türler, dil ve BPM", "vocals": "Vokaller", "vocals_sub": "Ana vokal ve karakter", "instruments": "Enstrümanlar", "instruments_sub": "Ülke ve bölge filtreleri", "story": "Hikâye ve Duygu", "story_sub": "Dünya, sahne ve enerji", "production": "Prodüksiyon", "production_sub": "Miks ve ses tasarımı", "theory": "Müzik Teorisi", "theory_sub": "Ton, gam ve ölçü", "metatags": "Suno MetaTag’leri", "metatags_sub": "Uygun performans etiketleri", "presets": "Ön Ayarlar", "presets_sub": "Yönet, düzenle ve sil", "score": "UYUMLULUK PUANI", "score_desc": "Tür, vokal, enstrüman, hikâye ve prodüksiyonu değerlendirir.", "random_title": "AKILLI RASTGELE OLUŞTURUCU", "live": "CANLI ÇIKTI", "copy_style": "TARZI KOPYALA", "save_preset": "ÖN AYARI KAYDET", "exclude_style": "HARİÇ TUTULAN TARZ", "copy_exclude": "HARİÇ TUTMAYI KOPYALA", "copy_meta": "METATAG’LERİ KOPYALA", "genre": "Tür", "bpm": "BPM", "song": "Şarkı türü ve dil", "world": "Hikâye dünyası", "emotion": "Duygu", "scene": "Sahne ve atmosfer", "energy": "Enerji ve dinamik", "exclude": "Hariç tut"}, "ru": {"assistant": "Офлайн умный помощник", "assistant_sub": "Анализировать и применить идею песни", "random": "Умный генератор", "random_sub": "Точно управлять случайностью", "style": "Музыкальный стиль", "style_sub": "Жанры, язык и BPM", "vocals": "Вокал", "vocals_sub": "Ведущий вокал и характер", "instruments": "Инструменты", "instruments_sub": "Фильтры страны и региона", "story": "История и эмоции", "story_sub": "Мир, сцена и энергия", "production": "Продакшн", "production_sub": "Микс и звуковой дизайн", "theory": "Теория музыки", "theory_sub": "Тональность, гамма и размер", "metatags": "MetaTags Suno", "metatags_sub": "Подходящие теги исполнения", "presets": "Пресеты", "presets_sub": "Управление, редактирование и удаление", "score": "ОЦЕНКА СОВМЕСТИМОСТИ", "score_desc": "Оценивает жанр, вокал, инструменты, историю и продакшн.", "random_title": "УМНЫЙ ГЕНЕРАТОР", "live": "ЖИВОЙ ВЫВОД", "copy_style": "КОПИРОВАТЬ СТИЛЬ", "save_preset": "СОХРАНИТЬ ПРЕСЕТ", "exclude_style": "ИСКЛЮЧЁННЫЙ СТИЛЬ", "copy_exclude": "КОПИРОВАТЬ ИСКЛЮЧЕНИЕ", "copy_meta": "КОПИРОВАТЬ МЕТАТЕГИ", "genre": "Жанр", "bpm": "BPM", "song": "Тип песни и язык", "world": "Мир истории", "emotion": "Эмоция", "scene": "Сцена и атмосфера", "energy": "Энергия и динамика", "exclude": "Исключить"}};
+function translateSidebars(){
+ const t=SIDEBAR_TRANSLATIONS[currentUiLanguage]||SIDEBAR_TRANSLATIONS.en;
+ const navMap=[
+  ["assistantView","assistant","assistant_sub"],["randomView","random","random_sub"],
+  ["styleView","style","style_sub"],["vocalsView","vocals","vocals_sub"],
+  ["instrumentsView","instruments","instruments_sub"],["storyView","story","story_sub"],
+  ["productionView","production","production_sub"],["theoryView","theory","theory_sub"],
+  ["metatagsView","metatags","metatags_sub"],["presetsView","presets","presets_sub"]
+ ];
+ navMap.forEach(([view,title,subtitle])=>{
+  const button=document.querySelector(`.nav[data-view="${view}"]`);
+  if(!button)return;
+  const heading=button.querySelector("b"),small=button.querySelector("small");
+  if(heading)heading.textContent=t[title];
+  if(small)small.textContent=t[subtitle];
+ });
+ const scoreTitle=document.querySelector(".score-card h2");
+ if(scoreTitle){
+  const info=scoreTitle.querySelector("span");
+  scoreTitle.childNodes[0].textContent=t.score;
+  if(info)info.title=t.score_desc;
+ }
+ const scoreDesc=document.querySelector(".score-card p");
+ if(scoreDesc)scoreDesc.textContent=t.score_desc;
+ const rightSections=document.querySelectorAll(".rightbar .glass");
+ if(rightSections[1]?.querySelector("h2"))rightSections[1].querySelector("h2").textContent=t.random_title;
+ if(rightSections[2]?.querySelector("h2"))rightSections[2].querySelector("h2").textContent=t.live;
+ const set=(id,text)=>{const el=document.getElementById(id);if(el)el.textContent=text};
+ set("copyStyle",t.copy_style);set("rightSavePreset",t.save_preset);
+ set("copyExclude",t.copy_exclude);set("copyMetaTags",t.copy_meta);
+ set("rightRandomButton",`🎲 ${t.random_title.replace(/^SMART |^ALEATORIZADOR INTELIGENTE$|^GÉNÉRATEUR ALÉATOIRE$|^GENERATORE CASUALE$|^RANDOMIZADOR INTELIGENTE$|^SLIMME RANDOMIZER$|^INTELIGENTNY RANDOMIZER$|^SMART SLUMPGENERATOR$|^SMART TILFELDIG GENERATOR$|^ÄLYKÄS SATUNNAISTAJA$|^SMART TILFÆLDIGHEDSGENERATOR$|^スマートランダマイザー$|^스마트 랜덤 생성기$|^智能随机生成器$|^智慧隨機產生器$|^ตัวสุ่มอัจฉริยะ$|^BỘ TẠO NGẪU NHIÊN$|^PENGACAK PINTAR$|^स्मार्ट रैंडमाइज़र$|^المولّد العشوائي الذكي$|^AKILLI RASTGELE OLUŞTURUCU$|^УМНЫЙ ГЕНЕРАТОР$/u,"RANDOMIZE")}`);
+ const labels=rightSections[2]?.querySelectorAll("label")||[];
+ if(labels[0]?.firstChild)labels[0].firstChild.textContent="STYLE";
+ if(labels[1]?.firstChild)labels[1].firstChild.textContent=t.exclude_style;
+ if(labels[2]?.firstChild)labels[2].firstChild.textContent="METATAGS";
+ const randomLabels={genre:t.genre,bpm:t.bpm,song:t.song,vocals:t.vocals,instruments:t.instruments,world:t.world,emotion:t.emotion,story:t.scene,energy:t.energy,production:t.production,exclude:t.exclude};
+ document.querySelectorAll("#randomMirror label").forEach(label=>{
+   const input=label.querySelector("input");
+   if(input&&randomLabels[input.value])label.lastChild.textContent=randomLabels[input.value];
+ });
 }
