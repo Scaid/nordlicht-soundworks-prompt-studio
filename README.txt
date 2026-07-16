@@ -78,3 +78,6 @@ PHASE 1 – PROFESSIONELLER AUFTRITT:
 
 
 VERSION 1.1.0: Instrumental Mode, None-Optionen und Randomizer-Unterstützung.
+
+
+VERSION 1.2.0 – INTERNATIONAL EDITION: English default, browser detection, 24 language selector, saved preference, RTL support and separate export-language setting.

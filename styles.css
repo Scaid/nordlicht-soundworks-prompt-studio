@@ -321,3 +321,5 @@ h3{font-size:13px;margin:14px 0 8px}.chips{display:flex;gap:6px;flex-wrap:wrap}.
 .mode-option input{width:auto;margin:0}.mode-option.active{border-color:var(--cyan);background:rgba(13,153,156,.34);color:#9ff7ea}
 #vocalControls.disabled{opacity:.38;pointer-events:none;filter:saturate(.45)}
 @media(max-width:700px){.vocal-mode-box{display:block}.vocal-mode-options{margin-top:10px}}
+
+.language-picker{position:relative}.language-button{min-width:145px}.language-menu{position:absolute;right:0;top:calc(100% + 8px);z-index:500;width:260px;max-height:420px;overflow:auto;padding:8px;border:1px solid rgba(130,246,237,.22);border-radius:12px;background:rgba(3,19,31,.98);box-shadow:0 18px 70px rgba(0,0,0,.45)}.language-menu.hidden{display:none}.language-menu button{width:100%;display:flex;align-items:center;gap:10px;text-align:left;background:transparent;border-color:transparent;padding:9px}.language-menu button:hover{background:rgba(16,151,154,.26)}html[dir="rtl"] .nav{text-align:right}html[dir="rtl"] .language-menu{right:auto;left:0}@media(max-width:620px){.language-picker{grid-column:1/-1}.language-button{width:100%}}

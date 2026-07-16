@@ -656,7 +656,7 @@ function applyAssistantResult(forceAll=false,metaOnly=false){
 
 function initSelects(){fillSelect(id("genreFamily"),Object.keys(GENRE_LIBRARY));refreshSubgenres();fillSelect(id("secondGenre"),["None",...Object.keys(GENRE_LIBRARY)]);fillSelect(id("songType"),SONG_TYPES);fillSelect(id("language"),LANGUAGES);fillSelect(id("voicePreset"),["None",...Object.keys(VOICE_PRESETS).filter(x=>x!=="None")]);fillSelect(id("leadVoiceCategory"),["None",...Object.keys(LEAD_VOICE_LIBRARY).filter(x=>x!=="None")]);refreshLeadVoices();fillSelect(id("voiceFx"),VOICE_FX);fillSelect(id("choir"),CHOIRS);fillSelect(id("secondVoice"),SECOND_VOICES);fillSelect(id("voiceSeparation"),SEPARATIONS);fillSelect(id("voiceCharacterCategory"),["All",...Object.keys(VOICE_CHARACTER_LIBRARY)]);fillSelect(id("singerOneVoice"),["Male Vocal","Female Vocal","Deep Male Vocal Spoken","Female Vocal Spoken","Operatic Lead","Whispered Vocal"]);
 fillSelect(id("singerTwoVoice"),["Female Vocal","Male Vocal","Deep Male Vocal Spoken","Female Vocal Spoken","Operatic Lead","Whispered Vocal"]);fillSelect(id("instrumentRegion"),["Alle Regionen",...unique(INSTRUMENT_DB.map(x=>x.region)).sort()]);fillSelect(id("instrumentCountry"),["Alle Länder",...unique(INSTRUMENT_DB.map(x=>x.country)).sort()]);fillSelect(id("instrumentFamily"),["Alle Familien",...unique(INSTRUMENT_DB.map(x=>x.family)).sort()]);fillSelect(id("world"),WORLDS);fillSelect(id("emotion"),EMOTIONS);fillSelect(id("narrative"),["None",...NARRATIVES]);fillSelect(id("scene"),["None",...SCENES]);fillSelect(id("atmosphere"),["None",...ATMOSPHERES]);fillSelect(id("energyCategory"),Object.keys(ENERGY_LIBRARY));fillSelect(id("production"),PRODUCTIONS);fillSelect(id("mix"),MIXES);fillSelect(id("dynamics"),DYNAMICS)}
-function wire(){
+function wire(){buildLanguageMenu();const languageButton=id("languageButton"),languageMenu=id("languageMenu");languageButton.onclick=()=>languageMenu.classList.toggle("hidden");document.addEventListener("click",e=>{if(!e.target.closest(".language-picker"))languageMenu.classList.add("hidden")});
  const changelog=id("changelogModal");
  id("openChangelog").onclick=()=>changelog.classList.remove("hidden");
  id("closeChangelog").onclick=()=>changelog.classList.add("hidden");
@@ -690,6 +690,7 @@ function finishAppLoading(){
  requestAnimationFrame(()=>setTimeout(()=>loader.classList.add("loaded"),350));
 }
 
-function init(){initSelects();renderRandomOptions();wire();restore();setVocalMode(currentVocalMode());updateNamedSingerPreview();renderDynamicLists();updateBpmDisplay();updateRangeLabels();generateOutput();renderPresetManager()}
+function init(){currentUiLanguage=detectLanguage();initSelects();renderRandomOptions();wire();restore();setVocalMode(currentVocalMode());updateNamedSingerPreview();renderDynamicLists();updateBpmDisplay();updateRangeLabels();generateOutput();renderPresetManager()}
 init();
+applyLanguage(currentUiLanguage);
 finishAppLoading();

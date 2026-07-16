@@ -1,5 +1,17 @@
 # Nordlicht Soundworks Prompt Studio – Changelog
 
+## Version 1.2.0 – International Edition
+
+- English default interface
+- Automatic browser language detection
+- 24 selectable UI languages
+- Saved language preference
+- Arabic RTL support
+- Separate prompt export language
+- English Suno style output remains recommended
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
 ## Version 1.1.0
 
 - Vocal Mode: Vocals oder Instrumental Only

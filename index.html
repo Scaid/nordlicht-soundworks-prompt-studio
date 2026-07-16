@@ -22,7 +22,7 @@
     </div>
   </div>
   <div class="top-actions">
-    <span class="version-badge" title="Aktuelle Version">v1.1.0</span>
+    <div class="language-picker"><button id="languageButton" class="language-button">🌐 English</button><div id="languageMenu" class="language-menu hidden"></div></div><span class="version-badge" title="Current version">v1.2.0</span>
     <button id="openChangelog">📋 Changelog</button>
     <button id="topSavePreset">💾 Preset speichern</button>
     <button id="topImport">📂 Import</button>
@@ -37,7 +37,7 @@
     </div>
     <div class="sidebar-version">
       <b>Prompt Studio</b>
-      <span>Version 1.1.0</span>
+      <span>Version 1.2.0</span>
       <small>© 2026 Nordlicht Soundworks</small>
     </div>
     <nav id="navigation">
@@ -160,7 +160,7 @@
           <label>Zweitgenre<select id="secondGenre"></select></label>
           <label>Genre Blend<select id="blend"><option>90/10</option><option>80/20</option><option selected>70/30</option><option>60/40</option><option>50/50</option></select></label>
           <label>Songtyp<select id="songType"></select></label>
-          <label>Sprache<select id="language"></select></label>
+          <label data-i18n-label="lyrics_language">Lyrics Language<select id="language"></select></label><label data-i18n-label="export_language">Prompt Export Language<select id="promptExportLanguage"><option value="en">English (Recommended)</option><option value="de">German</option><option value="fr">French</option><option value="es">Spanish</option><option value="pt">Portuguese</option><option value="ja">Japanese</option><option value="custom">Custom</option></select></label>
         </div>
         <div class="bpm-card">
           <div><small>BPM</small><strong id="bpmValue">148</strong></div>
@@ -429,7 +429,7 @@
     <img class="modal-logo" src="logo.svg" alt="Nordlicht Soundworks">
     <h2 id="changelogTitle">Changelog</h2>
     <article class="release-note">
-      <div><b>Version 1.1.0</b><span>Erste öffentliche Veröffentlichung</span></div>
+      <div><b>Version 1.2.0</b><span>Erste öffentliche Veröffentlichung</span></div>
       <ul>
         <li>Style Builder mit Genre, BPM, Vocals, Instrumenten und Produktion</li>
         <li>Offline Smart Assistant für freie Songideen</li>
@@ -455,6 +455,7 @@
 <script src="clipboard.js"></script>
 <script src="presetManager.js"></script>
 <script src="randomizer.js"></script>
+<script src="i18n.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
