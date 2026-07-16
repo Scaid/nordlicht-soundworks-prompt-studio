@@ -22,7 +22,7 @@
     </div>
   </div>
   <div class="top-actions">
-    <span class="version-badge" title="Aktuelle Version">v1.0.0</span>
+    <span class="version-badge" title="Aktuelle Version">v1.1.0</span>
     <button id="openChangelog">📋 Changelog</button>
     <button id="topSavePreset">💾 Preset speichern</button>
     <button id="topImport">📂 Import</button>
@@ -37,7 +37,7 @@
     </div>
     <div class="sidebar-version">
       <b>Prompt Studio</b>
-      <span>Version 1.0.0</span>
+      <span>Version 1.1.0</span>
       <small>© 2026 Nordlicht Soundworks</small>
     </div>
     <nav id="navigation">
@@ -146,6 +146,7 @@
       <div class="panel dark-content">
         <div id="randomOptions" class="check-grid"></div>
         <label class="toggle"><input type="checkbox" id="compatibleRandom" checked> Stilistisch kompatible Kombinationen bevorzugen</label>
+        <label class="toggle"><input type="checkbox" id="allowInstrumentalRandom"> Instrumentalstücke beim Randomizer erlauben</label>
         <button id="mainRandomButton" class="primary huge">🎲 STYLE ZUFÄLLIG ERZEUGEN</button>
       </div>
     </section>
@@ -172,6 +173,17 @@
     <section id="vocalsView" class="view">
       <div class="view-head"><h1>Vocal Engine</h1><p>Lead Voice, Presets, Chor, Zweitstimme und Voice Character.</p></div>
       <div class="panel dark-content">
+        <div class="vocal-mode-box">
+          <div>
+            <h3>Vocal Mode</h3>
+            <p>Wähle zwischen Gesang und einem vollständig instrumentalen Track.</p>
+          </div>
+          <div class="vocal-mode-options">
+            <label class="mode-option active"><input type="radio" name="vocalMode" value="vocals" checked> 🎤 Vocals</label>
+            <label class="mode-option"><input type="radio" name="vocalMode" value="instrumental"> 🎼 Instrumental Only</label>
+          </div>
+        </div>
+        <div id="vocalControls">
         <div class="grid four">
           <label>Voice Preset<select id="voicePreset"></select></label>
           <label>Lead-Voice-Kategorie<select id="leadVoiceCategory"></select></label>
@@ -225,6 +237,7 @@
         <div id="selectedVoiceCharacters" class="chips selected"></div>
         <h3>Zusätzliche Vocal-Merkmale</h3>
         <div id="vocalExtras" class="chips"></div>
+        </div>
       </div>
     </section>
 
@@ -416,7 +429,7 @@
     <img class="modal-logo" src="logo.svg" alt="Nordlicht Soundworks">
     <h2 id="changelogTitle">Changelog</h2>
     <article class="release-note">
-      <div><b>Version 1.0.0</b><span>Erste öffentliche Veröffentlichung</span></div>
+      <div><b>Version 1.1.0</b><span>Erste öffentliche Veröffentlichung</span></div>
       <ul>
         <li>Style Builder mit Genre, BPM, Vocals, Instrumenten und Produktion</li>
         <li>Offline Smart Assistant für freie Songideen</li>

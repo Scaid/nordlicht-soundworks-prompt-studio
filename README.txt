@@ -75,3 +75,6 @@ PHASE 1 – PROFESSIONELLER AUFTRITT:
 - integriertes Changelog-Fenster
 - Social- und Suchmaschinen-Metadaten
 - separate CHANGELOG.md
+
+
+VERSION 1.1.0: Instrumental Mode, None-Optionen und Randomizer-Unterstützung.

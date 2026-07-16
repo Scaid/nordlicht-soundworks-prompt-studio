@@ -4,7 +4,22 @@ function runSmartRandom(){
  if(selected.includes("genre")){genreFamily.value=pick(Object.keys(GENRE_LIBRARY));refreshSubgenres();subgenre.value=pick(GENRE_LIBRARY[genreFamily.value]);secondGenre.value=pick(["None",...Object.keys(GENRE_LIBRARY)])}
  if(selected.includes("bpm"))bpm.value=Math.floor(70+Math.random()*111);
  if(selected.includes("song")){songType.value=pick(SONG_TYPES.slice(1));language.value=pick(LANGUAGES.slice(1))}
- if(selected.includes("vocals")){leadVoiceCategory.value=pick(Object.keys(LEAD_VOICE_LIBRARY));refreshLeadVoices();leadVoice.value=pick(LEAD_VOICE_LIBRARY[leadVoiceCategory.value]);appState.voiceCharacters=shuffleArray(Object.values(VOICE_CHARACTER_LIBRARY).flat()).slice(0,4);choir.value=pick(CHOIRS);secondVoice.value=pick(SECOND_VOICES);voiceSeparation.value=secondVoice.value==="None"?"Single lead only":"Clear voice separation"}
+ if(selected.includes("vocals")){
+ const allowInstrumental=document.getElementById("allowInstrumentalRandom")?.checked;
+ const useInstrumental=allowInstrumental&&Math.random()<0.25;
+ if(useInstrumental){
+   setVocalMode("instrumental");
+ }else{
+   setVocalMode("vocals");
+   leadVoiceCategory.value=pick(Object.keys(LEAD_VOICE_LIBRARY));
+   refreshLeadVoices();
+   leadVoice.value=pick(LEAD_VOICE_LIBRARY[leadVoiceCategory.value]);
+   appState.voiceCharacters=shuffleArray(Object.values(VOICE_CHARACTER_LIBRARY).flat()).slice(0,4);
+   choir.value=pick(CHOIRS);
+   secondVoice.value=pick(SECOND_VOICES);
+   voiceSeparation.value=secondVoice.value==="None"?"Single lead only":"Clear voice separation";
+ }
+}
  if(selected.includes("instruments"))appState.instruments=shuffleArray(INSTRUMENT_DB).slice(0,6).map(x=>x.name);
  if(selected.includes("world"))world.value=pick(WORLDS);
  if(selected.includes("emotion"))emotion.value=pick(EMOTIONS);

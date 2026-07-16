@@ -313,3 +313,11 @@ h3{font-size:13px;margin:14px 0 8px}.chips{display:flex;gap:6px;flex-wrap:wrap}.
   .version-badge{grid-column:1/-1}
   .release-note>div{display:block}.release-note>div span{display:block;margin-top:4px}
 }
+
+.vocal-mode-box{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:12px;padding:12px;border:1px solid rgba(103,239,229,.22);border-radius:11px;background:rgba(0,18,32,.78)}
+.vocal-mode-box h3{margin:0 0 4px}.vocal-mode-box p{margin:0;color:var(--muted);font-size:11px}
+.vocal-mode-options{display:flex;gap:8px;flex-wrap:wrap}
+.mode-option{display:flex;align-items:center;gap:7px;margin:0;padding:9px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(0,13,26,.72);cursor:pointer}
+.mode-option input{width:auto;margin:0}.mode-option.active{border-color:var(--cyan);background:rgba(13,153,156,.34);color:#9ff7ea}
+#vocalControls.disabled{opacity:.38;pointer-events:none;filter:saturate(.45)}
+@media(max-width:700px){.vocal-mode-box{display:block}.vocal-mode-options{margin-top:10px}}
