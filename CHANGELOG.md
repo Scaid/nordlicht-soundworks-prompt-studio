@@ -1,5 +1,17 @@
 # Nordlicht Soundworks Prompt Studio – Changelog
 
+## Version 1.3.0 – Complete i18n Routing
+
+- Every static interface string is now connected to the translation engine
+- English mode no longer contains leftover German labels or descriptions
+- Other languages fall back to English instead of displaying mixed German content
+- Placeholders, help text, modal text, score labels and loading screens are included
+- Dynamic notifications and empty-state messages were converted to English
+- Library display localization remains separate from canonical English Suno export values
+- Preset compatibility is preserved
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
 ## Version 1.2.1 – Full Library Localization
 
 - Localized visible labels across genre, vocal, instrument, story, emotion, scene, atmosphere, energy, production and MetaTag libraries

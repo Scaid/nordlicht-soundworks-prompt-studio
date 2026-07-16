@@ -327,3 +327,6 @@ h3{font-size:13px;margin:14px 0 8px}.chips{display:flex;gap:6px;flex-wrap:wrap}.
 /* v1.2.1 localized library labels */
 .instrument-card strong{overflow-wrap:anywhere}
 select option{font-family:inherit}
+
+/* v1.3.0 complete i18n */
+[data-i18n-full]{unicode-bidi:plaintext}

@@ -89,3 +89,11 @@ VERSION 1.2.1 – FULL LIBRARY LOCALIZATION:
 - internal values and Suno exports remain English
 - presets work across all interface languages
 - proper instrument names and internationally established genres stay unchanged when appropriate
+
+
+VERSION 1.3.0 – COMPLETE I18N ROUTING:
+- all visible static UI text is routed through the language system
+- English mode contains no German UI leftovers
+- unsupported individual translations fall back to English, never German
+- placeholders, modal content, loading screen, score panel and help text are included
+- library labels remain localized while internal Suno values stay English
