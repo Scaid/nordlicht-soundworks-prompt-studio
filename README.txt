@@ -97,3 +97,9 @@ VERSION 1.3.0 – COMPLETE I18N ROUTING:
 - unsupported individual translations fall back to English, never German
 - placeholders, modal content, loading screen, score panel and help text are included
 - library labels remain localized while internal Suno values stay English
+
+
+VERSION 1.3.1 – I18N BUGFIX:
+- fixes disappearing select fields and controls
+- translations now replace only label text, never nested form elements
+- all builder functions remain usable after language changes

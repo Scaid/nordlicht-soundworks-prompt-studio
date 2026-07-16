@@ -1,5 +1,14 @@
 # Nordlicht Soundworks Prompt Studio – Changelog
 
+## Version 1.3.1 – i18n Critical Bugfix
+
+- Fixed translation code removing nested form controls
+- Select menus, text fields, checkboxes and buttons remain visible after changing language
+- Labels are translated by replacing only their direct text node
+- Existing library values, presets and Suno export behavior remain unchanged
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
 ## Version 1.3.0 – Complete i18n Routing
 
 - Every static interface string is now connected to the translation engine

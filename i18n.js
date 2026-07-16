@@ -631,7 +631,13 @@ function fullUiText(key){
 }
 function translateCompleteStaticUi(){
  document.querySelectorAll("[data-i18n-full]").forEach(el=>{
-   el.textContent=fullUiText(el.dataset.i18nFull);
+   const translated=fullUiText(el.dataset.i18nFull);
+   const directTextNodes=[...el.childNodes].filter(node=>node.nodeType===Node.TEXT_NODE&&node.textContent.trim());
+   if(directTextNodes.length){
+     directTextNodes[0].textContent=translated;
+   }else if(el.children.length===0){
+     el.textContent=translated;
+   }
  });
  document.querySelectorAll("[data-i18n-placeholder]").forEach(el=>{
    const key=el.dataset.i18nPlaceholder;
