@@ -81,3 +81,11 @@ VERSION 1.1.0: Instrumental Mode, None-Optionen und Randomizer-Unterstützung.
 
 
 VERSION 1.2.0 – INTERNATIONAL EDITION: English default, browser detection, 24 language selector, saved preference, RTL support and separate export-language setting.
+
+
+VERSION 1.2.1 – FULL LIBRARY LOCALIZATION:
+- library display labels now follow the selected interface language
+- genre, vocal, instrument, story, emotion, scene, atmosphere, energy, production and MetaTag libraries are included
+- internal values and Suno exports remain English
+- presets work across all interface languages
+- proper instrument names and internationally established genres stay unchanged when appropriate

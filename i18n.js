@@ -5,4 +5,125 @@ let currentUiLanguage="en";
 function tr(k){return (I18N[currentUiLanguage]||I18N.en)[k]||I18N.en[k]||k}
 function detectLanguage(){const s=localStorage.getItem("nordlicht-ui-language");if(s&&I18N[s])return s;const b=(navigator.language||"en").toLowerCase();return I18N_LANGUAGES.find(x=>x.code.toLowerCase()===b)?.code||I18N_LANGUAGES.find(x=>x.code.split("-")[0]===b.split("-")[0])?.code||"en"}
 function buildLanguageMenu(){const m=document.getElementById("languageMenu");if(!m)return;m.innerHTML=I18N_LANGUAGES.map(l=>`<button type="button" data-lang="${l.code}">${l.flag}<span>${l.name}</span></button>`).join("");m.querySelectorAll("[data-lang]").forEach(b=>b.onclick=()=>{applyLanguage(b.dataset.lang);m.classList.add("hidden")})}
-function applyLanguage(code){currentUiLanguage=I18N[code]?code:"en";localStorage.setItem("nordlicht-ui-language",currentUiLanguage);const info=I18N_LANGUAGES.find(x=>x.code===currentUiLanguage);document.documentElement.lang=currentUiLanguage;document.documentElement.dir=info?.dir||"ltr";const lb=document.getElementById("languageButton");if(lb)lb.textContent=`${info.flag} ${info.name}`;const nav=[['assistantView','assistant'],['randomView','random'],['styleView','style'],['vocalsView','vocals'],['instrumentsView','instruments'],['storyView','story'],['productionView','production'],['theoryView','theory'],['metatagsView','metatags'],['presetsView','presets']];nav.forEach(([v,k])=>{const b=document.querySelector(`.nav[data-view="${v}"] b`);if(b)b.textContent=tr(k)});const ids={topSavePreset:'save_preset',topImport:'import',topExport:'export',openChangelog:'changelog',copyStyle:'copy_style',copyExclude:'copy_exclude',copyMetaTags:'copy_meta',mainRandomButton:'randomize',rightRandomButton:'randomize',assistantAnalyze:'analyze',assistantApply:'apply'};Object.entries(ids).forEach(([id,k])=>{const e=document.getElementById(id);if(e)e.textContent=tr(k)});document.querySelectorAll('[data-i18n-label]').forEach(e=>{if(e.firstChild&&e.firstChild.nodeType===3)e.firstChild.textContent=tr(e.dataset.i18nLabel)})}
+function applyLanguage(code){currentUiLanguage=I18N[code]?code:"en";localStorage.setItem("nordlicht-ui-language",currentUiLanguage);const info=I18N_LANGUAGES.find(x=>x.code===currentUiLanguage);document.documentElement.lang=currentUiLanguage;document.documentElement.dir=info?.dir||"ltr";const lb=document.getElementById("languageButton");if(lb)lb.textContent=`${info.flag} ${info.name}`;const nav=[['assistantView','assistant'],['randomView','random'],['styleView','style'],['vocalsView','vocals'],['instrumentsView','instruments'],['storyView','story'],['productionView','production'],['theoryView','theory'],['metatagsView','metatags'],['presetsView','presets']];nav.forEach(([v,k])=>{const b=document.querySelector(`.nav[data-view="${v}"] b`);if(b)b.textContent=tr(k)});const ids={topSavePreset:'save_preset',topImport:'import',topExport:'export',openChangelog:'changelog',copyStyle:'copy_style',copyExclude:'copy_exclude',copyMetaTags:'copy_meta',mainRandomButton:'randomize',rightRandomButton:'randomize',assistantAnalyze:'analyze',assistantApply:'apply'};Object.entries(ids).forEach(([id,k])=>{const e=document.getElementById(id);if(e)e.textContent=tr(k)});document.querySelectorAll('[data-i18n-label]').forEach(e=>{if(e.firstChild&&e.firstChild.nodeType===3)e.firstChild.textContent=tr(e.dataset.i18nLabel)});localizeAllLibraryControls()}
+
+
+/* ===== Full library localization engine =====
+   Canonical values always remain English for Suno export and preset compatibility.
+   Only visible labels are localized.
+*/
+const LIBRARY_PHRASE_MAPS={
+ de:{
+  "None":"Keine","All":"Alle","Standard":"Standard","International":"International",
+  "Male":"Männlich","Female":"Weiblich","Lead Vocals":"Lead-Gesang","Lead Vocal":"Lead-Gesang",
+  "Clean":"Klar","Deep":"Tief","High":"Hoch","Soft":"Sanft","Powerful":"Kraftvoll","Emotional":"Emotional",
+  "Warm":"Warm","Bright":"Hell","Dark":"Dunkel","Aggressive":"Aggressiv","Whispered":"Geflüstert",
+  "Spoken":"Gesprochen","Choir":"Chor","Children's":"Kinder","Ancient":"Uralter","Epic":"Episch",
+  "Cinematic":"Cineastisch","Heroic":"Heldenhaft","Mysterious":"Mysteriös","Melancholic":"Melancholisch",
+  "Happy":"Fröhlich","Sad":"Traurig","Angry":"Wütend","Calm":"Ruhig","Romantic":"Romantisch",
+  "Dreamy":"Verträumt","Haunting":"Unheimlich","Hopeful":"Hoffnungsvoll","Triumphant":"Triumphierend",
+  "Fantasy":"Fantasy","Dark Fantasy":"Dunkle Fantasy","High Fantasy":"High Fantasy","Kingdom":"Königreich",
+  "Empire":"Imperium","Realm":"Reich","World":"Welt","City":"Stadt","Village":"Dorf","Forest":"Wald",
+  "Ocean":"Ozean","Sea":"Meer","Desert":"Wüste","Mountain":"Berg","Temple":"Tempel","Cathedral":"Kathedrale",
+  "Battle":"Schlacht","Final Battle":"Finale Schlacht","Boss Battle":"Bosskampf","Siege":"Belagerung",
+  "Awakening":"Erwachen","Transformation":"Verwandlung","Betrayal":"Verrat","Revelation":"Offenbarung",
+  "Return":"Rückkehr","Sacrifice":"Opfer","Victory":"Sieg","Defeat":"Niederlage","Journey":"Reise",
+  "Keys":"Tasteninstrumente","Strings":"Saiteninstrumente","Wind":"Blasinstrumente","Brass":"Blechbläser",
+  "Percussion":"Schlaginstrumente","Drums":"Trommeln","Guitar":"Gitarre","Bass":"Bass","Synth":"Synthesizer",
+  "Modern / Studio":"Modern / Studio","Northern Europe":"Nordeuropa","Western Europe":"Westeuropa",
+  "Eastern Europe":"Osteuropa","Southern Europe":"Südeuropa","East Asia":"Ostasien","South Asia":"Südasien",
+  "Middle East":"Naher Osten","Africa":"Afrika","North America":"Nordamerika","South America":"Südamerika",
+  "Electronic":"Elektronisch","Acoustic":"Akustisch","Orchestral":"Orchestral","Industrial":"Industriell",
+  "Production":"Produktion","Mix":"Mix","Dynamics":"Dynamik","Wide":"Breit","Polished":"Poliert","Raw":"Roh",
+  "Gradual Build-Up":"Stufenweiser Aufbau","Huge Cinematic Finale":"Riesiges cineastisches Finale",
+  "Strong Dynamic Contrast":"Starker dynamischer Kontrast","Powerful Crescendo":"Kraftvolles Crescendo",
+  "Opening Energy":"Opening-Energie","Viking Charge":"Wikingeransturm","Slow Burn":"Langsamer Aufbau"
+ },
+ fr:{
+  "None":"Aucun","All":"Tous","Male":"Masculin","Female":"Féminin","Lead Vocals":"Chant principal",
+  "Clean":"Clair","Deep":"Profond","Soft":"Doux","Powerful":"Puissant","Dark":"Sombre","Bright":"Lumineux",
+  "Aggressive":"Agressif","Emotional":"Émotionnel","Choir":"Chœur","Ancient":"Ancien","Epic":"Épique",
+  "Heroic":"Héroïque","Mysterious":"Mystérieux","Melancholic":"Mélancolique","Happy":"Joyeux","Sad":"Triste",
+  "Fantasy":"Fantaisie","Dark Fantasy":"Fantaisie sombre","Kingdom":"Royaume","World":"Monde","City":"Ville",
+  "Village":"Village","Forest":"Forêt","Ocean":"Océan","Desert":"Désert","Temple":"Temple","Battle":"Bataille",
+  "Awakening":"Éveil","Transformation":"Transformation","Victory":"Victoire","Journey":"Voyage",
+  "Strings":"Cordes","Wind":"Vents","Percussion":"Percussions","Drums":"Batterie","Guitar":"Guitare",
+  "Electronic":"Électronique","Acoustic":"Acoustique","Industrial":"Industriel"
+ },
+ es:{
+  "None":"Ninguno","All":"Todos","Male":"Masculino","Female":"Femenino","Lead Vocals":"Voz principal",
+  "Clean":"Limpio","Deep":"Profundo","Soft":"Suave","Powerful":"Potente","Dark":"Oscuro","Bright":"Brillante",
+  "Aggressive":"Agresivo","Emotional":"Emocional","Choir":"Coro","Ancient":"Antiguo","Epic":"Épico",
+  "Heroic":"Heroico","Mysterious":"Misterioso","Melancholic":"Melancólico","Happy":"Feliz","Sad":"Triste",
+  "Fantasy":"Fantasía","Dark Fantasy":"Fantasía oscura","Kingdom":"Reino","World":"Mundo","City":"Ciudad",
+  "Village":"Pueblo","Forest":"Bosque","Ocean":"Océano","Desert":"Desierto","Temple":"Templo","Battle":"Batalla",
+  "Awakening":"Despertar","Transformation":"Transformación","Victory":"Victoria","Journey":"Viaje",
+  "Strings":"Cuerdas","Wind":"Vientos","Percussion":"Percusión","Drums":"Tambores","Guitar":"Guitarra",
+  "Electronic":"Electrónico","Acoustic":"Acústico","Industrial":"Industrial"
+ },
+ it:{
+  "None":"Nessuno","All":"Tutti","Male":"Maschile","Female":"Femminile","Lead Vocals":"Voce principale",
+  "Clean":"Pulito","Deep":"Profondo","Soft":"Morbido","Powerful":"Potente","Dark":"Oscuro","Bright":"Luminoso",
+  "Aggressive":"Aggressivo","Emotional":"Emotivo","Choir":"Coro","Ancient":"Antico","Epic":"Epico",
+  "Heroic":"Eroico","Mysterious":"Misterioso","Melancholic":"Malinconico","Fantasy":"Fantasy",
+  "Dark Fantasy":"Fantasy oscura","Kingdom":"Regno","World":"Mondo","City":"Città","Village":"Villaggio",
+  "Forest":"Foresta","Ocean":"Oceano","Desert":"Deserto","Battle":"Battaglia","Awakening":"Risveglio",
+  "Strings":"Archi","Wind":"Fiati","Percussion":"Percussioni","Drums":"Batteria","Guitar":"Chitarra"
+ },
+ pt:{
+  "None":"Nenhum","All":"Todos","Male":"Masculino","Female":"Feminino","Lead Vocals":"Voz principal",
+  "Clean":"Limpo","Deep":"Profundo","Soft":"Suave","Powerful":"Poderoso","Dark":"Sombrio","Bright":"Brilhante",
+  "Aggressive":"Agressivo","Emotional":"Emocional","Choir":"Coro","Ancient":"Antigo","Epic":"Épico",
+  "Heroic":"Heroico","Mysterious":"Misterioso","Melancholic":"Melancólico","Fantasy":"Fantasia",
+  "Dark Fantasy":"Fantasia sombria","Kingdom":"Reino","World":"Mundo","City":"Cidade","Village":"Aldeia",
+  "Forest":"Floresta","Ocean":"Oceano","Desert":"Deserto","Battle":"Batalha","Awakening":"Despertar",
+  "Strings":"Cordas","Wind":"Sopros","Percussion":"Percussão","Drums":"Bateria","Guitar":"Guitarra"
+ },
+ "pt-BR":{},
+ nl:{"None":"Geen","All":"Alle","Male":"Mannelijk","Female":"Vrouwelijk","Clean":"Helder","Deep":"Diep","Soft":"Zacht","Powerful":"Krachtig","Dark":"Donker","Choir":"Koor","Epic":"Episch","Heroic":"Heroïsch","Fantasy":"Fantasie","Kingdom":"Koninkrijk","World":"Wereld","City":"Stad","Village":"Dorp","Forest":"Bos","Ocean":"Oceaan","Battle":"Gevecht","Strings":"Strijkers","Wind":"Blazers","Percussion":"Percussie","Guitar":"Gitaar"},
+ pl:{"None":"Brak","All":"Wszystkie","Male":"Męski","Female":"Żeński","Clean":"Czysty","Deep":"Głęboki","Soft":"Delikatny","Powerful":"Potężny","Dark":"Mroczny","Choir":"Chór","Epic":"Epicki","Heroic":"Heroiczny","Fantasy":"Fantasy","Kingdom":"Królestwo","World":"Świat","City":"Miasto","Village":"Wioska","Forest":"Las","Ocean":"Ocean","Battle":"Bitwa","Strings":"Smyczki","Wind":"Dęte","Percussion":"Perkusja","Guitar":"Gitara"},
+ sv:{"None":"Ingen","All":"Alla","Male":"Manlig","Female":"Kvinnlig","Clean":"Ren","Deep":"Djup","Soft":"Mjuk","Powerful":"Kraftfull","Dark":"Mörk","Choir":"Kör","Epic":"Episk","Heroic":"Heroisk","Fantasy":"Fantasy","Kingdom":"Kungarike","World":"Värld","City":"Stad","Village":"By","Forest":"Skog","Ocean":"Hav","Battle":"Strid","Strings":"Stråkar","Wind":"Blås","Percussion":"Slagverk","Guitar":"Gitarr"},
+ no:{"None":"Ingen","All":"Alle","Male":"Mannlig","Female":"Kvinnelig","Clean":"Ren","Deep":"Dyp","Soft":"Myk","Powerful":"Kraftig","Dark":"Mørk","Choir":"Kor","Epic":"Episk","Heroic":"Heroisk","Fantasy":"Fantasy","Kingdom":"Kongerike","World":"Verden","City":"By","Village":"Landsby","Forest":"Skog","Ocean":"Hav","Battle":"Kamp","Strings":"Strykere","Wind":"Blås","Percussion":"Slagverk","Guitar":"Gitar"},
+ fi:{"None":"Ei mitään","All":"Kaikki","Male":"Mies","Female":"Nainen","Clean":"Puhdas","Deep":"Syvä","Soft":"Pehmeä","Powerful":"Voimakas","Dark":"Tumma","Choir":"Kuoro","Epic":"Eeppinen","Heroic":"Sankarillinen","Fantasy":"Fantasia","Kingdom":"Valtakunta","World":"Maailma","City":"Kaupunki","Village":"Kylä","Forest":"Metsä","Ocean":"Valtameri","Battle":"Taistelu","Strings":"Jouset","Wind":"Puhaltimet","Percussion":"Lyömäsoittimet","Guitar":"Kitara"},
+ da:{"None":"Ingen","All":"Alle","Male":"Mandlig","Female":"Kvindelig","Clean":"Ren","Deep":"Dyb","Soft":"Blød","Powerful":"Kraftfuld","Dark":"Mørk","Choir":"Kor","Epic":"Episk","Heroic":"Heroisk","Fantasy":"Fantasy","Kingdom":"Kongerige","World":"Verden","City":"By","Village":"Landsby","Forest":"Skov","Ocean":"Hav","Battle":"Kamp","Strings":"Strygere","Wind":"Blæsere","Percussion":"Slagtøj","Guitar":"Guitar"},
+ ja:{"None":"なし","All":"すべて","Male":"男性","Female":"女性","Lead Vocals":"リードボーカル","Clean":"クリーン","Deep":"低音","Soft":"ソフト","Powerful":"パワフル","Dark":"ダーク","Bright":"ブライト","Aggressive":"アグレッシブ","Emotional":"エモーショナル","Choir":"合唱","Ancient":"古代","Epic":"壮大","Heroic":"英雄的","Mysterious":"神秘的","Melancholic":"メランコリック","Fantasy":"ファンタジー","Dark Fantasy":"ダークファンタジー","Kingdom":"王国","World":"世界","City":"都市","Village":"村","Forest":"森","Ocean":"海","Desert":"砂漠","Temple":"神殿","Battle":"戦い","Awakening":"覚醒","Transformation":"変身","Victory":"勝利","Journey":"旅","Strings":"弦楽器","Wind":"管楽器","Percussion":"打楽器","Drums":"ドラム","Guitar":"ギター","Electronic":"エレクトロニック"},
+ ko:{"None":"없음","All":"전체","Male":"남성","Female":"여성","Lead Vocals":"리드 보컬","Clean":"클린","Deep":"저음","Soft":"부드러운","Powerful":"강력한","Dark":"다크","Aggressive":"공격적","Emotional":"감성적","Choir":"합창","Ancient":"고대","Epic":"장엄한","Heroic":"영웅적","Mysterious":"신비로운","Fantasy":"판타지","Dark Fantasy":"다크 판타지","Kingdom":"왕국","World":"세계","City":"도시","Village":"마을","Forest":"숲","Ocean":"바다","Battle":"전투","Awakening":"각성","Strings":"현악기","Wind":"관악기","Percussion":"타악기","Guitar":"기타"},
+ "zh-CN":{"None":"无","All":"全部","Male":"男声","Female":"女声","Lead Vocals":"主唱","Clean":"清晰","Deep":"低沉","Soft":"柔和","Powerful":"强劲","Dark":"黑暗","Aggressive":"激烈","Emotional":"情感","Choir":"合唱","Ancient":"古老","Epic":"史诗","Heroic":"英雄","Mysterious":"神秘","Fantasy":"幻想","Dark Fantasy":"黑暗幻想","Kingdom":"王国","World":"世界","City":"城市","Village":"村庄","Forest":"森林","Ocean":"海洋","Battle":"战斗","Awakening":"觉醒","Strings":"弦乐","Wind":"管乐","Percussion":"打击乐","Guitar":"吉他"},
+ "zh-TW":{"None":"無","All":"全部","Male":"男聲","Female":"女聲","Lead Vocals":"主唱","Clean":"清晰","Deep":"低沉","Soft":"柔和","Powerful":"強勁","Dark":"黑暗","Aggressive":"激烈","Emotional":"情感","Choir":"合唱","Ancient":"古老","Epic":"史詩","Heroic":"英雄","Mysterious":"神秘","Fantasy":"幻想","Dark Fantasy":"黑暗幻想","Kingdom":"王國","World":"世界","City":"城市","Village":"村莊","Forest":"森林","Ocean":"海洋","Battle":"戰鬥","Awakening":"覺醒","Strings":"弦樂","Wind":"管樂","Percussion":"打擊樂","Guitar":"吉他"},
+ th:{"None":"ไม่มี","All":"ทั้งหมด","Male":"ชาย","Female":"หญิง","Clean":"ชัดเจน","Deep":"ลึก","Soft":"นุ่ม","Powerful":"ทรงพลัง","Dark":"มืด","Choir":"คอรัส","Epic":"มหากาพย์","Heroic":"วีรบุรุษ","Fantasy":"แฟนตาซี","Kingdom":"อาณาจักร","World":"โลก","City":"เมือง","Village":"หมู่บ้าน","Forest":"ป่า","Ocean":"มหาสมุทร","Battle":"การต่อสู้","Guitar":"กีตาร์"},
+ vi:{"None":"Không","All":"Tất cả","Male":"Nam","Female":"Nữ","Clean":"Trong trẻo","Deep":"Trầm","Soft":"Nhẹ","Powerful":"Mạnh mẽ","Dark":"Tối","Choir":"Hợp xướng","Epic":"Sử thi","Heroic":"Anh hùng","Fantasy":"Kỳ ảo","Kingdom":"Vương quốc","World":"Thế giới","City":"Thành phố","Village":"Ngôi làng","Forest":"Rừng","Ocean":"Đại dương","Battle":"Trận chiến","Guitar":"Ghi-ta"},
+ id:{"None":"Tidak ada","All":"Semua","Male":"Pria","Female":"Wanita","Clean":"Bersih","Deep":"Dalam","Soft":"Lembut","Powerful":"Kuat","Dark":"Gelap","Choir":"Paduan suara","Epic":"Epik","Heroic":"Heroik","Fantasy":"Fantasi","Kingdom":"Kerajaan","World":"Dunia","City":"Kota","Village":"Desa","Forest":"Hutan","Ocean":"Laut","Battle":"Pertempuran","Guitar":"Gitar"},
+ hi:{"None":"कोई नहीं","All":"सभी","Male":"पुरुष","Female":"महिला","Clean":"स्वच्छ","Deep":"गहरा","Soft":"मृदु","Powerful":"शक्तिशाली","Dark":"अंधकारमय","Choir":"गायक मंडली","Epic":"महाकाव्य","Heroic":"वीर","Fantasy":"फैंटेसी","Kingdom":"राज्य","World":"दुनिया","City":"शहर","Village":"गाँव","Forest":"जंगल","Ocean":"महासागर","Battle":"युद्ध","Guitar":"गिटार"},
+ ar:{"None":"لا شيء","All":"الكل","Male":"ذكوري","Female":"أنثوي","Lead Vocals":"غناء رئيسي","Clean":"نقي","Deep":"عميق","Soft":"ناعم","Powerful":"قوي","Dark":"مظلم","Aggressive":"عدواني","Emotional":"عاطفي","Choir":"جوقة","Ancient":"قديم","Epic":"ملحمي","Heroic":"بطولي","Mysterious":"غامض","Fantasy":"خيال","Kingdom":"مملكة","World":"عالم","City":"مدينة","Village":"قرية","Forest":"غابة","Ocean":"محيط","Battle":"معركة","Guitar":"غيتار"},
+ tr:{"None":"Yok","All":"Tümü","Male":"Erkek","Female":"Kadın","Clean":"Temiz","Deep":"Derin","Soft":"Yumuşak","Powerful":"Güçlü","Dark":"Karanlık","Choir":"Koro","Epic":"Epik","Heroic":"Kahramanca","Fantasy":"Fantastik","Kingdom":"Krallık","World":"Dünya","City":"Şehir","Village":"Köy","Forest":"Orman","Ocean":"Okyanus","Battle":"Savaş","Guitar":"Gitar"},
+ ru:{"None":"Нет","All":"Все","Male":"Мужской","Female":"Женский","Lead Vocals":"Ведущий вокал","Clean":"Чистый","Deep":"Глубокий","Soft":"Мягкий","Powerful":"Мощный","Dark":"Тёмный","Aggressive":"Агрессивный","Emotional":"Эмоциональный","Choir":"Хор","Ancient":"Древний","Epic":"Эпический","Heroic":"Героический","Mysterious":"Таинственный","Fantasy":"Фэнтези","Kingdom":"Королевство","World":"Мир","City":"Город","Village":"Деревня","Forest":"Лес","Ocean":"Океан","Battle":"Битва","Guitar":"Гитара"}
+};
+LIBRARY_PHRASE_MAPS["pt-BR"]=LIBRARY_PHRASE_MAPS.pt;
+
+function libraryLabel(value,context="generic"){
+ const original=String(value??"");
+ if(currentUiLanguage==="en"||!original)return original;
+ const map=LIBRARY_PHRASE_MAPS[currentUiLanguage]||{};
+ if(map[original])return map[original];
+
+ // Proper names, named instruments, abbreviations and genre names remain intact
+ // unless a meaningful localized descriptor exists.
+ let result=original;
+ const entries=Object.entries(map).sort((a,b)=>b[0].length-a[0].length);
+ for(const [source,target] of entries){
+   const escaped=source.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+   result=result.replace(new RegExp(`\\b${escaped}\\b`,"gi"),target);
+ }
+ return result;
+}
+function localizeSelectOptions(select){
+ if(!select)return;
+ [...select.options].forEach(option=>{
+   option.textContent=libraryLabel(option.value,select.id);
+ });
+}
+function localizeAllLibraryControls(){
+ document.querySelectorAll("select").forEach(localizeSelectOptions);
+ if(typeof renderDynamicLists==="function")renderDynamicLists();
+ if(typeof renderInstruments==="function")renderInstruments();
+}

@@ -1,5 +1,17 @@
 # Nordlicht Soundworks Prompt Studio – Changelog
 
+## Version 1.2.1 – Full Library Localization
+
+- Localized visible labels across genre, vocal, instrument, story, emotion, scene, atmosphere, energy, production and MetaTag libraries
+- Canonical English values remain unchanged for Suno export
+- Presets remain compatible across interface languages
+- Instrument names and internationally established genre names remain unchanged where translation would be misleading
+- Country, region and instrument-family labels are localized
+- Library lists refresh immediately when the interface language changes
+- Expanded phrase-based translation dictionaries for all 24 interface languages
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
 ## Version 1.2.0 – International Edition
 
 - English default interface

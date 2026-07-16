@@ -49,18 +49,18 @@ const appState={voiceCharacters:[],vocalExtras:[],instruments:[],energyStyles:[]
 
 const id=x=>document.getElementById(x),pick=a=>a[Math.floor(Math.random()*a.length)],shuffleArray=a=>[...a].sort(()=>Math.random()-.5),unique=a=>[...new Set(a.filter(Boolean))];
 const escapeHTML=s=>String(s??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll('"',"&quot;");
-function fillSelect(el,items){el.innerHTML=items.map(v=>`<option value="${escapeHTML(v)}">${escapeHTML(v)}</option>`).join("")}
+function fillSelect(el,items){el.innerHTML=items.map(v=>`<option value="${escapeHTML(v)}">${escapeHTML(typeof libraryLabel==="function"?libraryLabel(v,el.id):v)}</option>`).join("")}
 function showToast(text){const t=id("toast");t.textContent=text;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1300)}
 function csv(text){return String(text||"").split(",").map(x=>x.trim()).filter(Boolean)}
 function toggleArray(key,value){appState[key]=appState[key].includes(value)?appState[key].filter(x=>x!==value):[...appState[key],value]}
-function renderChips(container,items,key){container.innerHTML=items.map(v=>`<span class="chip ${appState[key].includes(v)?"active":""}" data-v="${escapeHTML(v)}">${escapeHTML(v)}</span>`).join("");container.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{toggleArray(key,c.dataset.v);renderDynamicLists();generateOutput()})}
-function renderSelected(container,items,key){container.innerHTML=items.length?items.map(v=>`<span class="chip active" data-v="${escapeHTML(v)}">${escapeHTML(v)} ×</span>`).join(""):`<small>Noch keine Auswahl.</small>`;container.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{toggleArray(key,c.dataset.v);renderDynamicLists();generateOutput()})}
+function renderChips(container,items,key){container.innerHTML=items.map(v=>`<span class="chip ${appState[key].includes(v)?"active":""}" data-v="${escapeHTML(v)}">${escapeHTML(typeof libraryLabel==="function"?libraryLabel(v,key):v)}</span>`).join("");container.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{toggleArray(key,c.dataset.v);renderDynamicLists();generateOutput()})}
+function renderSelected(container,items,key){container.innerHTML=items.length?items.map(v=>`<span class="chip active" data-v="${escapeHTML(v)}">${escapeHTML(typeof libraryLabel==="function"?libraryLabel(v,key):v)} ×</span>`).join(""):`<small>Noch keine Auswahl.</small>`;container.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{toggleArray(key,c.dataset.v);renderDynamicLists();generateOutput()})}
 function refreshSubgenres(){fillSelect(id("subgenre"),GENRE_LIBRARY[id("genreFamily").value]||[])}
 function refreshLeadVoices(){const cat=id("leadVoiceCategory").value;if(cat==="None"){fillSelect(id("leadVoice"),["None"]);return}fillSelect(id("leadVoice"),["None",...(LEAD_VOICE_LIBRARY[cat]||[]).filter(x=>x!=="None")])}
 function voiceCharactersFiltered(){const cat=id("voiceCharacterCategory").value,q=id("voiceSearch").value.toLowerCase();const source=cat==="All"?flatten(VOICE_CHARACTER_LIBRARY):VOICE_CHARACTER_LIBRARY[cat]||[];return unique(source).filter(x=>!q||x.toLowerCase().includes(q))}
 function energyFiltered(){const q=id("energySearch").value.toLowerCase();return (ENERGY_LIBRARY[id("energyCategory").value]||[]).filter(x=>!q||x.toLowerCase().includes(q))}
 function instrumentsFiltered(){const r=id("instrumentRegion").value,c=id("instrumentCountry").value,f=id("instrumentFamily").value,q=id("instrumentSearch").value.toLowerCase();return INSTRUMENT_DB.filter(x=>(r==="Alle Regionen"||x.region===r)&&(c==="Alle Länder"||x.country===c)&&(f==="Alle Familien"||x.family===f)&&(!q||(x.name+" "+x.country+" "+x.family).toLowerCase().includes(q)))}
-function renderInstruments(){const items=instrumentsFiltered();id("instrumentCount").textContent=`${items.length} von ${INSTRUMENT_DB.length} Instrumenten`;id("instrumentLibrary").innerHTML=items.map(x=>`<div class="instrument-card ${appState.instruments.includes(x.name)?"active":""}" data-v="${escapeHTML(x.name)}"><strong>${escapeHTML(x.name)}</strong><small>${escapeHTML(x.country)} · ${escapeHTML(x.family)}</small></div>`).join("");id("instrumentLibrary").querySelectorAll(".instrument-card").forEach(c=>c.onclick=()=>{toggleArray("instruments",c.dataset.v);renderDynamicLists();generateOutput()});renderSelected(id("selectedInstruments"),appState.instruments,"instruments")}
+function renderInstruments(){const items=instrumentsFiltered();id("instrumentCount").textContent=`${items.length} / ${INSTRUMENT_DB.length}`;id("instrumentLibrary").innerHTML=items.map(x=>`<div class="instrument-card ${appState.instruments.includes(x.name)?"active":""}" data-v="${escapeHTML(x.name)}"><strong>${escapeHTML(typeof libraryLabel==="function"?libraryLabel(x.name,"instrument"):x.name)}</strong><small>${escapeHTML(typeof libraryLabel==="function"?libraryLabel(x.country,"country"):x.country)} · ${escapeHTML(typeof libraryLabel==="function"?libraryLabel(x.family,"family"):x.family)}</small></div>`).join("");id("instrumentLibrary").querySelectorAll(".instrument-card").forEach(c=>c.onclick=()=>{toggleArray("instruments",c.dataset.v);renderDynamicLists();generateOutput()});renderSelected(id("selectedInstruments"),appState.instruments,"instruments")}
 
 function ensureBracketTag(value,prefix=""){
  const raw=String(value||"").trim();
@@ -571,7 +571,7 @@ function analyzeAssistantPrompt(){
  assistantLastResult=result;
  renderAssistantResult(result);
 }
-function assistantDisplay(value){return Array.isArray(value)?value.join(", "):(value||"—")}
+function assistantDisplay(value){const loc=x=>typeof libraryLabel==="function"?libraryLabel(x,"assistant"):x;return Array.isArray(value)?value.map(loc).join(", "):loc(value||"—")}
 function renderAssistantResult(r){
  id("assistantResultPanel").classList.remove("hidden");
  id("assistantConfidence").textContent=`${r.confidence}%`;
