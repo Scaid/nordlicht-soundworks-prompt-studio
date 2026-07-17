@@ -1,0 +1,26 @@
+# Translation Report
+
+- en: 226 UI keys
+- de: 226 UI keys
+- fr: 226 UI keys
+- es: 226 UI keys
+- it: 226 UI keys
+- pt: 226 UI keys
+- pt-BR: 226 UI keys
+- nl: 226 UI keys
+- pl: 226 UI keys
+- sv: 226 UI keys
+- no: 226 UI keys
+- fi: 226 UI keys
+- da: 226 UI keys
+- ja: 226 UI keys
+- ko: 226 UI keys
+- zh-CN: 226 UI keys
+- zh-TW: 226 UI keys
+- th: 226 UI keys
+- vi: 226 UI keys
+- id: 226 UI keys
+- hi: 226 UI keys
+- ar: 226 UI keys
+- tr: 226 UI keys
+- ru: 226 UI keys

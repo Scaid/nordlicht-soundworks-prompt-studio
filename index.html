@@ -22,7 +22,7 @@ html
 </div>
 </div>
 <div class="top-actions">
-<div class="language-picker"><button class="language-button" id="languageButton">🌐 English</button><div class="language-menu hidden" id="languageMenu"></div></div><span class="version-badge" title="Current version">v1.5.0</span>
+<div class="language-picker"><button class="language-button" id="languageButton">🌐 English</button><div class="language-menu hidden" id="languageMenu"></div></div><span class="version-badge" title="Current version">v1.7.0</span>
 <button data-i18n-full="ui_006" id="openChangelog">📋 Changelog</button>
 <button data-i18n-full="ui_007" id="topSavePreset">💾 Save Preset</button>
 <button data-i18n-full="ui_008" id="topImport">📂 Import</button>
@@ -36,7 +36,7 @@ html
 </div>
 <div class="sidebar-version">
 <b data-i18n-full="ui_010">Prompt Studio</b>
-<span data-i18n-full="ui_011">Version 1.5.0</span>
+<span data-i18n-full="ui_011">Version 1.7.0</span>
 <small data-i18n-full="ui_012">© 2026 Nordlicht Soundworks</small>
 </div>
 <nav id="navigation">
@@ -59,7 +59,7 @@ html
 <p data-i18n-full="ui_044">Describe your desired song in natural language. The assistant analyzes your idea locally and suggests suitable settings.</p>
 </div>
 <div class="panel dark-content">
-<label data-i18n-full="ui_045">Describe song idea<textarea class="assistant-prompt" data-i18n-placeholder="placeholder_001" id="assistantPrompt" class="notranslate" placeholder="Example: A dark anime opening about a Viking awakening in a cyber world. Female lead voice, deep male narrator, large choir, Tagelharpa and hard electronic drops."></textarea>
+<label data-i18n-full="ui_045">Describe song idea<textarea class="assistant-prompt" data-i18n-placeholder="placeholder_001" id="assistantPrompt" placeholder="Example: A dark anime opening about a Viking awakening in a cyber world. Female lead voice, deep male narrator, large choir, Tagelharpa and hard electronic drops."></textarea>
 </label>
 <div class="grid three">
 <label data-i18n-full="ui_046">Working mode<select id="assistantMode">
@@ -203,7 +203,7 @@ html
 <option data-i18n-full="ui_131" value="alternating verses">Alternating verses</option>
 <option data-i18n-full="ui_132" value="shared chorus only">Shared chorus only</option>
 </select></label>
-<label data-i18n-full="ui_133">Header Preview<textarea id="namedSingerPreview" class="notranslate" readonly=""></textarea></label>
+<label data-i18n-full="ui_133">Header Preview<textarea id="namedSingerPreview" readonly=""></textarea></label>
 </div>
 </div>
 <label data-i18n-full="ui_134">Search Voice Character<input data-i18n-placeholder="placeholder_004" id="voiceSearch" placeholder="e.g. warm, heroic, robotic"/></label>
@@ -268,8 +268,8 @@ html
 <div class="chips" id="productionExtras"></div>
 <h3 data-i18n-full="ui_166">Exclude Styles</h3>
 <div class="chips" id="excludeChips"></div>
-<label data-i18n-full="ui_167">Custom Exclusions<textarea id="customExclude" class="notranslate"></textarea></label>
-<label data-i18n-full="ui_168">Custom Style Additions<textarea id="customStyle" class="notranslate"></textarea></label>
+<label data-i18n-full="ui_167">Custom Exclusions<textarea id="customExclude"></textarea></label>
+<label data-i18n-full="ui_168">Custom Style Additions<textarea id="customStyle"></textarea></label>
 </div>
 </section>
 <section class="view" id="theoryView">
@@ -345,7 +345,7 @@ html
 <div class="chips" id="metaChoirs"></div>
 <h3 data-i18n-full="ui_192">Automatically Recommended MetaTags</h3>
 <div class="meta-suggestions" id="metaSuggestions"></div>
-<label data-i18n-full="ui_193">Custom MetaTags – one tag per line<textarea data-i18n-placeholder="placeholder_007" id="customMetaTags" class="notranslate" placeholder="[Break: Abrupt silence, tension]
+<label data-i18n-full="ui_193">Custom MetaTags – one tag per line<textarea data-i18n-placeholder="placeholder_007" id="customMetaTags" placeholder="[Break: Abrupt silence, tension]
 [Instrumental Solo: Chaotic strings and heavy drums]"></textarea>
 </label>
 </div>
@@ -381,11 +381,11 @@ html
 </section>
 <section class="glass">
 <h2 data-i18n-full="ui_204">LIVE OUTPUT</h2>
-<label data-i18n-full="ui_205">STYLE<textarea id="styleOutput" class="notranslate" readonly=""></textarea></label>
+<label data-i18n-full="ui_205">STYLE<textarea id="styleOutput" readonly=""></textarea></label>
 <div class="quick"><button data-i18n-full="ui_206" id="copyStyle">COPY STYLE</button><button data-i18n-full="ui_207" id="rightSavePreset">SAVE PRESET</button></div>
-<label data-i18n-full="ui_208">EXCLUDE STYLE<textarea id="excludeOutput" class="notranslate" readonly=""></textarea></label>
+<label data-i18n-full="ui_208">EXCLUDE STYLE<textarea id="excludeOutput" readonly=""></textarea></label>
 <button class="full" data-i18n-full="ui_209" id="copyExclude">COPY EXCLUDE</button>
-<label data-i18n-full="ui_210">METATAGS<textarea id="metaTagsOutput" class="notranslate" readonly=""></textarea></label>
+<label data-i18n-full="ui_210">METATAGS<textarea id="metaTagsOutput" readonly=""></textarea></label>
 <button class="full" data-i18n-full="ui_211" id="copyMetaTags">COPY METATAGS</button>
 </section>
 </aside>
@@ -405,7 +405,7 @@ html
 <img alt="Nordlicht Soundworks" class="modal-logo" src="logo.svg"/>
 <h2 data-i18n-full="ui_214" id="changelogTitle">Changelog</h2>
 <article class="release-note">
-<div><b data-i18n-full="ui_215">Version 1.5.0</b><span data-i18n-full="ui_216">First public release</span></div>
+<div><b data-i18n-full="ui_215">Version 1.7.0</b><span data-i18n-full="ui_216">First public release</span></div>
 <ul>
 <li data-i18n-full="ui_217">Style Builder with genre, BPM, vocals, instruments and production</li>
 <li data-i18n-full="ui_218">Offline Smart Assistant for free-form song ideas</li>
@@ -419,7 +419,6 @@ html
 <p class="changelog-note" data-i18n-full="ui_224">Future updates will be documented here.</p>
 </section>
 </div>
-<div id="google_translate_element" class="google-translate-hidden" aria-hidden="true"></div>
 <input accept=".json" hidden="" id="importFile" type="file"/>
 <div class="toast" id="toast"></div>
 <script src="instruments.js"></script>
@@ -431,6 +430,21 @@ html
 <script src="presetManager.js"></script>
 <script src="randomizer.js"></script>
 <script src="i18n.js"></script>
+<script src="lang/en.js"></script>
+<script src="lang/de.js"></script>
+<script src="lang/fr.js"></script>
+<script src="lang/es.js"></script>
+<script src="lang/ja.js"></script>
+<script src="lang/ko.js"></script>
+<script src="lang/it.js"></script>
+<script src="lang/pt.js"></script>
+<script src="lang/pt-BR.js"></script>
+<script src="lang/ru.js"></script>
+<script src="lang/zh-CN.js"></script>
+<script src="lang/tr.js"></script>
+<script src="lang/nl.js"></script>
+<script src="lang/pl.js"></script>
+<script src="lang/loader.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

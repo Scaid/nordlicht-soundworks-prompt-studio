@@ -3,9 +3,9 @@ const I18N={"en": {"save_preset": "Save Preset", "import": "Import", "export": "
 
 let currentUiLanguage="en";
 function tr(k){return (I18N[currentUiLanguage]||I18N.en)[k]||I18N.en[k]||k}
-function legacyDetectLanguage(){const s=localStorage.getItem("nordlicht-ui-language");if(s&&I18N[s])return s;const b=(navigator.language||"en").toLowerCase();return I18N_LANGUAGES.find(x=>x.code.toLowerCase()===b)?.code||I18N_LANGUAGES.find(x=>x.code.split("-")[0]===b.split("-")[0])?.code||"en"}
-function legacyBuildLanguageMenu(){const m=document.getElementById("languageMenu");if(!m)return;m.innerHTML=I18N_LANGUAGES.map(l=>`<button type="button" data-lang="${l.code}">${l.flag}<span>${l.name}</span></button>`).join("");m.querySelectorAll("[data-lang]").forEach(b=>b.onclick=()=>{applyLanguage(b.dataset.lang);m.classList.add("hidden")})}
-function applyLanguage(code){currentUiLanguage=I18N[code]?code:"en";localStorage.setItem("nordlicht-ui-language",currentUiLanguage);const info=I18N_LANGUAGES.find(x=>x.code===currentUiLanguage);document.documentElement.lang=currentUiLanguage;document.documentElement.dir=info?.dir||"ltr";const lb=document.getElementById("languageButton");if(lb){lb.textContent=`${info.flag} ${info.name}`;lb.setAttribute("lang",info.code)};const nav=[['assistantView','assistant'],['randomView','random'],['styleView','style'],['vocalsView','vocals'],['instrumentsView','instruments'],['storyView','story'],['productionView','production'],['theoryView','theory'],['metatagsView','metatags'],['presetsView','presets']];nav.forEach(([v,k])=>{const b=document.querySelector(`.nav[data-view="${v}"] b`);if(b)b.textContent=tr(k)});const ids={topSavePreset:'save_preset',topImport:'import',topExport:'export',openChangelog:'changelog',copyStyle:'copy_style',copyExclude:'copy_exclude',copyMetaTags:'copy_meta',mainRandomButton:'randomize',rightRandomButton:'randomize',assistantAnalyze:'analyze',assistantApply:'apply'};Object.entries(ids).forEach(([id,k])=>{const e=document.getElementById(id);if(e)e.textContent=tr(k)});document.querySelectorAll('[data-i18n-label]').forEach(e=>{if(e.firstChild&&e.firstChild.nodeType===3)e.firstChild.textContent=tr(e.dataset.i18nLabel)});localizeAllLibraryControls();normalizeCompleteLanguageCoverage();const ai=I18N_LANGUAGES.find(x=>x.code===currentUiLanguage)||I18N_LANGUAGES[0];const ab=document.getElementById("languageButton");if(ab)ab.textContent=`${ai.flag} ${ai.name}`;const vb=document.querySelector(".version-badge");if(vb)vb.textContent="v1.3.2";if(typeof renderRandomOptions==="function")renderRandomOptions();if(typeof updateScore==="function")updateScore();if(typeof renderDynamicLists==="function")renderDynamicLists()}
+function detectLanguage(){const s=localStorage.getItem("nordlicht-ui-language");if(s&&COMPLETE_INTERFACE_LANGUAGES.has(s))return s;const b=(navigator.language||"en").toLowerCase();const exact=I18N_LANGUAGES.find(x=>COMPLETE_INTERFACE_LANGUAGES.has(x.code)&&x.code.toLowerCase()===b);if(exact)return exact.code;const base=I18N_LANGUAGES.find(x=>COMPLETE_INTERFACE_LANGUAGES.has(x.code)&&x.code.split("-")[0]===b.split("-")[0]);return base?.code||"en"}
+function buildLanguageMenu(){const m=document.getElementById("languageMenu");if(!m)return;const visible=I18N_LANGUAGES.filter(l=>COMPLETE_INTERFACE_LANGUAGES.has(l.code));m.innerHTML=visible.map(l=>`<button type="button" data-lang="${l.code}">${l.flag}<span>${l.name}</span></button>`).join("");m.querySelectorAll("[data-lang]").forEach(b=>b.onclick=()=>{applyLanguage(b.dataset.lang);m.classList.add("hidden")})}
+function applyLanguage(code){currentUiLanguage=COMPLETE_INTERFACE_LANGUAGES.has(code)?code:"en";localStorage.setItem("nordlicht-ui-language",currentUiLanguage);const info=I18N_LANGUAGES.find(x=>x.code===currentUiLanguage);document.documentElement.lang=currentUiLanguage;document.documentElement.dir=info?.dir||"ltr";const lb=document.getElementById("languageButton");if(lb){lb.textContent=`${info.flag} ${info.name}`;lb.setAttribute("lang",info.code)};const nav=[['assistantView','assistant'],['randomView','random'],['styleView','style'],['vocalsView','vocals'],['instrumentsView','instruments'],['storyView','story'],['productionView','production'],['theoryView','theory'],['metatagsView','metatags'],['presetsView','presets']];nav.forEach(([v,k])=>{const b=document.querySelector(`.nav[data-view="${v}"] b`);if(b)b.textContent=tr(k)});const ids={topSavePreset:'save_preset',topImport:'import',topExport:'export',openChangelog:'changelog',copyStyle:'copy_style',copyExclude:'copy_exclude',copyMetaTags:'copy_meta',mainRandomButton:'randomize',rightRandomButton:'randomize',assistantAnalyze:'analyze',assistantApply:'apply'};Object.entries(ids).forEach(([id,k])=>{const e=document.getElementById(id);if(e)e.textContent=tr(k)});document.querySelectorAll('[data-i18n-label]').forEach(e=>{if(e.firstChild&&e.firstChild.nodeType===3)e.firstChild.textContent=tr(e.dataset.i18nLabel)});localizeAllLibraryControls();normalizeCompleteLanguageCoverage();const ai=I18N_LANGUAGES.find(x=>x.code===currentUiLanguage)||I18N_LANGUAGES[0];const ab=document.getElementById("languageButton");if(ab)ab.textContent=`${ai.flag} ${ai.name}`;const vb=document.querySelector(".version-badge");if(vb)vb.textContent="v1.7.0";if(typeof renderRandomOptions==="function")renderRandomOptions();if(typeof updateScore==="function")updateScore();if(typeof renderDynamicLists==="function")renderDynamicLists();if(typeof renderMetaSuggestions==="function")renderMetaSuggestions();if(typeof updateMetaFormatExample==="function")updateMetaFormatExample();if(typeof renderInstruments==="function")renderInstruments()}
 
 
 /* ===== Full library localization engine =====
@@ -893,7 +893,7 @@ function translateCompleteStaticUi(){
 function normalizeCompleteLanguageCoverage(){
  if(!FULL_UI_TEXTS[currentUiLanguage])FULL_UI_TEXTS[currentUiLanguage]=FULL_UI_TEXTS.en;
  translateCompleteStaticUi();
-}const COMPLETE_INTERFACE_LANGUAGES=new Set(I18N_LANGUAGES.map(language=>language.code));
+}const COMPLETE_INTERFACE_LANGUAGES=new Set(["en","de","es","fr","ja","ko","it","pt","pt-BR","ru","zh-CN","tr","nl","pl"]);
 function effectiveTranslationLanguage(code){return COMPLETE_INTERFACE_LANGUAGES.has(code)?code:"en"}
 
 
@@ -901,7 +901,7 @@ Object.assign(I18N.en,{random_genre:"Genre",random_bpm:"BPM",random_song:"Song T
 Object.assign(I18N.de,{random_genre:"Genre",random_bpm:"BPM",random_song:"Songtyp & Sprache",random_vocals:"Vocals",random_instruments:"Instrumente",random_world:"Story-Welt",random_emotion:"Emotion",random_scene:"Szene & Atmosphäre",random_energy:"Energie & Dynamik",random_production:"Produktion",random_exclude:"Exclude",score_genre:"Genre",score_vocals:"Vocals",score_instruments:"Instrumente",score_story:"Story",score_production:"Produktion"});
 Object.assign(I18N.es,{random_genre:"Género",random_bpm:"BPM",random_song:"Tipo de canción e idioma",random_vocals:"Voces",random_instruments:"Instrumentos",random_world:"Mundo narrativo",random_emotion:"Emoción",random_scene:"Escena y atmósfera",random_energy:"Energía y dinámica",random_production:"Producción",random_exclude:"Excluir",score_genre:"Género",score_vocals:"Voces",score_instruments:"Instrumentos",score_story:"Historia",score_production:"Producción"});
 
-/* v1.5.0 MetaTag Composer translations */
+/* v1.7.0 MetaTag Composer translations */
 Object.assign(I18N["en"]||I18N.en,{"meta_composer_title":"MetaTag Composer","meta_composer_desc":"Choose how section tags are formatted and assigned.","meta_format":"MetaTag Format","section_aware":"Section-aware assignment","avoid_repetition":"Avoid repeated tags"});
 Object.assign(I18N["de"]||I18N.en,{"meta_composer_title":"MetaTag Composer","meta_composer_desc":"Wähle, wie Abschnitts-Tags formatiert und zugeordnet werden.","meta_format":"MetaTag-Format","section_aware":"Abschnittsbezogene Zuordnung","avoid_repetition":"Wiederholte Tags vermeiden"});
 Object.assign(I18N["fr"]||I18N.en,{"meta_composer_title":"Compositeur de MetaTags","meta_composer_desc":"Choisissez comment les balises de section sont formatées et attribuées.","meta_format":"Format des MetaTags","section_aware":"Attribution selon la section","avoid_repetition":"Éviter les balises répétées"});
@@ -926,156 +926,3 @@ Object.assign(I18N["hi"]||I18N.en,{"meta_composer_title":"MetaTag कंपो�
 Object.assign(I18N["ar"]||I18N.en,{"meta_composer_title":"مؤلف MetaTag","meta_composer_desc":"اختر كيفية تنسيق وسوم المقاطع وتوزيعها.","meta_format":"تنسيق MetaTag","section_aware":"توزيع حسب المقطع","avoid_repetition":"تجنب تكرار الوسوم"});
 Object.assign(I18N["tr"]||I18N.en,{"meta_composer_title":"MetaTag Düzenleyici","meta_composer_desc":"Bölüm etiketlerinin nasıl biçimlendirileceğini ve atanacağını seçin.","meta_format":"MetaTag Biçimi","section_aware":"Bölüme göre atama","avoid_repetition":"Tekrarlanan etiketleri önle"});
 Object.assign(I18N["ru"]||I18N.en,{"meta_composer_title":"Компоновщик MetaTag","meta_composer_desc":"Выберите форматирование и распределение тегов по разделам.","meta_format":"Формат MetaTag","section_aware":"Назначение по разделам","avoid_repetition":"Избегать повторяющихся тегов"});
-
-
-/* ===== v1.5.0 Hybrid Complete Translation Engine ===== */
-const LOCAL_INTERFACE_LANGUAGES=new Set(["en","de","es"]);
-const GOOGLE_LANGUAGE_CODES={
- "fr":"fr","it":"it","pt":"pt","pt-BR":"pt","nl":"nl","pl":"pl",
- "sv":"sv","no":"no","fi":"fi","da":"da","ja":"ja","ko":"ko",
- "zh-CN":"zh-CN","zh-TW":"zh-TW","th":"th","vi":"vi","id":"id",
- "hi":"hi","ar":"ar","tr":"tr","ru":"ru"
-};
-let googleTranslateReady=false;
-let pendingGoogleLanguage=null;
-
-function protectCanonicalContent(){
- const protectedIds=[
-  "styleOutput","excludeOutput","metaTagsOutput","assistantPrompt",
-  "customMetaTags","customExclude","customStyle","namedSingerPreview"
- ];
- protectedIds.forEach(elementId=>{
-   const element=document.getElementById(elementId);
-   if(element){
-     element.classList.add("notranslate");
-     element.setAttribute("translate","no");
-   }
- });
- document.querySelectorAll("code").forEach(element=>{
-   if(element.closest(".format-examples,.meta-help,.named-singer-meta-info")){
-     element.classList.add("notranslate");
-     element.setAttribute("translate","no");
-   }
- });
-}
-function googleTranslateElementInit(){
- new google.translate.TranslateElement({
-   pageLanguage:"en",
-   includedLanguages:Object.values(GOOGLE_LANGUAGE_CODES).filter((v,i,a)=>a.indexOf(v)===i).join(","),
-   autoDisplay:false,
-   multilanguagePage:true
- },"google_translate_element");
- googleTranslateReady=true;
- protectCanonicalContent();
- if(pendingGoogleLanguage)applyGoogleLanguage(pendingGoogleLanguage);
-}
-function loadGoogleTranslate(){
- if(document.getElementById("google-translate-script"))return;
- const script=document.createElement("script");
- script.id="google-translate-script";
- script.src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
- script.async=true;
- script.onerror=()=>{
-   googleTranslateReady=false;
-   if(typeof showToast==="function")showToast("Online translation could not be loaded.");
- };
- document.head.appendChild(script);
-}
-function setGoogleCookie(languageCode){
- const value=`/en/${languageCode}`;
- document.cookie=`googtrans=${value};path=/`;
- document.cookie=`googtrans=${value};path=/;domain=${location.hostname}`;
-}
-function clearGoogleTranslation(){
- document.cookie="googtrans=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
- document.cookie=`googtrans=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=${location.hostname}`;
- const combo=document.querySelector(".goog-te-combo");
- if(combo&&combo.value){
-   combo.value="";
-   combo.dispatchEvent(new Event("change"));
- }
- document.documentElement.classList.remove("google-translated");
-}
-function applyGoogleLanguage(appLanguageCode){
- const googleCode=GOOGLE_LANGUAGE_CODES[appLanguageCode];
- if(!googleCode)return;
- pendingGoogleLanguage=appLanguageCode;
- setGoogleCookie(googleCode);
- protectCanonicalContent();
-
- const combo=document.querySelector(".goog-te-combo");
- if(combo){
-   combo.value=googleCode;
-   combo.dispatchEvent(new Event("change"));
-   document.documentElement.classList.add("google-translated");
-   pendingGoogleLanguage=null;
- }else{
-   loadGoogleTranslate();
-   setTimeout(()=>{
-     const retryCombo=document.querySelector(".goog-te-combo");
-     if(retryCombo){
-       retryCombo.value=googleCode;
-       retryCombo.dispatchEvent(new Event("change"));
-       document.documentElement.classList.add("google-translated");
-       pendingGoogleLanguage=null;
-     }
-   },1200);
- }
-}
-function buildLanguageMenu(){
- const menu=document.getElementById("languageMenu");
- if(!menu)return;
- menu.innerHTML=I18N_LANGUAGES.map(language=>`
-   <button type="button" data-lang="${language.code}" title="${language.name}">
-     ${language.flag}<span>${language.name}</span>
-   </button>`).join("");
- menu.querySelectorAll("[data-lang]").forEach(button=>{
-   button.onclick=()=>{
-     applyHybridLanguage(button.dataset.lang);
-     menu.classList.add("hidden");
-     document.getElementById("languageButton")?.setAttribute("aria-expanded","false");
-   };
- });
-}
-function applyHybridLanguage(code){
- const info=I18N_LANGUAGES.find(language=>language.code===code)||I18N_LANGUAGES[0];
- currentUiLanguage=info.code;
- localStorage.setItem("nordlicht-ui-language",currentUiLanguage);
- document.documentElement.lang=currentUiLanguage;
- document.documentElement.dir=info.dir||"ltr";
-
- if(LOCAL_INTERFACE_LANGUAGES.has(currentUiLanguage)){
-   clearGoogleTranslation();
-   localApplyLanguage(currentUiLanguage);
- }else{
-   // Restore the canonical English application UI before machine translation.
-   clearGoogleTranslation();
-   localApplyLanguage("en");
-   currentUiLanguage=info.code;
-   localStorage.setItem("nordlicht-ui-language",currentUiLanguage);
-   document.documentElement.lang=currentUiLanguage;
-   document.documentElement.dir=info.dir||"ltr";
-   applyGoogleLanguage(currentUiLanguage);
- }
-
- const languageButton=document.getElementById("languageButton");
- if(languageButton){
-   languageButton.textContent=`${info.flag} ${info.name}`;
-   languageButton.setAttribute("lang",info.code);
- }
- const versionBadge=document.querySelector(".version-badge");
- if(versionBadge)versionBadge.textContent="v1.5.0";
-}
-function detectLanguage(){
- const saved=localStorage.getItem("nordlicht-ui-language");
- if(saved&&I18N_LANGUAGES.some(language=>language.code===saved))return saved;
- const browser=(navigator.language||"en").toLowerCase();
- const exact=I18N_LANGUAGES.find(language=>language.code.toLowerCase()===browser);
- if(exact)return exact.code;
- const base=browser.split("-")[0];
- return I18N_LANGUAGES.find(language=>language.code.split("-")[0]===base)?.code||"en";
-}
-
-const localApplyLanguage=applyLanguage;
-applyLanguage=applyHybridLanguage;
-

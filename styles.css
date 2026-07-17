@@ -360,25 +360,6 @@ select option{font-family:inherit}
 .format-examples code{white-space:normal;color:#dffbff;font-size:10px;line-height:1.5}
 @media(max-width:800px){.metatag-format-grid{grid-template-columns:1fr}}
 
-/* ===== v1.5.0 Hybrid translation ===== */
-.google-translate-hidden{
-  position:fixed!important;
-  width:1px!important;
-  height:1px!important;
-  overflow:hidden!important;
-  opacity:0!important;
-  pointer-events:none!important;
-  left:-9999px!important;
-}
-.goog-te-banner-frame,
-.goog-te-balloon-frame,
-#goog-gt-tt,
-.goog-tooltip,
-.goog-tooltip:hover{
-  display:none!important;
-}
-body{top:0!important}
-.notranslate{unicode-bidi:plaintext}
-html[dir="rtl"] input,
-html[dir="rtl"] textarea,
-html[dir="rtl"] select{direction:rtl}
+/* v1.5.2 local language engine */
+.language-menu button{unicode-bidi:plaintext}
+html[dir="rtl"] .language-menu button{text-align:right}

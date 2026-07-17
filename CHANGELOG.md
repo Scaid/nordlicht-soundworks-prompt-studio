@@ -1,15 +1,71 @@
 # Nordlicht Soundworks Prompt Studio – Changelog
 
-## Version 1.5.0 – Hybrid Complete Translation
+## Version 1.7.0 – Fourteen Complete Interface Languages
 
-- English, German and Spanish remain locally translated and work offline
-- All other existing interface languages use full-page online machine translation
-- The custom language selector controls both local and online translations
-- Style, Exclude, MetaTag and user-input fields are protected from translation
-- Canonical Suno export values remain English
-- Selected language is saved locally
-- Simplified and Traditional Chinese, Japanese, Korean, Arabic and all other configured languages are available
-- Graceful English fallback when the online translation service is unavailable
+New complete interface languages:
+
+- Italiano
+- Português
+- Português (Brasil)
+- Русский
+- 简体中文
+- Türkçe
+- Nederlands
+- Polski
+
+Together with the existing complete languages:
+
+- English
+- Deutsch
+- Español
+- Français
+- 日本語
+- 한국어
+
+Validation per new language:
+
+- 226/226 full interface entries
+- 38/38 dynamic labels
+- 8/8 placeholders
+- No missing translation keys
+- Offline use via STARTEN.bat
+- Online use via GitHub Pages
+- Suno prompt output remains English
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 1.6.0 – Six Complete Interface Languages
+
+Fully supported offline interface languages:
+
+- English
+- Deutsch
+- Español
+- Français
+- 日本語
+- 한국어
+
+Changes:
+
+- French, Japanese and Korean interfaces fully translated
+- 226 static UI entries per new language
+- 38 dynamic labels per new language
+- 8 translated placeholders per new language
+- Verified browser detection and language selection
+- Offline use through STARTEN.bat
+- Online use through GitHub Pages
+- Suno prompt output remains English
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 1.5.2 – Language Engine Rebuild
+
+- Rebuilt the language system with 24 explicit local language packs
+- Removed all external translation dependencies
+- Language changes now work offline and on GitHub Pages
+- All packs contain every UI key
+- Dynamic areas refresh after language changes
+- Suno output remains English
 
 # Nordlicht Soundworks Prompt Studio – Changelog
 
