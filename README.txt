@@ -1,3 +1,5 @@
+Nordlicht Soundworks Prompt Studio – Version 1.10.0
+
 Nordlicht Soundworks Prompt Studio – Stable Rebuild
 
 Diese Ausgabe wurde vollständig neu aufgebaut.
@@ -122,3 +124,11 @@ VERSION 1.4.0 – METATAG COMPOSER:
 - duplicate-tag suppression
 - compact one-line Suno formatting
 - compatible with Named Singers, Instrumental Mode and custom tags
+
+
+VERSION 1.9.0 – PHASE 1: MUSIC INTELLIGENCE
+- Style-Kompatibilitätsdatenbank für alle Genre-Familien
+- Intelligente Zweitgenre-, Songtyp- und BPM-Vorschläge
+- Stilbasierte Instrumentenempfehlungen mit Passungswert
+- Compatibility Score nutzt Genre-Beziehungen und Instrumenten-Passung
+- Alle Vorschläge funktionieren vollständig offline

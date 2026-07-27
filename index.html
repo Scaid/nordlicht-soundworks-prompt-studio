@@ -22,7 +22,7 @@ html
 </div>
 </div>
 <div class="top-actions">
-<div class="language-picker"><button class="language-button" id="languageButton">🌐 English</button><div class="language-menu hidden" id="languageMenu"></div></div><span class="version-badge" title="Current version">v1.7.0</span>
+<div class="language-picker"><button class="language-button" id="languageButton">🌐 English</button><div class="language-menu hidden" id="languageMenu"></div></div><span class="version-badge" title="Current version">v1.10.0</span>
 <button data-i18n-full="ui_006" id="openChangelog">📋 Changelog</button>
 <button data-i18n-full="ui_007" id="topSavePreset">💾 Save Preset</button>
 <button data-i18n-full="ui_008" id="topImport">📂 Import</button>
@@ -36,7 +36,7 @@ html
 </div>
 <div class="sidebar-version">
 <b data-i18n-full="ui_010">Prompt Studio</b>
-<span data-i18n-full="ui_011">Version 1.7.0</span>
+<span data-i18n-full="ui_011">Version 1.10.0</span>
 <small data-i18n-full="ui_012">© 2026 Nordlicht Soundworks</small>
 </div>
 <nav id="navigation">
@@ -127,14 +127,16 @@ html
 </div>
 <div class="panel dark-content">
 <div class="check-grid" id="randomOptions"></div>
-<label class="toggle" data-i18n-full="ui_079"><input checked="" id="compatibleRandom" type="checkbox"/>Prefer stylistically compatible combinations</label>
+<div class="random-mode-card"><b>🎛 Randomizer Mode</b><div class="random-mode-options" id="randomModeOptions"><label><input type="radio" name="randomMode" value="intelligent" checked> 🧠 Intelligent</label><label><input type="radio" name="randomMode" value="balanced"> ⚖️ Ausgewogen</label><label><input type="radio" name="randomMode" value="experimental"> 🧪 Experimentell</label></div><div id="experimentControls" class="experiment-controls hidden"><label>Experiment-Level<select id="experimentLevel"><option value="mild">Mild</option><option value="creative" selected>Kreativ</option><option value="wild">Verrückt</option><option value="chaos">Chaos</option></select></label><div class="wildcard-grid"><label><input id="wildInstrument" type="checkbox" checked> Fremde Instrumentenregion</label><label><input id="wildGenre" type="checkbox" checked> Unerwartetes Zweitgenre</label><label><input id="wildVoice" type="checkbox"> Ungewöhnliche Stimme</label><label><input id="wildBpm" type="checkbox"> Unerwartete BPM</label><label><input id="rareInstruments" type="checkbox" checked> Seltene Instrumente bevorzugen</label></div></div></div>
+<label class="toggle legacy-compatible hidden" data-i18n-full="ui_079"><input checked="" id="compatibleRandom" type="checkbox"/>Prefer stylistically compatible combinations</label>
 <label class="toggle" data-i18n-full="ui_080"><input id="allowInstrumentalRandom" type="checkbox"/>Allow instrumental tracks in the randomizer</label>
-<button class="primary huge" data-i18n-full="ui_081" id="mainRandomButton">🎲 RANDOMIZE STYLE</button>
+<div class="random-actions"><button class="primary huge" data-i18n-full="ui_081" id="mainRandomButton">🎲 RANDOMIZE STYLE</button><button class="huge reset-button" id="mainResetButton">↺ RESET</button></div>
 </div>
 </section>
 <section class="view" id="styleView">
 <div class="view-head"><h1 data-i18n-full="ui_082">Music Style &amp; Tempo</h1><p data-i18n-full="ui_083">Defines the musical foundation and language.</p></div>
 <div class="panel dark-content">
+<div class="favorites-toolbar"><label class="toggle compact"><input id="favoriteGenresOnly" type="checkbox"/>⭐ Nur Lieblingsgenres</label><button id="toggleCurrentGenreFavorite" type="button">☆ Aktuelles Genre</button></div>
 <div class="grid four">
 <label data-i18n-full="ui_084">Genre Family<select id="genreFamily"></select></label>
 <label data-i18n-full="ui_085">Subgenre<select id="subgenre"></select></label>
@@ -143,10 +145,68 @@ html
 <label data-i18n-full="ui_088">Song Type<select id="songType"></select></label>
 <label data-i18n-full="ui_089" data-i18n-label="lyrics_language">Lyrics Language<select id="language"></select></label><label data-i18n-full="ui_090" data-i18n-label="export_language">Prompt Export Language<select id="promptExportLanguage"><option data-i18n-full="ui_091" value="en">English (Recommended)</option><option data-i18n-full="ui_092" value="de">German</option><option data-i18n-full="ui_093" value="fr">French</option><option data-i18n-full="ui_094" value="es">Spanish</option><option data-i18n-full="ui_095" value="pt">Portuguese</option><option data-i18n-full="ui_096" value="ja">Japanese</option><option data-i18n-full="ui_097" value="custom">Custom</option></select></label>
 </div>
+<div class="intelligence-panel" id="genreIntelligence"><div class="intelligence-head"><b>🧠 Style Intelligence</b><small>Passende Genres, Songtypen und BPM</small></div><div id="genreSuggestions" class="suggestion-groups"></div></div>
 <div class="bpm-card">
 <div><small data-i18n-full="ui_098">BPM</small><strong id="bpmValue">148</strong></div>
 <div class="bpm-desc"><b data-i18n-full="ui_099" id="tempoLabel">Fast</b><span id="tempoHint"></span></div>
 <input id="bpm" max="240" min="40" type="range" value="148"/>
+</div>
+<div class="phase2-grid">
+  <div class="smart-bpm-panel">
+    <div class="phase2-head"><b>⚡ Smart BPM</b><small id="smartBpmSummary">Genre-based tempo guidance</small></div>
+    <div id="smartBpmChips" class="suggestion-chips"></div>
+    <label class="toggle compact"><input id="autoBpmByGenre" type="checkbox"/>Automatically use the recommended BPM when genre changes</label>
+  </div>
+  <div class="duration-panel duration-panel-prominent">
+    <div class="phase2-head">
+      <div><b>⏱ Song Duration / Songdauer</b><small id="durationSummary">Die Songstruktur passt sich automatisch an die gewählte Länge an.</small></div>
+    </div>
+    <label class="duration-select-label" for="songDuration">Gewünschte Songlänge
+      <select id="songDuration" class="duration-select">
+        <option value="120">Kurz – 2:00</option>
+        <option value="150">Kompakt – 2:30</option>
+        <option value="180" selected>Standard – 3:00</option>
+        <option value="210">Erweitert – 3:30</option>
+        <option value="240">Lang – 4:00</option>
+        <option value="300">Sehr lang – 5:00</option>
+        <option value="360">Episch – 6:00+</option>
+      </select>
+    </label>
+    <p class="duration-help">Beim Ändern werden Verse, Refrains, Bridge, Solo und Outro automatisch neu vorgeschlagen. Die Struktur kann darunter jederzeit manuell angepasst werden.</p>
+    <div id="durationStats" class="duration-stats"></div>
+  </div>
+</div>
+<div class="structure-builder">
+  <div class="phase2-head">
+    <div><b>🧩 Song Structure Builder</b><small>Drag sections to reorder them. Click a section below to add it.</small></div>
+    <div class="structure-actions"><button id="autoStructureButton" type="button">✨ Auto Structure</button><button id="clearStructureButton" type="button">Clear</button></div>
+  </div>
+  <div id="structureTimeline" class="structure-timeline" aria-label="Song structure"></div>
+  <div id="structurePalette" class="structure-palette"></div>
+</div>
+<div class="phase4-grid">
+  <section class="phase4-card quick-presets-card">
+    <div class="phase2-head"><div><b>⚡ Quick Presets</b><small>Komplette, editierbare Startpunkte für häufige Suno-Stile.</small></div></div>
+    <div class="quick-preset-grid" id="quickPresetGrid">
+      <button data-quick-preset="anime">🎌 Anime Opening</button>
+      <button data-quick-preset="viking">🛡 Viking Folk</button>
+      <button data-quick-preset="kpop">✨ Modern K-Pop</button>
+      <button data-quick-preset="metalcore">🔥 Metalcore</button>
+      <button data-quick-preset="cinematic">🎬 Cinematic Trailer</button>
+      <button data-quick-preset="edm">🎛 EDM Festival</button>
+      <button data-quick-preset="synthwave">🌃 Synthwave</button>
+      <button data-quick-preset="lofi">🌙 Lo-Fi Chill</button>
+      <button data-quick-preset="ballad">💔 Emotional Ballad</button>
+      <button data-quick-preset="instrumental">🎼 Instrumental Score</button>
+    </div>
+  </section>
+  <section class="phase4-card optimizer-card">
+    <div class="phase2-head"><div><b>🧹 Prompt Optimizer</b><small>Entfernt Wiederholungen, vereinheitlicht Begriffe und erkennt Widersprüche.</small></div></div>
+    <label>Prompt zum Optimieren<textarea id="optimizerInput" placeholder="Vorhandenen Style-Prompt hier einfügen …"></textarea></label>
+    <div class="optimizer-actions"><button class="primary" id="optimizePromptButton" type="button">✨ OPTIMIEREN</button><button id="useCurrentPromptButton" type="button">Aktuellen STYLE laden</button><button id="applyOptimizedPromptButton" type="button">Als Custom Style übernehmen</button></div>
+    <label>Optimiertes Ergebnis<textarea id="optimizerOutput" readonly></textarea></label>
+    <div class="optimizer-report" id="optimizerReport">Noch kein Prompt analysiert.</div>
+  </section>
 </div>
 </div>
 </section>
@@ -206,6 +266,7 @@ html
 <label data-i18n-full="ui_133">Header Preview<textarea id="namedSingerPreview" readonly=""></textarea></label>
 </div>
 </div>
+<div class="favorites-toolbar"><label class="toggle compact"><input id="favoriteVoicesOnly" type="checkbox"/>⭐ Nur Favoriten</label><small>Stimmeigenschaften mit dem Stern speichern</small></div>
 <label data-i18n-full="ui_134">Search Voice Character<input data-i18n-placeholder="placeholder_004" id="voiceSearch" placeholder="e.g. warm, heroic, robotic"/></label>
 <h3 data-i18n-full="ui_135">Voice Character</h3>
 <div class="chips scroll" id="voiceCharacterList"></div>
@@ -226,9 +287,10 @@ html
 <label data-i18n-full="ui_143">Search<input data-i18n-placeholder="placeholder_005" id="instrumentSearch" placeholder="Koto, Drum, Harp ..."/></label>
 </div>
 <div class="toolbar">
-<span id="instrumentCount"></span>
+<span id="instrumentCount"></span><label class="toggle compact"><input id="favoriteInstrumentsOnly" type="checkbox"/>⭐ Nur Favoriten</label><small id="instrumentEmptyHint" class="instrument-empty-hint" hidden>No instruments match these filters.</small>
 <div><button data-i18n-full="ui_144" id="recommendedInstruments">Recommendations</button><button data-i18n-full="ui_145" id="clearInstruments">Clear selection</button></div>
 </div>
+<div class="intelligence-panel"><div class="intelligence-head"><b>🎻 Passende Instrumente</b><small>Basierend auf dem gewählten Musikstil</small></div><div id="instrumentRecommendations" class="recommendation-chips"></div></div>
 <div class="instrument-grid" id="instrumentLibrary"></div>
 <h3 data-i18n-full="ui_146">Selected Instruments</h3>
 <div class="chips selected" id="selectedInstruments"></div>
@@ -369,23 +431,30 @@ html
 <aside class="rightbar">
 <section class="glass score-card">
 <h2 data-i18n-full="ui_200">COMPATIBILITY SCORE<span title="Zeigt, wie klar und widerspruchsfrei die aktuelle Kombination ist.">ⓘ</span></h2>
-<div class="score"><span id="score">100</span><small>/100</small></div>
-<div class="stars" id="stars">★★★★★</div>
+<div class="score"><span id="score">0</span><small>/100</small></div>
+<div class="stars" id="stars">☆☆☆☆☆</div><strong id="scoreLabel" class="score-label">No selection</strong>
 <p data-i18n-full="ui_201">Evaluates genre, vocals, instruments, story and production.</p>
 <div id="scoreDetails"></div>
+<button class="full score-why-button" id="toggleScoreWhy" type="button">💡 WARUM DIESER SCORE?</button>
+<div class="score-why-panel hidden" id="scoreWhyPanel"></div>
 </section>
 <section class="glass">
 <h2 data-i18n-full="ui_202">SMART RANDOMIZER</h2>
 <div class="random-mirror" id="randomMirror"></div>
+<div class="sidebar-random-mode"><label>Modus<select id="randomModeMirror"><option value="intelligent">🧠 Intelligent</option><option value="balanced">⚖️ Ausgewogen</option><option value="experimental">🧪 Experimentell</option></select></label><label id="experimentLevelMirrorWrap" class="hidden">Level<select id="experimentLevelMirror"><option value="mild">Mild</option><option value="creative" selected>Kreativ</option><option value="wild">Verrückt</option><option value="chaos">Chaos</option></select></label></div><label class="toggle compact legacy-compatible hidden"><input checked id="compatibleRandomMirror" type="checkbox"/>Prefer stylistically compatible combinations</label>
+<label class="toggle compact"><input id="allowInstrumentalRandomMirror" type="checkbox"/>Allow instrumental tracks</label>
 <button class="primary full" data-i18n-full="ui_203" id="rightRandomButton">🎲 RANDOMIZE</button>
+<button class="full reset-button" id="rightResetButton">↺ RESET BUILDER</button>
 </section>
-<section class="glass">
-<h2 data-i18n-full="ui_204">LIVE OUTPUT</h2>
-<label data-i18n-full="ui_205">STYLE<textarea id="styleOutput" readonly=""></textarea></label>
+<section class="glass live-output-card">
+<div class="live-output-head"><h2 data-i18n-full="ui_204">LIVE OUTPUT</h2><span class="live-indicator">● LIVE</span></div>
+<div class="live-output-tabs"><button class="active" data-live-tab="style">STYLE</button><button data-live-tab="metatags">METATAGS</button><button data-live-tab="exclude">EXCLUDE</button></div>
+<div class="live-preview-summary"><span id="liveWordCount">0 Wörter</span><span id="liveCharCount">0 Zeichen</span></div>
+<label class="live-output-panel active" data-live-panel="style" data-i18n-full="ui_205">STYLE<textarea id="styleOutput" readonly=""></textarea></label>
 <div class="quick"><button data-i18n-full="ui_206" id="copyStyle">COPY STYLE</button><button data-i18n-full="ui_207" id="rightSavePreset">SAVE PRESET</button></div>
-<label data-i18n-full="ui_208">EXCLUDE STYLE<textarea id="excludeOutput" readonly=""></textarea></label>
+<label class="live-output-panel" data-live-panel="exclude" data-i18n-full="ui_208">EXCLUDE STYLE<textarea id="excludeOutput" readonly=""></textarea></label>
 <button class="full" data-i18n-full="ui_209" id="copyExclude">COPY EXCLUDE</button>
-<label data-i18n-full="ui_210">METATAGS<textarea id="metaTagsOutput" readonly=""></textarea></label>
+<label class="live-output-panel" data-live-panel="metatags" data-i18n-full="ui_210">METATAGS<textarea id="metaTagsOutput" readonly=""></textarea></label>
 <button class="full" data-i18n-full="ui_211" id="copyMetaTags">COPY METATAGS</button>
 </section>
 </aside>
@@ -405,7 +474,7 @@ html
 <img alt="Nordlicht Soundworks" class="modal-logo" src="logo.svg"/>
 <h2 data-i18n-full="ui_214" id="changelogTitle">Changelog</h2>
 <article class="release-note">
-<div><b data-i18n-full="ui_215">Version 1.7.0</b><span data-i18n-full="ui_216">First public release</span></div>
+<div><b data-i18n-full="ui_215">Version 1.7.0</b><span data-i18n-full="ui_216">Quality & Stability Update</span></div>
 <ul>
 <li data-i18n-full="ui_217">Style Builder with genre, BPM, vocals, instruments and production</li>
 <li data-i18n-full="ui_218">Offline Smart Assistant for free-form song ideas</li>
@@ -428,6 +497,7 @@ html
 <script src="storage.js"></script>
 <script src="clipboard.js"></script>
 <script src="presetManager.js"></script>
+<script src="music_intelligence.js"></script>
 <script src="randomizer.js"></script>
 <script src="i18n.js"></script>
 <script src="lang/en.js"></script>

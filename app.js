@@ -1,4 +1,16 @@
-const SONG_TYPES=["None","Anime Opening","Anime Ending","OST","Trailer","Battle Theme","Boss Fight","Character Theme","Final Battle","Story Song","Festival Anthem","Dark Ballad","Ritual Song"];
+const SONG_TYPES=[
+"None","Standard Song","Single","Album Track","Story Song","Concept Song","Narrative Ballad","Duet","Ensemble Song","A Cappella Song","Instrumental Track",
+"Intro","Outro","Interlude","Prelude","Epilogue","Overture","Theme Song","Main Theme","Reprise",
+"Anime Opening","Anime Ending","Anime Insert Song","Anime Character Theme","Anime Rival Theme","Anime Transformation Theme","Shonen Power-Up Theme","Slice of Life Theme","Emotional Anime Ending",
+"Game Main Menu Theme","Game Battle Theme","Boss Fight","Final Boss Theme","Dungeon Theme","Exploration Theme","Town Theme","Tavern Theme","Victory Theme","Defeat Theme","Stealth Theme","Character Select Theme","Credits Theme","Level Theme","Raid Theme",
+"Film Score Cue","Cinematic Opening","Cinematic Finale","Trailer","Teaser Trailer","Action Trailer","Drama Trailer","Horror Trailer","Love Theme","Suspense Theme","Chase Scene","Montage Theme","End Credits Theme",
+"Festival Anthem","Club Mix","Radio Edit","Extended Mix","VIP Mix","Remix","Dancefloor Anthem","Hardstyle Anthem","Future Bass Anthem","Rave Intro","DJ Tool",
+"Rock Anthem","Metal Anthem","Power Ballad","Breakdown Song","Guitar Showcase","Viking Anthem","War Chant","Battle Theme","Final Battle","Ritual Song","Dark Ballad",
+"Pop Anthem","Summer Hit","Radio Hit","Acoustic Version","Piano Version","Unplugged Version","Live Version","K-Pop Comeback","Idol Pop Single",
+"Stadium Anthem","Football Team Anthem","Goal Celebration","Tournament Song","World Cup Anthem","Victory Celebration",
+"YouTube Intro","YouTube Outro","Background Music","Podcast Intro","Podcast Bed","Stream Starting Theme","Short-Form Hook","Advertisement Jingle",
+"Christmas Song","Winter Theme","Wedding Song","Birthday Song","Lullaby","Meditation Track","Sleep Music","Workout Track"
+]
 const LANGUAGES=["None","Mandarin Chinese lyrics","Spanish lyrics","English lyrics","Hindi lyrics","Portuguese lyrics","Bengali lyrics","Russian lyrics","Japanese lyrics","Western Punjabi lyrics","Marathi lyrics","Telugu lyrics","Wu Chinese lyrics","Turkish lyrics","Korean lyrics","French lyrics","German lyrics","Vietnamese lyrics","Tamil lyrics","Yue Chinese (Cantonese) lyrics","Urdu lyrics","Danish lyrics","Old Danish (Viking Age) lyrics","Norwegian lyrics","Swedish lyrics","Finnish lyrics","Mixed-language lyrics","Latin phrases"];
 const VOICE_FX=["None","Natural","Cinematic Reverb","Ghostly Echoes","Short Delay Throws","Vocoder Texture","Robot Processing","Light Distortion","Wide Harmonizer","Radio Effect"];
 const CHOIRS=["None","SATB Choir","Ancient Choir","Deep Male Choir","Ethereal Female Choir","Layered Viking Chants","Gang Shouts","Children's Choir","Celestial Choir"];
@@ -45,7 +57,7 @@ const EMOTIONS=flatten(STORY_LIBRARY.emotions);
 const SCENES=flatten(STORY_LIBRARY.scenes);
 const ATMOSPHERES=flatten(STORY_LIBRARY.atmospheres);
 const NARRATIVES=flatten(STORY_LIBRARY.narratives);
-const appState={voiceCharacters:[],vocalExtras:[],instruments:[],energyStyles:[],productionExtras:[],excludes:[],metaStructure:[],metaMusic:[],metaVoices:[],metaStyles:[],metaAdlibs:[],metaChoirs:[],presets:[],favorites:[],history:[],activePresetTab:"presets"};
+const appState={structureInitialized:false,voiceCharacters:[],vocalExtras:[],instruments:[],energyStyles:[],productionExtras:[],excludes:[],metaStructure:[],metaMusic:[],metaVoices:[],metaStyles:[],metaAdlibs:[],metaChoirs:[],presets:[],favorites:[],itemFavorites:{genres:[],instruments:[],voices:[]},history:[],activePresetTab:"presets",scoreWhy:[]};
 
 const id=x=>document.getElementById(x),pick=a=>a[Math.floor(Math.random()*a.length)],shuffleArray=a=>[...a].sort(()=>Math.random()-.5),unique=a=>[...new Set(a.filter(Boolean))];
 const escapeHTML=s=>String(s??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll('"',"&quot;");
@@ -53,14 +65,66 @@ function fillSelect(el,items){el.innerHTML=items.map(v=>`<option value="${escape
 function showToast(text){const t=id("toast");t.textContent=text;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1300)}
 function csv(text){return String(text||"").split(",").map(x=>x.trim()).filter(Boolean)}
 function toggleArray(key,value){appState[key]=appState[key].includes(value)?appState[key].filter(x=>x!==value):[...appState[key],value]}
-function renderChips(container,items,key){container.innerHTML=items.map(v=>`<span class="chip ${appState[key].includes(v)?"active":""}" data-v="${escapeHTML(v)}">${escapeHTML(typeof libraryLabel==="function"?libraryLabel(v,key):v)}</span>`).join("");container.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{toggleArray(key,c.dataset.v);renderDynamicLists();generateOutput()})}
+function toggleItemFavorite(type,value){const list=appState.itemFavorites[type]||[];appState.itemFavorites[type]=list.includes(value)?list.filter(x=>x!==value):[...list,value];renderDynamicLists();updateFavoriteGenreButton();persist()}
+function renderChips(container,items,key){const favType=key==="voiceCharacters"?"voices":null;container.innerHTML=items.map(v=>favType?`<span class="chip-with-star"><span class="chip ${appState[key].includes(v)?"active":""}" data-v="${escapeHTML(v)}">${escapeHTML(typeof libraryLabel==="function"?libraryLabel(v,key):v)}</span><button class="chip-favorite ${appState.itemFavorites[favType].includes(v)?"active":""}" data-fav="${escapeHTML(v)}" title="Favorit">★</button></span>`:`<span class="chip ${appState[key].includes(v)?"active":""}" data-v="${escapeHTML(v)}">${escapeHTML(typeof libraryLabel==="function"?libraryLabel(v,key):v)}</span>`).join("");container.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{toggleArray(key,c.dataset.v);renderDynamicLists();generateOutput()});container.querySelectorAll(".chip-favorite").forEach(b=>b.onclick=e=>{e.stopPropagation();toggleItemFavorite(favType,b.dataset.fav)})}
 function renderSelected(container,items,key){container.innerHTML=items.length?items.map(v=>`<span class="chip active" data-v="${escapeHTML(v)}">${escapeHTML(typeof libraryLabel==="function"?libraryLabel(v,key):v)} ×</span>`).join(""):`<small>${fullUiText("dynamic_no_selection")}</small>`;container.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{toggleArray(key,c.dataset.v);renderDynamicLists();generateOutput()})}
 function refreshSubgenres(){fillSelect(id("subgenre"),GENRE_LIBRARY[id("genreFamily").value]||[])}
 function refreshLeadVoices(){const cat=id("leadVoiceCategory").value;if(cat==="None"){fillSelect(id("leadVoice"),["None"]);return}fillSelect(id("leadVoice"),["None",...(LEAD_VOICE_LIBRARY[cat]||[]).filter(x=>x!=="None")])}
-function voiceCharactersFiltered(){const cat=id("voiceCharacterCategory").value,q=id("voiceSearch").value.toLowerCase();const source=cat==="All"?flatten(VOICE_CHARACTER_LIBRARY):VOICE_CHARACTER_LIBRARY[cat]||[];return unique(source).filter(x=>!q||x.toLowerCase().includes(q))}
+function voiceCharactersFiltered(){const cat=id("voiceCharacterCategory").value,q=id("voiceSearch").value.toLowerCase();const source=cat==="All"?flatten(VOICE_CHARACTER_LIBRARY):VOICE_CHARACTER_LIBRARY[cat]||[];return unique(source).filter(x=>(!q||x.toLowerCase().includes(q))&&(!id("favoriteVoicesOnly")?.checked||appState.itemFavorites.voices.includes(x)))}
 function energyFiltered(){const q=id("energySearch").value.toLowerCase();return (ENERGY_LIBRARY[id("energyCategory").value]||[]).filter(x=>!q||x.toLowerCase().includes(q))}
-function instrumentsFiltered(){const r=id("instrumentRegion").value,c=id("instrumentCountry").value,f=id("instrumentFamily").value,q=id("instrumentSearch").value.toLowerCase();return INSTRUMENT_DB.filter(x=>(r==="Alle Regionen"||x.region===r)&&(c==="All Countries"||x.country===c)&&(f==="Alle Familien"||x.family===f)&&(!q||(x.name+" "+x.country+" "+x.family).toLowerCase().includes(q)))}
-function renderInstruments(){const items=instrumentsFiltered();id("instrumentCount").textContent=`${items.length} / ${INSTRUMENT_DB.length}`;id("instrumentLibrary").innerHTML=items.map(x=>`<div class="instrument-card ${appState.instruments.includes(x.name)?"active":""}" data-v="${escapeHTML(x.name)}"><strong>${escapeHTML(typeof libraryLabel==="function"?libraryLabel(x.name,"instrument"):x.name)}</strong><small>${escapeHTML(typeof libraryLabel==="function"?libraryLabel(x.country,"country"):x.country)} · ${escapeHTML(typeof libraryLabel==="function"?libraryLabel(x.family,"family"):x.family)}</small></div>`).join("");id("instrumentLibrary").querySelectorAll(".instrument-card").forEach(c=>c.onclick=()=>{toggleArray("instruments",c.dataset.v);renderDynamicLists();generateOutput()});renderSelected(id("selectedInstruments"),appState.instruments,"instruments")}
+function allInstrumentRegions(){return unique(INSTRUMENT_DB.map(x=>x.region)).sort()}
+function countriesForRegion(region){
+ const source=region==="Alle Regionen"?INSTRUMENT_DB:INSTRUMENT_DB.filter(x=>x.region===region);
+ return unique(source.map(x=>x.country)).sort();
+}
+function familiesForInstrumentFilters(region,country){
+ return unique(INSTRUMENT_DB.filter(x=>(region==="Alle Regionen"||x.region===region)&&(country==="All Countries"||x.country===country)).map(x=>x.family)).sort();
+}
+function refreshInstrumentFilters(changed="region"){
+ const region=id("instrumentRegion").value||"Alle Regionen";
+ const previousCountry=id("instrumentCountry").value||"All Countries";
+ const countries=["All Countries",...countriesForRegion(region)];
+ fillSelect(id("instrumentCountry"),countries);
+ id("instrumentCountry").value=countries.includes(previousCountry)?previousCountry:"All Countries";
+ const previousFamily=id("instrumentFamily").value||"Alle Familien";
+ const families=["Alle Familien",...familiesForInstrumentFilters(region,id("instrumentCountry").value)];
+ fillSelect(id("instrumentFamily"),families);
+ id("instrumentFamily").value=families.includes(previousFamily)?previousFamily:"Alle Familien";
+}
+function instrumentsFiltered(){
+ const r=id("instrumentRegion").value,c=id("instrumentCountry").value,f=id("instrumentFamily").value,q=id("instrumentSearch").value.trim().toLowerCase();
+ return INSTRUMENT_DB.filter(x=>(r==="Alle Regionen"||x.region===r)&&(c==="All Countries"||x.country===c)&&(f==="Alle Familien"||x.family===f)&&(!q||(x.name+" "+x.country+" "+x.region+" "+x.family).toLowerCase().includes(q))&&(!id("favoriteInstrumentsOnly")?.checked||appState.itemFavorites.instruments.includes(x.name)));
+}
+function renderGenreIntelligence(){
+ const host=id("genreSuggestions");if(!host||typeof genreSuggestionsForCurrentStyle!=="function")return;
+ const data=genreSuggestionsForCurrentStyle();
+ const chip=(value,type)=>`<button class="suggestion-chip" data-suggestion-type="${type}" data-value="${escapeHTML(value)}">${escapeHTML(value)}</button>`;
+ host.innerHTML=`
+  <div class="suggestion-group"><strong>Passendes Zweitgenre</strong><div class="suggestion-chips">${data.partners.map(x=>chip(x,"genre")).join("")||"–"}</div></div>
+  <div class="suggestion-group"><strong>Empfohlene Songtypen</strong><div class="suggestion-chips">${data.songTypes.map(x=>chip(x,"song")).join("")||"–"}</div></div>
+  <div class="suggestion-group"><strong>Typischer BPM-Bereich</strong><div class="suggestion-chips"><button class="suggestion-chip" data-suggestion-type="bpm" data-value="${Math.round((data.bpm[0]+data.bpm[1])/2)}">${data.bpm[0]}–${data.bpm[1]} BPM</button></div></div>`;
+ host.querySelectorAll("[data-suggestion-type]").forEach(btn=>btn.onclick=()=>{
+   const type=btn.dataset.suggestionType,value=btn.dataset.value;
+   if(type==="genre")id("secondGenre").value=value;
+   if(type==="song"&&[...id("songType").options].some(o=>o.value===value))id("songType").value=value;
+   if(type==="bpm"){id("bpm").value=value;updateBpmDisplay()}
+   generateOutput();
+ });
+}
+function renderInstrumentRecommendations(){
+ const host=id("instrumentRecommendations");if(!host||typeof recommendedInstrumentsForCurrentStyle!=="function")return;
+ const items=recommendedInstrumentsForCurrentStyle(10);
+ host.innerHTML=items.length?items.map(name=>{const fit=typeof instrumentFitScore==="function"?instrumentFitScore(name,id("genreFamily").value,id("subgenre").value):0;return `<button class="recommendation-chip" data-instrument-rec="${escapeHTML(name)}">+ ${escapeHTML(name)} <span class="fit-badge">${fit}%</span></button>`}).join(""):'<small>Wähle zuerst ein Genre, um passende Instrumente zu erhalten.</small>';
+ host.querySelectorAll("[data-instrument-rec]").forEach(btn=>btn.onclick=()=>{const name=btn.dataset.instrumentRec;if(!appState.instruments.includes(name))appState.instruments.push(name);renderDynamicLists();generateOutput()});
+}
+function renderInstruments(){
+ const items=instrumentsFiltered();
+ id("instrumentCount").textContent=`${items.length} / ${INSTRUMENT_DB.length}`;
+ const hint=id("instrumentEmptyHint");if(hint)hint.hidden=items.length!==0;
+ id("instrumentLibrary").innerHTML=items.map(x=>`<div class="instrument-card ${appState.instruments.includes(x.name)?"active":""}" data-v="${escapeHTML(x.name)}"><button class="favorite-star ${appState.itemFavorites.instruments.includes(x.name)?"active":""}" data-fav-instrument="${escapeHTML(x.name)}" title="Favorit">★</button><strong>${escapeHTML(typeof libraryLabel==="function"?libraryLabel(x.name,"instrument"):x.name)}</strong><small>${escapeHTML(typeof libraryLabel==="function"?libraryLabel(x.country,"country"):x.country)} · ${escapeHTML(typeof libraryLabel==="function"?libraryLabel(x.family,"family"):x.family)}</small></div>`).join("");
+ id("instrumentLibrary").querySelectorAll(".instrument-card").forEach(c=>c.onclick=e=>{if(e.target.closest("[data-fav-instrument]"))return;toggleArray("instruments",c.dataset.v);renderDynamicLists();generateOutput()});id("instrumentLibrary").querySelectorAll("[data-fav-instrument]").forEach(b=>b.onclick=e=>{e.stopPropagation();toggleItemFavorite("instruments",b.dataset.favInstrument)});
+ renderSelected(id("selectedInstruments"),appState.instruments,"instruments");
+}
 
 function ensureBracketTag(value,prefix=""){
  const raw=String(value||"").trim();
@@ -114,8 +178,11 @@ function recommendedMetaTags(){
  if(/gang/.test(ctx))result.choirs.push("Gang Choir");
  if(/viking|nordic/.test(ctx))result.choirs.push("Layered Viking Chants");
 
- if(/festival|anthem|kawaii|anime/.test(ctx))result.adlibs.push("Yeah!","Hey!");
- if(/battle|fight|metal/.test(ctx))result.adlibs.push("Come on!","Fight!");
+ const adlibEligible=currentVocalMode()!=="instrumental"&&!/ambient|orchestral|meditation|sleep|film score|background music/.test(ctx);
+ const adlibRoll=[...ctx].reduce((a,ch)=>(a*31+ch.charCodeAt(0))%1000,17)/1000;
+ if(adlibEligible&&/hip.?hop|rap|r&b|k-pop|idol pop/.test(ctx)&&adlibRoll<0.45)result.adlibs.push(["Yeah!","Uh-huh!","Hey!","Come on!"][Math.floor(adlibRoll*100)%4]);
+ else if(adlibEligible&&/festival|stadium|anthem|anime opening/.test(ctx)&&adlibRoll<0.18)result.adlibs.push(["Hey!","Yeah!","Let's go!"][Math.floor(adlibRoll*100)%3]);
+ else if(adlibEligible&&/battle|fight|metal/.test(ctx)&&adlibRoll<0.08)result.adlibs.push(["Fight!","Come on!"][Math.floor(adlibRoll*100)%2]);
 
  Object.keys(result).forEach(k=>result[k]=unique(result[k]));
  return result;
@@ -221,12 +288,35 @@ function chooseSectionTags(role,data){
  }
  return result.filter(Boolean);
 }
+
+function splitMetaTag(tag){
+ const raw=String(tag||"").trim();
+ const m=raw.match(/^\[([^:\]]+):\s*(.*?)\]$/);
+ if(m)return{prefix:m[1].trim(),values:m[2].split(/\s*,\s*/).filter(Boolean)};
+ return{prefix:null,values:[raw]};
+}
+function normalizeMetaValue(value){return String(value||"").trim().replace(/[.;]+$/g,"")}
+function aggregateSectionTags(tags){
+ const order=[];const groups=new Map();const plain=[];
+ tags.filter(Boolean).forEach(tag=>{
+   const parsed=splitMetaTag(tag);
+   if(!parsed.prefix){if(!plain.includes(tag))plain.push(tag);return}
+   const key=parsed.prefix.toLowerCase();
+   if(!groups.has(key)){groups.set(key,{prefix:parsed.prefix,values:[]});order.push(key)}
+   const group=groups.get(key);
+   parsed.values.map(normalizeMetaValue).filter(Boolean).forEach(value=>{
+     if(!group.values.some(x=>x.toLowerCase()===value.toLowerCase()))group.values.push(value)
+   });
+ });
+ return [...plain,...order.map(key=>{const g=groups.get(key);return `[${g.prefix}: ${g.values.join(", ")}]`})];
+}
+
 function compactSectionLine(section,tags){
  return [section,...tags].filter(Boolean).join(" ");
 }
 function optimizedSectionData(){
  const suggested=id("autoMetaTags")?.checked?recommendedMetaTags():{structure:[],music:[],voices:[],styles:[],adlibs:[],choirs:[]};
- const structure=unique([...appState.metaStructure,...suggested.structure]).map(x=>ensureBracketTag(x));
+ const structure=(appState.metaStructure.length?[...appState.metaStructure]:[...suggested.structure]).map(x=>ensureBracketTag(x));
  const voices=unique([...appState.metaVoices,...suggested.voices]).map(x=>ensureBracketTag(x));
  const styles=unique([...appState.metaStyles,...suggested.styles]).map(x=>ensureBracketTag(x,"Style"));
  const music=unique([...appState.metaMusic,...suggested.music]).map(x=>ensureBracketTag(x,"Music"));
@@ -235,7 +325,7 @@ function optimizedSectionData(){
  return{
    structure:structure.length?structure:["[Intro]","[Verse 1]","[Pre-Chorus]","[Chorus]","[Verse 2]","[Bridge]","[Final Chorus]","[Outro]"],
    voices,styles,music,choirs,
-   adlibTag:adlibs.length?ensureBracketTag(adlibs.slice(0,4).join(", "),"Ad libs"):null
+   adlibTag:adlibs.length?ensureBracketTag(adlibs.slice(0,1).join(", "),"Ad libs"):null
  };
 }
 function classicMetaTagsOutput(data){
@@ -249,7 +339,7 @@ function classicMetaTagsOutput(data){
      else if(i===3)blocks.push(singerSections[2]);
    }
    const role=metaSectionAware()?sectionRole(data.structure[i]):"other";
-   const tags=metaSectionAware()?chooseSectionTags(role,data):chooseSectionTags(i===0?"intro":"other",data);
+   const tags=aggregateSectionTags(metaSectionAware()?chooseSectionTags(role,data):chooseSectionTags(i===0?"intro":"other",data));
    blocks.push(...tags,"");
  }
  return blocks;
@@ -273,6 +363,7 @@ function compactMetaTagsOutput(data,optimized=false){
        used.add(normalized);return true;
      });
    }
+   tags=aggregateSectionTags(tags);
    if(optimized){
      const maxTags=role==="chorus"||role==="final"?4:3;
      tags=tags.slice(0,maxTags);
@@ -308,10 +399,10 @@ function renderMetaSuggestions(){
  const r=recommendedMetaTags();
  const rows=[
   ["Structure",r.structure.map(x=>ensureBracketTag(x))],
-  ["Music",r.music.map(x=>ensureBracketTag(x,"Music"))],
-  ["Voices",r.voices.map(x=>ensureBracketTag(x))],
-  ["Style",r.styles.map(x=>ensureBracketTag(x,"Style"))],
-  ["Ad-libs",r.adlibs.length?[ensureBracketTag(r.adlibs.join(", "),"Ad libs")]:[]],
+  ["Music",aggregateSectionTags(r.music.map(x=>ensureBracketTag(x,"Music")))],
+  ["Voices",aggregateSectionTags(r.voices.map(x=>ensureBracketTag(x)))],
+  ["Style",aggregateSectionTags(r.styles.map(x=>ensureBracketTag(x,"Style")))],
+  ["Ad-libs",r.adlibs.length?[ensureBracketTag(r.adlibs.slice(0,1).join(", "),"Ad libs")]:[]],
   ["Choirs",r.choirs.map(x=>ensureBracketTag(x,"Chorus"))]
  ];
  id("metaSuggestions").innerHTML=rows.map(([name,tags])=>`<div class="meta-suggestion-card"><b>${name}</b><code>${tags.length?tags.map(escapeHTML).join("<br>"):"No automatic recommendation"}</code></div>`).join("");
@@ -326,8 +417,8 @@ function renderMetaTagBuilder(){
  renderMetaSuggestions();
 }
 
-function renderDynamicLists(){renderMetaTagBuilder();renderChips(id("voiceCharacterList"),voiceCharactersFiltered(),"voiceCharacters");renderSelected(id("selectedVoiceCharacters"),appState.voiceCharacters,"voiceCharacters");renderChips(id("vocalExtras"),VOCAL_EXTRAS,"vocalExtras");renderInstruments();renderChips(id("energyList"),energyFiltered(),"energyStyles");renderSelected(id("selectedEnergy"),appState.energyStyles,"energyStyles");renderChips(id("productionExtras"),PRODUCTION_EXTRAS,"productionExtras");renderChips(id("excludeChips"),EXCLUDES,"excludes")}
-function updateBpmDisplay(){const v=+id("bpm").value;id("bpmValue").textContent=v;const info=v<70?["Very slow","Ballad, Ambient"]:v<95?["Slow","Folk, Dark Ambient"]:v<120?["Mid-tempo","Rock, Storytelling"]:v<136?["Dance","EDM, House"]:v<156?["Fast","Anime Opening, Metalcore"]:v<181?["Very fast","Power Metal, DnB"]:["Extreme","Speed Metal"];id("tempoLabel").textContent=info[0];id("tempoHint").textContent=info[1]}
+function renderDynamicLists(){renderMetaTagBuilder();if(id("structureTimeline"))renderStructureBuilder();if(id("durationStats"))updateDurationStats();renderChips(id("voiceCharacterList"),voiceCharactersFiltered(),"voiceCharacters");renderSelected(id("selectedVoiceCharacters"),appState.voiceCharacters,"voiceCharacters");renderChips(id("vocalExtras"),VOCAL_EXTRAS,"vocalExtras");renderInstruments();renderGenreIntelligence();renderInstrumentRecommendations();renderChips(id("energyList"),energyFiltered(),"energyStyles");renderSelected(id("selectedEnergy"),appState.energyStyles,"energyStyles");renderChips(id("productionExtras"),PRODUCTION_EXTRAS,"productionExtras");renderChips(id("excludeChips"),EXCLUDES,"excludes")}
+function updateBpmDisplay(){const v=+id("bpm").value;id("bpmValue").textContent=v;const info=v<70?["Very slow","Ballad, Ambient"]:v<95?["Slow","Folk, Dark Ambient"]:v<120?["Mid-tempo","Rock, Storytelling"]:v<136?["Dance","EDM, House"]:v<156?["Fast","Anime Opening, Metalcore"]:v<181?["Very fast","Power Metal, DnB"]:["Extreme","Speed Metal"];id("tempoLabel").textContent=info[0];id("tempoHint").textContent=info[1];if(id("smartBpmChips"))renderSmartBpm()}
 
 function currentStyleContext(){
  return [
@@ -398,20 +489,16 @@ function theoryValues(){const s=id("subgenre").value;if(/Viking|Nordic/i.test(s)
 function updateTheory(){const t=theoryValues();["theoryKey","theoryScale","theoryMeter","theoryBpm"].forEach((x,i)=>id(x).textContent=t[i])}
 function currentVocalMode(){return document.querySelector('input[name="vocalMode"]:checked')?.value||"vocals"}
 function setVocalMode(mode){
- const target=document.querySelector(`input[name="vocalMode"][value="${mode}"]`);
- if(target)target.checked=true;
- document.querySelectorAll(".mode-option").forEach(label=>{
-   const radio=label.querySelector('input[name="vocalMode"]');
-   label.classList.toggle("active",Boolean(radio?.checked));
- });
+ document.querySelectorAll('input[name="vocalMode"]').forEach(r=>{r.checked=r.value===mode;r.closest(".mode-option")?.classList.toggle("active",r.checked)});
  const instrumental=mode==="instrumental";
  id("vocalControls")?.classList.toggle("disabled",instrumental);
+ const languageLabel=id("language")?.closest("label");languageLabel?.classList.toggle("disabled-control",instrumental);
+ if(id("language"))id("language").disabled=instrumental;
  if(instrumental){
-   if(id("useNamedSingers"))id("useNamedSingers").checked=false;
-   appState.voiceCharacters=[];appState.vocalExtras=[];appState.metaVoices=[];appState.metaChoirs=[];
+   appState.voiceCharacters=[];appState.vocalExtras=[];appState.metaVoices=[];appState.metaAdlibs=[];appState.metaChoirs=[];
+   ["leadVoiceCategory","leadVoice","voicePreset","voiceFx","choir","secondVoice","voiceSeparation"].forEach(k=>{const el=id(k);if(el&&[...el.options].some(o=>o.value==="None"))el.value="None"});
+   if(id("language"))id("language").value="None";
  }
- renderDynamicLists();
- updateNamedSingerPreview?.();
 }
 function instrumentalStyleTags(){return currentVocalMode()==="instrumental"?["Instrumental Only","No Vocals","No Spoken Word","No Choir Vocals"]:[]}
 function instrumentalMetaTags(){
@@ -419,15 +506,122 @@ function instrumentalMetaTags(){
  const selected=appState.instruments.slice(0,3);
  return ["[Instrumental Track]","[No Vocals]",...(selected.length?selected.map(x=>`[Instrumental: ${x}]`):["[Instrumental]"])];
 }
-function generateOutput(){updateTheory();updateRangeLabels();updateNamedSingerPreview();const parts=[id("genreFamily").value,id("subgenre").value,id("secondGenre").value,`genre blend ${id("blend").value}`,`${id("bpm").value} BPM`,id("songType").value,id("language").value,...(currentVocalMode()==="instrumental"?instrumentalStyleTags():[id("leadVoice").value,...appState.voiceCharacters,id("voiceFx").value,id("choir").value,id("secondVoice").value,id("voiceSeparation").value,...appState.vocalExtras]),...appState.instruments,id("world").value,id("emotion").value,id("narrative").value,id("scene").value,id("atmosphere").value,...appState.energyStyles,...energyTagsFromLevel(id("energyLevel").value),...dynamicsTagsFromLevel(id("dynamicLevel").value),id("production").value,id("mix").value,id("dynamics").value,...appState.productionExtras,...(id("includeTheory").checked?theoryValues():[]),...csv(id("customStyle").value)].filter(x=>x&&x!=="None");id("styleOutput").value=unique(parts).join(", ");id("excludeOutput").value=unique([...appState.excludes,...csv(id("customExclude").value)]).join(", ");if(id("metaTagsOutput"))id("metaTagsOutput").value=metaTagsOutput();renderMetaSuggestions();updateScore();persist()}
-function updateScore(){let score=100;if(appState.instruments.length>10)score-=10;if(appState.voiceCharacters.length>9)score-=8;if(appState.energyStyles.length>5)score-=8;if(id("secondVoice").value!=="None"&&id("voiceSeparation").value==="Single lead only")score-=15;if(id("styleOutput").value.length>1000)score-=20;score=Math.max(0,score);id("score").textContent=score;const stars=Math.max(0,Math.min(5,Math.round(score/20)));id("stars").textContent="★★★★★".slice(0,stars)+"☆☆☆☆☆".slice(0,5-stars);const rows=[[tr("score_genre"),score],[tr("score_vocals"),Math.max(0,score-2)],[tr("score_instruments"),Math.max(0,score-4)],[tr("score_story"),Math.max(0,score-3)],[tr("score_production"),Math.max(0,score-1)]];id("scoreDetails").innerHTML=rows.map(([n,v])=>`<div class="score-row"><span>${n}</span><div class="score-bar"><i style="width:${v}%"></i></div><b>${v}</b></div>`).join("")}
+function updateLivePreviewStats(){const active=document.querySelector(".live-output-tabs button.active")?.dataset.liveTab||"style";const map={style:"styleOutput",metatags:"metaTagsOutput",exclude:"excludeOutput"};const text=id(map[active])?.value||"";if(id("liveCharCount"))id("liveCharCount").textContent=`${text.length} Zeichen`;if(id("liveWordCount"))id("liveWordCount").textContent=`${text.trim()?text.trim().split(/\s+/).length:0} Wörter`}
+function updateFavoriteGenreButton(){const b=id("toggleCurrentGenreFavorite");if(!b)return;const g=id("genreFamily")?.value||"None";const active=appState.itemFavorites.genres.includes(g);b.textContent=`${active?"★":"☆"} ${g==="None"?"Aktuelles Genre":g}`;b.classList.toggle("active",active)}
+function generateOutput(){updateTheory();updateRangeLabels();updateNamedSingerPreview();const parts=[id("genreFamily").value,id("subgenre").value,id("secondGenre").value,`genre blend ${id("blend").value}`,`${id("bpm").value} BPM`,id("songType").value,formatSongDuration(),id("language").value,...(currentVocalMode()==="instrumental"?instrumentalStyleTags():[id("leadVoice").value,...appState.voiceCharacters,id("voiceFx").value,id("choir").value,id("secondVoice").value,id("voiceSeparation").value,...appState.vocalExtras]),...appState.instruments,id("world").value,id("emotion").value,id("narrative").value,id("scene").value,id("atmosphere").value,...appState.energyStyles,...energyTagsFromLevel(id("energyLevel").value),...dynamicsTagsFromLevel(id("dynamicLevel").value),id("production").value,id("mix").value,id("dynamics").value,...appState.productionExtras,...(id("includeTheory").checked?theoryValues():[]),...csv(id("customStyle").value)].filter(x=>x&&x!=="None");id("styleOutput").value=optimizePromptItems(parts).join(", ");id("excludeOutput").value=optimizePromptItems([...appState.excludes,...csv(id("customExclude").value)]).join(", ");if(id("metaTagsOutput"))id("metaTagsOutput").value=metaTagsOutput();renderMetaSuggestions();updateScore();updateLivePreviewStats();updateFavoriteGenreButton();persist()}
+function compatibilityContext(){return [id("genreFamily")?.value,id("subgenre")?.value,id("secondGenre")?.value,id("songType")?.value,id("leadVoice")?.value,id("choir")?.value,id("secondVoice")?.value,id("world")?.value,id("emotion")?.value,id("production")?.value,id("mix")?.value,...appState.instruments,...appState.energyStyles,...appState.voiceCharacters].filter(x=>x&&x!=="None").join(" ").toLowerCase()}
+function updateScore(){
+ const ctx=compatibilityContext();
+ const hasSelections=ctx.length>0;
+ const instrumental=currentVocalMode()==="instrumental";
+ const components={genre:hasSelections?78:0,vocals:hasSelections?82:0,instruments:hasSelections?80:0,story:hasSelections?80:0,production:hasSelections?82:0};
+ const reasons=[];
+ if(!hasSelections){renderScore(0,components,"No selection","poor");return}
+ const genre=id("genreFamily")?.value||"None", second=id("secondGenre")?.value||"None";
+ if(genre!=="None")components.genre+=8;
+ if(second!=="None")components.genre+=3;
+ if(typeof genrePairCompatibility==="function"){
+   const pair=genrePairCompatibility(genre,second);
+   components.genre=Math.round((components.genre+pair.score)/2);
+   if(pair.score<70)reasons.push(pair.reason);
+ }
+ if(typeof instrumentFitScore==="function"&&appState.instruments.length){
+   const fits=appState.instruments.map(x=>instrumentFitScore(x,genre,id("subgenre")?.value||""));
+   const avg=Math.round(fits.reduce((a,b)=>a+b,0)/fits.length);
+   components.instruments=Math.round((components.instruments+avg)/2);
+   if(avg<68)reasons.push("Some instruments are unusual for this style");
+ }
+ if(/metal/.test(ctx)&&/lullaby|sleep music|meditation/.test(ctx)){components.genre-=30;reasons.push("Heavy genre conflicts with calm song type")}
+ if(/ambient|meditation|sleep/.test(ctx)&&/blast beat|deathcore|maximum energy/.test(ctx)){components.genre-=28;reasons.push("Energy conflicts with ambient direction")}
+ if(/anime/.test(ctx)&&/opening|ending|character/.test(ctx))components.genre+=7;
+ if(/festival|club|edm|hardstyle/.test(ctx)&&/festival production|huge low-end|wide stereo/.test(ctx))components.production+=10;
+ if(/folk|viking/.test(ctx)&&/tagelharpa|nyckelharpa|jouhikko|frame drum|war horn/.test(ctx))components.instruments+=12;
+ if(/orchestra|cinematic|film score|trailer/.test(ctx)&&/violin|cello|brass|choir|timpani|orchestra/.test(ctx))components.instruments+=10;
+ if(/electronic|edm|synthwave|techno|hardstyle/.test(ctx)&&/synth|808|sub bass|electronic drums/.test(ctx))components.instruments+=9;
+ if(appState.instruments.length===0)components.instruments-=12;
+ if(appState.instruments.length>8){components.instruments-=12;reasons.push("Too many instruments selected")}
+ if(instrumental){
+   components.vocals=95;
+   if(id("language")?.value!=="None")components.vocals-=8;
+ }else{
+   if((id("leadVoice")?.value||"None")==="None")components.vocals-=18;
+   if(id("secondVoice")?.value!=="None"&&id("voiceSeparation")?.value==="Single lead only"){components.vocals-=30;reasons.push("Secondary voice contradicts single-lead separation")}
+   if(id("choir")?.value!=="None"&&/single lead only/i.test(id("voiceSeparation")?.value||"")){components.vocals-=12;reasons.push("Choir conflicts with single-lead mode")}
+ }
+ if(id("world")?.value!=="None"||id("emotion")?.value!=="None")components.story+=6;
+ if(/dark|horror|battle/.test(ctx)&&/cheerful|summer hit|birthday/.test(ctx)){components.story-=18;reasons.push("Story mood and song type clash")}
+ if(id("production")?.value!=="None")components.production+=5;
+ Object.keys(components).forEach(k=>components[k]=Math.max(0,Math.min(100,Math.round(components[k]))));
+ let score=Math.round(components.genre*.28+components.vocals*.20+components.instruments*.22+components.story*.15+components.production*.15);
+ if(id("styleOutput")?.value.length>1200){score-=10;reasons.push("Prompt is overloaded")}
+ score=Math.max(0,Math.min(100,score));
+ const label=score>=92?"Excellent match":score>=80?"Very good":score>=68?"Good":score>=52?"Experimental":"Poor match";
+ const level=score>=92?"excellent":score>=68?"good":score>=52?"experimental":score>=35?"poor":"invalid";
+ const contributions=buildScoreExplanation(components,reasons,score);
+ appState.scoreWhy=contributions;
+ renderScore(score,components,label,level,reasons,contributions);
+}
+function renderScore(score,components,label,level,reasons=[],contributions=[]){
+ id("score").textContent=score;
+ const stars=Math.max(0,Math.min(5,Math.round(score/20)));id("stars").textContent="★★★★★".slice(0,stars)+"☆☆☆☆☆".slice(0,5-stars);
+ if(id("scoreLabel"))id("scoreLabel").textContent=label;
+ const card=id("score")?.closest(".score-card");if(card)card.dataset.level=level;
+ const rows=[[tr("score_genre"),components.genre],[tr("score_vocals"),components.vocals],[tr("score_instruments"),components.instruments],[tr("score_story"),components.story],[tr("score_production"),components.production]];
+ id("scoreDetails").innerHTML=rows.map(([n,v])=>`<div class="score-row"><span>${n}</span><div class="score-bar"><i style="width:${v}%"></i></div><b>${v}</b></div>`).join("")+(reasons.length?`<small class="score-reasons">${escapeHTML(reasons.slice(0,2).join(" · "))}</small>`:"");
+ renderScoreWhy(contributions);
+};
+function resetBuilder(){document.querySelectorAll("select").forEach(el=>{if([...el.options].some(o=>o.value==="None"))el.value="None";else el.selectedIndex=0});document.querySelectorAll('input[type="text"],textarea:not([readonly])').forEach(el=>el.value="");id("blend").value="70/30";id("bpm").value=120;id("energyLevel").value=50;id("dynamicLevel").value=50;id("instrumentRegion").value="Alle Regionen";refreshInstrumentFilters();id("instrumentSearch").value="";["voiceCharacters","vocalExtras","instruments","energyStyles","productionExtras","excludes","metaStructure","metaMusic","metaVoices","metaStyles","metaAdlibs","metaChoirs"].forEach(k=>appState[k]=[]);appState.structureInitialized=false;if(id("songDuration"))id("songDuration").value="180";setVocalMode("vocals");if(id("language"))id("language").value="None";renderDynamicLists();updateBpmDisplay();updateRangeLabels();generateOutput();showToast("Builder reset")}
 function collectFormState(){const values={};document.querySelectorAll("select,input,textarea").forEach(el=>{if(el.id&&!["styleOutput","excludeOutput","presetSearch","voiceSearch","instrumentSearch","energySearch","importFile"].includes(el.id))values[el.id]=el.type==="checkbox"?el.checked:el.value});values.vocalMode=currentVocalMode();return{values,arrays:{voiceCharacters:[...appState.voiceCharacters],vocalExtras:[...appState.vocalExtras],instruments:[...appState.instruments],energyStyles:[...appState.energyStyles],productionExtras:[...appState.productionExtras],excludes:[...appState.excludes],metaStructure:[...appState.metaStructure],metaMusic:[...appState.metaMusic],metaVoices:[...appState.metaVoices],metaStyles:[...appState.metaStyles],metaAdlibs:[...appState.metaAdlibs],metaChoirs:[...appState.metaChoirs]}}}
-function applyFormState(data){const restoredMode=data.values?.vocalMode||"vocals";Object.entries(data.values||{}).forEach(([key,value])=>{if(key==="vocalMode")return;const el=id(key);if(el){if(el.type==="checkbox")el.checked=value;else el.value=value}});Object.assign(appState,data.arrays||{});refreshSubgenres();refreshLeadVoices();setVocalMode(restoredMode);renderDynamicLists();updateBpmDisplay();updateRangeLabels();generateOutput()}
-function persist(){storageSave({form:collectFormState(),presets:appState.presets,favorites:appState.favorites,history:appState.history})}
-function restore(){const saved=storageLoad();appState.presets=saved.presets||[];appState.favorites=saved.favorites||[];appState.history=saved.history||[];if(saved.form)applyFormState(saved.form)}
-function renderRandomOptions(){const defs=[["genre",tr("random_genre"),true],["bpm",tr("random_bpm"),true],["song",tr("random_song"),true],["vocals",tr("random_vocals"),true],["instruments",tr("random_instruments"),true],["world",tr("random_world"),false],["emotion",tr("random_emotion"),false],["story",tr("random_scene"),false],["energy",tr("random_energy"),false],["production",tr("random_production"),true],["exclude",tr("random_exclude"),false]];id("randomOptions").innerHTML=defs.map(([v,l,c])=>`<label><input type="checkbox" value="${v}" ${c?"checked":""}> ${l}</label>`).join("");id("randomMirror").innerHTML=defs.map(([v,l,c])=>`<label><input type="checkbox" data-mirror="${v}" ${c?"checked":""}> ${l}</label>`).join("");document.querySelectorAll("[data-mirror]").forEach(m=>m.onchange=()=>{document.querySelector(`#randomOptions input[value="${m.dataset.mirror}"]`).checked=m.checked});document.querySelectorAll("#randomOptions input").forEach(s=>s.onchange=()=>{const m=document.querySelector(`[data-mirror="${s.value}"]`);if(m)m.checked=s.checked})}
+function applyFormState(data){const restoredMode=data.values?.vocalMode||"vocals";Object.entries(data.values||{}).forEach(([key,value])=>{if(key==="vocalMode")return;const el=id(key);if(el){if(el.type==="checkbox")el.checked=value;else el.value=value}});Object.assign(appState,data.arrays||{});appState.structureInitialized=Array.isArray(data.arrays?.metaStructure);refreshSubgenres();refreshLeadVoices();refreshInstrumentFilters();setVocalMode(restoredMode);renderDynamicLists();updateBpmDisplay();updateRangeLabels();generateOutput()}
+function persist(){storageSave({form:collectFormState(),presets:appState.presets,favorites:appState.favorites,itemFavorites:appState.itemFavorites,history:appState.history})}
+function restore(){const saved=storageLoad();appState.presets=saved.presets||[];appState.favorites=saved.favorites||[];appState.itemFavorites=Object.assign({genres:[],instruments:[],voices:[]},saved.itemFavorites||{});appState.history=saved.history||[];if(saved.form)applyFormState(saved.form)}
+
+function syncRandomizerMode(source){const radios=[...document.querySelectorAll('input[name="randomMode"]')];const mirror=id("randomModeMirror");let mode=source?.value||radios.find(x=>x.checked)?.value||mirror?.value||"intelligent";radios.forEach(x=>x.checked=x.value===mode);if(mirror)mirror.value=mode;const experimental=mode==="experimental";id("experimentControls")?.classList.toggle("hidden",!experimental);id("experimentLevelMirrorWrap")?.classList.toggle("hidden",!experimental);if(id("compatibleRandom"))id("compatibleRandom").checked=mode==="intelligent";if(id("compatibleRandomMirror"))id("compatibleRandomMirror").checked=mode==="intelligent";}
+function bindRandomizerModes(){document.querySelectorAll('input[name="randomMode"]').forEach(x=>x.addEventListener("change",()=>syncRandomizerMode(x)));id("randomModeMirror")?.addEventListener("change",e=>syncRandomizerMode(e.target));id("experimentLevel")?.addEventListener("change",e=>{if(id("experimentLevelMirror"))id("experimentLevelMirror").value=e.target.value});id("experimentLevelMirror")?.addEventListener("change",e=>{if(id("experimentLevel"))id("experimentLevel").value=e.target.value});syncRandomizerMode();}
+function renderRandomOptions(){const defs=[["genre",tr("random_genre"),true],["bpm",tr("random_bpm"),true],["song",tr("random_song"),true],["vocals",tr("random_vocals"),true],["instruments",tr("random_instruments"),true],["world",tr("random_world"),false],["emotion",tr("random_emotion"),false],["story",tr("random_scene"),false],["energy",tr("random_energy"),false],["production",tr("random_production"),true],["exclude",tr("random_exclude"),false]];id("randomOptions").innerHTML=defs.map(([v,l,c])=>`<label><input type="checkbox" value="${v}" ${c?"checked":""}> ${l}</label>`).join("");id("randomMirror").innerHTML=defs.map(([v,l,c])=>`<label><input type="checkbox" data-mirror="${v}" ${c?"checked":""}> ${l}</label>`).join("");document.querySelectorAll("[data-mirror]").forEach(m=>m.onchange=()=>{document.querySelector(`#randomOptions input[value="${m.dataset.mirror}"]`).checked=m.checked});document.querySelectorAll("#randomOptions input").forEach(src=>src.onchange=()=>{const m=document.querySelector(`[data-mirror="${src.value}"]`);if(m)m.checked=src.checked});const c=id("compatibleRandom"),cm=id("compatibleRandomMirror"),a=id("allowInstrumentalRandom"),am=id("allowInstrumentalRandomMirror");if(c&&cm){cm.checked=c.checked;c.onchange=()=>cm.checked=c.checked;cm.onchange=()=>c.checked=cm.checked}if(a&&am){am.checked=a.checked;a.onchange=()=>am.checked=a.checked;am.onchange=()=>a.checked=am.checked}}
 function applyVoicePreset(){const p=VOICE_PRESETS[id("voicePreset").value]||{};if(p.lead){for(const [cat,list] of Object.entries(LEAD_VOICE_LIBRARY))if(list.includes(p.lead)){id("leadVoiceCategory").value=cat;refreshLeadVoices();id("leadVoice").value=p.lead}}appState.voiceCharacters=p.characters||[];id("choir").value=p.choir||"None";id("secondVoice").value=p.second||"None";id("voiceSeparation").value=p.separation||"None";appState.vocalExtras=p.extras||[];renderDynamicLists();generateOutput()}
-function quickPreset(type){if(type==="astravia"){id("language").value="German lyrics";id("world").value=WORLDS.find(x=>/Dark Fantasy/i.test(x))||id("world").value;id("emotion").value=EMOTIONS.find(x=>/^Emotional$/i.test(x))||id("emotion").value;appState.instruments=["Grand Piano","Violin Section","Cello Section","Aggressive Rhythm Guitars","Deep Sub Bass"].filter(x=>INSTRUMENT_DB.some(i=>i.name===x));appState.energyStyles=["Opening Energy","Hero Theme"]}else if(type==="viking"){id("world").value=WORLDS.find(x=>/^Viking$/i.test(x))||id("world").value;appState.instruments=["Tagelharpa","Nyckelharpa","Viking War Horns","Nordic Frame Drums","Hard Bass"].filter(x=>INSTRUMENT_DB.some(i=>i.name===x));appState.energyStyles=["Viking Charge","Epic Crescendo"]}else{id("world").value=WORLDS.find(x=>/Cyberpunk/i.test(x))||id("world").value;appState.instruments=["Analog Synthesizer","FM Synthesizer","Industrial Percussion","Distorted Synth Bass"].filter(x=>INSTRUMENT_DB.some(i=>i.name===x));appState.energyStyles=["Festival Energy","Maximum Energy"]}renderDynamicLists();generateOutput();showToast("Quick preset loaded")}
+function setSelectValue(key,value){const el=id(key);if(!el)return false;const option=[...el.options].find(o=>o.value===value||o.textContent===value);if(option){el.value=option.value;return true}return false}
+function findGenre(pattern){return Object.keys(GENRE_LIBRARY).find(x=>pattern.test(x))||"None"}
+function validInstruments(names){return names.filter(name=>INSTRUMENT_DB.some(x=>x.name===name))}
+const QUICK_PRESETS={
+ anime:{genre:/anime/i,sub:/j-rock|anime rock|j-pop/i,song:"Anime Opening",bpm:168,world:/fantasy|anime/i,emotion:/emotional|hopeful/i,instruments:["Electric Guitar","Grand Piano","Violin Section","Taiko Drums","Hybrid Electronic Drums"],energy:["Opening Energy","Emotional Lift","Huge Cinematic Finale"],production:/cinematic|modern/i,voice:"Female Lead Voice",structure:["Intro","Verse 1","Pre-Chorus","Chorus","Verse 2","Bridge","Final Chorus","Outro"]},
+ viking:{genre:/folk|world/i,sub:/viking|nordic|pagan/i,song:"Viking Anthem",bpm:112,world:/viking|nordic/i,emotion:/heroic|epic|triumphant/i,instruments:["Tagelharpa","Nyckelharpa","Viking War Horns","Nordic Frame Drums","Hardanger Fiddle"],energy:["Viking Charge","Epic Crescendo"],production:/cinematic|live/i,voice:"Male Lead Voice"},
+ kpop:{genre:/pop/i,sub:/k-pop/i,song:"K-Pop Single",bpm:124,world:/modern|city|neon/i,emotion:/confident|energetic|joyful/i,instruments:["Analog Synthesizer","Deep Sub Bass","Hybrid Electronic Drums","Electric Guitar"],energy:["Festival Energy","Dance Energy","Emotional Lift"],production:/radio|modern|polished/i,voice:"Female Lead Voice"},
+ metalcore:{genre:/metal/i,sub:/metalcore/i,song:"Breakdown Song",bpm:158,world:/dark|battle|apocalypse/i,emotion:/angry|aggressive|determined/i,instruments:["Aggressive Rhythm Guitars","Electric Bass Guitar","Hybrid Electronic Drums","Deep Sub Bass"],energy:["Maximum Energy","Breakdown Impact","Huge Cinematic Finale"],production:/modern|heavy|wide/i,voice:"Male Lead Voice"},
+ cinematic:{genre:/cinematic|soundtrack/i,sub:/trailer|epic/i,song:"Trailer",bpm:132,world:/fantasy|battle|myth/i,emotion:/epic|heroic|triumphant/i,instruments:["Full Cinematic Orchestra","French Horns","Timpani","Violin Section","Deep Sub Bass"],energy:["Cinematic Sweep","Monumental","Epic Crescendo"],production:/trailer|cinematic|aaa/i,voice:"Female Lead Voice"},
+ edm:{genre:/electronic|edm/i,sub:/festival|progressive|big room/i,song:"Festival Anthem",bpm:128,world:/festival|future|neon/i,emotion:/euphoric|energetic|triumphant/i,instruments:["Supersaw Synth","Deep Sub Bass","Hybrid Electronic Drums","Analog Synthesizer"],energy:["Festival Energy","Massive Bass Drops","Maximum Energy"],production:/festival|club|wide/i,voice:"Female Lead Voice"},
+ synthwave:{genre:/electronic|edm/i,sub:/synthwave|retrowave/i,song:"Synthwave Track",bpm:108,world:/cyberpunk|neon|retro/i,emotion:/mysterious|nostalgic|dark/i,instruments:["Analog Synthesizer","FM Synthesizer","Distorted Synth Bass","Hybrid Electronic Drums"],energy:["Neon Drive","Gradual Build"],production:/retro|wide|cinematic/i,voice:"Male Lead Voice"},
+ lofi:{genre:/ambient|chill/i,sub:/lo-fi|chillhop/i,song:"Lo-Fi Beat",bpm:78,world:/urban|night|rain/i,emotion:/calm|relaxed|melancholic/i,instruments:["Upright Piano","Atmospheric Synth Pad","Electric Bass Guitar","Hybrid Electronic Drums"],energy:["Calm","Gentle","Relaxed"],production:/warm|lo-fi|intimate/i,voice:"None"},
+ ballad:{genre:/ballad|emotional|pop/i,sub:/piano|power ballad/i,song:"Piano Ballad",bpm:74,world:/romance|modern|memory/i,emotion:/emotional|melancholic|sad/i,instruments:["Grand Piano","Violin Section","Cello Section"],energy:["Gradual Build","Emotional Lift","Controlled Contrast"],production:/intimate|cinematic|warm/i,voice:"Female Lead Voice"},
+ instrumental:{genre:/cinematic|classical/i,sub:/orchestral|score/i,song:"Film Score Cue",bpm:96,world:/fantasy|cinematic|myth/i,emotion:/epic|mysterious|emotional/i,instruments:["Full Cinematic Orchestra","Grand Piano","Violin Section","Cello Section","Timpani"],energy:["Cinematic Sweep","Gradual Build","Huge Cinematic Finale"],production:/aaa|cinematic|soundtrack/i,instrumental:true}
+};
+function quickPreset(type){
+ const p=QUICK_PRESETS[type];if(!p)return;
+ const genre=findGenre(p.genre);setSelectValue("genreFamily",genre);refreshSubgenres();
+ if(p.sub){const sub=[...id("subgenre").options].find(o=>p.sub.test(o.value));if(sub)id("subgenre").value=sub.value}
+ setSelectValue("songType",p.song);id("bpm").value=p.bpm;
+ const pick=(key,list,pattern)=>{const found=list.find(x=>pattern?.test(x));if(found)setSelectValue(key,found)};
+ pick("world",WORLDS,p.world);pick("emotion",EMOTIONS,p.emotion);pick("production",PRODUCTIONS,p.production);
+ appState.instruments=validInstruments(p.instruments||[]);appState.energyStyles=(p.energy||[]).filter(x=>Object.values(ENERGY_LIBRARY).flat().includes(x));
+ if(p.instrumental){setVocalMode("instrumental");if(id("language"))id("language").value="None"}else{setVocalMode("vocals");if(p.voice){for(const [cat,list] of Object.entries(LEAD_VOICE_LIBRARY)){if(list.includes(p.voice)){id("leadVoiceCategory").value=cat;refreshLeadVoices();setSelectValue("leadVoice",p.voice);break}}}}
+ if(p.structure){appState.metaStructure=[...p.structure];appState.structureInitialized=true}else{appState.structureInitialized=false;appState.metaStructure=[]}
+ renderDynamicLists();phase2Refresh();updateBpmDisplay();generateOutput();showToast("Quick preset loaded")
+}
+const PROMPT_CANONICAL=[
+ {key:"epic",rx:/^(epic|very epic|highly epic)$/i},{key:"powerful",rx:/^(powerful|strong|forceful)$/i},{key:"cinematic",rx:/^(cinematic|film-like|movie-like)$/i},
+ {key:"dark",rx:/^(dark|darkness|shadowy)$/i},{key:"emotional",rx:/^(emotional|emotionally charged)$/i},{key:"female lead voice",rx:/^(female vocal|female vocals|female lead|female lead voice)$/i},
+ {key:"male lead voice",rx:/^(male vocal|male vocals|male lead|male lead voice)$/i},{key:"instrumental only",rx:/^(instrumental|pure instrumental|instrumental only)$/i},
+ {key:"deep sub bass",rx:/^(sub bass|deep bass|deep sub bass)$/i},{key:"wide stereo",rx:/^(wide mix|wide stereo|stereo wide)$/i}
+];
+function normalizePromptToken(raw){let t=String(raw||"").trim().replace(/\s+/g," ").replace(/^[,;]+|[,;]+$/g,"");if(!t||/^none$/i.test(t))return"";const c=PROMPT_CANONICAL.find(x=>x.rx.test(t));return c?c.key.replace(/\b\w/g,m=>m.toUpperCase()):t}
+function optimizePromptItems(items){const out=[],seen=new Set();for(const item of items){const t=normalizePromptToken(item);if(!t)continue;const key=t.toLocaleLowerCase();if(seen.has(key))continue;seen.add(key);out.push(t)}return out}
+function detectPromptConflicts(items){const text=items.join(" ").toLowerCase(),conflicts=[];if(/instrumental/.test(text)&&/(female|male|vocal|choir|spoken)/.test(text))conflicts.push("Instrumental widerspricht Vocal-/Chor-Angaben");if(/single lead/.test(text)&&/(duet|secondary voice|choir)/.test(text))conflicts.push("Single Lead widerspricht Duett, Zweitstimme oder Chor");if(/sleep|meditation|lullaby/.test(text)&&/maximum energy|blast beat|deathcore|festival hardstyle/.test(text))conflicts.push("Ruhiger Songtyp widerspricht extremer Energie");if(/acoustic only/.test(text)&&/synth|electronic|808/.test(text))conflicts.push("Acoustic Only widerspricht elektronischen Instrumenten");return conflicts}
+function parsePromptText(text){return String(text||"").replace(/\[[^:\]]+:\s*/g,"").replace(/[\[\]]/g,"").split(/[,;\n]+/).map(x=>x.trim()).filter(Boolean)}
+function optimizePromptText(text){const raw=parsePromptText(text),optimized=optimizePromptItems(raw),conflicts=detectPromptConflicts(optimized);return{raw,optimized,conflicts,text:optimized.join(", "),removed:Math.max(0,raw.length-optimized.length)}}
+function runPromptOptimizer(){const r=optimizePromptText(id("optimizerInput").value);id("optimizerOutput").value=r.text;const conflictHtml=r.conflicts.length?`<br><strong>Widersprüche:</strong> ${r.conflicts.map(escapeHTML).join(" · ")}`:"<br><strong>Widersprüche:</strong> keine erkannt";id("optimizerReport").innerHTML=`<strong>${r.optimized.length}</strong> eindeutige Begriffe · <strong>${r.removed}</strong> Wiederholungen/Leerwerte entfernt${conflictHtml}`}
+function buildScoreExplanation(c,reasons,score){const rows=[{value:Math.round(c.genre*.28),text:`Genre & Stil (${c.genre}/100, Gewicht 28 %)`},{value:Math.round(c.vocals*.20),text:`Vocals/Instrumental (${c.vocals}/100, Gewicht 20 %)`},{value:Math.round(c.instruments*.22),text:`Instrumente (${c.instruments}/100, Gewicht 22 %)`},{value:Math.round(c.story*.15),text:`Story & Stimmung (${c.story}/100, Gewicht 15 %)`},{value:Math.round(c.production*.15),text:`Produktion (${c.production}/100, Gewicht 15 %)`}];reasons.forEach(x=>rows.push({value:-5,text:x}));rows.push({value:score,text:`Gesamtergebnis: ${score}/100`,neutral:true});return rows}
+function renderScoreWhy(items=appState.scoreWhy||[]){const host=id("scoreWhyPanel");if(!host)return;host.innerHTML=items.length?items.map(x=>`<div class="score-why-item"><b class="${x.neutral?"neutral":x.value<0?"negative":"positive"}">${x.neutral?"=":x.value<0?"": "+"}${x.value}</b><span>${escapeHTML(x.text)}</span></div>`).join(""):"<small>Wähle zuerst Einstellungen aus.</small>"}
+
 
 const ASSISTANT_RULES={
  keywords:{
@@ -756,8 +950,55 @@ function applyAssistantResult(forceAll=false,metaOnly=false){
  renderDynamicLists();updateBpmDisplay();updateRangeLabels();generateOutput();showToast("Assistant suggestions applied");
 }
 
+
+const STRUCTURE_SECTIONS=["Intro","Verse 1","Pre-Chorus","Chorus","Verse 2","Post-Chorus","Bridge","Instrumental Break","Solo","Breakdown","Final Chorus","Outro"];
+function formatSongDuration(){const seconds=+(id("songDuration")?.value||180);return `approx. ${Math.floor(seconds/60)}:${String(seconds%60).padStart(2,"0")} song duration`}
+function smartBpmCandidates(){
+ const genre=id("genreFamily")?.value||"";const sub=id("subgenre")?.value||"";
+ let range=typeof musicProfile==="function"?musicProfile(genre,sub).bpm:null;
+ if(!range||!Array.isArray(range)||range.length<2){const v=+id("bpm").value;range=[Math.max(40,v-18),Math.min(240,v+18)]}
+ const [lo,hi]=range.map(Number);const mid=Math.round((lo+hi)/2);
+ return unique([lo,Math.round((lo*2+hi)/3),mid,Math.round((lo+hi*2)/3),hi].map(x=>Math.max(40,Math.min(240,Math.round(x)))));
+}
+function renderSmartBpm(){
+ const host=id("smartBpmChips");if(!host)return;const current=+id("bpm").value;const values=smartBpmCandidates();const mid=values[Math.floor(values.length/2)];
+ host.innerHTML=values.map(v=>`<button type="button" class="smart-bpm-chip ${v===mid?"recommended":""}" data-smart-bpm="${v}">${v}<small>${v===mid?"recommended":""}</small></button>`).join("");
+ host.querySelectorAll("[data-smart-bpm]").forEach(btn=>btn.onclick=()=>{id("bpm").value=btn.dataset.smartBpm;updateBpmDisplay();renderSmartBpm();generateOutput()});
+ const summary=id("smartBpmSummary");if(summary)summary.textContent=`Typical range: ${values[0]}–${values.at(-1)} BPM · current ${current}`;
+}
+function recommendedStructure(){
+ const seconds=+(id("songDuration")?.value||180);const type=(id("songType")?.value||"").toLowerCase();const genre=(id("genreFamily")?.value||"").toLowerCase();
+ if(/intro|bumper|jingle|logo/.test(type))return ["Intro","Chorus","Outro"];
+ if(/ambient|meditation|background|soundscape/.test(type)||/ambient/.test(genre))return ["Intro","Verse 1","Instrumental Break","Verse 2","Outro"];
+ if(seconds<=130)return ["Intro","Verse 1","Pre-Chorus","Chorus","Verse 2","Final Chorus","Outro"];
+ if(seconds<=190)return ["Intro","Verse 1","Pre-Chorus","Chorus","Verse 2","Pre-Chorus","Chorus","Bridge","Final Chorus","Outro"];
+ if(seconds<=250)return ["Intro","Verse 1","Pre-Chorus","Chorus","Verse 2","Pre-Chorus","Chorus","Instrumental Break","Bridge","Final Chorus","Outro"];
+ return ["Intro","Verse 1","Pre-Chorus","Chorus","Verse 2","Pre-Chorus","Chorus","Instrumental Break","Verse 3","Bridge","Solo","Final Chorus","Outro"];
+}
+function renderStructureBuilder(){
+ const host=id("structureTimeline"),palette=id("structurePalette");if(!host||!palette)return;
+ if(!appState.structureInitialized&&appState.metaStructure.length===0){appState.metaStructure=[...recommendedStructure()];appState.structureInitialized=true}
+ const structure=appState.metaStructure;
+ host.innerHTML=structure.map((name,i)=>`<div class="structure-item" draggable="true" data-structure-index="${i}"><span>☷</span><b>${escapeHTML(name)}</b><button class="structure-remove" type="button" aria-label="Remove">×</button></div>`).join("");
+ host.querySelectorAll(".structure-remove").forEach((btn,i)=>btn.onclick=()=>{appState.structureInitialized=true;appState.metaStructure.splice(i,1);renderStructureBuilder();renderMetaTagBuilder();generateOutput()});
+ let from=null;host.querySelectorAll(".structure-item").forEach(item=>{
+   item.ondragstart=()=>{from=+item.dataset.structureIndex;item.classList.add("dragging")};item.ondragend=()=>item.classList.remove("dragging");
+   item.ondragover=e=>{e.preventDefault();item.classList.add("drag-over")};item.ondragleave=()=>item.classList.remove("drag-over");
+   item.ondrop=e=>{e.preventDefault();item.classList.remove("drag-over");const to=+item.dataset.structureIndex;if(from===null||from===to)return;const [moved]=appState.structureInitialized=true;appState.metaStructure.splice(from,1);appState.metaStructure.splice(to,0,moved);renderStructureBuilder();renderMetaTagBuilder();generateOutput()};
+ });
+ palette.innerHTML=STRUCTURE_SECTIONS.map(name=>`<button type="button" data-add-section="${escapeHTML(name)}">+ ${escapeHTML(name)}</button>`).join("");
+ palette.querySelectorAll("[data-add-section]").forEach(btn=>btn.onclick=()=>{appState.structureInitialized=true;appState.metaStructure.push(btn.dataset.addSection);renderStructureBuilder();renderMetaTagBuilder();generateOutput()});
+}
+function updateDurationStats(){
+ const host=id("durationStats");if(!host)return;const seconds=+(id("songDuration")?.value||180);const structure=appState.metaStructure.length?appState.metaStructure:recommendedStructure();
+ const verses=structure.filter(x=>/^Verse/i.test(x)).length;const choruses=structure.filter(x=>/Chorus/i.test(x)).length;
+ host.innerHTML=`<div class="duration-stat"><b>${Math.floor(seconds/60)}:${String(seconds%60).padStart(2,"0")}</b><small>target length</small></div><div class="duration-stat"><b>${verses}</b><small>verse sections</small></div><div class="duration-stat"><b>${choruses}</b><small>chorus sections</small></div>`;
+}
+function applyAutoStructure(){appState.structureInitialized=true;appState.metaStructure=recommendedStructure();renderStructureBuilder();renderMetaTagBuilder();updateDurationStats();generateOutput();showToast("Song structure updated")}
+function phase2Refresh(){renderSmartBpm();renderStructureBuilder();updateDurationStats()}
+
 function initSelects(){fillSelect(id("genreFamily"),Object.keys(GENRE_LIBRARY));refreshSubgenres();fillSelect(id("secondGenre"),["None",...Object.keys(GENRE_LIBRARY)]);fillSelect(id("songType"),SONG_TYPES);fillSelect(id("language"),LANGUAGES);fillSelect(id("voicePreset"),["None",...Object.keys(VOICE_PRESETS).filter(x=>x!=="None")]);fillSelect(id("leadVoiceCategory"),["None",...Object.keys(LEAD_VOICE_LIBRARY).filter(x=>x!=="None")]);refreshLeadVoices();fillSelect(id("voiceFx"),VOICE_FX);fillSelect(id("choir"),CHOIRS);fillSelect(id("secondVoice"),SECOND_VOICES);fillSelect(id("voiceSeparation"),SEPARATIONS);fillSelect(id("voiceCharacterCategory"),["All",...Object.keys(VOICE_CHARACTER_LIBRARY)]);fillSelect(id("singerOneVoice"),["Male Vocal","Female Vocal","Deep Male Vocal Spoken","Female Vocal Spoken","Operatic Lead","Whispered Vocal"]);
-fillSelect(id("singerTwoVoice"),["Female Vocal","Male Vocal","Deep Male Vocal Spoken","Female Vocal Spoken","Operatic Lead","Whispered Vocal"]);fillSelect(id("instrumentRegion"),["Alle Regionen",...unique(INSTRUMENT_DB.map(x=>x.region)).sort()]);fillSelect(id("instrumentCountry"),["All Countries",...unique(INSTRUMENT_DB.map(x=>x.country)).sort()]);fillSelect(id("instrumentFamily"),["Alle Familien",...unique(INSTRUMENT_DB.map(x=>x.family)).sort()]);fillSelect(id("world"),WORLDS);fillSelect(id("emotion"),EMOTIONS);fillSelect(id("narrative"),["None",...NARRATIVES]);fillSelect(id("scene"),["None",...SCENES]);fillSelect(id("atmosphere"),["None",...ATMOSPHERES]);fillSelect(id("energyCategory"),Object.keys(ENERGY_LIBRARY));fillSelect(id("production"),PRODUCTIONS);fillSelect(id("mix"),MIXES);fillSelect(id("dynamics"),DYNAMICS)}
+fillSelect(id("singerTwoVoice"),["Female Vocal","Male Vocal","Deep Male Vocal Spoken","Female Vocal Spoken","Operatic Lead","Whispered Vocal"]);fillSelect(id("instrumentRegion"),["Alle Regionen",...allInstrumentRegions()]);fillSelect(id("instrumentCountry"),["All Countries"]);fillSelect(id("instrumentFamily"),["Alle Familien"]);refreshInstrumentFilters();fillSelect(id("world"),WORLDS);fillSelect(id("emotion"),EMOTIONS);fillSelect(id("narrative"),["None",...NARRATIVES]);fillSelect(id("scene"),["None",...SCENES]);fillSelect(id("atmosphere"),["None",...ATMOSPHERES]);fillSelect(id("energyCategory"),Object.keys(ENERGY_LIBRARY));fillSelect(id("production"),PRODUCTIONS);fillSelect(id("mix"),MIXES);fillSelect(id("dynamics"),DYNAMICS)}
 function wire(){buildLanguageMenu();const languageButton=id("languageButton"),languageMenu=id("languageMenu");languageButton.onclick=()=>languageMenu.classList.toggle("hidden");document.addEventListener("click",e=>{if(!e.target.closest(".language-picker"))languageMenu.classList.add("hidden")});
  const changelog=id("changelogModal");
  id("openChangelog").onclick=()=>changelog.classList.remove("hidden");
@@ -780,14 +1021,20 @@ function wire(){buildLanguageMenu();const languageButton=id("languageButton"),la
    el.addEventListener(eventName,()=>{updateNamedSingerPreview();generateOutput()});
  }
 });
-id("voiceCharacterCategory").onchange=renderDynamicLists;id("voiceSearch").oninput=renderDynamicLists;["instrumentRegion","instrumentCountry","instrumentFamily"].forEach(x=>id(x).onchange=renderDynamicLists);id("instrumentSearch").oninput=renderDynamicLists;id("recommendedInstruments").onclick=()=>{appState.instruments=shuffleArray(INSTRUMENT_DB).slice(0,6).map(x=>x.name);renderDynamicLists();generateOutput()};id("clearInstruments").onclick=()=>{appState.instruments=[];renderDynamicLists();generateOutput()};id("energyCategory").onchange=renderDynamicLists;id("energySearch").oninput=renderDynamicLists;id("bpm").oninput=()=>{updateBpmDisplay();generateOutput()};id("energyLevel").oninput=()=>{updateRangeLabels();generateOutput()};id("dynamicLevel").oninput=()=>{updateRangeLabels();generateOutput()};document.querySelectorAll("select,textarea,input").forEach(el=>{if(!el.onchange&&el.type!=="range")el.addEventListener("change",generateOutput);if(el.tagName==="TEXTAREA")el.addEventListener("input",generateOutput)});id("mainRandomButton").onclick=runSmartRandom;id("rightRandomButton").onclick=runSmartRandom;id("copyStyle").onclick=()=>copyField("styleOutput");id("copyExclude").onclick=()=>copyField("excludeOutput");id("copyMetaTags").onclick=()=>copyField("metaTagsOutput");id("refreshMetaSuggestions").onclick=()=>{renderMetaSuggestions();generateOutput();showToast("MetaTag suggestions refreshed")};
+id("genreFamily").addEventListener("change",()=>{renderGenreIntelligence();renderInstrumentRecommendations()});id("subgenre").addEventListener("change",()=>{renderGenreIntelligence();renderInstrumentRecommendations()});id("secondGenre").addEventListener("change",renderGenreIntelligence);id("voiceCharacterCategory").onchange=renderDynamicLists;id("voiceSearch").oninput=renderDynamicLists;id("instrumentRegion").onchange=()=>{refreshInstrumentFilters("region");renderDynamicLists();generateOutput()};id("instrumentCountry").onchange=()=>{refreshInstrumentFilters("country");renderDynamicLists();generateOutput()};id("instrumentFamily").onchange=()=>{renderDynamicLists();generateOutput()};id("instrumentSearch").oninput=renderDynamicLists;id("recommendedInstruments").onclick=()=>{const recs=typeof recommendedInstrumentsForCurrentStyle==="function"?recommendedInstrumentsForCurrentStyle(6):shuffleArray(INSTRUMENT_DB).slice(0,6).map(x=>x.name);appState.instruments=unique([...appState.instruments,...recs]);renderDynamicLists();generateOutput();showToast("Style-based instruments added")};id("clearInstruments").onclick=()=>{appState.instruments=[];renderDynamicLists();generateOutput()};id("energyCategory").onchange=renderDynamicLists;id("energySearch").oninput=renderDynamicLists;id("favoriteVoicesOnly").onchange=renderDynamicLists;id("favoriteInstrumentsOnly").onchange=renderDynamicLists;id("favoriteGenresOnly").onchange=()=>{const fav=appState.itemFavorites.genres;if(id("favoriteGenresOnly").checked&&fav.length){fillSelect(id("genreFamily"),fav);if(!fav.includes(id("genreFamily").value))id("genreFamily").value=fav[0]}else fillSelect(id("genreFamily"),Object.keys(GENRE_LIBRARY));refreshSubgenres();renderDynamicLists();generateOutput()};id("toggleCurrentGenreFavorite").onclick=()=>{const g=id("genreFamily").value;if(g&&g!=="None")toggleItemFavorite("genres",g)};document.querySelectorAll("[data-live-tab]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-live-tab]").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll("[data-live-panel]").forEach(x=>x.classList.toggle("active",x.dataset.livePanel===b.dataset.liveTab));updateLivePreviewStats()});document.querySelectorAll("[data-quick-preset]").forEach(b=>b.onclick=()=>quickPreset(b.dataset.quickPreset));id("useCurrentPromptButton").onclick=()=>{id("optimizerInput").value=id("styleOutput").value;runPromptOptimizer()};id("optimizePromptButton").onclick=runPromptOptimizer;id("applyOptimizedPromptButton").onclick=()=>{const value=id("optimizerOutput").value;if(!value)return showToast("Zuerst einen Prompt optimieren");id("customStyle").value=value;generateOutput();showToast("Optimierter Prompt übernommen")};id("toggleScoreWhy").onclick=()=>{id("scoreWhyPanel").classList.toggle("hidden");id("toggleScoreWhy").textContent=id("scoreWhyPanel").classList.contains("hidden")?"💡 WARUM DIESER SCORE?":"✕ ERKLÄRUNG SCHLIESSEN"};id("bpm").oninput=()=>{updateBpmDisplay();generateOutput()};id("energyLevel").oninput=()=>{updateRangeLabels();generateOutput()};id("dynamicLevel").oninput=()=>{updateRangeLabels();generateOutput()};document.querySelectorAll("select,textarea,input").forEach(el=>{if(!el.onchange&&el.type!=="range")el.addEventListener("change",generateOutput);if(el.tagName==="TEXTAREA")el.addEventListener("input",generateOutput)});id("mainRandomButton").onclick=runSmartRandom;id("rightRandomButton").onclick=runSmartRandom;id("mainResetButton").onclick=resetBuilder;id("rightResetButton").onclick=resetBuilder;id("copyStyle").onclick=()=>copyField("styleOutput");id("copyExclude").onclick=()=>copyField("excludeOutput");id("copyMetaTags").onclick=()=>copyField("metaTagsOutput");id("refreshMetaSuggestions").onclick=()=>{renderMetaSuggestions();generateOutput();showToast("MetaTag suggestions refreshed")};
+ id("songDuration").onchange=()=>{applyAutoStructure();updateDurationStats()};
+ id("autoStructureButton").onclick=applyAutoStructure;
+ id("clearStructureButton").onclick=()=>{appState.structureInitialized=true;appState.metaStructure=[];renderStructureBuilder();renderMetaTagBuilder();updateDurationStats();generateOutput()};
+ id("autoBpmByGenre").onchange=()=>{if(id("autoBpmByGenre").checked){const c=smartBpmCandidates();id("bpm").value=c[Math.floor(c.length/2)];updateBpmDisplay();generateOutput()}};
+ id("genreFamily").addEventListener("change",()=>{if(id("autoBpmByGenre")?.checked){const c=smartBpmCandidates();id("bpm").value=c[Math.floor(c.length/2)];updateBpmDisplay()}phase2Refresh()});
+ id("subgenre").addEventListener("change",()=>{if(id("autoBpmByGenre")?.checked){const c=smartBpmCandidates();id("bpm").value=c[Math.floor(c.length/2)];updateBpmDisplay()}phase2Refresh()});
  id("metaTagFormat").onchange=()=>{updateMetaFormatExample();generateOutput()};
  id("sectionAwareMetaTags").onchange=generateOutput;
  id("avoidMetaRepetition").onchange=generateOutput;
 id("clearMetaTags").onclick=()=>{appState.metaStructure=[];appState.metaMusic=[];appState.metaVoices=[];appState.metaStyles=[];appState.metaAdlibs=[];appState.metaChoirs=[];id("customMetaTags").value="";renderDynamicLists();generateOutput();showToast("MetaTags geleert")};
 id("autoMetaTags").onchange=generateOutput;
 id("customMetaTags").oninput=generateOutput;
-id("rightSavePreset").onclick=saveCurrentPreset;id("centerSavePreset").onclick=saveCurrentPreset;id("topSavePreset").onclick=saveCurrentPreset;id("presetSearch").oninput=renderPresetManager;document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{appState.activePresetTab=b.dataset.tab;renderPresetManager()});id("topExport").onclick=()=>exportBackup({form:collectFormState(),presets:appState.presets,favorites:appState.favorites,history:appState.history});id("topImport").onclick=()=>id("importFile").click();id("importFile").onchange=e=>{const file=e.target.files[0];if(file)importBackup(file,data=>{appState.presets=data.presets||[];appState.favorites=data.favorites||[];appState.history=data.history||[];if(data.form)applyFormState(data.form);renderPresetManager();persist();showToast("Import erfolgreich")},()=>alert("Invalid backup file"))}}
+id("rightSavePreset").onclick=saveCurrentPreset;id("centerSavePreset").onclick=saveCurrentPreset;id("topSavePreset").onclick=saveCurrentPreset;id("presetSearch").oninput=renderPresetManager;document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{appState.activePresetTab=b.dataset.tab;renderPresetManager()});id("topExport").onclick=()=>exportBackup({form:collectFormState(),presets:appState.presets,favorites:appState.favorites,itemFavorites:appState.itemFavorites,history:appState.history});id("topImport").onclick=()=>id("importFile").click();id("importFile").onchange=e=>{const file=e.target.files[0];if(file)importBackup(file,data=>{appState.presets=data.presets||[];appState.favorites=data.favorites||[];appState.itemFavorites=Object.assign({genres:[],instruments:[],voices:[]},data.itemFavorites||{});appState.history=data.history||[];if(data.form)applyFormState(data.form);renderPresetManager();persist();showToast("Import erfolgreich")},()=>alert("Invalid backup file"))}}
 
 function finishAppLoading(){
  const loader=id("appLoader");
@@ -795,7 +1042,7 @@ function finishAppLoading(){
  requestAnimationFrame(()=>setTimeout(()=>loader.classList.add("loaded"),350));
 }
 
-function init(){currentUiLanguage=detectLanguage();initSelects();renderRandomOptions();wire();restore();setVocalMode(currentVocalMode());updateNamedSingerPreview();updateMetaFormatExample();renderDynamicLists();updateBpmDisplay();updateRangeLabels();generateOutput();renderPresetManager()}
+function init(){currentUiLanguage=detectLanguage();initSelects();renderRandomOptions();bindRandomizerModes();wire();restore();setVocalMode(currentVocalMode());updateNamedSingerPreview();updateMetaFormatExample();renderDynamicLists();updateBpmDisplay();updateRangeLabels();phase2Refresh();generateOutput();renderPresetManager()}
 init();
 applyLanguage(currentUiLanguage);
 finishAppLoading();
