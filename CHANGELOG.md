@@ -1,5 +1,24 @@
 # Nordlicht Soundworks Prompt Studio – Changelog
 
+## Version 2.3.2 – Suno-Friendly Genre Blend Phrasing
+
+- Replaced the undocumented numeric output `genre blend 70/30` with natural English genre-fusion descriptions
+- Kept the percentage slider as an internal creative control
+- Added linguistic mappings for 90/10, 80/20, 70/30, 60/40 and 50/50
+- Added a live Suno phrasing preview in the AI Composer and Style Builder
+- AI Composer still transfers the selected ratio to the advanced builder
+- Existing presets and saved blend values remain compatible
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 2.3.1 – AI Composer Genre Fusion
+
+- Multi-Genre-Erkennung und Genre-Fusion
+- Wikinger Rap wird als Rap + Viking/Nordic erkannt
+- mehr kreative Richtungen, Schwerpunkte und Songstrukturen
+- Genre-Blend-Regler, Confidence-Werte und Erklärungen
+- vollständige Übertragung der Genre-Fusion in den Style Builder
+
 ## Version 1.7.0 – Fourteen Complete Interface Languages
 
 New complete interface languages:

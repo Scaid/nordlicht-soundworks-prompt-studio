@@ -22,7 +22,8 @@ html
 </div>
 </div>
 <div class="top-actions">
-<div class="language-picker"><button class="language-button" id="languageButton">🌐 English</button><div class="language-menu hidden" id="languageMenu"></div></div><span class="version-badge" title="Current version">v1.10.0</span>
+<div class="studio-mode-switch" role="group" aria-label="Studio mode"><button id="simpleModeButton" type="button">✨ Einfach</button><button id="advancedModeButton" class="active" type="button">🎛 Erweitert</button></div>
+<div class="language-picker"><button class="language-button" id="languageButton">🌐 English</button><div class="language-menu hidden" id="languageMenu"></div></div><span class="version-badge" title="Current version">v2.3.2</span>
 <button data-i18n-full="ui_006" id="openChangelog">📋 Changelog</button>
 <button data-i18n-full="ui_007" id="topSavePreset">💾 Save Preset</button>
 <button data-i18n-full="ui_008" id="topImport">📂 Import</button>
@@ -36,24 +37,201 @@ html
 </div>
 <div class="sidebar-version">
 <b data-i18n-full="ui_010">Prompt Studio</b>
-<span data-i18n-full="ui_011">Version 1.10.0</span>
+<span data-i18n-full="ui_011">Version 2.3.2 · AI Composer</span>
 <small data-i18n-full="ui_012">© 2026 Nordlicht Soundworks</small>
 </div>
 <nav id="navigation">
-<button class="nav active" data-i18n-full="ui_013" data-view="assistantView">🤖<span><b data-i18n-full="ui_014">Offline Smart Assistant</b><small data-i18n-full="ui_015">Analyze and apply a song idea</small></span></button>
-<button class="nav" data-i18n-full="ui_016" data-view="randomView">🎲<span><b data-i18n-full="ui_017">Smart Randomizer</b><small data-i18n-full="ui_018">Control randomness precisely</small></span></button>
+<button class="nav" data-view="composerView">🤖<span><b>AI Composer</b><small>Aus einer Idee drei Songrichtungen entwickeln</small></span></button>
+<button class="nav active" data-i18n-full="ui_016" data-view="randomView">🎲<span><b data-i18n-full="ui_017">Smart Randomizer</b><small data-i18n-full="ui_018">Control randomness precisely</small></span></button>
+<button class="nav" data-view="lyricsView">✍️<span><b data-lyrics-i18n="nav_title">Lyrics Workspace</b><small data-lyrics-i18n="nav_subtitle">Write, structure and prepare lyrics</small></span></button>
+<button class="nav" data-i18n-full="ui_013" data-view="assistantView">🤖<span><b data-i18n-full="ui_014">Offline Smart Assistant</b><small data-i18n-full="ui_015">Analyze and apply a song idea</small></span></button>
 <button class="nav" data-i18n-full="ui_019" data-view="styleView">🎼<span><b data-i18n-full="ui_020">Music Style</b><small data-i18n-full="ui_021">Genres, language and BPM</small></span></button>
 <button class="nav" data-i18n-full="ui_022" data-view="vocalsView">🎤<span><b data-i18n-full="ui_023">Vocals</b><small data-i18n-full="ui_024">Lead voice and character</small></span></button>
 <button class="nav" data-i18n-full="ui_025" data-view="instrumentsView">🎻<span><b data-i18n-full="ui_026">Instruments</b><small data-i18n-full="ui_027">Country and region filters</small></span></button>
 <button class="nav" data-i18n-full="ui_028" data-view="storyView">🌍<span><b data-i18n-full="ui_029">Story &amp; Emotion</b><small data-i18n-full="ui_030">World, scene and energy</small></span></button>
 <button class="nav" data-i18n-full="ui_031" data-view="productionView">🎧<span><b data-i18n-full="ui_032">Production</b><small data-i18n-full="ui_033">Mix and sound design</small></span></button>
 <button class="nav" data-i18n-full="ui_034" data-view="theoryView">♫<span><b data-i18n-full="ui_035">Music Theory</b><small data-i18n-full="ui_036">Key, scale and meter</small></span></button>
-<button class="nav" data-i18n-full="ui_037" data-view="metatagsView">🏷️<span><b data-i18n-full="ui_038">Suno MetaTags</b><small data-i18n-full="ui_039">Matching performance tags</small></span></button>
+<button class="nav" data-i18n-full="ui_037" data-view="metatagsView">🏷️<span><b data-i18n-full="ui_038">Prompt Intelligence</b><small data-i18n-full="ui_039">MetaTags, Song Maps & Prompt DNA</small></span></button>
 <button class="nav" data-i18n-full="ui_040" data-view="presetsView">⭐<span><b data-i18n-full="ui_041">Presets</b><small data-i18n-full="ui_042">Manage, edit and delete</small></span></button>
 </nav>
 </aside>
 <main class="workspace">
-<section class="view active" id="assistantView">
+<section class="view simple-mode-view" id="simpleView">
+<div class="view-head simple-head"><div><h1>✨ Einfacher Modus</h1><p>In wenigen Schritten zu einem starken Suno-Style. Die Knowledge Engine ergänzt passende Details automatisch.</p></div><span class="simple-badge">Keine Sprachauswahl · Sprache kommt aus den Lyrics</span></div>
+<div class="simple-layout">
+<section class="panel dark-content simple-builder-card">
+<div class="simple-step"><span class="simple-step-number">1</span><div><h2>Was möchtest du machen?</h2><p>Der Songtyp setzt eine passende musikalische Grundlage und Songstruktur.</p></div></div>
+<div class="simple-choice-grid" id="simpleSongTypes">
+<button data-simple-preset="anime">🎌 Anime Opening</button><button data-simple-preset="ballad">💔 Ballade</button><button data-simple-preset="edm">🎛 EDM Track</button><button data-simple-preset="metalcore">🔥 Metal Song</button><button data-simple-preset="viking">🛡 Viking Song</button><button data-simple-preset="cinematic">🎬 Cinematic / Trailer</button><button data-simple-preset="kpop">✨ K-Pop</button><button data-simple-preset="lofi">🌙 Lo-Fi</button><button data-simple-preset="instrumental">🎼 Game OST / Instrumental</button><button data-simple-preset="custom">🎵 Freier Song</button>
+</div>
+<div class="simple-step"><span class="simple-step-number">2</span><div><h2>Grundstil</h2><p>Nur die wichtigsten Einstellungen. Sprache wird bewusst nicht im Style verwendet.</p></div></div>
+<div class="grid three simple-fields"><label>Hauptgenre<select id="simpleGenre"></select></label><label>Stimme<select id="simpleVoice"><option value="female">Female Lead</option><option value="male">Male Lead</option><option value="duet">Duett</option><option value="instrumental">Instrumental</option></select></label><label>Tempo<select id="simpleTempo"><option value="slow">Langsam</option><option value="medium" selected>Mittel</option><option value="fast">Schnell</option><option value="veryfast">Sehr schnell</option><option value="auto">Automatisch passend</option></select></label></div>
+<div class="grid two simple-fields"><label>Stimmung<select id="simpleMood"><option value="none">Keine Vorgabe</option><option value="happy">😀 Fröhlich</option><option value="sad">😢 Traurig</option><option value="epic">⚔ Episch</option><option value="aggressive">🔥 Aggressiv</option><option value="dreamy">🌌 Verträumt</option><option value="romantic">❤️ Romantisch</option><option value="dark">🌑 Dunkel</option><option value="hopeful">🌅 Hoffnungsvoll</option></select></label><label>Instrumentenwelt<select id="simpleInstrumentPalette"><option value="none">Keine Vorgabe</option><option value="acoustic">Akustisch</option><option value="rock">Rock</option><option value="orchestral">Orchester</option><option value="electronic">Elektronisch</option><option value="nordic">Nordisch</option><option value="japanese">Japanisch</option><option value="oriental">Orientalisch</option><option value="retro">Retro / Vintage</option><option value="medieval">Mittelalter</option></select></label></div>
+<div class="simple-actions"><button class="primary huge" id="simpleGenerate">✨ SMART PROMPT ERSTELLEN</button><button class="huge reset-button" id="simpleReset">↺ ZURÜCKSETZEN</button></div>
+</section>
+<section class="panel dark-content simple-random-card">
+<div class="simple-step"><span class="simple-step-number">🎲</span><div><h2>Smart Randomizer</h2><p>Spiele mit Ideen. Nur aktivierte Bereiche werden verändert.</p></div></div>
+<div class="simple-random-grid"><label><input id="simpleRandomSongType" type="checkbox" checked> Songtyp</label><label><input id="simpleRandomGenre" type="checkbox" checked> Genre</label><label><input id="simpleRandomVoice" type="checkbox" checked> Stimme</label><label><input id="simpleRandomMood" type="checkbox" checked> Stimmung</label><label><input id="simpleRandomInstruments" type="checkbox" checked> Instrumentenwelt</label><label><input id="simpleRandomTempo" type="checkbox" checked> Tempo</label></div>
+<label>Randomizer-Stil<select id="simpleRandomMode"><option value="intelligent">🧠 Intelligent</option><option value="balanced">⚖️ Ausgewogen</option><option value="experimental">🧪 Experimentell</option></select></label>
+<div class="simple-actions stacked"><button class="primary" id="simpleRandomize">🎲 AUSWAHL RANDOMISIEREN</button><button id="simpleSurprise">✨ ÜBERRASCH MICH</button></div>
+<div class="simple-quality"><div><span>Prompt-Kompatibilität</span><strong id="simpleQualityValue">--%</strong></div><div class="simple-quality-track"><i id="simpleQualityBar"></i></div><p id="simpleQualityHint">Wähle Einstellungen oder lass dich überraschen.</p></div>
+</section>
+</div>
+</section>
+
+
+<section class="view" id="composerView">
+  <div class="view-head composer-head"><div><h1>🤖 AI Composer</h1><p>Beschreibe deine Songidee. Die lokale Knowledge Engine entwickelt daraus drei musikalische Richtungen und überträgt deine Auswahl in den Style Builder.</p></div><span class="composer-offline-badge">🔒 Lokal · Offline · Keine Datenübertragung</span></div>
+  <div class="composer-layout">
+    <section class="panel dark-content composer-input-card">
+      <div class="composer-section-title"><span>1</span><div><h2>Songidee</h2><p>Story, Stimmung, Entwicklung, Stimme und gewünschte Instrumente können frei beschrieben werden.</p></div></div>
+      <textarea id="composerIdea" class="composer-idea" placeholder="Beispiel: Ein düsteres Anime-Opening über einen Wikinger, der seinen Bruder im Krieg verliert. Ruhiger Anfang mit Tagelharpa, später Metalcore-Gitarren, weibliche Hauptstimme und tiefer Männerchor im großen Finale."></textarea>
+      <div class="grid three composer-controls">
+        <label>Kreative Richtung<select id="composerCreativity">
+          <option value="faithful">Originalgetreu</option><option value="safe">Nah an der Idee</option><option value="balanced" selected>Ausgewogen</option><option value="creative">Kreativ</option><option value="bold">Mutig & experimentell</option><option value="extreme">Extrem experimentell</option><option value="radio">Radio-tauglich</option><option value="festival">Festival-tauglich</option><option value="cinematic">Cinematic</option><option value="anime">Anime-inspiriert</option><option value="game">AAA Game</option><option value="surprise">Überrasch mich</option>
+        </select></label>
+        <label>Schwerpunkt<select id="composerFocus">
+          <option value="complete">Alles automatisch</option><option value="genre">Genre-Fusion</option><option value="style">Musikstil</option><option value="story">Story & Emotion</option><option value="vocals">Vocals</option><option value="instruments">Instrumente</option><option value="rhythm">Rhythmus & Groove</option><option value="hook">Hook & Refrain</option><option value="drops">Drops & Höhepunkte</option><option value="atmosphere">Atmosphäre</option><option value="structure">Songstruktur</option><option value="production">Produktion & Dynamik</option><option value="lyrics">Lyrics-Rahmen</option>
+        </select></label>
+        <label>Songstruktur<select id="composerStructure">
+          <option value="auto">Automatisch passend</option><optgroup label="Standard"><option value="song">Klassischer Song</option><option value="pop">Pop / Radio</option><option value="rock">Rock</option><option value="ballad">Ballade</option><option value="rap">Hip-Hop / Rap</option><option value="trap">Trap / Drill</option></optgroup><optgroup label="Anime & Popkultur"><option value="anime">Anime Opening</option><option value="animeEnding">Anime Ending</option><option value="kpop">K-Pop</option><option value="jpop">J-Pop</option></optgroup><optgroup label="Elektronisch"><option value="edm">EDM / Drop</option><option value="electroSwing">Electro Swing</option><option value="dnb">Drum & Bass</option><option value="dubstep">Dubstep</option><option value="trance">Trance</option><option value="extended">Extended Mix</option></optgroup><optgroup label="Heavy"><option value="metal">Metal / Breakdown</option><option value="metalcore">Metalcore</option><option value="deathcore">Deathcore</option></optgroup><optgroup label="Folk & Cinematic"><option value="viking">Viking / Nordic</option><option value="tavern">Tavern / Folk</option><option value="cinematic">Cinematic Build</option><option value="trailer">Trailer</option><option value="gameOst">Game OST</option><option value="jrpg">JRPG</option></optgroup><optgroup label="Spezial"><option value="radioEdit">Radio Edit</option><option value="acoustic">Acoustic Version</option><option value="live">Live Version</option><option value="short">Short / Social</option></optgroup>
+        </select></label>
+      </div>
+      <div class="composer-fusion-control">
+        <div class="composer-fusion-head"><div><b>Genre-Fusion</b><small>Gewichtung der zwei erkannten Hauptrichtungen</small></div><strong id="composerBlendValue">70 / 30</strong></div>
+        <input id="composerBlend" type="range" min="50" max="90" step="5" value="70">
+        <div class="composer-blend-labels"><span id="composerPrimaryLabel">Primärgenre</span><span id="composerSecondaryLabel">Sekundärgenre</span></div>
+        <div class="composer-blend-preview"><small>Suno-Formulierung</small><span id="composerBlendPromptPreview">Primärgenre mit Sekundärgenre-Einflüssen</span></div>
+      </div>
+      <div class="composer-actions"><button class="primary huge" id="composerAnalyze">✨ DREI RICHTUNGEN ENTWICKELN</button><button id="composerInspire">💡 Inspiration</button><button id="composerClear">Leeren</button></div>
+      <div class="composer-status" id="composerStatus">Bereit für deine Songidee.</div>
+    </section>
+    <section class="panel dark-content composer-insight-card">
+      <div class="composer-section-title"><span>2</span><div><h2>Erkannte Song-DNA</h2><p>Diese Merkmale wurden aus deiner Beschreibung abgeleitet.</p></div></div>
+      <div id="composerDna" class="composer-dna"><small>Noch keine Analyse durchgeführt.</small></div>
+      <div class="composer-quality"><span>Analyse-Sicherheit</span><strong id="composerConfidence">--%</strong><div><i id="composerConfidenceBar"></i></div></div>
+      <div class="composer-explanation" id="composerExplanation"><h3>Warum diese Auswahl?</h3><small>Nach der Analyse werden hier erkannte Begriffe, Genre-Fusion und BPM-Entscheidungen erklärt.</small></div>
+    </section>
+  </div>
+  <section class="panel dark-content composer-results-card hidden" id="composerResults">
+    <div class="composer-section-title"><span>3</span><div><h2>Wähle eine musikalische Richtung</h2><p>Alle Varianten bleiben nach der Übernahme vollständig im erweiterten Modus bearbeitbar.</p></div></div>
+    <div id="composerVariants" class="composer-variants"></div>
+    <div class="composer-bottom-actions">
+      <label class="toggle compact"><input id="composerApplyStructure" type="checkbox" checked> Songstruktur als MetaTags übernehmen</label>
+      <label class="toggle compact"><input id="composerOpenBuilder" type="checkbox" checked> Danach Style Builder öffnen</label>
+      <button class="primary huge" id="composerApply">✅ AUSGEWÄHLTE RICHTUNG ÜBERNEHMEN</button>
+    </div>
+  </section>
+</section>
+
+<section class="view" id="lyricsView">
+<div class="view-head lyrics-view-head">
+<div><h1 data-lyrics-i18n="workspace_title">Lyrics Workspace</h1><p data-lyrics-i18n="workspace_subtitle">Write your lyrics, organize the song structure and prepare the final Suno lyrics output.</p></div>
+<div class="lyrics-save-state" id="lyricsSaveState" aria-live="polite">● Autosave ready</div>
+</div>
+<div class="lyrics-workspace-grid">
+<aside class="lyrics-structure-panel panel dark-content">
+<div class="lyrics-panel-title"><div><h2 data-lyrics-i18n="structure_title">Song Structure</h2><small data-lyrics-i18n="structure_subtitle">Detected automatically from section tags</small></div><button id="lyricsRefreshStructure" title="Refresh structure">↻</button></div>
+<div class="lyrics-structure-list" id="lyricsStructureList"><div class="lyrics-empty-state">No sections detected yet.</div></div>
+<div class="lyrics-structure-actions">
+<button id="lyricsInsertTemplate">＋ <span data-lyrics-i18n="insert_template">Insert template</span></button>
+<button id="lyricsNormalizeStructure">⇄ <span data-lyrics-i18n="normalize_structure">Sync &amp; normalize structure</span></button>
+<button id="lyricsClear" class="danger-soft">⌫ <span data-lyrics-i18n="clear_lyrics">Clear lyrics</span></button>
+</div>
+
+<details class="phase4-composer" id="phase4Composer">
+<summary><span>🎼 <b data-p4="composer_title">Smart Structure Builder</b></span><small data-p4="composer_optional">Optional · standardmäßig aus</small></summary>
+<div class="phase4-body">
+  <div class="phase4-mode" role="radiogroup" aria-label="Structure builder mode">
+    <label><input type="radio" name="p4Mode" value="off" checked><span data-p4="mode_off">Aus</span></label>
+    <label><input type="radio" name="p4Mode" value="template"><span data-p4="mode_template">Vorlage</span></label>
+    <label><input type="radio" name="p4Mode" value="smart"><span data-p4="mode_smart">Smart generieren</span></label>
+  </div>
+  <label class="phase4-field"><span data-p4="genre_preset">Genre-Preset</span><select id="p4GenrePreset"></select></label>
+  <div class="phase4-options">
+    <label><input id="p4IncludeTags" type="checkbox" checked><span data-p4="include_tags">Passende MetaTags ergänzen</span></label>
+    <label><input id="p4ReplaceLyrics" type="checkbox"><span data-p4="replace_existing">Vorhandenen Text ersetzen</span></label>
+  </div>
+  <div class="phase4-actions"><button id="p4PreviewStructure"><span data-p4="preview">Vorschau</span></button><button class="primary" id="p4ApplyStructure"><span data-p4="apply_structure">Struktur anwenden</span></button></div>
+  <pre id="p4StructurePreview" class="phase4-preview" aria-live="polite"></pre>
+</div>
+</details>
+<div class="phase4-map-card">
+  <div class="lyrics-subhead"><h3 data-p4="song_map">Live Song Map</h3><button id="p4RefreshMap" title="Refresh">↻</button></div>
+  <div id="p4SongMap" class="phase4-song-map"><small data-p4="no_sections">Noch keine Abschnitte</small></div>
+</div>
+<details class="phase4-planner" id="phase4Planner">
+<summary><span>🎤 <b data-p4="planner_title">Vocal-, Instrument- & Energieplaner</b></span></summary>
+<div class="phase4-body">
+  <div id="p4PlannerRows" class="phase4-planner-rows"></div>
+  <div class="phase4-actions"><button id="p4ResetPlan"><span data-p4="reset_plan">Plan zurücksetzen</span></button><button class="primary" id="p4ApplyPlan"><span data-p4="apply_plan">Plan als MetaTags einfügen</span></button></div>
+</div>
+</details>
+<div class="phase4-score-card">
+ <div class="lyrics-subhead"><h3 data-p4="score_title">Song Score 2.0</h3><strong id="p4OverallScore">0</strong></div>
+ <div id="p4ScoreGrid" class="phase4-score-grid"></div>
+</div>
+<div class="phase4-advisor-card">
+ <div class="lyrics-subhead"><h3 data-p4="advisor_title">Smart Advisor 2.0</h3><button id="p4RefreshAdvisor">↻</button></div>
+ <div id="p4AdvisorList" class="phase4-advisor-list"></div>
+</div>
+
+<div class="lyrics-analysis" id="lyricsAnalysis">
+<div class="lyrics-analysis-head"><h3 data-lyrics-i18n="live_analysis">Live Analysis</h3><div class="lyrics-quality-score"><strong id="lyricsQualityScore">100</strong><small>/100</small></div></div>
+<div class="lyrics-analysis-summary" id="lyricsAnalysisSummary">Ready for analysis</div>
+<div id="lyricsAnalysisItems"></div>
+</div>
+</aside>
+<section class="lyrics-editor-panel panel dark-content">
+<div class="lyrics-toolbar" role="toolbar" aria-label="Lyrics editor tools">
+<button id="lyricsUndo" title="Undo (Ctrl+Z)" disabled>↶ <span data-lyrics-i18n="undo">Undo</span></button>
+<button id="lyricsRedo" title="Redo (Ctrl+Y)" disabled>↷ <span data-lyrics-i18n="redo">Redo</span></button>
+<span class="lyrics-toolbar-divider"></span>
+<button id="lyricsFindToggle" title="Find and replace (Ctrl+F)">⌕ <span data-lyrics-i18n="find">Find</span></button>
+<button id="lyricsCopy">📋 <span data-lyrics-i18n="copy_lyrics">Copy lyrics</span></button>
+<button id="lyricsDownload">⬇ <span data-lyrics-i18n="export_txt">Export .txt</span></button>
+</div>
+<div class="lyrics-findbar hidden" id="lyricsFindbar">
+<input id="lyricsFindInput" type="search" placeholder="Find text…" data-lyrics-placeholder="find_text" autocomplete="off"/>
+<input id="lyricsReplaceInput" type="text" placeholder="Replace with…" data-lyrics-placeholder="replace_with" autocomplete="off"/>
+<button id="lyricsFindPrev" title="Previous match">↑</button>
+<button id="lyricsFindNext" title="Next match">↓</button>
+<button id="lyricsReplaceOne">Replace</button>
+<button id="lyricsReplaceAll">Replace all</button>
+<button id="lyricsFindClose" title="Close">×</button>
+<span id="lyricsFindStatus">0 matches</span>
+</div>
+<div class="lyrics-editor-shell">
+<div class="lyrics-line-numbers" id="lyricsLineNumbers" aria-hidden="true">1</div>
+<textarea id="lyricsEditor" spellcheck="true" aria-label="Lyrics editor" placeholder="Paste or write your lyrics here…\n\nUse section tags such as [Intro], [Verse 1], [Chorus], [Bridge] and [Outro]." data-lyrics-placeholder="editor_placeholder"></textarea>
+</div>
+<div class="lyrics-editor-footer">
+<span id="lyricsLineCount">1 line</span><span id="lyricsWordCount">0 words</span><span id="lyricsCharCount">0 characters</span><span id="lyricsSectionCount">0 sections</span>
+</div>
+<details class="lyrics-syntax-preview">
+<summary data-lyrics-i18n="syntax_preview">Syntax Preview</summary>
+<pre id="lyricsHighlightedPreview" aria-label="Highlighted lyrics preview"></pre>
+</details>
+</section>
+<aside class="lyrics-tag-panel panel dark-content" aria-label="MetaTag library">
+<div class="lyrics-panel-title"><div><h2 data-lyrics-i18n="library_title">MetaTag Library</h2><small data-lyrics-i18n="library_subtitle">Drag a tag into the lyrics or click ＋</small></div><button id="lyricsTagHelp" title="Drag & Drop help">?</button></div>
+<div class="lyrics-context-card" id="lyricsContextCard"><span data-lyrics-i18n="current_section">Current section</span><strong id="lyricsCurrentSection">General</strong><small id="lyricsContextHint">Place the cursor inside a song section for focused suggestions.</small></div>
+<div class="lyrics-smart-suggestions"><div class="lyrics-subhead"><h3 data-lyrics-i18n="smart_suggestions">Smart Suggestions</h3><button id="lyricsRefreshSuggestions" title="Refresh suggestions">↻</button></div><div class="lyrics-suggestion-chips" id="lyricsSuggestionChips"></div></div>
+<div class="lyrics-tag-controls"><input id="lyricsTagSearch" type="search" placeholder="Search MetaTags…" data-lyrics-placeholder="search_tags" autocomplete="off"/><select id="lyricsTagCategory" aria-label="MetaTag category"><option value="all" data-lyrics-i18n="all_categories">All categories</option></select><label class="lyrics-favorites-filter"><input id="lyricsFavoritesOnly" type="checkbox"/><span data-lyrics-i18n="favorites_only">Only favorites</span></label></div>
+<div class="lyrics-tag-library-summary"><span><b id="lyricsLibraryAvailable">0</b> <span data-lyrics-i18n="available">available</span></span><span><b id="lyricsLibraryUsed">0</b> <span data-lyrics-i18n="used">used</span></span></div>
+<div class="lyrics-tag-library" id="lyricsTagLibrary"></div>
+<div class="lyrics-tag-doctor">
+<div class="lyrics-subhead"><h3 data-lyrics-i18n="doctor_title">MetaTag Doctor</h3><span id="lyricsTagHealth">Ready</span></div>
+<p data-lyrics-i18n="doctor_description">Checks duplicates, conflicts, placement and bracket syntax without changing your lyrics automatically.</p>
+<div class="lyrics-doctor-stats lyrics-doctor-stats-four"><span><b id="lyricsTagCount">0</b><span data-lyrics-i18n="tags">Tags</span></span><span><b id="lyricsIssueCount">0</b><span data-lyrics-i18n="issues">Issues</span></span><span><b id="lyricsDuplicateCount">0</b><span data-lyrics-i18n="duplicates">Duplicates</span></span><span><b id="lyricsConflictCount">0</b><span data-lyrics-i18n="conflicts">Conflicts</span></span></div>
+<div class="lyrics-doctor-report" id="lyricsDoctorReport"><small>No issues detected yet.</small></div>
+<div class="lyrics-doctor-actions"><button id="lyricsAnalyzeTags">⌕ Analyze</button><button class="primary" id="lyricsOptimizeTags">✨ Optimize safely</button></div>
+</div>
+<div class="lyrics-custom-tag"><h3 data-lyrics-i18n="custom_tag">Custom MetaTag</h3><div><input id="lyricsCustomTag" type="text" placeholder="e.g. Style: cold, intimate" data-lyrics-placeholder="custom_tag_placeholder"/><button id="lyricsInsertCustomTag">＋</button></div><small data-lyrics-i18n="brackets_added">Brackets are added automatically.</small></div>
+</aside>
+</div>
+</section>
+<section class="view" id="assistantView">
 <div class="view-head">
 <h1 data-i18n-full="ui_043">Offline Smart Assistant</h1>
 <p data-i18n-full="ui_044">Describe your desired song in natural language. The assistant analyzes your idea locally and suggests suitable settings.</p>
@@ -120,7 +298,7 @@ html
 </div>
 </div>
 </section>
-<section class="view" id="randomView">
+<section class="view active" id="randomView">
 <div class="view-head">
 <h1 data-i18n-full="ui_077">Smart Randomizer</h1>
 <p data-i18n-full="ui_078">Only checked sections will be changed. Both randomize buttons use the same central function.</p>
@@ -141,9 +319,9 @@ html
 <label data-i18n-full="ui_084">Genre Family<select id="genreFamily"></select></label>
 <label data-i18n-full="ui_085">Subgenre<select id="subgenre"></select></label>
 <label data-i18n-full="ui_086">Second Genre<select id="secondGenre"></select></label>
-<label data-i18n-full="ui_087">Genre Blend<select id="blend"><option>90/10</option><option>80/20</option><option selected="">70/30</option><option>60/40</option><option>50/50</option></select></label>
+<label data-i18n-full="ui_087">Genre Blend<select id="blend"><option>90/10</option><option>80/20</option><option selected="">70/30</option><option>60/40</option><option>50/50</option></select><small>Suno-Ausgabe: <span id="genreBlendPromptPreview">Noch kein Genre gewählt</span></small></label>
 <label data-i18n-full="ui_088">Song Type<select id="songType"></select></label>
-<label data-i18n-full="ui_089" data-i18n-label="lyrics_language">Lyrics Language<select id="language"></select></label><label data-i18n-full="ui_090" data-i18n-label="export_language">Prompt Export Language<select id="promptExportLanguage"><option data-i18n-full="ui_091" value="en">English (Recommended)</option><option data-i18n-full="ui_092" value="de">German</option><option data-i18n-full="ui_093" value="fr">French</option><option data-i18n-full="ui_094" value="es">Spanish</option><option data-i18n-full="ui_095" value="pt">Portuguese</option><option data-i18n-full="ui_096" value="ja">Japanese</option><option data-i18n-full="ui_097" value="custom">Custom</option></select></label>
+<label data-i18n-full="ui_089" data-i18n-label="lyrics_language">Lyrics Language<select id="language"></select><small><span id="languageStyleHint">Controls lyrics tools only; omitted from Style by default.</span></small></label><label data-i18n-full="ui_090" data-i18n-label="export_language">Prompt Export Language<select id="promptExportLanguage"><option data-i18n-full="ui_091" value="en">English (Recommended)</option><option data-i18n-full="ui_092" value="de">German</option><option data-i18n-full="ui_093" value="fr">French</option><option data-i18n-full="ui_094" value="es">Spanish</option><option data-i18n-full="ui_095" value="pt">Portuguese</option><option data-i18n-full="ui_096" value="ja">Japanese</option><option data-i18n-full="ui_097" value="custom">Custom</option></select></label>
 </div>
 <div class="intelligence-panel" id="genreIntelligence"><div class="intelligence-head"><b>🧠 Style Intelligence</b><small>Passende Genres, Songtypen und BPM</small></div><div id="genreSuggestions" class="suggestion-groups"></div></div>
 <div class="bpm-card">
@@ -155,7 +333,7 @@ html
   <div class="smart-bpm-panel">
     <div class="phase2-head"><b>⚡ Smart BPM</b><small id="smartBpmSummary">Genre-based tempo guidance</small></div>
     <div id="smartBpmChips" class="suggestion-chips"></div>
-    <label class="toggle compact"><input id="autoBpmByGenre" type="checkbox"/>Automatically use the recommended BPM when genre changes</label>
+    <label class="toggle compact"><input id="autoBpmByGenre" type="checkbox"/>Automatically use the recommended BPM when genre changes</label><label class="toggle compact"><input id="includeTempoDescriptor" type="checkbox" checked/><span id="tempoDescriptorLabel">Add tempo character to BPM</span></label><label class="toggle compact"><input id="includeLanguageInStyle" type="checkbox"/><span id="languageInStyleLabel">Add lyrics language to Style</span></label><small id="bpmPromptPreview" class="translated-tags"></small>
   </div>
   <div class="duration-panel duration-panel-prominent">
     <div class="phase2-head">
@@ -284,14 +462,14 @@ html
 <label data-i18n-full="ui_140">Region<select id="instrumentRegion"></select></label>
 <label data-i18n-full="ui_141">Country / Origin<select id="instrumentCountry"></select></label>
 <label data-i18n-full="ui_142">Instrument Family<select id="instrumentFamily"></select></label>
-<label data-i18n-full="ui_143">Search<input data-i18n-placeholder="placeholder_005" id="instrumentSearch" placeholder="Koto, Drum, Harp ..."/></label>
+<label><span id="instrumentReliabilityLabel">Reliability</span><select id="instrumentReliability"><option id="reliabilityAllOption" value="all">All levels</option><option value="core">Core</option><option value="advanced">Advanced</option><option value="experimental">Experimental</option></select></label><label data-i18n-full="ui_143">Search<input data-i18n-placeholder="placeholder_005" id="instrumentSearch" placeholder="Koto, Drum, Harp ..."/></label>
 </div>
 <div class="toolbar">
 <span id="instrumentCount"></span><label class="toggle compact"><input id="favoriteInstrumentsOnly" type="checkbox"/>⭐ Nur Favoriten</label><small id="instrumentEmptyHint" class="instrument-empty-hint" hidden>No instruments match these filters.</small>
 <div><button data-i18n-full="ui_144" id="recommendedInstruments">Recommendations</button><button data-i18n-full="ui_145" id="clearInstruments">Clear selection</button></div>
 </div>
 <div class="intelligence-panel"><div class="intelligence-head"><b>🎻 Passende Instrumente</b><small>Basierend auf dem gewählten Musikstil</small></div><div id="instrumentRecommendations" class="recommendation-chips"></div></div>
-<div class="instrument-grid" id="instrumentLibrary"></div>
+<div class="instrument-reliability-legend"><span class="reliability-badge core">● Core</span><span class="reliability-badge advanced">● Advanced</span><span class="reliability-badge experimental">● Experimental</span><small id="reliabilityHint">Reliability is a practical guidance value, not a guarantee.</small></div><div class="instrument-grid" id="instrumentLibrary"></div>
 <h3 data-i18n-full="ui_146">Selected Instruments</h3>
 <div class="chips selected" id="selectedInstruments"></div>
 </div>
@@ -319,13 +497,19 @@ html
 </div>
 </section>
 <section class="view" id="productionView">
-<div class="view-head"><h1 data-i18n-full="ui_160">Production &amp; Mix</h1><p data-i18n-full="ui_161">Defines sound character, stereo width, dynamics and finish.</p></div>
+<div class="view-head"><h1 data-i18n-full="ui_160">Production &amp; Mix</h1><p data-i18n-full="ui_161">Defines sound character, stereo width, drums, vocals and mastering.</p></div>
 <div class="panel dark-content">
-<div class="grid three">
+<div class="knowledge-section"><h3>🎛 Mix &amp; Sound Character</h3><div class="grid three">
 <label data-i18n-full="ui_162">Production<select id="production"></select></label>
 <label data-i18n-full="ui_163">Mix<select id="mix"></select></label>
-<label data-i18n-full="ui_164">Dynamics<select id="dynamics"></select></label>
-</div>
+<label data-i18n-full="ui_164">Arrangement Dynamics<select id="dynamics"></select></label>
+</div></div>
+<div class="knowledge-section"><h3>🥁 Drums · 🎙 Vocals · 💿 Mastering</h3><div class="grid three">
+<label>Drum Sound<select id="drumMix"></select></label>
+<label>Vocal Production<select id="vocalProduction"></select></label>
+<label>Mastering<select id="mastering"></select></label>
+</div></div>
+<div class="knowledge-suggestion" id="productionSuggestionPanel"><div><b>🧠 Knowledge Engine</b><small id="productionSuggestionText">Wähle ein Genre, um passende Produktionsvorschläge zu erhalten.</small></div><button id="applyProductionSuggestions" class="primary">Empfehlungen übernehmen</button></div>
 <h3 data-i18n-full="ui_165">Production Features</h3>
 <div class="chips" id="productionExtras"></div>
 <h3 data-i18n-full="ui_166">Exclude Styles</h3>
@@ -335,82 +519,103 @@ html
 </div>
 </section>
 <section class="view" id="theoryView">
-<div class="view-head"><h1 data-i18n-full="ui_169">Music Theory Assistant</h1><p data-i18n-full="ui_170">Optional recommendations matching the selected style.</p></div>
+<div class="view-head"><h1 data-i18n-full="ui_169">Musical Intelligence</h1><p data-i18n-full="ui_170">Practical rhythm, harmony, melody and dynamics controls for the selected style.</p></div>
 <div class="panel dark-content">
 <div class="theory-grid">
-<div><small data-i18n-full="ui_171">Key</small><strong id="theoryKey"></strong></div>
-<div><small data-i18n-full="ui_172">Scale</small><strong id="theoryScale"></strong></div>
+<div><small data-i18n-full="ui_171">Recommended Key</small><strong id="theoryKey"></strong></div>
+<div><small data-i18n-full="ui_172">Recommended Scale</small><strong id="theoryScale"></strong></div>
 <div><small data-i18n-full="ui_173">Time Signature</small><strong id="theoryMeter"></strong></div>
 <div><small data-i18n-full="ui_174">BPM Range</small><strong id="theoryBpm"></strong></div>
 </div>
-<label class="toggle" data-i18n-full="ui_175"><input id="includeTheory" type="checkbox"/>Include recommendations in STYLE</label>
+<div class="knowledge-section"><h3>🥁 Rhythm &amp; Tempo</h3><div class="grid three">
+<label>Rhythm Feel<select id="rhythmFeel"></select></label>
+<label>Tempo Character<select id="tempoCharacterTheory"></select></label>
+<label>Song Energy<select id="songEnergyProfile"></select></label>
+</div></div>
+<div class="knowledge-section"><h3>🎹 Harmony &amp; Melody</h3><div class="grid three">
+<label>Harmony<select id="harmonyMode"></select></label>
+<label>Harmony Complexity<select id="harmonyComplexity"></select></label>
+<label>Melody Direction<select id="melodyMotion"></select></label>
+</div></div>
+<div class="knowledge-section"><h3>📈 Musical Dynamics</h3><div class="grid two">
+<label>Dynamic Shape<select id="theoryDynamics"></select></label>
+<label class="toggle theory-toggle"><input id="includeTheory" type="checkbox"/>Include recommendations in STYLE</label>
+</div></div>
+<div class="knowledge-suggestion" id="theorySuggestionPanel"><div><b>🧠 Knowledge Engine</b><small id="theorySuggestionText">Genreabhängige Empfehlungen werden hier angezeigt.</small></div><button id="applyTheorySuggestions" class="primary">Empfehlungen übernehmen</button></div>
+<div id="compatibilityPanel" class="compatibility-panel"></div>
 </div>
 </section>
 <section class="view" id="metatagsView">
-<div class="view-head">
-<h1 data-i18n-full="ui_176">Suno MetaTag Builder</h1>
-<p data-i18n-full="ui_177">Creates separate lyrics MetaTags. Everything that is not sung text is placed entirely inside square brackets.</p>
+<div class="view-head prompt-intelligence-head">
+<h1 id="piMainTitle">🎼 Prompt Intelligence</h1>
+<p id="piMainSubtitle">MetaTag-Bibliothek, Songstrukturen, Prompt-DNA und kuratierte Kombinationen für Suno.</p>
 </div>
+<div class="pi-tabs" role="tablist">
+<button class="active" data-pi-tab="library" id="piTabLibrary">📚 MetaTag Library</button>
+<button data-pi-tab="maps" id="piTabMaps">🗺️ Song Maps</button>
+<button data-pi-tab="dna" id="piTabDna">🧠 Prompt DNA</button>
+<button data-pi-tab="combos" id="piTabCombos">⭐ Tag Combinations</button>
+</div>
+
+<div class="pi-panel active" data-pi-panel="library">
 <div class="panel dark-content">
-<div class="metatag-composer-card">
-<div>
-<h3 data-i18n-label="meta_composer_title">MetaTag Composer</h3>
-<p data-i18n-label="meta_composer_desc">Choose how section tags are formatted and assigned.</p>
-</div>
-<div class="grid three metatag-format-grid">
-<label data-i18n-label="meta_format">MetaTag Format
-<select id="metaTagFormat">
-<option value="classic">Classic</option>
-<option selected value="compact">Compact (Recommended)</option>
-<option value="optimized">AI Optimized</option>
+<div class="pi-library-toolbar">
+<input id="piTagSearch" type="search" placeholder="MetaTags durchsuchen …" autocomplete="off">
+<select id="piCategoryFilter"><option value="all">Alle Kategorien</option></select>
+<select id="piReliabilityFilter">
+<option value="all">Alle Bewertungen</option><option value="core">🟢 Core</option><option value="advanced">🟡 Advanced</option><option value="experimental">🟠 Experimental</option>
 </select>
-</label>
-<label class="toggle composer-toggle" data-i18n-label="section_aware">
-<input checked id="sectionAwareMetaTags" type="checkbox"/>Section-aware assignment
-</label>
-<label class="toggle composer-toggle" data-i18n-label="avoid_repetition">
-<input checked id="avoidMetaRepetition" type="checkbox"/>Avoid repeated tags
-</label>
+<label class="toggle"><input id="piFavoritesOnly" type="checkbox"><span id="piFavOnlyLabel">Nur Favoriten</span></label>
 </div>
-<div class="format-examples">
-<code id="metaFormatExample">[Verse 1] [Male Vocal] [Style: Warm, storytelling]</code>
+<div class="pi-library-summary"><strong id="piTagCount">0 MetaTags</strong><span id="piLibraryHint">Klicken zum Einfügen · Stern zum Favorisieren</span></div>
+<div id="piTagLibrary" class="pi-tag-library"></div>
 </div>
 </div>
-<div class="metatag-toolbar">
-<label class="toggle" data-i18n-full="ui_178"><input checked="" id="autoMetaTags" type="checkbox"/>Automatically derive suitable MetaTags from the current STYLE</label>
-<button data-i18n-full="ui_179" id="refreshMetaSuggestions">✨ Refresh Suggestions</button>
-<button data-i18n-full="ui_180" id="clearMetaTags">Clear selection</button>
+
+<div class="pi-panel" data-pi-panel="maps">
+<div class="panel dark-content">
+<div class="pi-section-head"><div><h2 id="piMapsTitle">Song Maps</h2><p id="piMapsDesc">Komplette, genretypische Songstrukturen mit einem Klick einfügen.</p></div><label class="toggle"><input id="piMapsIncludeDirections" type="checkbox" checked><span id="piDirectionsLabel">Passende Anweisungen ergänzen</span></label></div>
+<div id="piSongMaps" class="pi-card-grid"></div>
 </div>
-<div class="named-singer-meta-info">
-<b data-i18n-full="ui_181">Duet control with names:</b>
-<code>[Duet – Niclas (male) &amp; Kristina (female)]</code>
-<code>[Male vocals: Niclas, Female vocals: Kristina, Both: together]</code>
-<code data-i18n-full="ui_182">[Niclas] Lyrics</code>
-<code data-i18n-full="ui_183">[Kristina] Lyrics</code>
-<code data-i18n-full="ui_184">[Both] Lyrics</code>
 </div>
-<div class="meta-help">
-<b data-i18n-full="ui_185">Recommended format:</b>
-<code>[Verse 1] [Female Vocal: Warm, intimate] [Style: Storytelling, emotional] [Music: Gentle piano melody, soft strings]</code>
+
+<div class="pi-panel" data-pi-panel="dna">
+<div class="panel dark-content">
+<div class="pi-section-head"><div><h2 id="piDnaTitle">Prompt DNA</h2><p id="piDnaDesc">Zeigt, wie Genre, Instrumente, Vocals, BPM und MetaTags zusammenarbeiten.</p></div><button id="piRefreshDna">↻ Aktualisieren</button></div>
+<div id="piDnaOverview" class="pi-dna-grid"></div>
+<div class="pi-dna-actions"><button id="piApplyDnaTags" class="primary">Empfohlene DNA-Tags einfügen</button></div>
 </div>
-<h3 data-i18n-full="ui_186">Song Structure</h3>
-<div class="chips" id="metaStructure"></div>
-<h3 data-i18n-full="ui_187">Music Cues &amp; Sound Events</h3>
-<div class="chips scroll" id="metaMusic"></div>
-<h3 data-i18n-full="ui_188">Voices &amp; Performance</h3>
-<div class="chips scroll" id="metaVoices"></div>
-<h3 data-i18n-full="ui_189">Section Style Directions</h3>
-<div class="chips scroll" id="metaStyles"></div>
-<h3 data-i18n-full="ui_190">Ad-libs &amp; Calls</h3>
-<div class="chips" id="metaAdlibs"></div>
-<h3 data-i18n-full="ui_191">Choirs</h3>
-<div class="chips" id="metaChoirs"></div>
-<h3 data-i18n-full="ui_192">Automatically Recommended MetaTags</h3>
-<div class="meta-suggestions" id="metaSuggestions"></div>
+</div>
+
+<div class="pi-panel" data-pi-panel="combos">
+<div class="panel dark-content">
+<div class="pi-section-head"><div><h2 id="piCombosTitle">Tag Combinations</h2><p id="piCombosDesc">Erprobte Gruppen aus Struktur-, Vocal-, Musik-, Dynamik- und Produktions-Tags.</p></div><input id="piComboSearch" type="search" placeholder="Kombination suchen …"></div>
+<div id="piTagCombos" class="pi-card-grid"></div>
+</div>
+</div>
+
+<details class="panel dark-content pi-classic-composer">
+<summary id="piClassicSummary">Klassischen MetaTag Composer öffnen</summary>
+<div class="metatag-composer-card">
+<div><h3 data-i18n-label="meta_composer_title">MetaTag Composer</h3><p data-i18n-label="meta_composer_desc">Choose how section tags are formatted and assigned.</p></div>
+<div class="grid three metatag-format-grid">
+<label data-i18n-label="meta_format">MetaTag Format<select id="metaTagFormat"><option value="classic">Classic</option><option selected value="compact">Compact (Recommended)</option><option value="optimized">AI Optimized</option></select></label>
+<label class="toggle composer-toggle" data-i18n-label="section_aware"><input checked id="sectionAwareMetaTags" type="checkbox"/>Section-aware assignment</label>
+<label class="toggle composer-toggle" data-i18n-label="avoid_repetition"><input checked id="avoidMetaRepetition" type="checkbox"/>Avoid repeated tags</label>
+</div><div class="format-examples"><code id="metaFormatExample">[Verse 1] [Male Vocal] [Style: Warm, storytelling]</code></div></div>
+<div class="metatag-toolbar"><label class="toggle" data-i18n-full="ui_178"><input checked id="autoMetaTags" type="checkbox"/>Automatically derive suitable MetaTags from the current STYLE</label><button data-i18n-full="ui_179" id="refreshMetaSuggestions">✨ Refresh Suggestions</button><button data-i18n-full="ui_180" id="clearMetaTags">Clear selection</button></div>
+<div class="named-singer-meta-info"><b data-i18n-full="ui_181">Duet control with names:</b><code>[Duet – Niclas (male) &amp; Kristina (female)]</code><code>[Male vocals: Niclas, Female vocals: Kristina, Both: together]</code><code data-i18n-full="ui_182">[Niclas] Lyrics</code><code data-i18n-full="ui_183">[Kristina] Lyrics</code><code data-i18n-full="ui_184">[Both] Lyrics</code></div>
+<div class="meta-help"><b data-i18n-full="ui_185">Recommended format:</b><code>[Verse 1] [Female Vocal: Warm, intimate] [Style: Storytelling, emotional] [Music: Gentle piano melody, soft strings]</code></div>
+<h3 data-i18n-full="ui_186">Song Structure</h3><div class="chips" id="metaStructure"></div>
+<h3 data-i18n-full="ui_187">Music Cues &amp; Sound Events</h3><div class="chips scroll" id="metaMusic"></div>
+<h3 data-i18n-full="ui_188">Voices &amp; Performance</h3><div class="chips scroll" id="metaVoices"></div>
+<h3 data-i18n-full="ui_189">Section Style Directions</h3><div class="chips scroll" id="metaStyles"></div>
+<h3 data-i18n-full="ui_190">Ad-libs &amp; Calls</h3><div class="chips" id="metaAdlibs"></div>
+<h3 data-i18n-full="ui_191">Choirs</h3><div class="chips" id="metaChoirs"></div>
+<h3 data-i18n-full="ui_192">Automatically Recommended MetaTags</h3><div class="meta-suggestions" id="metaSuggestions"></div>
 <label data-i18n-full="ui_193">Custom MetaTags – one tag per line<textarea data-i18n-placeholder="placeholder_007" id="customMetaTags" placeholder="[Break: Abrupt silence, tension]
-[Instrumental Solo: Chaotic strings and heavy drums]"></textarea>
-</label>
-</div>
+[Instrumental Solo: Chaotic strings and heavy drums]"></textarea></label>
+</details>
 </section>
 <section class="view" id="presetsView">
 <div class="view-head"><h1 data-i18n-full="ui_194">Preset Management</h1><p data-i18n-full="ui_195">Search, load, rename, duplicate, favorite and delete presets in the center.</p></div>
@@ -448,10 +653,12 @@ html
 </section>
 <section class="glass live-output-card">
 <div class="live-output-head"><h2 data-i18n-full="ui_204">LIVE OUTPUT</h2><span class="live-indicator">● LIVE</span></div>
-<div class="live-output-tabs"><button class="active" data-live-tab="style">STYLE</button><button data-live-tab="metatags">METATAGS</button><button data-live-tab="exclude">EXCLUDE</button></div>
+<div class="live-output-tabs"><button class="active" data-live-tab="style">STYLE</button><button data-live-tab="lyrics">LYRICS</button><button data-live-tab="metatags">METATAGS</button><button data-live-tab="exclude">EXCLUDE</button></div>
 <div class="live-preview-summary"><span id="liveWordCount">0 Wörter</span><span id="liveCharCount">0 Zeichen</span></div>
 <label class="live-output-panel active" data-live-panel="style" data-i18n-full="ui_205">STYLE<textarea id="styleOutput" readonly=""></textarea></label>
 <div class="quick"><button data-i18n-full="ui_206" id="copyStyle">COPY STYLE</button><button data-i18n-full="ui_207" id="rightSavePreset">SAVE PRESET</button></div>
+<label class="live-output-panel" data-live-panel="lyrics">LYRICS<textarea id="lyricsOutput" readonly=""></textarea></label>
+<button class="full" id="copyLyricsOutput">COPY LYRICS</button>
 <label class="live-output-panel" data-live-panel="exclude" data-i18n-full="ui_208">EXCLUDE STYLE<textarea id="excludeOutput" readonly=""></textarea></label>
 <button class="full" data-i18n-full="ui_209" id="copyExclude">COPY EXCLUDE</button>
 <label class="live-output-panel" data-live-panel="metatags" data-i18n-full="ui_210">METATAGS<textarea id="metaTagsOutput" readonly=""></textarea></label>
@@ -497,7 +704,9 @@ html
 <script src="storage.js"></script>
 <script src="clipboard.js"></script>
 <script src="presetManager.js"></script>
+<script src="instrument_dna.js"></script>
 <script src="music_intelligence.js"></script>
+<script src="knowledge_engine.js"></script>
 <script src="randomizer.js"></script>
 <script src="i18n.js"></script>
 <script src="lang/en.js"></script>
@@ -515,6 +724,12 @@ html
 <script src="lang/nl.js"></script>
 <script src="lang/pl.js"></script>
 <script src="lang/loader.js"></script>
+<script src="lyrics_metatags.js"></script>
+<script src="prompt_intelligence.js"></script>
+<script src="lyrics_workspace.js"></script>
+<script src="lyrics_phase4.js"></script>
 <script src="app.js"></script>
+<script src="simple_mode.js"></script>
+<script src="ai_composer.js"></script>
 </body>
 </html>

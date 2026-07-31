@@ -1,4 +1,4 @@
-Nordlicht Soundworks Prompt Studio – Version 1.10.0
+Nordlicht Soundworks Prompt Studio – Version 2.1.0 – Knowledge Engine
 
 Nordlicht Soundworks Prompt Studio – Stable Rebuild
 
@@ -132,3 +132,35 @@ VERSION 1.9.0 – PHASE 1: MUSIC INTELLIGENCE
 - Stilbasierte Instrumentenempfehlungen mit Passungswert
 - Compatibility Score nutzt Genre-Beziehungen und Instrumenten-Passung
 - Alle Vorschläge funktionieren vollständig offline
+
+
+LYRICS WORKSPACE – PHASE 1
+--------------------------
+The new Lyrics Workspace includes a large editor, line numbers, local autosave, Undo/Redo, Find & Replace, automatic section detection, live analysis, syntax preview and a dedicated Lyrics output tab. Lyrics stay stored locally in the browser and are kept separate from Style Builder presets.
+
+
+LYRICS WORKSPACE PHASE 2
+- MetaTag library with search and category filters
+- Drag & Drop MetaTags into the Lyrics editor
+- Smart Suggestions based on the current section
+- Custom MetaTags with automatic square brackets
+- Drag & Drop reordering of complete song sections
+
+Phase 3 adds synchronized structure analysis, a Lyrics Quality Score and the MetaTag Doctor with safe optimization.
+
+
+VERSION 2.3.1 – AI COMPOSER GENRE FUSION:
+- multi-genre recognition using the complete genre library and explicit aliases
+- Viking Rap is recognized as Hip-Hop / Rap plus Viking / Nordic Folk
+- expanded creative directions, focus choices and song structures
+- adjustable genre blend slider
+- genre, detail and overall confidence values
+- explanations for recognized genres and BPM decisions
+
+
+VERSION 2.3.2 – SUNO-FRIENDLY GENRE BLEND PHRASING:
+- internal percentage slider retained
+- numeric `genre blend 70/30` removed from exported STYLE
+- blend converted to natural English phrasing for Suno
+- live phrasing preview in AI Composer and Style Builder
+- examples: subtle influence, genre-driven fusion, equal fusion

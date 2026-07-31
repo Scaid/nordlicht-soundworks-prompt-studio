@@ -23,7 +23,18 @@ const GENRE_LIBRARY = {
     "Bubblegum Pop",
     "Adult Contemporary",
     "Sophisti-Pop",
-    "Psychedelic Pop"
+    "Psychedelic Pop",
+    "Bedroom Pop",
+    "Indietronica",
+    "Future Pop",
+    "Alt-Pop",
+    "Nordic Pop",
+    "Latin Pop",
+    "Afropop",
+    "Mandopop",
+    "Cantopop",
+    "Idol Pop",
+    "Vocaloid Pop"
   ],
   "Rock": [
     "Alternative Rock",
@@ -51,7 +62,16 @@ const GENRE_LIBRARY = {
     "Emo Rock",
     "Pop Rock",
     "Classic Rock",
-    "Industrial Rock"
+    "Industrial Rock",
+    "Post-Punk",
+    "Shoegaze",
+    "Dream Rock",
+    "Skate Punk",
+    "Pop Punk",
+    "Punk Rock",
+    "Heartland Rock",
+    "Yacht Rock",
+    "Roots Rock"
   ],
   "Metal": [
     "Heavy Metal",
@@ -79,7 +99,18 @@ const GENRE_LIBRARY = {
     "Post-Metal",
     "Alternative Metal",
     "Trap Metal",
-    "Neoclassical Metal"
+    "Neoclassical Metal",
+    "Pirate Metal",
+    "Blackened Death Metal",
+    "Technical Death Metal",
+    "Brutal Death Metal",
+    "Atmospheric Black Metal",
+    "Post-Black Metal",
+    "Funeral Doom",
+    "Stoner Metal",
+    "Progressive Metalcore",
+    "Symphonic Deathcore",
+    "Kawaii Metal"
   ],
   "Electronic / EDM": [
     "EDM",
@@ -118,7 +149,41 @@ const GENRE_LIBRARY = {
     "2-Step",
     "IDM",
     "Downtempo",
-    "Trip-Hop"
+    "Trip-Hop",
+    "Detroit Techno",
+    "Acid Techno",
+    "Minimal Techno",
+    "Industrial Techno",
+    "Schranz",
+    "Hard Techno",
+    "Acid House",
+    "French House",
+    "Tropical House",
+    "Afro House",
+    "Organic House",
+    "Garage House",
+    "Goa Trance",
+    "Uplifting Trance",
+    "Vocal Trance",
+    "Tech Trance",
+    "Jungle",
+    "Jump-Up Drum & Bass",
+    "Dancefloor Drum & Bass",
+    "Atmospheric Drum & Bass",
+    "Brostep",
+    "Riddim Dubstep",
+    "Glitch Hop",
+    "Big Beat",
+    "Happy Hardcore",
+    "Gabber",
+    "Speedcore",
+    "Jumpstyle",
+    "Retrowave",
+    "Outrun",
+    "Vaporwave",
+    "Chillwave",
+    "Dreamwave",
+    "Future Garage"
   ],
   "Hip-Hop / Rap": [
     "Boom Bap",
@@ -142,7 +207,16 @@ const GENRE_LIBRARY = {
     "Southern Rap",
     "Trap Soul",
     "Rap Rock",
-    "Rap Metal"
+    "Rap Metal",
+    "G-Funk",
+    "UK Hip-Hop",
+    "Abstract Hip-Hop",
+    "Industrial Hip-Hop",
+    "Phonk Rap",
+    "Jersey Club Rap",
+    "Latin Trap",
+    "Rage Rap",
+    "PluggnB"
   ],
   "R&B": [
     "Contemporary R&B",
@@ -196,6 +270,13 @@ const GENRE_LIBRARY = {
     "Dark Ballad",
     "Epic Ballad"
   ],
+  "Swing / Vintage Jazz": [
+    "Classic Swing", "Electro Swing", "Neo Swing", "Swing House", "Big Band Swing",
+    "Gypsy Swing", "Vintage Swing", "Cabaret Swing", "Speakeasy Jazz", "Charleston Swing",
+    "Dance Hall Swing", "Ballroom Swing", "Balkan Swing", "Western Swing", "Jump Blues",
+    "Hot Jazz", "Sweet Jazz", "Lindy Hop", "Jive", "Boogie-Woogie", "Ragtime",
+    "Electro Jazz", "Vintage Remix", "Burlesque Jazz", "Circus Swing", "Dark Cabaret"
+  ],
   "Jazz": [
     "Traditional Jazz",
     "Swing",
@@ -214,7 +295,18 @@ const GENRE_LIBRARY = {
     "Nu Jazz",
     "Acid Jazz",
     "Dark Jazz",
-    "Cinematic Jazz"
+    "Cinematic Jazz",
+    "Dixieland",
+    "Contemporary Jazz",
+    "Chamber Jazz",
+    "Orchestral Jazz",
+    "Jazz Rock",
+    "Jazz Rap",
+    "Afro-Cuban Jazz",
+    "Spiritual Jazz",
+    "Avant-Garde Jazz",
+    "Post-Bop",
+    "Latin Fusion"
   ],
   "Blues": [
     "Delta Blues",
@@ -260,7 +352,19 @@ const GENRE_LIBRARY = {
     "Appalachian Folk",
     "Singer-Songwriter",
     "Neofolk",
-    "World Folk"
+    "World Folk",
+    "Scandinavian Folk",
+    "Irish Folk",
+    "Scottish Folk",
+    "Medieval Folk",
+    "Fantasy Folk",
+    "Tavern Folk",
+    "Pirate Folk",
+    "Japanese Folk",
+    "Chinese Folk",
+    "Arabic Folk",
+    "Desert Folk",
+    "Mongolian Folk"
   ],
   "Classical / Orchestral": [
     "Baroque",
@@ -297,7 +401,14 @@ const GENRE_LIBRARY = {
     "Ambient Score",
     "Hybrid Orchestral",
     "Post-Apocalyptic Score",
-    "Cyberpunk Score"
+    "Cyberpunk Score",
+    "Epic Trailer Music",
+    "Dark Cinematic",
+    "Fantasy Score",
+    "Anime Score",
+    "JRPG Soundtrack",
+    "AAA Game Soundtrack",
+    "Documentary Score"
   ],
   "Anime / Japanese": [
     "Anime Opening",
@@ -341,7 +452,19 @@ const GENRE_LIBRARY = {
     "Nordic",
     "Balkan",
     "Mediterranean",
-    "World Fusion"
+    "World Fusion",
+    "Klezmer",
+    "Flamenco",
+    "Tango",
+    "Bossa Nova",
+    "Samba",
+    "Mariachi",
+    "Qawwali",
+    "Tuvan Throat Singing",
+    "Mongolian Throat Singing",
+    "Gamelan",
+    "Gnawa",
+    "Fado"
   ],
   "Latin": [
     "Salsa",
@@ -415,7 +538,15 @@ const GENRE_LIBRARY = {
     "Microtonal",
     "Drone Experimental",
     "Industrial Experimental",
-    "Art Music"
+    "Art Music",
+    "Lowercase",
+    "Deconstructed Club",
+    "Hyper-Industrial",
+    "Generative Ambient",
+    "Electroacoustic Improvisation",
+    "Spectral Music",
+    "Minimalism",
+    "Maximalism"
   ],
   "Fantasy / Thematic": [
     "Dark Fantasy",
