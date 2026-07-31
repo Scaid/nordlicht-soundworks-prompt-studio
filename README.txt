@@ -164,3 +164,11 @@ VERSION 2.3.2 – SUNO-FRIENDLY GENRE BLEND PHRASING:
 - blend converted to natural English phrasing for Suno
 - live phrasing preview in AI Composer and Style Builder
 - examples: subtle influence, genre-driven fusion, equal fusion
+
+
+VERSION 2.4.0 – PROMPT OPTIMIZER:
+- Dedicated offline STYLE analysis and optimization workspace
+- Quality scores for clarity, focus, completeness, compatibility and concision
+- Duplicate, overload and contradiction detection
+- Safe, Balanced and Creative optimization modes
+- Suno-friendly cleanup and Custom Style transfer

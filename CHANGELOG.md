@@ -1,5 +1,14 @@
 # Nordlicht Soundworks Prompt Studio – Changelog
 
+## Version 2.4.0 – Prompt Optimizer
+
+- Dedicated offline Prompt Optimizer workspace
+- Prompt quality analysis and categorized Song DNA
+- Duplicate, overload and contradiction detection
+- Safe, Balanced and Creative optimization modes
+- Suno-friendly cleanup of language labels and numeric blend syntax
+
+
 ## Version 2.3.2 – Suno-Friendly Genre Blend Phrasing
 
 - Replaced the undocumented numeric output `genre blend 70/30` with natural English genre-fusion descriptions

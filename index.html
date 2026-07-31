@@ -23,7 +23,7 @@ html
 </div>
 <div class="top-actions">
 <div class="studio-mode-switch" role="group" aria-label="Studio mode"><button id="simpleModeButton" type="button">✨ Einfach</button><button id="advancedModeButton" class="active" type="button">🎛 Erweitert</button></div>
-<div class="language-picker"><button class="language-button" id="languageButton">🌐 English</button><div class="language-menu hidden" id="languageMenu"></div></div><span class="version-badge" title="Current version">v2.3.2</span>
+<div class="language-picker"><button class="language-button" id="languageButton">🌐 English</button><div class="language-menu hidden" id="languageMenu"></div></div><span class="version-badge" title="Current version">v2.4.0</span>
 <button data-i18n-full="ui_006" id="openChangelog">📋 Changelog</button>
 <button data-i18n-full="ui_007" id="topSavePreset">💾 Save Preset</button>
 <button data-i18n-full="ui_008" id="topImport">📂 Import</button>
@@ -37,11 +37,12 @@ html
 </div>
 <div class="sidebar-version">
 <b data-i18n-full="ui_010">Prompt Studio</b>
-<span data-i18n-full="ui_011">Version 2.3.2 · AI Composer</span>
+<span data-i18n-full="ui_011">Version 2.4.0 · Prompt Optimizer</span>
 <small data-i18n-full="ui_012">© 2026 Nordlicht Soundworks</small>
 </div>
 <nav id="navigation">
 <button class="nav" data-view="composerView">🤖<span><b>AI Composer</b><small>Aus einer Idee drei Songrichtungen entwickeln</small></span></button>
+<button class="nav" data-view="optimizerView">🧹<span><b>Prompt Optimizer</b><small>STYLE analysieren, bereinigen und verbessern</small></span></button>
 <button class="nav active" data-i18n-full="ui_016" data-view="randomView">🎲<span><b data-i18n-full="ui_017">Smart Randomizer</b><small data-i18n-full="ui_018">Control randomness precisely</small></span></button>
 <button class="nav" data-view="lyricsView">✍️<span><b data-lyrics-i18n="nav_title">Lyrics Workspace</b><small data-lyrics-i18n="nav_subtitle">Write, structure and prepare lyrics</small></span></button>
 <button class="nav" data-i18n-full="ui_013" data-view="assistantView">🤖<span><b data-i18n-full="ui_014">Offline Smart Assistant</b><small data-i18n-full="ui_015">Analyze and apply a song idea</small></span></button>
@@ -79,6 +80,36 @@ html
 </div>
 </section>
 
+
+
+<section class="view" id="optimizerView">
+  <div class="view-head optimizer-head"><div><h1>🧹 Prompt Optimizer</h1><p>Analysiert einen vorhandenen STYLE-Prompt, erkennt Überladung, Wiederholungen und Konflikte und erstellt eine klarere Suno-freundliche Fassung.</p></div><span class="optimizer-offline-badge">🔒 Lokal · Offline</span></div>
+  <div class="optimizer-layout">
+    <section class="panel dark-content optimizer-editor-card">
+      <div class="optimizer-title-row"><div><h2>1. STYLE einfügen</h2><p>Kommagetrennte Style-Prompts sowie mehrzeilige Eingaben werden unterstützt.</p></div><span id="optimizerInputCount">0 items</span></div>
+      <textarea id="optimizerStudioInput" class="optimizer-textarea" placeholder="Example: Viking Rap, Rap, Nordic Folk, genre blend 70/30, Male Vocal, Tagelharpa, Tagelharpa, Wide Stereo Mix, Mono Mix..."></textarea>
+      <div class="grid two optimizer-controls"><label>Optimierungsmodus<select id="optimizerMode"><option value="safe">Sicher · nur bereinigen</option><option value="balanced" selected>Ausgewogen · fehlende Grundlagen ergänzen</option><option value="creative">Kreativ · musikalische Entwicklung ergänzen</option></select></label><label class="optimizer-check"><input id="optimizerReplaceCustom" type="checkbox" checked> Vorhandenes Custom Style beim Übernehmen ersetzen</label></div>
+      <div class="optimizer-actions"><button class="primary" id="optimizerAnalyze">🔍 ANALYSIEREN & OPTIMIEREN</button><button id="optimizerUseCurrent">↙ Aktuellen STYLE verwenden</button><button id="optimizerClear">↺ Leeren</button></div>
+      <p class="optimizer-status" id="optimizerStudioStatus">Bereit für einen Style-Prompt.</p>
+    </section>
+    <aside class="panel dark-content optimizer-overview-card">
+      <div class="optimizer-overall"><span>Prompt Quality</span><strong id="optimizerOverall">--%</strong></div>
+      <p>Die Bewertung misst Klarheit, Fokus, Vollständigkeit, Kompatibilität und Kürze. Sie ist eine Hilfestellung, keine Erfolgsgarantie.</p>
+      <div id="optimizerScoreGrid" class="optimizer-score-grid"></div>
+    </aside>
+  </div>
+  <section class="panel dark-content optimizer-result hidden" id="optimizerResultPanel">
+    <div class="optimizer-result-grid">
+      <div><h2>2. Erkannte Prompt-DNA</h2><div id="optimizerBreakdown" class="optimizer-breakdown"></div></div>
+      <div class="optimizer-analysis-columns">
+        <article><h3>⚠ Probleme</h3><ul id="optimizerIssues"></ul></article>
+        <article><h3>💡 Verbesserungen</h3><ul id="optimizerSuggestions"></ul></article>
+        <article><h3>✓ Stärken</h3><ul id="optimizerStrengths"></ul></article>
+      </div>
+    </div>
+    <div class="optimizer-output-block"><div class="optimizer-title-row"><div><h2>3. Optimierter STYLE</h2><p>Die Ausgabe entfernt Sprache und undokumentierte Zahlengewichtungen automatisch.</p></div></div><textarea id="optimizerStudioOutput" class="optimizer-textarea output" readonly></textarea><div class="optimizer-actions"><button class="primary" id="optimizerCopy">📋 OPTIMIERTEN STYLE KOPIEREN</button><button id="optimizerApplyCustom">✅ IN DEN STYLE BUILDER ÜBERNEHMEN</button></div></div>
+  </section>
+</section>
 
 <section class="view" id="composerView">
   <div class="view-head composer-head"><div><h1>🤖 AI Composer</h1><p>Beschreibe deine Songidee. Die lokale Knowledge Engine entwickelt daraus drei musikalische Richtungen und überträgt deine Auswahl in den Style Builder.</p></div><span class="composer-offline-badge">🔒 Lokal · Offline · Keine Datenübertragung</span></div>
@@ -731,5 +762,6 @@ html
 <script src="app.js"></script>
 <script src="simple_mode.js"></script>
 <script src="ai_composer.js"></script>
+<script src="prompt_optimizer.js"></script>
 </body>
 </html>
