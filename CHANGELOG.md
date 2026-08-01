@@ -1,5 +1,117 @@
 # Nordlicht Soundworks Prompt Studio – Changelog
 
+## Version 4.0.0 – Suno Project Manager
+
+- Complete project, album and track management
+- Progress dashboard and production checklist
+- STYLE, Lyrics, Blueprint and Exclude capture / restore
+- Version history and snapshots
+- Release planning and metadata
+- Local IndexedDB asset manager
+- Project import and export
+- Local and offline
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 3.9.0 – Learning Engine 2.0
+
+- Rebuilt the local Learning Engine with detailed Suno-result feedback
+- Added weighted personal preferences, repeated problems and taste-profile confidence
+- Added category analytics, keep rate, prompt accuracy and result trends
+- Added editable history, filtering, import and export
+- Added learned STYLE preferences, exclusions and personal preset creation
+- Migrates Learning Engine 1.0 data automatically
+- Local and offline
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 3.8.0 – Song Blueprint 2.0
+
+- Full visual timeline with timestamps and section durations
+- Drag-and-drop arrangement editing
+- Energy curve, vocal, instrument, dynamic and transition planning
+- Blueprint scoring, warnings and recommendations
+- Detailed table, export and Lyrics Workspace integration
+- Local and offline
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 3.7.0 – Prompt Optimizer 2.0
+
+- Live prompt analysis while typing
+- Expanded quality scoring, conflict detection and focus control
+- Transparent before/after comparison
+- Editable output, undo, reports and JSON export
+- Preserved STYLE Builder workflow integration
+- Local and offline
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 3.6.0 – Music Theory Intelligence 2.0
+
+- Rebuilt Musical Intelligence around coherent theory profiles
+- Added theory presets, advanced musical controls and coherence scoring
+- Added conflict detection, recommendations and Music Theory DNA
+- Added a searchable Music Theory Knowledge Library
+- Preserved compatibility with the existing Knowledge Engine and STYLE output
+- Local and offline
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 3.5.0 – Production Intelligence 2.0
+
+- Rebuilt Production Intelligence around coherent production chains
+- Added production presets, extended sound controls and coherence scoring
+- Added conflict detection, recommendations and Production DNA
+- Added a searchable Production Knowledge Library
+- Preserved compatibility with existing presets, Knowledge Engine and STYLE output
+- Local and offline
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 3.4.0 – Lyrics Intelligence
+
+- Dedicated Lyrics Intelligence module
+- Rhyme, syllable, hook, chorus, repetition, emotion and story analysis
+- Readability, flow and singability scoring
+- Section balance and line-by-line highlights
+- Lyrics Workspace integration and report export
+- Local and offline
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 3.3.0 – MetaTag Encyclopedia
+
+- Added a complete MetaTag Encyclopedia
+- Meaning, reliability, placement, examples, alternatives and conflicts
+- Genre-aware recommendations and filtering
+- Favorites, local ratings, private notes and MetaTag comparison
+- One-click insertion into existing MetaTag and Lyrics workflows
+- Local and offline
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 3.2.0 – Genre Intelligence 2.0
+
+- Added a complete Genre Intelligence workspace
+- Genre DNA for the full existing Genre Library
+- Tempo, energy, rhythm, instrument, vocal, production, structure and mood guidance
+- Search, filters, favorites, local ratings and notes
+- Genre comparison, fusion advice and Style Builder transfer
+- Local and offline
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 3.1.0 – Instrument DNA 2.0
+
+- Instrument Encyclopedia with connected musical metadata
+- Era, energy, tone, mood, role, genre fit and BPM guidance
+- Smart pairings, uncommon combinations and current-style fit
+- Local ratings and private performance notes
+- Expanded search and filtering
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
 ## Version 3.0.0 – Nordlicht AI Producer
 
 # Nordlicht Soundworks Prompt Studio – Changelog

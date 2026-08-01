@@ -23,7 +23,7 @@ html
 </div>
 <div class="top-actions">
 <div class="studio-mode-switch" role="group" aria-label="Studio mode"><button id="simpleModeButton" type="button">✨ Einfach</button><button id="advancedModeButton" class="active" type="button">🎛 Erweitert</button></div>
-<div class="language-picker"><button class="language-button" id="languageButton">🌐 English</button><div class="language-menu hidden" id="languageMenu"></div></div><span class="version-badge" title="Current version">v3.0.1</span>
+<div class="language-picker"><button class="language-button" id="languageButton">🌐 English</button><div class="language-menu hidden" id="languageMenu"></div></div><span class="version-badge" title="Current version">v4.0.0</span>
 <button data-i18n-full="ui_006" id="openChangelog">📋 Changelog</button>
 <button data-i18n-full="ui_007" id="topSavePreset">💾 Save Preset</button>
 <button data-i18n-full="ui_008" id="topImport">📂 Import</button>
@@ -37,7 +37,7 @@ html
 </div>
 <div class="sidebar-version">
 <b data-i18n-full="ui_010">Prompt Studio</b>
-<span data-i18n-full="ui_011">Version 3.0.1 · Workspace Navigation</span>
+<span data-i18n-full="ui_011">Version 4.0.0 · Workspace Navigation</span>
 <small data-i18n-full="ui_012">© 2026 Nordlicht Soundworks</small>
 </div>
 <nav id="navigation" class="workspace-navigation" aria-label="Main navigation">
@@ -58,6 +58,7 @@ html
 <button class="workspace-group-toggle" type="button" aria-expanded="false"><span>🔍 ANALYZE</span><small>Understand, optimize and evolve prompts</small><i>›</i></button>
 <div class="workspace-group-items">
 <button class="nav" data-view="dnaAnalyzerView" type="button">🧬<span><b>Song DNA Analyzer</b><small>Reverse-engineer an existing STYLE</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="lyricsIntelligenceView" type="button">📝<span><b>Lyrics Intelligence</b><small>Rhyme, flow, hooks, emotion and singability</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="optimizerView" type="button">🧹<span><b>Prompt Optimizer</b><small>Clean and improve STYLE prompts</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="evolutionView" type="button">🌱<span><b>Prompt Evolution</b><small>Create controlled STYLE variations</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="learningView" type="button">🧠<span><b>Learning Engine</b><small>Rate results and learn preferences</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
@@ -66,6 +67,8 @@ html
 <section class="workspace-nav-group" data-workspace="knowledge">
 <button class="workspace-group-toggle" type="button" aria-expanded="false"><span>📚 KNOWLEDGE</span><small>Explore musical intelligence and libraries</small><i>›</i></button>
 <div class="workspace-group-items">
+<button class="nav" data-view="genreIntelligenceView" type="button">🎵<span><b>Genre Intelligence</b><small>Explore genre DNA, fusion and Suno guidance</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="metaTagEncyclopediaView" type="button">📖<span><b>MetaTag Encyclopedia</b><small>Meaning, reliability, examples and conflicts</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="metatagsView" type="button">🏷️<span><b>Prompt Intelligence</b><small>MetaTags, Song Maps and Prompt DNA</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="styleLibraryView" type="button">📚<span><b>Style Library</b><small>Find and apply curated styles</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="blueprintView" type="button">🗺️<span><b>Song Blueprint</b><small>Plan structure, energy and roles</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
@@ -79,13 +82,14 @@ html
 <section class="workspace-nav-group" data-workspace="project">
 <button class="workspace-group-toggle" type="button" aria-expanded="false"><span>⚙ PROJECT</span><small>Manage presets, exports and settings</small><i>›</i></button>
 <div class="workspace-group-items">
+<button class="nav" data-view="projectManagerView" type="button">🗂️<span><b>Project Manager</b><small>Albums, tracks, assets and version history</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="presetsView" type="button">⭐<span><b>Presets</b><small>Save, organize and restore styles</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 </div></section>
 </nav>
 </aside>
 <main class="workspace"><div class="workspace-breadcrumb" id="workspaceBreadcrumb"><button id="workspaceBreadcrumbHome" type="button">Home</button><span>›</span><b id="workspaceBreadcrumbGroup">Create</b><span>›</span><strong id="workspaceBreadcrumbModule">Smart Randomizer</strong></div>
 <section class="view workspace-home-view" id="homeView">
-<div class="view-head workspace-home-head"><div><h1>🏠 Welcome back</h1><p>Start a new idea, continue with a recent tool or open one of your pinned modules.</p></div><span class="workspace-home-badge">Nordlicht Soundworks · v3.0.1</span></div>
+<div class="view-head workspace-home-head"><div><h1>🏠 Welcome back</h1><p>Start a new idea, continue with a recent tool or open one of your pinned modules.</p></div><span class="workspace-home-badge">Nordlicht Soundworks · v4.0.0</span></div>
 <div class="workspace-home-grid">
 <section class="panel dark-content workspace-home-hero"><span class="workspace-kicker">QUICK START</span><h2>What do you want to create?</h2><p>Choose a direct entry point. Smart Randomizer stays the fastest and most playful way to begin.</p><div class="workspace-quick-actions">
 <button class="primary" data-open-view="randomView">🎲 Smart Randomizer</button><button data-open-view="composerView">🤖 AI Composer</button><button data-open-view="styleView">🎼 Style Builder</button><button data-open-view="lyricsView">✍️ Lyrics Workspace</button>
@@ -121,10 +125,415 @@ html
 
 
 <section class="view" id="promptChatView"><div class="view-head"><div><h1>💬 AI Prompt Chat</h1><p>Ein lokaler Produktionsassistent: Schreibe, wie der STYLE verändert werden soll.</p></div><span class="dna-offline-badge">Nordlicht AI Producer · Offline</span></div><div class="feature-grid"><section class="panel dark-content feature-card"><div id="chatMessages" class="chat-box"><div class="chat-msg assistant">Hallo! Lade den aktuellen STYLE oder füge einen eigenen ein. Danach kannst du z. B. schreiben: „Mach ihn epischer“, „weniger Instrumente“, „mehr Electro Swing“ oder „Instrumental“.</div></div><div class="chat-compose"><textarea id="chatInput" placeholder="Wie soll der Prompt verändert werden?"></textarea><button class="primary" id="chatSend">Senden</button></div><div class="feature-actions"><button id="chatLoad">Aktuellen STYLE laden</button><button id="chatUndo">Letzte Änderung zurück</button><button id="chatClear">Chat leeren</button></div></section><aside class="panel dark-content feature-card"><h2>Aktueller Arbeits-STYLE</h2><textarea id="chatStyle" class="feature-output" placeholder="STYLE-Prompt..."></textarea><div class="feature-actions"><button id="chatCopy">Kopieren</button><button class="primary" id="chatApply">In Style Builder übernehmen</button></div><h3>Schnellbefehle</h3><div class="feature-chiprow"><button data-cmd="Mach den Style epischer">Epischer</button><button data-cmd="Mach ihn emotionaler">Emotionaler</button><button data-cmd="Weniger Instrumente">Weniger Instrumente</button><button data-cmd="Mehr Dynamik">Mehr Dynamik</button><button data-cmd="Instrumental">Instrumental</button></div></aside></div></section>
-<section class="view" id="learningView"><div class="view-head"><div><h1>🧠 Learning Engine</h1><p>Speichert dein Feedback ausschließlich lokal und erkennt bevorzugte Genres, Instrumente und Produktionsmerkmale.</p></div><span id="learnCount" class="dna-offline-badge">0 Bewertungen</span></div><div class="feature-grid"><section class="panel dark-content feature-card"><h2>Aktuelles Ergebnis bewerten</h2><textarea id="learnPrompt" class="feature-output" placeholder="STYLE-Prompt oder Ergebnisbeschreibung..."></textarea><div class="feature-toolbar"><label>Gesamtbewertung<select id="learnRating"><option value="5">★★★★★ Sehr gut</option><option value="4">★★★★☆ Gut</option><option value="3">★★★☆☆ Mittel</option><option value="2">★★☆☆☆ Schwach</option><option value="1">★☆☆☆☆ Schlecht</option></select></label><label>Was war besonders gut?<select id="learnPositive"><option>Overall Style</option><option>Vocals</option><option>Instruments</option><option>Production</option><option>Structure</option></select></label><label>Was war schwach?<select id="learnNegative"><option>Nothing</option><option>Vocals</option><option>Instruments</option><option>Production</option><option>Structure</option></select></label></div><div class="feature-actions"><button class="primary" id="learnSave">💾 FEEDBACK SPEICHERN</button><button id="learnCurrent">Aktuellen STYLE verwenden</button><button id="learnReset">Lerndaten löschen</button></div></section><aside class="panel dark-content feature-card"><h2>Persönliches Profil</h2><div id="learnProfile" class="feature-list"></div><button class="primary full" id="learnApply">Gelernte Vorlieben anwenden</button></aside></div><section class="panel dark-content feature-card" style="margin-top:16px"><h2>Feedback-Verlauf</h2><div id="learnHistory" class="feature-list feature-scroll"></div></section></section>
-<section class="view" id="blueprintView"><div class="view-head"><div><h1>🗺️ Song Blueprint</h1><p>Erstellt aus Lyrics oder einer Vorlage einen visuellen Produktionsplan.</p></div><span class="dna-offline-badge">Visual Song Plan</span></div><section class="panel dark-content feature-card"><div class="feature-toolbar"><label>Quelle<select id="bpSource"><option value="lyrics">Lyrics Workspace</option><option value="template">Vorlage</option></select></label><label>Vorlage<select id="bpTemplate"><option>Anime Opening</option><option>Classic Song</option><option>Viking Epic</option><option>Rap Song</option><option>EDM Track</option><option>Cinematic Build</option></select></label><button class="primary" id="bpGenerate">🗺️ BLUEPRINT ERSTELLEN</button><button id="bpExport">JSON exportieren</button></div></section><div class="feature-grid" style="margin-top:16px"><section class="panel dark-content feature-card"><h2>Song Map</h2><div id="bpMap" class="bp-map"></div></section><aside class="panel dark-content feature-card"><h2>Blueprint Summary</h2><div id="bpSummary" class="feature-list"></div><h3>Energiekurve</h3><div id="bpEnergy" class="bp-energy"></div></aside></div></section>
+
+<section class="view" id="learningView">
+  <div class="view-head learning2-head">
+    <div>
+      <h1>🧠 Learning Engine 2.0</h1>
+      <p>Builds a private taste profile from your Suno results and turns repeated feedback into practical recommendations.</p>
+    </div>
+    <span id="learnCount" class="learning2-badge">0 ratings · Local only</span>
+  </div>
+
+  <div class="learning2-layout">
+    <section class="panel dark-content learning2-feedback">
+      <div class="learning2-title-row">
+        <div><h2>1. Rate a Result</h2><p>Describe what Suno produced, not only what the prompt requested.</p></div>
+        <span id="learnProfileConfidence">Profile confidence 0%</span>
+      </div>
+
+      <textarea id="learnPrompt" class="learning2-textarea" placeholder="STYLE prompt or result description..."></textarea>
+
+      <div class="grid four learning2-controls">
+        <label>Overall Rating
+          <select id="learnRating">
+            <option value="5">★★★★★ Excellent</option><option value="4">★★★★☆ Good</option>
+            <option value="3">★★★☆☆ Mixed</option><option value="2">★★☆☆☆ Weak</option><option value="1">★☆☆☆☆ Poor</option>
+          </select>
+        </label>
+        <label>Result Accuracy
+          <select id="learnAccuracy">
+            <option value="5">Very close to prompt</option><option value="4">Mostly accurate</option>
+            <option value="3">Partly accurate</option><option value="2">Mostly missed</option><option value="1">Completely different</option>
+          </select>
+        </label>
+        <label>Best Aspect
+          <select id="learnPositive">
+            <option>Overall Style</option><option>Genre Blend</option><option>Vocals</option><option>Instruments</option>
+            <option>Production</option><option>Energy</option><option>Structure</option><option>Emotion</option><option>Hook</option>
+          </select>
+        </label>
+        <label>Weakest Aspect
+          <select id="learnNegative">
+            <option>Nothing</option><option>Genre Blend</option><option>Vocals</option><option>Instruments</option>
+            <option>Production</option><option>Energy</option><option>Structure</option><option>Emotion</option><option>Hook</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="grid four learning2-controls">
+        <label>Vocal Result
+          <select id="learnVocalResult">
+            <option value="neutral">Not rated</option><option value="excellent">Excellent</option><option value="good">Good</option>
+            <option value="wrong">Wrong voice</option><option value="blended">Voices blended</option><option value="unclear">Unclear separation</option>
+          </select>
+        </label>
+        <label>Instrument Result
+          <select id="learnInstrumentResult">
+            <option value="neutral">Not rated</option><option value="excellent">Excellent</option><option value="good">Good</option>
+            <option value="missing">Important instruments missing</option><option value="wrong">Wrong instruments</option><option value="crowded">Too crowded</option>
+          </select>
+        </label>
+        <label>Production Result
+          <select id="learnProductionResult">
+            <option value="neutral">Not rated</option><option value="excellent">Excellent</option><option value="good">Good</option>
+            <option value="flat">Too flat</option><option value="muddy">Muddy</option><option value="thin">Too thin</option><option value="overdone">Overproduced</option>
+          </select>
+        </label>
+        <label>Song Outcome
+          <select id="learnOutcome">
+            <option value="keeper">Keeper / Would use</option><option value="retry">Retry with changes</option>
+            <option value="idea">Good idea, poor result</option><option value="reject">Reject</option>
+          </select>
+        </label>
+      </div>
+
+      <label>Private Notes
+        <textarea id="learnNotes" class="learning2-notes" placeholder="What exactly worked or failed? These notes stay in this browser."></textarea>
+      </label>
+
+      <div class="learning2-tag-preview">
+        <div><b>Detected Prompt DNA</b><small id="learnDetectedCount">0 detected items</small></div>
+        <div id="learnDetectedTags" class="learning2-chip-list"></div>
+      </div>
+
+      <div class="learning2-actions">
+        <button class="primary" id="learnSave">💾 SAVE FEEDBACK</button>
+        <button id="learnCurrent">↙ Use Current STYLE</button>
+        <button id="learnAnalyzePrompt">🔍 Analyze Prompt</button>
+        <button id="learnReset">🗑 Reset Learning Data</button>
+      </div>
+      <p id="learnStatus" class="learning2-status">Ready for feedback.</p>
+    </section>
+
+    <aside class="panel dark-content learning2-profile">
+      <div class="learning2-profile-score">
+        <div><span>Personal Profile</span><strong id="learnProfileScore">--</strong></div>
+        <div class="learning2-score-track"><i id="learnProfileBar"></i></div>
+      </div>
+
+      <div class="learning2-profile-card">
+        <h3>🎯 Taste Summary</h3>
+        <p id="learnTasteSummary">More ratings are needed before a stable taste profile can be generated.</p>
+      </div>
+
+      <div class="learning2-profile-card">
+        <h3>⭐ Strong Preferences</h3>
+        <div id="learnTopPreferences" class="learning2-chip-list"></div>
+      </div>
+
+      <div class="learning2-profile-card">
+        <h3>🚫 Repeated Problems</h3>
+        <div id="learnAvoidances" class="learning2-chip-list"></div>
+      </div>
+
+      <div class="learning2-profile-card">
+        <h3>📈 Learning Progress</h3>
+        <div id="learnProgressMetrics" class="learning2-metrics"></div>
+      </div>
+
+      <div class="learning2-profile-actions">
+        <button class="primary" id="learnApply">Apply Learned Preferences</button>
+        <button id="learnApplyAvoid">Apply Learned Exclusions</button>
+        <button id="learnGeneratePreset">Create Personal Preset</button>
+      </div>
+    </aside>
+  </div>
+
+  <section class="panel dark-content learning2-dashboard">
+    <div class="learning2-title-row">
+      <div><h2>2. Personal Learning Dashboard</h2><p>Patterns are weighted by rating, accuracy, result quality and recency.</p></div>
+      <div class="learning2-export-actions">
+        <button id="learnExport">⬇ Export Learning Data</button>
+        <button id="learnImport">⬆ Import Data</button>
+        <input id="learnImportFile" type="file" accept=".json,application/json" hidden>
+      </div>
+    </div>
+
+    <div class="learning2-stat-grid">
+      <article class="learning2-stat"><span>Average Rating</span><strong id="learnAverageRating">--</strong><small id="learnAverageTrend">No trend yet</small></article>
+      <article class="learning2-stat"><span>Keep Rate</span><strong id="learnKeepRate">--</strong><small>Keeper results</small></article>
+      <article class="learning2-stat"><span>Prompt Accuracy</span><strong id="learnAccuracyScore">--</strong><small>Average result match</small></article>
+      <article class="learning2-stat"><span>Profile Stability</span><strong id="learnStability">--</strong><small>Consistency of preferences</small></article>
+    </div>
+
+    <div class="learning2-dashboard-grid">
+      <article class="learning2-panel">
+        <header><h3>🎵 Category Preferences</h3><small>Positive and negative learning signals</small></header>
+        <div id="learnCategoryBars" class="learning2-bars"></div>
+      </article>
+      <article class="learning2-panel">
+        <header><h3>🧬 Favorite Prompt DNA</h3><small>Terms repeatedly linked to good results</small></header>
+        <div id="learnProfile" class="learning2-ranked-list"></div>
+      </article>
+      <article class="learning2-panel">
+        <header><h3>⚠ Problem Patterns</h3><small>Terms repeatedly linked to weak results</small></header>
+        <div id="learnProblemPatterns" class="learning2-ranked-list"></div>
+      </article>
+      <article class="learning2-panel">
+        <header><h3>💡 Personalized Recommendations</h3><small>Suggestions for future prompts</small></header>
+        <ul id="learnRecommendations" class="learning2-list"></ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="panel dark-content learning2-history-card">
+    <div class="learning2-title-row">
+      <div><h2>3. Feedback History</h2><p>Review, filter, edit or remove individual ratings.</p></div>
+      <div class="learning2-history-filters">
+        <select id="learnHistoryRating"><option value="all">All ratings</option><option value="5">5 stars</option><option value="4">4 stars</option><option value="3">3 stars</option><option value="2">2 stars</option><option value="1">1 star</option></select>
+        <select id="learnHistoryOutcome"><option value="all">All outcomes</option><option value="keeper">Keeper</option><option value="retry">Retry</option><option value="idea">Good idea</option><option value="reject">Reject</option></select>
+        <input id="learnHistorySearch" placeholder="Search prompt or notes">
+      </div>
+    </div>
+    <div id="learnHistory" class="learning2-history"></div>
+  </section>
+</section>
+
+<section class="view" id="blueprintView">
+  <div class="view-head blueprint2-head">
+    <div>
+      <h1>🗺️ Song Blueprint 2.0</h1>
+      <p>Plan timeline, section duration, energy, vocals, instruments, dynamics and transitions before generating in Suno.</p>
+    </div>
+    <span class="blueprint2-badge" id="bpStatusBadge">Visual Arrangement Planner</span>
+  </div>
+
+  <div class="blueprint2-layout">
+    <section class="panel dark-content blueprint2-builder">
+      <div class="blueprint2-title-row">
+        <div><h2>1. Blueprint Source</h2><p>Create a structure from Lyrics Workspace, a template or a blank timeline.</p></div>
+        <span id="bpDurationBadge">0:00 total</span>
+      </div>
+
+      <div class="grid four blueprint2-controls">
+        <label>Source
+          <select id="bpSource">
+            <option value="lyrics">Lyrics Workspace</option>
+            <option value="template">Template</option>
+            <option value="blank">Blank Blueprint</option>
+          </select>
+        </label>
+        <label>Template
+          <select id="bpTemplate">
+            <option>Anime Opening</option><option>Classic Song</option><option>Viking Epic</option>
+            <option>Rap Song</option><option>EDM Track</option><option>Cinematic Build</option>
+            <option>Metalcore Breakdown</option><option>Electro Swing</option><option>Ballad</option>
+            <option>Game Boss Theme</option>
+          </select>
+        </label>
+        <label>Target Duration
+          <select id="bpTargetDuration">
+            <option value="120">2:00</option><option value="150">2:30</option><option value="180" selected>3:00</option>
+            <option value="210">3:30</option><option value="240">4:00</option><option value="300">5:00</option>
+          </select>
+        </label>
+        <label>Energy Shape
+          <select id="bpEnergyShape">
+            <option value="build">Gradual Build</option><option value="waves">Dynamic Waves</option>
+            <option value="early">Early Peak</option><option value="late">Late Peak</option>
+            <option value="constant">Constant High Energy</option><option value="cinematic">Cinematic Arc</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="blueprint2-actions">
+        <button class="primary" id="bpGenerate">🗺️ GENERATE BLUEPRINT</button>
+        <button id="bpAddSection">＋ Add Section</button>
+        <button id="bpNormalize">⚖ Normalize Duration</button>
+        <button id="bpReset">↺ Reset</button>
+      </div>
+      <p id="bpStatus" class="blueprint2-status">Ready to create a blueprint.</p>
+
+      <div class="blueprint2-timeline-wrap">
+        <div class="blueprint2-timeline-head">
+          <div><h3>Timeline</h3><p>Drag sections to reorder. Click a section to edit its DNA.</p></div>
+          <div class="blueprint2-zoom">
+            <label>Zoom <input id="bpZoom" type="range" min="70" max="160" value="100"></label>
+          </div>
+        </div>
+        <div class="blueprint2-ruler" id="bpRuler"></div>
+        <div class="blueprint2-timeline" id="bpTimeline"></div>
+      </div>
+
+      <div class="blueprint2-chart-card">
+        <div class="blueprint2-title-row">
+          <div><h3>Energy Curve</h3><p>Energy, dynamics and section peaks across the full song.</p></div>
+          <span id="bpPeakLabel">Peak: —</span>
+        </div>
+        <svg id="bpEnergyChart" class="blueprint2-energy-chart" viewBox="0 0 1000 230" preserveAspectRatio="none" aria-label="Song energy curve"></svg>
+      </div>
+    </section>
+
+    <aside class="panel dark-content blueprint2-sidebar">
+      <div class="blueprint2-overview">
+        <div><span>Blueprint Score</span><strong id="bpScore">--</strong></div>
+        <div class="blueprint2-score-track"><i id="bpScoreBar"></i></div>
+      </div>
+
+      <div class="blueprint2-inspector" id="bpInspector">
+        <div class="blueprint2-inspector-empty"><span>🧩</span><h3>Select a section</h3><p>Edit duration, energy, vocals, instruments, dynamics and transition behavior.</p></div>
+      </div>
+
+      <div class="blueprint2-summary-card">
+        <h3>📊 Blueprint Summary</h3>
+        <div id="bpSummary" class="blueprint2-summary"></div>
+      </div>
+
+      <div class="blueprint2-summary-card">
+        <h3>⚠ Arrangement Check</h3>
+        <div id="bpWarnings" class="blueprint2-message-list"></div>
+      </div>
+
+      <div class="blueprint2-summary-card">
+        <h3>💡 Recommendations</h3>
+        <div id="bpRecommendations" class="blueprint2-message-list"></div>
+      </div>
+    </aside>
+  </div>
+
+  <section class="panel dark-content blueprint2-section-table-card">
+    <div class="blueprint2-title-row">
+      <div><h2>2. Detailed Section Plan</h2><p>Overview of timing, performance and arrangement changes.</p></div>
+      <div class="blueprint2-export-actions">
+        <button id="bpCopySummary">📋 Copy Summary</button>
+        <button id="bpExport">⬇ Export JSON</button>
+        <button id="bpExportTxt">⬇ Export TXT</button>
+        <button class="primary" id="bpApplyLyrics">Apply MetaTags to Lyrics</button>
+      </div>
+    </div>
+    <div class="blueprint2-table-wrap">
+      <table class="blueprint2-table">
+        <thead><tr><th>Time</th><th>Section</th><th>Duration</th><th>Energy</th><th>Vocals</th><th>Instruments</th><th>Dynamics</th><th>Transition</th></tr></thead>
+        <tbody id="bpTableBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel dark-content blueprint2-presets-card">
+    <div class="blueprint2-title-row">
+      <div><h2>3. Structure Presets</h2><p>Apply an arrangement profile without replacing your lyrics.</p></div>
+      <span id="bpPresetCount">0 presets</span>
+    </div>
+    <div id="bpPresetGrid" class="blueprint2-preset-grid"></div>
+  </section>
+
+  <!-- Legacy containers retained for compatibility -->
+  <div id="bpMap" class="hidden"></div>
+  <div id="bpEnergy" class="hidden"></div>
+</section>
+
 <section class="view" id="styleLibraryView"><div class="view-head"><div><h1>📚 Style Library</h1><p>Eine lokale, durchsuchbare Sammlung kuratierter Suno-STYLE-Vorlagen.</p></div><span id="libCount" class="dna-offline-badge">0 Styles</span></div><section class="panel dark-content feature-card"><div class="feature-toolbar"><label>Suche<input id="libSearch" placeholder="Anime, Viking, Electro Swing..."></label><label>Kategorie<select id="libCategory"><option value="all">Alle Kategorien</option></select></label><label><input type="checkbox" id="libFavorites"> Nur Favoriten</label></div></section><div class="feature-grid" style="margin-top:16px"><section class="panel dark-content feature-card feature-scroll"><div id="libList" class="feature-list"></div></section><aside class="panel dark-content feature-card"><h2>STYLE-Vorschau</h2><h3 id="libTitle">Kein Style ausgewählt</h3><div id="libTags" class="feature-chiprow"></div><textarea id="libPreview" class="feature-output" readonly></textarea><div class="feature-actions"><button id="libCopy">Kopieren</button><button class="primary" id="libApply">In Style Builder</button></div></aside></div></section>
 <section class="view" id="evolutionView"><div class="view-head"><div><h1>🌱 Prompt Evolution</h1><p>Entwickelt einen bestehenden STYLE in mehrere Richtungen weiter, ohne die Grundidee zu verlieren.</p></div><span class="dna-offline-badge">🔒 Lokal · Offline</span></div><div class="feature-grid"><section class="panel dark-content feature-card"><h2>Ausgangs-STYLE</h2><textarea id="evoInput" class="feature-output" placeholder="STYLE hier einfügen..."></textarea><div class="feature-toolbar"><label>Entwicklungsstärke<select id="evoStrength"><option value="subtle">Dezent</option><option value="balanced" selected>Ausgewogen</option><option value="bold">Mutig</option></select></label><label>Anzahl Varianten<select id="evoCount"><option>3</option><option selected>4</option><option>5</option></select></label><label>Schwerpunkt<select id="evoFocus"><option value="all">Alles</option><option value="production">Produktion</option><option value="emotion">Emotion</option><option value="energy">Energie</option><option value="instruments">Instrumente</option></select></label></div><div class="feature-actions"><button class="primary" id="evoGenerate">🌱 VARIANTEN ERZEUGEN</button><button id="evoCurrent">Aktuellen STYLE verwenden</button><button id="evoClear">Leeren</button></div></section><aside class="panel dark-content feature-card"><h2>Entwicklungsprinzip</h2><div class="feature-list"><div class="feature-item"><h4>A · Originalgetreu</h4><p class="feature-muted">Bereinigt und verfeinert.</p></div><div class="feature-item"><h4>B · Moderner</h4><p class="feature-muted">Aktuellere Produktion und klarere Dynamik.</p></div><div class="feature-item"><h4>C · Cineastischer</h4><p class="feature-muted">Mehr Raum, Aufbau und emotionales Finale.</p></div><div class="feature-item"><h4>D · Experimenteller</h4><p class="feature-muted">Eine kontrollierte unerwartete Wendung.</p></div></div></aside></div><section class="panel dark-content feature-card hidden" id="evoResults"><div class="dna-result-head"><div><h2>Varianten</h2><p>Jede Variante kann kopiert oder in den Style Builder übernommen werden.</p></div></div><div id="evoList" class="feature-list"></div></section></section>
+
+<section class="view" id="lyricsIntelligenceView">
+  <div class="view-head lyrics-intelligence-head">
+    <div>
+      <h1 id="lyricsIntelTitle">📝 Lyrics Intelligence</h1>
+      <p id="lyricsIntelSubtitle">Analyze rhyme, syllables, flow, hooks, repetition, emotion, story, readability and singability — completely offline.</p>
+    </div>
+    <span class="lyrics-intelligence-badge" id="lyricsIntelBadge">Local · Offline analysis</span>
+  </div>
+
+  <div class="lyrics-intelligence-layout">
+    <section class="panel dark-content lyrics-intelligence-input">
+      <div class="lyrics-intelligence-title-row">
+        <div>
+          <h2 id="lyricsIntelInputTitle">1. Lyrics to analyze</h2>
+          <p id="lyricsIntelInputHint">Paste lyrics or import the current Lyrics Workspace text.</p>
+        </div>
+        <span id="lyricsIntelInputStats">0 lines · 0 words</span>
+      </div>
+
+      <textarea id="lyricsIntelInput" class="lyrics-intelligence-textarea" spellcheck="true" placeholder="[Verse 1]&#10;Write or paste your lyrics here..."></textarea>
+
+      <div class="grid four lyrics-intelligence-options">
+        <label><span id="lyricsIntelLanguageLabel">Lyrics language</span>
+          <select id="lyricsIntelLanguage">
+            <option value="auto">Auto detect</option>
+            <option value="de">German</option><option value="en">English</option>
+            <option value="fr">French</option><option value="es">Spanish</option>
+            <option value="it">Italian</option><option value="pt">Portuguese</option>
+            <option value="nl">Dutch</option><option value="pl">Polish</option>
+            <option value="tr">Turkish</option><option value="ru">Russian</option>
+          </select>
+        </label>
+        <label><span id="lyricsIntelTargetLabel">Target style</span>
+          <select id="lyricsIntelTarget">
+            <option value="general">General Song</option><option value="pop">Pop / Radio</option>
+            <option value="rap">Rap / Hip-Hop</option><option value="rock">Rock / Metal</option>
+            <option value="anime">Anime Opening</option><option value="ballad">Ballad</option>
+            <option value="edm">EDM / Dance</option><option value="folk">Folk / Storytelling</option>
+          </select>
+        </label>
+        <label><span id="lyricsIntelDepthLabel">Analysis depth</span>
+          <select id="lyricsIntelDepth"><option value="quick">Quick</option><option value="standard" selected>Standard</option><option value="deep">Deep</option></select>
+        </label>
+        <label class="lyrics-intelligence-check"><input id="lyricsIntelIgnoreTags" type="checkbox" checked><span id="lyricsIntelIgnoreTagsLabel">Ignore MetaTags for lyric metrics</span></label>
+      </div>
+
+      <div class="lyrics-intelligence-actions">
+        <button class="primary" id="lyricsIntelAnalyze">🧠 ANALYZE LYRICS</button>
+        <button id="lyricsIntelUseWorkspace">↙ Use Lyrics Workspace</button>
+        <button id="lyricsIntelSendWorkspace">↗ Send back to Workspace</button>
+        <button id="lyricsIntelClear">↺ Clear</button>
+      </div>
+      <p id="lyricsIntelStatus" class="lyrics-intelligence-status">Ready for lyrics.</p>
+    </section>
+
+    <aside class="panel dark-content lyrics-intelligence-summary">
+      <div class="lyrics-intelligence-overall"><span id="lyricsIntelOverallLabel">Overall Lyrics Score</span><strong id="lyricsIntelOverall">--</strong></div>
+      <div class="lyrics-intelligence-score-track"><i id="lyricsIntelOverallBar"></i></div>
+      <div id="lyricsIntelHeadline" class="lyrics-intelligence-headline">No analysis yet.</div>
+      <div id="lyricsIntelQuickFacts" class="lyrics-intelligence-quick-facts"></div>
+    </aside>
+  </div>
+
+  <section class="panel dark-content hidden" id="lyricsIntelResults">
+    <div class="lyrics-intelligence-result-head">
+      <div><h2 id="lyricsIntelResultsTitle">2. Lyrics Analysis</h2><p id="lyricsIntelResultsHint">Scores are heuristic guidance, not a guarantee of how Suno will perform the lyrics.</p></div>
+      <div class="lyrics-intelligence-result-actions">
+        <button id="lyricsIntelCopyReport">📋 Copy report</button><button id="lyricsIntelExportJson">⬇ Export JSON</button><button id="lyricsIntelExportTxt">⬇ Export TXT</button>
+      </div>
+    </div>
+
+    <div class="lyrics-intelligence-score-grid" id="lyricsIntelScoreGrid"></div>
+
+    <div class="lyrics-intelligence-dashboard">
+      <article class="lyrics-intelligence-card"><header><span>🔤</span><div><h3>Rhyme & Scheme</h3><small>Line endings, rhyme density and scheme consistency</small></div></header><div id="lyricsIntelRhymeSummary"></div><div id="lyricsIntelRhymeSections" class="lyrics-intelligence-section-list"></div></article>
+      <article class="lyrics-intelligence-card"><header><span>🔢</span><div><h3>Syllables & Flow</h3><small>Approximate syllable balance and line length</small></div></header><div id="lyricsIntelSyllableSummary"></div><div id="lyricsIntelSyllableChart" class="lyrics-intelligence-mini-chart"></div></article>
+      <article class="lyrics-intelligence-card"><header><span>🎯</span><div><h3>Hook & Chorus</h3><small>Memorability, repetition and chorus focus</small></div></header><div id="lyricsIntelHookSummary"></div><div id="lyricsIntelHookPhrases" class="lyrics-intelligence-chip-list"></div></article>
+      <article class="lyrics-intelligence-card"><header><span>🔁</span><div><h3>Repetition</h3><small>Repeated lines, phrases and possible overuse</small></div></header><div id="lyricsIntelRepetitionSummary"></div><div id="lyricsIntelRepeatedLines" class="lyrics-intelligence-section-list"></div></article>
+      <article class="lyrics-intelligence-card"><header><span>❤️</span><div><h3>Emotion</h3><small>Dominant emotional signals and intensity</small></div></header><div id="lyricsIntelEmotionBars" class="lyrics-intelligence-emotion-bars"></div></article>
+      <article class="lyrics-intelligence-card"><header><span>📖</span><div><h3>Story & Progression</h3><small>Perspective, movement and narrative development</small></div></header><div id="lyricsIntelStorySummary"></div><div id="lyricsIntelStorySignals" class="lyrics-intelligence-chip-list"></div></article>
+      <article class="lyrics-intelligence-card"><header><span>👁️</span><div><h3>Readability</h3><small>Word length, sentence density and clarity</small></div></header><div id="lyricsIntelReadabilitySummary"></div></article>
+      <article class="lyrics-intelligence-card"><header><span>🎤</span><div><h3>Singability</h3><small>Breath length, vowel flow and performance difficulty</small></div></header><div id="lyricsIntelSingabilitySummary"></div></article>
+    </div>
+
+    <div class="lyrics-intelligence-lower-grid">
+      <article class="lyrics-intelligence-card"><header><span>⚖️</span><div><h3>Section Balance</h3><small>Verse, chorus, bridge and section proportions</small></div></header><div id="lyricsIntelSectionBalance"></div></article>
+      <article class="lyrics-intelligence-card"><header><span>✅</span><div><h3>Strengths</h3><small>What already works well</small></div></header><ul id="lyricsIntelStrengths" class="lyrics-intelligence-list"></ul></article>
+      <article class="lyrics-intelligence-card"><header><span>💡</span><div><h3>Recommendations</h3><small>Concrete next steps without rewriting your lyrics</small></div></header><ul id="lyricsIntelRecommendations" class="lyrics-intelligence-list"></ul></article>
+    </div>
+
+    <details class="lyrics-intelligence-highlight-details" open>
+      <summary>Line-by-line intelligence</summary>
+      <div class="lyrics-intelligence-legend"><span class="good">Balanced</span><span class="warn">Check flow</span><span class="hard">Long / difficult</span><span class="section">Section tag</span></div>
+      <div id="lyricsIntelHighlightedLines" class="lyrics-intelligence-highlighted-lines"></div>
+    </details>
+  </section>
+</section>
+
 <section class="view" id="dnaAnalyzerView">
   <div class="view-head dna-head">
     <div>
@@ -258,32 +667,130 @@ html
   </section>
 </section>
 
+
 <section class="view" id="optimizerView">
-  <div class="view-head optimizer-head"><div><h1>🧹 Prompt Optimizer</h1><p>Analysiert einen vorhandenen STYLE-Prompt, erkennt Überladung, Wiederholungen und Konflikte und erstellt eine klarere Suno-freundliche Fassung.</p></div><span class="optimizer-offline-badge">🔒 Lokal · Offline</span></div>
-  <div class="optimizer-layout">
-    <section class="panel dark-content optimizer-editor-card">
-      <div class="optimizer-title-row"><div><h2>1. STYLE einfügen</h2><p>Kommagetrennte Style-Prompts sowie mehrzeilige Eingaben werden unterstützt.</p></div><span id="optimizerInputCount">0 items</span></div>
-      <textarea id="optimizerStudioInput" class="optimizer-textarea" placeholder="Example: Viking Rap, Rap, Nordic Folk, genre blend 70/30, Male Vocal, Tagelharpa, Tagelharpa, Wide Stereo Mix, Mono Mix..."></textarea>
-      <div class="grid two optimizer-controls"><label>Optimierungsmodus<select id="optimizerMode"><option value="safe">Sicher · nur bereinigen</option><option value="balanced" selected>Ausgewogen · fehlende Grundlagen ergänzen</option><option value="creative">Kreativ · musikalische Entwicklung ergänzen</option></select></label><label class="optimizer-check"><input id="optimizerReplaceCustom" type="checkbox" checked> Vorhandenes Custom Style beim Übernehmen ersetzen</label></div>
-      <div class="optimizer-actions"><button class="primary" id="optimizerAnalyze">🔍 ANALYSIEREN & OPTIMIEREN</button><button id="optimizerUseCurrent">↙ Aktuellen STYLE verwenden</button><button id="optimizerClear">↺ Leeren</button></div>
-      <p class="optimizer-status" id="optimizerStudioStatus">Bereit für einen Style-Prompt.</p>
+  <div class="view-head optimizer2-head">
+    <div>
+      <h1>🧹 Prompt Optimizer 2.0</h1>
+      <p>Live analysis, conflict detection, focus control and transparent optimization for Suno STYLE prompts.</p>
+    </div>
+    <span class="optimizer2-badge">Local · Offline · Live</span>
+  </div>
+
+  <div class="optimizer2-layout">
+    <section class="panel dark-content optimizer2-editor">
+      <div class="optimizer2-title-row">
+        <div><h2>1. STYLE Prompt</h2><p>Analysis updates while you type. Nothing is sent to a server.</p></div>
+        <span id="optimizerInputCount">0 items · 0 characters</span>
+      </div>
+
+      <textarea id="optimizerStudioInput" class="optimizer2-textarea" placeholder="Example: Viking Rap, Nordic Folk, 132 BPM, Deep Male Rap Vocal, Tagelharpa, Heavy Hip-Hop Drums, Wide Stereo Mix, Cinematic Production..."></textarea>
+
+      <div class="optimizer2-livebar">
+        <label class="toggle compact"><input id="optimizerLiveAnalysis" type="checkbox" checked> Live analysis</label>
+        <label class="toggle compact"><input id="optimizerProtectCore" type="checkbox" checked> Protect core idea</label>
+        <label class="toggle compact"><input id="optimizerSunoSafe" type="checkbox" checked> Suno-safe phrasing</label>
+        <span id="optimizerLiveStatus">Waiting for input</span>
+      </div>
+
+      <div class="grid four optimizer2-controls">
+        <label>Optimization Mode
+          <select id="optimizerMode">
+            <option value="clean">Clean Only</option>
+            <option value="safe">Safe</option>
+            <option value="balanced" selected>Balanced</option>
+            <option value="creative">Creative</option>
+            <option value="focused">Maximum Focus</option>
+          </select>
+        </label>
+        <label>Primary Goal
+          <select id="optimizerGoal">
+            <option value="clarity">Clarity</option>
+            <option value="compatibility">Compatibility</option>
+            <option value="brevity">Shorter Prompt</option>
+            <option value="detail">More Useful Detail</option>
+            <option value="genre">Genre Focus</option>
+            <option value="production">Production Focus</option>
+          </select>
+        </label>
+        <label>Prompt Length
+          <select id="optimizerLength">
+            <option value="compact">Compact</option>
+            <option value="standard" selected>Standard</option>
+            <option value="detailed">Detailed</option>
+          </select>
+        </label>
+        <label>Target Genre
+          <select id="optimizerTargetGenre">
+            <option value="auto">Auto / Current Builder Genre</option>
+            <option value="pop">Pop</option><option value="rock">Rock</option><option value="metal">Metal</option>
+            <option value="rap">Rap / Hip-Hop</option><option value="edm">EDM / Electronic</option>
+            <option value="anime">Anime / J-Pop</option><option value="cinematic">Cinematic</option>
+            <option value="folk">Folk / Viking</option><option value="jazz">Jazz / Swing</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="optimizer2-actions">
+        <button class="primary" id="optimizerAnalyze">⚡ OPTIMIZE NOW</button>
+        <button id="optimizerUseCurrent">↙ Use Current STYLE</button>
+        <button id="optimizerUndo" disabled>↶ Undo</button>
+        <button id="optimizerClear">↺ Clear</button>
+      </div>
+      <p class="optimizer2-status" id="optimizerStudioStatus">Ready for a STYLE prompt.</p>
     </section>
-    <aside class="panel dark-content optimizer-overview-card">
-      <div class="optimizer-overall"><span>Prompt Quality</span><strong id="optimizerOverall">--%</strong></div>
-      <p>Die Bewertung misst Klarheit, Fokus, Vollständigkeit, Kompatibilität und Kürze. Sie ist eine Hilfestellung, keine Erfolgsgarantie.</p>
-      <div id="optimizerScoreGrid" class="optimizer-score-grid"></div>
+
+    <aside class="panel dark-content optimizer2-overview">
+      <div class="optimizer2-overall">
+        <span>Prompt Quality</span>
+        <strong id="optimizerOverall">--</strong>
+      </div>
+      <div class="optimizer2-score-track"><i id="optimizerOverallBar"></i></div>
+      <div id="optimizerHeadline" class="optimizer2-headline">No prompt analyzed yet.</div>
+      <div id="optimizerScoreGrid" class="optimizer2-score-grid"></div>
+      <div id="optimizerQuickWarnings" class="optimizer2-quick-warnings"></div>
     </aside>
   </div>
-  <section class="panel dark-content optimizer-result hidden" id="optimizerResultPanel">
-    <div class="optimizer-result-grid">
-      <div><h2>2. Erkannte Prompt-DNA</h2><div id="optimizerBreakdown" class="optimizer-breakdown"></div></div>
-      <div class="optimizer-analysis-columns">
-        <article><h3>⚠ Probleme</h3><ul id="optimizerIssues"></ul></article>
-        <article><h3>💡 Verbesserungen</h3><ul id="optimizerSuggestions"></ul></article>
-        <article><h3>✓ Stärken</h3><ul id="optimizerStrengths"></ul></article>
+
+  <section class="panel dark-content hidden" id="optimizerResultPanel">
+    <div class="optimizer2-result-head">
+      <div><h2>2. Prompt Intelligence</h2><p>Every recommendation shows what changed and why.</p></div>
+      <div class="optimizer2-result-actions">
+        <button id="optimizerCopyReport">📋 Copy Report</button>
+        <button id="optimizerExportJson">⬇ Export JSON</button>
       </div>
     </div>
-    <div class="optimizer-output-block"><div class="optimizer-title-row"><div><h2>3. Optimierter STYLE</h2><p>Die Ausgabe entfernt Sprache und undokumentierte Zahlengewichtungen automatisch.</p></div></div><textarea id="optimizerStudioOutput" class="optimizer-textarea output" readonly></textarea><div class="optimizer-actions"><button class="primary" id="optimizerCopy">📋 OPTIMIERTEN STYLE KOPIEREN</button><button id="optimizerApplyCustom">✅ IN DEN STYLE BUILDER ÜBERNEHMEN</button></div></div>
+
+    <div class="optimizer2-dna-grid">
+      <article class="optimizer2-card"><header><span>🎵</span><div><h3>Prompt DNA</h3><small>Detected musical categories</small></div></header><div id="optimizerBreakdown" class="optimizer2-chip-list"></div></article>
+      <article class="optimizer2-card"><header><span>⚠️</span><div><h3>Issues</h3><small>Conflicts, overload and ambiguity</small></div></header><ul id="optimizerIssues" class="optimizer2-list"></ul></article>
+      <article class="optimizer2-card"><header><span>💡</span><div><h3>Suggestions</h3><small>Focused improvements</small></div></header><ul id="optimizerSuggestions" class="optimizer2-list"></ul></article>
+      <article class="optimizer2-card"><header><span>✅</span><div><h3>Strengths</h3><small>What already works</small></div></header><ul id="optimizerStrengths" class="optimizer2-list"></ul></article>
+    </div>
+
+    <div class="optimizer2-comparison">
+      <div class="optimizer2-title-row">
+        <div><h2>3. Before / After</h2><p>Removed terms are red, added or improved terms are green.</p></div>
+        <span id="optimizerChangeCount">0 changes</span>
+      </div>
+      <div class="optimizer2-compare-grid">
+        <article><h3>Original STYLE</h3><div id="optimizerOriginalTokens" class="optimizer2-token-box"></div></article>
+        <article><h3>Optimized STYLE</h3><div id="optimizerOptimizedTokens" class="optimizer2-token-box"></div></article>
+      </div>
+    </div>
+
+    <div class="optimizer2-output">
+      <div class="optimizer2-title-row">
+        <div><h2>4. Optimized STYLE</h2><p>Editable before applying. Changes trigger a fresh quality check.</p></div>
+        <span id="optimizerOutputCount">0 items</span>
+      </div>
+      <textarea id="optimizerStudioOutput" class="optimizer2-textarea output"></textarea>
+      <div class="optimizer2-actions">
+        <button class="primary" id="optimizerCopy">📋 COPY OPTIMIZED STYLE</button>
+        <button id="optimizerApplyCustom">✅ APPLY TO STYLE BUILDER</button>
+        <button id="optimizerReanalyzeOutput">🔍 ANALYZE OUTPUT</button>
+      </div>
+    </div>
   </section>
 </section>
 
@@ -662,21 +1169,112 @@ html
 </div>
 </div>
 </section>
+
+<section class="view" id="genreIntelligenceView">
+  <div class="view-head genre-intelligence-head">
+    <div>
+      <h1>🎵 Genre Intelligence 2.0</h1>
+      <p>Explore every genre as musical DNA: tempo, rhythm, instruments, vocals, production, structure, compatible fusions and practical Suno guidance.</p>
+    </div>
+    <span class="genre-intelligence-badge" id="genreIntelligenceBadge">Local genre knowledge</span>
+  </div>
+
+  <div class="panel dark-content">
+    <div class="grid four genre-intelligence-filters">
+      <label>Genre Family
+        <select id="genreIntelFamily"><option value="all">All families</option></select>
+      </label>
+      <label>Tempo Range
+        <select id="genreIntelTempo">
+          <option value="all">All tempos</option>
+          <option value="slow">Slow · below 100 BPM</option>
+          <option value="medium">Medium · 100–129 BPM</option>
+          <option value="fast">Fast · 130–159 BPM</option>
+          <option value="extreme">Very fast · 160+ BPM</option>
+        </select>
+      </label>
+      <label>Energy
+        <select id="genreIntelEnergy">
+          <option value="all">All energy levels</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+          <option value="extreme">Extreme</option>
+        </select>
+      </label>
+      <label>Practical Suno Fit
+        <select id="genreIntelReliability">
+          <option value="all">All levels</option>
+          <option value="core">Core</option>
+          <option value="advanced">Advanced</option>
+          <option value="experimental">Experimental</option>
+        </select>
+      </label>
+      <label class="genre-intelligence-search">Search genre, instrument, mood or production
+        <input id="genreIntelSearch" placeholder="Electro Swing, Nordic, choir, dark, cinematic ...">
+      </label>
+    </div>
+
+    <div class="toolbar genre-intelligence-toolbar">
+      <span id="genreIntelCount">0 genres</span>
+      <label class="toggle compact"><input id="genreIntelFavoritesOnly" type="checkbox"> ⭐ Favorites only</label>
+      <label class="toggle compact"><input id="genreIntelCurrentFitOnly" type="checkbox"> Fits current Builder genre</label>
+      <div>
+        <button id="genreIntelResetFilters">Reset filters</button>
+        <button id="genreIntelCompareButton" disabled>Compare selected</button>
+      </div>
+    </div>
+
+    <div class="genre-intelligence-layout">
+      <section>
+        <div id="genreIntelRecommendations" class="genre-intel-recommendations"></div>
+        <div id="genreIntelGrid" class="genre-intelligence-grid"></div>
+        <div id="genreIntelEmpty" class="genre-intel-empty" hidden>No genres match the selected filters.</div>
+      </section>
+
+      <aside id="genreIntelInspector" class="genre-intelligence-inspector">
+        <div class="genre-intel-inspector-empty">
+          <span>🎵</span>
+          <h3>Select a genre</h3>
+          <p>Open a genre card to view its complete musical DNA and apply it to the Style Builder.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <section class="panel dark-content genre-compare-panel hidden" id="genreIntelComparePanel">
+    <div class="genre-compare-head">
+      <div><h2>⚖ Genre Comparison</h2><p>Compare two genres before creating a fusion.</p></div>
+      <button id="genreIntelCloseCompare">Close</button>
+    </div>
+    <div id="genreIntelCompareContent"></div>
+  </section>
+</section>
+
 <section class="view" id="instrumentsView">
-<div class="view-head"><h1 data-i18n-full="ui_138">Instrument Library</h1><p data-i18n-full="ui_139">Filter instruments by region, country and family.</p></div>
+<div class="view-head instrument-dna-head"><div><h1>🎻 Instrument DNA 2.0</h1><p>Explore instruments as a connected knowledge base with origin, era, tone, energy, genre fit, pairings and practical Suno reliability.</p></div><span class="instrument-dna-version">723 instruments · local knowledge</span></div>
 <div class="panel dark-content">
-<div class="grid four">
+<div class="grid four instrument-filter-grid">
 <label data-i18n-full="ui_140">Region<select id="instrumentRegion"></select></label>
 <label data-i18n-full="ui_141">Country / Origin<select id="instrumentCountry"></select></label>
 <label data-i18n-full="ui_142">Instrument Family<select id="instrumentFamily"></select></label>
-<label><span id="instrumentReliabilityLabel">Reliability</span><select id="instrumentReliability"><option id="reliabilityAllOption" value="all">All levels</option><option value="core">Core</option><option value="advanced">Advanced</option><option value="experimental">Experimental</option></select></label><label data-i18n-full="ui_143">Search<input data-i18n-placeholder="placeholder_005" id="instrumentSearch" placeholder="Koto, Drum, Harp ..."/></label>
+<label><span id="instrumentReliabilityLabel">Reliability</span><select id="instrumentReliability"><option id="reliabilityAllOption" value="all">All levels</option><option value="core">Core</option><option value="advanced">Advanced</option><option value="experimental">Experimental</option></select></label>
+<label>Era<select id="instrumentEra"><option value="all">All eras</option></select></label>
+<label>Energy<select id="instrumentEnergy"><option value="all">All energy levels</option></select></label>
+<label>Mood<select id="instrumentMood"><option value="all">All moods</option></select></label>
+<label>Genre fit<select id="instrumentGenreFit"><option value="all">All genre fits</option><option value="current">Fits current genre</option><option value="strong">Strong fit only</option></select></label>
+<label class="instrument-search-wide">Search by name, country, genre or tone<input data-i18n-placeholder="placeholder_005" id="instrumentSearch" placeholder="Koto, Japan, dark, cinematic ..."/></label>
 </div>
 <div class="toolbar">
 <span id="instrumentCount"></span><label class="toggle compact"><input id="favoriteInstrumentsOnly" type="checkbox"/>⭐ Nur Favoriten</label><small id="instrumentEmptyHint" class="instrument-empty-hint" hidden>No instruments match these filters.</small>
 <div><button data-i18n-full="ui_144" id="recommendedInstruments">Recommendations</button><button data-i18n-full="ui_145" id="clearInstruments">Clear selection</button></div>
 </div>
-<div class="intelligence-panel"><div class="intelligence-head"><b>🎻 Passende Instrumente</b><small>Basierend auf dem gewählten Musikstil</small></div><div id="instrumentRecommendations" class="recommendation-chips"></div></div>
-<div class="instrument-reliability-legend"><span class="reliability-badge core">● Core</span><span class="reliability-badge advanced">● Advanced</span><span class="reliability-badge experimental">● Experimental</span><small id="reliabilityHint">Reliability is a practical guidance value, not a guarantee.</small></div><div class="instrument-grid" id="instrumentLibrary"></div>
+<div class="instrument-intelligence-grid">
+<section class="intelligence-panel"><div class="intelligence-head"><b>🎻 Style Recommendations</b><small>Based on the current genre, selected instruments and Knowledge Engine</small></div><div id="instrumentRecommendations" class="recommendation-chips"></div></section>
+<section class="intelligence-panel"><div class="intelligence-head"><b>🔗 Pairing Suggestions</b><small>Strong companions for the instruments you already selected</small></div><div id="instrumentPairingRecommendations" class="recommendation-chips"></div></section>
+</div>
+<div class="instrument-reliability-legend"><span class="reliability-badge core">● Core</span><span class="reliability-badge advanced">● Advanced</span><span class="reliability-badge experimental">● Experimental</span><small id="reliabilityHint">Reliability is a practical guidance value, not a guarantee. Local ratings can be added in each detail card.</small></div>
+<div class="instrument-browser-layout"><div class="instrument-grid dna-instrument-grid" id="instrumentLibrary"></div><aside id="instrumentDNAInspector" class="instrument-dna-inspector"><div class="instrument-inspector-empty"><span>🎻</span><h3>Select an instrument</h3><p>Open an instrument to view its complete musical DNA.</p></div></aside></div>
 <h3 data-i18n-full="ui_146">Selected Instruments</h3>
 <div class="chips selected" id="selectedInstruments"></div>
 </div>
@@ -703,55 +1301,421 @@ html
 </div>
 </div>
 </section>
+
 <section class="view" id="productionView">
-<div class="view-head"><h1 data-i18n-full="ui_160">Production &amp; Mix</h1><p data-i18n-full="ui_161">Defines sound character, stereo width, drums, vocals and mastering.</p></div>
-<div class="panel dark-content">
-<div class="knowledge-section"><h3>🎛 Mix &amp; Sound Character</h3><div class="grid three">
-<label data-i18n-full="ui_162">Production<select id="production"></select></label>
-<label data-i18n-full="ui_163">Mix<select id="mix"></select></label>
-<label data-i18n-full="ui_164">Arrangement Dynamics<select id="dynamics"></select></label>
-</div></div>
-<div class="knowledge-section"><h3>🥁 Drums · 🎙 Vocals · 💿 Mastering</h3><div class="grid three">
-<label>Drum Sound<select id="drumMix"></select></label>
-<label>Vocal Production<select id="vocalProduction"></select></label>
-<label>Mastering<select id="mastering"></select></label>
-</div></div>
-<div class="knowledge-suggestion" id="productionSuggestionPanel"><div><b>🧠 Knowledge Engine</b><small id="productionSuggestionText">Wähle ein Genre, um passende Produktionsvorschläge zu erhalten.</small></div><button id="applyProductionSuggestions" class="primary">Empfehlungen übernehmen</button></div>
-<h3 data-i18n-full="ui_165">Production Features</h3>
-<div class="chips" id="productionExtras"></div>
-<h3 data-i18n-full="ui_166">Exclude Styles</h3>
-<div class="chips" id="excludeChips"></div>
-<label data-i18n-full="ui_167">Custom Exclusions<textarea id="customExclude"></textarea></label>
-<label data-i18n-full="ui_168">Custom Style Additions<textarea id="customStyle"></textarea></label>
-</div>
+  <div class="view-head production-intelligence-head">
+    <div>
+      <h1>🎧 Production Intelligence 2.0</h1>
+      <p>Design a coherent production chain for Suno: sound character, drums, vocals, space, stereo image, dynamics and mastering.</p>
+    </div>
+    <span class="production-intelligence-badge" id="productionIntelBadge">Local production knowledge</span>
+  </div>
+
+  <div class="production-intelligence-layout">
+    <section class="panel dark-content production-intelligence-main">
+      <div class="production-intelligence-title-row">
+        <div>
+          <h2>1. Production Direction</h2>
+          <p>The original controls remain fully compatible with presets, the Knowledge Engine and STYLE output.</p>
+        </div>
+        <span id="productionIntelCompatibility">Compatibility --%</span>
+      </div>
+
+      <div class="knowledge-section">
+        <h3>🎛 Mix & Sound Character</h3>
+        <div class="grid three">
+          <label data-i18n-full="ui_162">Production<select id="production"></select></label>
+          <label data-i18n-full="ui_163">Mix<select id="mix"></select></label>
+          <label data-i18n-full="ui_164">Arrangement Dynamics<select id="dynamics"></select></label>
+        </div>
+      </div>
+
+      <div class="knowledge-section">
+        <h3>🥁 Drums · 🎙 Vocals · 💿 Mastering</h3>
+        <div class="grid three">
+          <label>Drum Sound<select id="drumMix"></select></label>
+          <label>Vocal Production<select id="vocalProduction"></select></label>
+          <label>Mastering<select id="mastering"></select></label>
+        </div>
+      </div>
+
+      <div class="knowledge-suggestion" id="productionSuggestionPanel">
+        <div><b>🧠 Knowledge Engine</b><small id="productionSuggestionText">Choose a genre to receive production recommendations.</small></div>
+        <button id="applyProductionSuggestions" class="primary">Apply recommendations</button>
+      </div>
+
+      <div class="production-intelligence-presets">
+        <div class="production-intelligence-subhead">
+          <div><h3>⚡ Production Presets</h3><p>Apply a coherent chain instead of combining isolated terms.</p></div>
+          <button id="productionIntelResetPreset">Reset production</button>
+        </div>
+        <div id="productionIntelPresetGrid" class="production-preset-grid"></div>
+      </div>
+
+      <div class="production-intelligence-advanced-grid">
+        <label>Low-End Character
+          <select id="productionIntelLowEnd">
+            <option value="None">None</option>
+            <option>Controlled Low End</option><option>Deep Sub Weight</option><option>Tight Bass</option>
+            <option>Warm Bass Foundation</option><option>Huge Festival Sub</option><option>Natural Acoustic Low End</option>
+          </select>
+        </label>
+        <label>Stereo Image
+          <select id="productionIntelStereo">
+            <option value="None">None</option>
+            <option>Focused Center Image</option><option>Wide Stereo Image</option><option>Expansive Cinematic Width</option>
+            <option>Intimate Narrow Stereo</option><option>Vintage Mono Character</option>
+          </select>
+        </label>
+        <label>Room & Space
+          <select id="productionIntelSpace">
+            <option value="None">None</option>
+            <option>Dry Close Room</option><option>Natural Room Ambience</option><option>Warm Plate Reverb</option>
+            <option>Large Hall Reverb</option><option>Long Atmospheric Reverb</option><option>Dub Delay Space</option>
+          </select>
+        </label>
+        <label>Saturation & Texture
+          <select id="productionIntelTexture">
+            <option value="None">None</option>
+            <option>Clean Digital Texture</option><option>Analog Warmth</option><option>Tape Saturation</option>
+            <option>Vinyl Texture</option><option>Lo-Fi Dust</option><option>Industrial Distortion</option>
+          </select>
+        </label>
+        <label>Transient Character
+          <select id="productionIntelTransients">
+            <option value="None">None</option>
+            <option>Soft Rounded Transients</option><option>Punchy Transients</option><option>Sharp Modern Attack</option>
+            <option>Natural Dynamic Transients</option><option>Compressed Impact</option>
+          </select>
+        </label>
+        <label>Vocal Placement
+          <select id="productionIntelVocalPlacement">
+            <option value="None">None</option>
+            <option>Intimate Close-Mic Vocal</option><option>Forward Lead Vocal</option><option>Wide Layered Vocal</option>
+            <option>Large Hall Vocal</option><option>Vintage Radio Vocal</option><option>Distant Ethereal Vocal</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="production-intelligence-subhead">
+        <div><h3>🧩 Production Features</h3><p>Select only the features that support the chosen chain.</p></div>
+        <button id="productionIntelSmartFeatures">Select compatible features</button>
+      </div>
+      <div class="chips" id="productionExtras"></div>
+
+      <div class="production-intelligence-subhead">
+        <div><h3>🚫 Exclude Styles</h3><p>Remove characteristics that conflict with the intended production.</p></div>
+        <button id="productionIntelSmartExclusions">Suggest exclusions</button>
+      </div>
+      <div class="chips" id="excludeChips"></div>
+
+      <div class="grid two production-intelligence-textareas">
+        <label data-i18n-full="ui_167">Custom Exclusions<textarea id="customExclude"></textarea></label>
+        <label data-i18n-full="ui_168">Custom Style Additions<textarea id="customStyle"></textarea></label>
+      </div>
+    </section>
+
+    <aside class="panel dark-content production-intelligence-sidebar">
+      <div class="production-intelligence-score">
+        <div><span>Production Coherence</span><strong id="productionIntelScore">--</strong></div>
+        <div class="production-intelligence-score-track"><i id="productionIntelScoreBar"></i></div>
+      </div>
+
+      <div class="production-intelligence-inspector">
+        <h3>🔬 Production Inspector</h3>
+        <p id="productionIntelSummary">Choose production settings to see how the complete chain works together.</p>
+        <div id="productionIntelMetrics" class="production-intelligence-metrics"></div>
+      </div>
+
+      <div class="production-intelligence-inspector">
+        <h3>⚠ Compatibility Check</h3>
+        <div id="productionIntelWarnings" class="production-intelligence-message-list"></div>
+      </div>
+
+      <div class="production-intelligence-inspector">
+        <h3>💡 Recommendations</h3>
+        <div id="productionIntelRecommendations" class="production-intelligence-message-list"></div>
+      </div>
+
+      <div class="production-intelligence-inspector">
+        <div class="production-intelligence-subhead compact">
+          <div><h3>🧬 Production DNA</h3><p>Clean Suno-friendly phrasing</p></div>
+          <button id="productionIntelCopyDNA">Copy</button>
+        </div>
+        <textarea id="productionIntelDNA" class="production-intelligence-dna" readonly></textarea>
+        <button class="primary production-intelligence-apply" id="productionIntelApplyDNA">Apply DNA to STYLE</button>
+      </div>
+    </aside>
+  </div>
+
+  <section class="panel dark-content production-reference-section">
+    <div class="production-intelligence-title-row">
+      <div><h2>2. Production Knowledge Library</h2><p>Open a production technique to understand its effect, ideal genres, alternatives and conflicts.</p></div>
+      <span id="productionIntelLibraryCount">0 techniques</span>
+    </div>
+
+    <div class="grid four production-library-filters">
+      <label>Category
+        <select id="productionIntelLibraryCategory"><option value="all">All categories</option></select>
+      </label>
+      <label>Reliability
+        <select id="productionIntelLibraryReliability">
+          <option value="all">All levels</option><option value="core">Core</option>
+          <option value="advanced">Advanced</option><option value="experimental">Experimental</option>
+        </select>
+      </label>
+      <label>Energy
+        <select id="productionIntelLibraryEnergy">
+          <option value="all">All energy levels</option><option value="low">Low</option>
+          <option value="medium">Medium</option><option value="high">High</option>
+        </select>
+      </label>
+      <label class="production-library-search">Search effect, genre or characteristic
+        <input id="productionIntelLibrarySearch" placeholder="wide, warm, punchy, cinematic, vocal ...">
+      </label>
+    </div>
+
+    <div class="production-library-layout">
+      <div>
+        <div id="productionIntelLibraryGrid" class="production-library-grid"></div>
+        <div id="productionIntelLibraryEmpty" class="production-library-empty" hidden>No techniques match these filters.</div>
+      </div>
+      <aside id="productionIntelLibraryInspector" class="production-library-inspector">
+        <div class="production-library-inspector-empty"><span>🎚️</span><h3>Select a technique</h3><p>View its musical purpose and practical Suno guidance.</p></div>
+      </aside>
+    </div>
+  </section>
 </section>
+
+
 <section class="view" id="theoryView">
-<div class="view-head"><h1 data-i18n-full="ui_169">Musical Intelligence</h1><p data-i18n-full="ui_170">Practical rhythm, harmony, melody and dynamics controls for the selected style.</p></div>
-<div class="panel dark-content">
-<div class="theory-grid">
-<div><small data-i18n-full="ui_171">Recommended Key</small><strong id="theoryKey"></strong></div>
-<div><small data-i18n-full="ui_172">Recommended Scale</small><strong id="theoryScale"></strong></div>
-<div><small data-i18n-full="ui_173">Time Signature</small><strong id="theoryMeter"></strong></div>
-<div><small data-i18n-full="ui_174">BPM Range</small><strong id="theoryBpm"></strong></div>
-</div>
-<div class="knowledge-section"><h3>🥁 Rhythm &amp; Tempo</h3><div class="grid three">
-<label>Rhythm Feel<select id="rhythmFeel"></select></label>
-<label>Tempo Character<select id="tempoCharacterTheory"></select></label>
-<label>Song Energy<select id="songEnergyProfile"></select></label>
-</div></div>
-<div class="knowledge-section"><h3>🎹 Harmony &amp; Melody</h3><div class="grid three">
-<label>Harmony<select id="harmonyMode"></select></label>
-<label>Harmony Complexity<select id="harmonyComplexity"></select></label>
-<label>Melody Direction<select id="melodyMotion"></select></label>
-</div></div>
-<div class="knowledge-section"><h3>📈 Musical Dynamics</h3><div class="grid two">
-<label>Dynamic Shape<select id="theoryDynamics"></select></label>
-<label class="toggle theory-toggle"><input id="includeTheory" type="checkbox"/>Include recommendations in STYLE</label>
-</div></div>
-<div class="knowledge-suggestion" id="theorySuggestionPanel"><div><b>🧠 Knowledge Engine</b><small id="theorySuggestionText">Genreabhängige Empfehlungen werden hier angezeigt.</small></div><button id="applyTheorySuggestions" class="primary">Empfehlungen übernehmen</button></div>
-<div id="compatibilityPanel" class="compatibility-panel"></div>
-</div>
+  <div class="view-head theory-intelligence-head">
+    <div>
+      <h1>♫ Music Theory Intelligence 2.0</h1>
+      <p>Build practical rhythm, harmony, melody, chord progression and dynamic direction without turning the STYLE prompt into notation.</p>
+    </div>
+    <span class="theory-intelligence-badge" id="theoryIntelBadge">Local music knowledge</span>
+  </div>
+
+  <div class="theory-intelligence-layout">
+    <section class="panel dark-content theory-intelligence-main">
+      <div class="theory-intelligence-title-row">
+        <div><h2>1. Musical Foundation</h2><p>All original controls remain compatible with presets, the Knowledge Engine and STYLE output.</p></div>
+        <span id="theoryIntelCompatibility">Compatibility --%</span>
+      </div>
+
+      <div class="theory-grid">
+        <div><small data-i18n-full="ui_171">Recommended Key</small><strong id="theoryKey"></strong></div>
+        <div><small data-i18n-full="ui_172">Recommended Scale</small><strong id="theoryScale"></strong></div>
+        <div><small data-i18n-full="ui_173">Time Signature</small><strong id="theoryMeter"></strong></div>
+        <div><small data-i18n-full="ui_174">BPM Range</small><strong id="theoryBpm"></strong></div>
+      </div>
+
+      <div class="knowledge-section"><h3>🥁 Rhythm & Tempo</h3><div class="grid three">
+        <label>Rhythm Feel<select id="rhythmFeel"></select></label>
+        <label>Tempo Character<select id="tempoCharacterTheory"></select></label>
+        <label>Song Energy<select id="songEnergyProfile"></select></label>
+      </div></div>
+
+      <div class="knowledge-section"><h3>🎹 Harmony & Melody</h3><div class="grid three">
+        <label>Harmony<select id="harmonyMode"></select></label>
+        <label>Harmony Complexity<select id="harmonyComplexity"></select></label>
+        <label>Melody Direction<select id="melodyMotion"></select></label>
+      </div></div>
+
+      <div class="knowledge-section"><h3>📈 Musical Dynamics</h3><div class="grid two">
+        <label>Dynamic Shape<select id="theoryDynamics"></select></label>
+        <label class="toggle theory-toggle"><input id="includeTheory" type="checkbox"/>Include recommendations in STYLE</label>
+      </div></div>
+
+      <div class="knowledge-suggestion" id="theorySuggestionPanel">
+        <div><b>🧠 Knowledge Engine</b><small id="theorySuggestionText">Genre-dependent recommendations appear here.</small></div>
+        <button id="applyTheorySuggestions" class="primary">Apply recommendations</button>
+      </div>
+
+      <div class="theory-intelligence-presets">
+        <div class="theory-intelligence-subhead"><div><h3>⚡ Musical DNA Presets</h3><p>Apply a coherent theory profile for a typical use case.</p></div><button id="theoryIntelResetPreset">Reset theory</button></div>
+        <div id="theoryIntelPresetGrid" class="theory-preset-grid"></div>
+      </div>
+
+      <div class="theory-intelligence-advanced-grid">
+        <label>Key Center
+          <select id="theoryIntelKeyCenter">
+            <option value="None">None</option><option>C Major</option><option>A Minor</option><option>G Major</option><option>E Minor</option>
+            <option>D Major</option><option>B Minor</option><option>F Major</option><option>D Minor</option><option>C Minor</option><option>F# Minor</option>
+          </select>
+        </label>
+        <label>Scale / Mode
+          <select id="theoryIntelScale">
+            <option value="None">None</option><option>Major Scale</option><option>Natural Minor</option><option>Harmonic Minor</option>
+            <option>Dorian Mode</option><option>Phrygian Mode</option><option>Mixolydian Mode</option><option>Pentatonic Scale</option>
+            <option>Blues Scale</option><option>Whole Tone Scale</option>
+          </select>
+        </label>
+        <label>Time Signature
+          <select id="theoryIntelMeter">
+            <option value="None">None</option><option>4/4 Time</option><option>3/4 Time</option><option>6/8 Time</option>
+            <option>12/8 Time</option><option>5/4 Time</option><option>7/8 Time</option>
+          </select>
+        </label>
+        <label>Chord Progression
+          <select id="theoryIntelProgression">
+            <option value="None">None</option><option>I–V–vi–IV</option><option>vi–IV–I–V</option><option>i–VI–III–VII</option>
+            <option>i–VII–VI–VII</option><option>I–vi–IV–V</option><option>ii–V–I</option><option>12-Bar Blues</option>
+            <option>Pedal Tone Harmony</option><option>Modal Drone</option>
+          </select>
+        </label>
+        <label>Rhythm Pattern
+          <select id="theoryIntelPattern">
+            <option value="None">None</option><option>Straight Eighth-Note Pulse</option><option>Syncopated Groove</option>
+            <option>Half-Time Groove</option><option>Double-Time Drive</option><option>Swing Shuffle</option><option>Four-on-the-Floor</option>
+            <option>Broken Beat</option><option>Polyrhythmic Pulse</option>
+          </select>
+        </label>
+        <label>Melodic Device
+          <select id="theoryIntelMelodicDevice">
+            <option value="None">None</option><option>Ascending Motif</option><option>Descending Motif</option><option>Call and Response Melody</option>
+            <option>Repeated Leitmotif</option><option>Wide Interval Leaps</option><option>Stepwise Melody</option><option>Arpeggiated Melody</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="theory-intelligence-subhead">
+        <div><h3>🧩 Arrangement Devices</h3><p>Use only a few devices so Suno receives a clear direction.</p></div>
+        <button id="theoryIntelSmartDevices">Select compatible devices</button>
+      </div>
+      <div id="theoryIntelDevices" class="theory-device-grid"></div>
+
+      <div id="compatibilityPanel" class="compatibility-panel"></div>
+    </section>
+
+    <aside class="panel dark-content theory-intelligence-sidebar">
+      <div class="theory-intelligence-score">
+        <div><span>Musical Coherence</span><strong id="theoryIntelScore">--</strong></div>
+        <div class="theory-intelligence-score-track"><i id="theoryIntelScoreBar"></i></div>
+      </div>
+
+      <div class="theory-intelligence-inspector">
+        <h3>🔬 Theory Inspector</h3>
+        <p id="theoryIntelSummary">Choose musical settings to see how the harmonic and rhythmic plan works together.</p>
+        <div id="theoryIntelMetrics" class="theory-intelligence-metrics"></div>
+      </div>
+
+      <div class="theory-intelligence-inspector"><h3>⚠ Compatibility Check</h3><div id="theoryIntelWarnings" class="theory-intelligence-message-list"></div></div>
+      <div class="theory-intelligence-inspector"><h3>💡 Recommendations</h3><div id="theoryIntelRecommendations" class="theory-intelligence-message-list"></div></div>
+
+      <div class="theory-intelligence-inspector">
+        <div class="theory-intelligence-subhead compact"><div><h3>🧬 Music Theory DNA</h3><p>Readable Suno-friendly phrasing</p></div><button id="theoryIntelCopyDNA">Copy</button></div>
+        <textarea id="theoryIntelDNA" class="theory-intelligence-dna" readonly></textarea>
+        <button class="primary theory-intelligence-apply" id="theoryIntelApplyDNA">Apply DNA to STYLE</button>
+      </div>
+    </aside>
+  </div>
+
+  <section class="panel dark-content theory-reference-section">
+    <div class="theory-intelligence-title-row">
+      <div><h2>2. Music Theory Knowledge Library</h2><p>Explore practical concepts with use cases, compatible genres, alternatives and conflicts.</p></div>
+      <span id="theoryIntelLibraryCount">0 concepts</span>
+    </div>
+
+    <div class="grid four theory-library-filters">
+      <label>Category<select id="theoryIntelLibraryCategory"><option value="all">All categories</option></select></label>
+      <label>Complexity<select id="theoryIntelLibraryComplexity"><option value="all">All levels</option><option value="basic">Basic</option><option value="intermediate">Intermediate</option><option value="advanced">Advanced</option></select></label>
+      <label>Energy<select id="theoryIntelLibraryEnergy"><option value="all">All energy levels</option><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option></select></label>
+      <label>Search concept, genre or effect<input id="theoryIntelLibrarySearch" placeholder="minor, syncopation, 6/8, cinematic, hook ..."></label>
+    </div>
+
+    <div class="theory-library-layout">
+      <div><div id="theoryIntelLibraryGrid" class="theory-library-grid"></div><div id="theoryIntelLibraryEmpty" class="theory-library-empty" hidden>No concepts match these filters.</div></div>
+      <aside id="theoryIntelLibraryInspector" class="theory-library-inspector"><div class="theory-library-inspector-empty"><span>♫</span><h3>Select a concept</h3><p>View its musical function and practical Suno wording.</p></div></aside>
+    </div>
+  </section>
 </section>
+
+<section class="view" id="metaTagEncyclopediaView">
+  <div class="view-head metatag-encyclopedia-head">
+    <div>
+      <h1>📖 MetaTag Encyclopedia</h1>
+      <p>Explore every MetaTag with meaning, recommended placement, reliability, compatible genres, alternatives, conflicts and practical examples.</p>
+    </div>
+    <span class="metatag-encyclopedia-badge" id="metaEncyclopediaBadge">Local MetaTag knowledge</span>
+  </div>
+
+  <div class="panel dark-content">
+    <div class="grid four metatag-encyclopedia-filters">
+      <label>Category
+        <select id="metaEncyclopediaCategory"><option value="all">All categories</option></select>
+      </label>
+      <label>Reliability
+        <select id="metaEncyclopediaReliability">
+          <option value="all">All ratings</option>
+          <option value="core">Core</option>
+          <option value="advanced">Advanced</option>
+          <option value="experimental">Experimental</option>
+        </select>
+      </label>
+      <label>Recommended Position
+        <select id="metaEncyclopediaPosition">
+          <option value="all">All positions</option>
+          <option value="section">Song section</option>
+          <option value="before">Before lyrics</option>
+          <option value="inside">Inside section</option>
+          <option value="transition">Between sections</option>
+          <option value="ending">Ending</option>
+        </select>
+      </label>
+      <label>Use Case
+        <select id="metaEncyclopediaUseCase">
+          <option value="all">All use cases</option>
+          <option value="structure">Structure</option>
+          <option value="vocal">Vocals</option>
+          <option value="arrangement">Arrangement</option>
+          <option value="dynamics">Dynamics</option>
+          <option value="production">Production</option>
+          <option value="effect">Effects</option>
+        </select>
+      </label>
+      <label class="metatag-encyclopedia-search">Search tag, meaning, genre, alternative or conflict
+        <input id="metaEncyclopediaSearch" placeholder="Chorus, whisper, crescendo, reverb, transition ...">
+      </label>
+    </div>
+
+    <div class="toolbar metatag-encyclopedia-toolbar">
+      <span id="metaEncyclopediaCount">0 MetaTags</span>
+      <label class="toggle compact"><input id="metaEncyclopediaFavoritesOnly" type="checkbox"> ⭐ Favorites only</label>
+      <label class="toggle compact"><input id="metaEncyclopediaCurrentGenreOnly" type="checkbox"> Fits current genre</label>
+      <div>
+        <button id="metaEncyclopediaReset">Reset filters</button>
+        <button id="metaEncyclopediaCompareButton" disabled>Compare selected</button>
+      </div>
+    </div>
+
+    <div class="metatag-encyclopedia-layout">
+      <section>
+        <div id="metaEncyclopediaRecommendations" class="meta-encyclopedia-recommendations"></div>
+        <div id="metaEncyclopediaGrid" class="metatag-encyclopedia-grid"></div>
+        <div id="metaEncyclopediaEmpty" class="meta-encyclopedia-empty" hidden>No MetaTags match these filters.</div>
+      </section>
+
+      <aside id="metaEncyclopediaInspector" class="metatag-encyclopedia-inspector">
+        <div class="meta-inspector-empty">
+          <span>📖</span>
+          <h3>Select a MetaTag</h3>
+          <p>Open a MetaTag to view its complete practical Suno guidance.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <section class="panel dark-content hidden" id="metaEncyclopediaComparePanel">
+    <div class="meta-compare-head">
+      <div><h2>⚖ MetaTag Comparison</h2><p>Compare purpose, reliability and possible overlap.</p></div>
+      <button id="metaEncyclopediaCloseCompare">Close</button>
+    </div>
+    <div id="metaEncyclopediaCompareContent"></div>
+  </section>
+</section>
+
 <section class="view" id="metatagsView">
 <div class="view-head prompt-intelligence-head">
 <h1 id="piMainTitle">🎼 Prompt Intelligence</h1>
@@ -824,6 +1788,214 @@ html
 [Instrumental Solo: Chaotic strings and heavy drums]"></textarea></label>
 </details>
 </section>
+
+<section class="view" id="projectManagerView">
+  <div class="view-head project-manager-head">
+    <div>
+      <h1>🗂️ Suno Project Manager</h1>
+      <p>Organize complete albums and tracks from the first idea to the final release — locally and offline.</p>
+    </div>
+    <span class="project-manager-badge" id="pmStorageBadge">Local project storage</span>
+  </div>
+
+  <div class="project-manager-toolbar panel dark-content">
+    <div class="project-manager-toolbar-main">
+      <label>Active Project
+        <select id="pmProjectSelect"></select>
+      </label>
+      <button class="primary" id="pmNewProject">＋ New Project</button>
+      <button id="pmRenameProject">✎ Rename</button>
+      <button id="pmDuplicateProject">⧉ Duplicate</button>
+      <button id="pmDeleteProject">🗑 Delete</button>
+    </div>
+    <div class="project-manager-toolbar-actions">
+      <button id="pmExportProject">⬇ Export Project</button>
+      <button id="pmImportProject">⬆ Import Project</button>
+      <input id="pmImportFile" type="file" accept=".json,application/json" hidden>
+    </div>
+  </div>
+
+  <div class="project-manager-layout">
+    <aside class="panel dark-content project-manager-tracks">
+      <div class="project-manager-section-head">
+        <div><h2>Tracks</h2><p id="pmTrackCount">0 tracks</p></div>
+        <button class="primary" id="pmAddTrack">＋</button>
+      </div>
+      <div class="project-manager-track-search">
+        <input id="pmTrackSearch" placeholder="Search tracks...">
+        <select id="pmTrackFilter">
+          <option value="all">All statuses</option>
+          <option value="idea">Idea</option>
+          <option value="writing">Writing</option>
+          <option value="suno">Suno generation</option>
+          <option value="selected">Version selected</option>
+          <option value="visuals">Visuals</option>
+          <option value="release">Ready to release</option>
+          <option value="published">Published</option>
+        </select>
+      </div>
+      <div id="pmTrackList" class="project-manager-track-list"></div>
+    </aside>
+
+    <main class="project-manager-main">
+      <section class="panel dark-content project-manager-dashboard" id="pmProjectDashboard">
+        <div class="project-manager-title-row">
+          <div>
+            <span class="project-manager-kicker">PROJECT OVERVIEW</span>
+            <h2 id="pmProjectTitle">No project selected</h2>
+            <p id="pmProjectDescription">Create a project to begin.</p>
+          </div>
+          <div class="project-manager-progress-ring" id="pmProjectProgressRing">
+            <strong id="pmProjectProgress">0%</strong><span>complete</span>
+          </div>
+        </div>
+
+        <div class="project-manager-stat-grid">
+          <article><small>Tracks</small><strong id="pmStatTracks">0</strong></article>
+          <article><small>Completed</small><strong id="pmStatCompleted">0</strong></article>
+          <article><small>Assets</small><strong id="pmStatAssets">0</strong></article>
+          <article><small>Versions</small><strong id="pmStatVersions">0</strong></article>
+          <article><small>Last Updated</small><strong id="pmStatUpdated">—</strong></article>
+        </div>
+
+        <div class="project-manager-project-fields">
+          <label>Project Description<textarea id="pmProjectDescriptionInput" placeholder="Album story, theme, goals and release plan..."></textarea></label>
+          <label>Project Type
+            <select id="pmProjectType">
+              <option>Album</option><option>EP</option><option>Single Collection</option><option>Soundtrack</option><option>Series</option>
+            </select>
+          </label>
+          <label>Target Track Count<input id="pmTargetTracks" type="number" min="1" max="100" value="12"></label>
+          <label>Project Status
+            <select id="pmProjectStatus">
+              <option value="planning">Planning</option><option value="production">In Production</option>
+              <option value="release">Release Preparation</option><option value="published">Published</option><option value="archive">Archived</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section class="panel dark-content project-manager-empty" id="pmTrackEmpty">
+        <span>🎵</span><h2>Select or create a track</h2><p>The complete track workspace will appear here.</p>
+      </section>
+
+      <section class="panel dark-content hidden" id="pmTrackWorkspace">
+        <div class="project-manager-title-row">
+          <div>
+            <span class="project-manager-kicker">ACTIVE TRACK</span>
+            <h2 id="pmTrackTitleDisplay">Track</h2>
+            <p id="pmTrackSubtitle">Track details and production progress</p>
+          </div>
+          <div class="project-manager-track-actions">
+            <button id="pmMoveTrackUp">↑</button><button id="pmMoveTrackDown">↓</button>
+            <button id="pmDuplicateTrack">⧉ Duplicate</button><button id="pmDeleteTrack">🗑 Delete</button>
+          </div>
+        </div>
+
+        <div class="project-manager-tabs" role="tablist">
+          <button class="active" data-pm-tab="overview">Overview</button>
+          <button data-pm-tab="creative">Creative Data</button>
+          <button data-pm-tab="release">Release</button>
+          <button data-pm-tab="versions">Versions</button>
+          <button data-pm-tab="assets">Assets</button>
+        </div>
+
+        <div class="project-manager-tab active" data-pm-panel="overview">
+          <div class="grid four">
+            <label>Track Number<input id="pmTrackNumber" type="number" min="1"></label>
+            <label>Track Title<input id="pmTrackTitle" placeholder="Track title"></label>
+            <label>Status
+              <select id="pmTrackStatus">
+                <option value="idea">Idea</option><option value="writing">Writing</option>
+                <option value="suno">Suno generation</option><option value="selected">Version selected</option>
+                <option value="visuals">Visuals</option><option value="release">Ready to release</option><option value="published">Published</option>
+              </select>
+            </label>
+            <label>Priority
+              <select id="pmTrackPriority"><option value="normal">Normal</option><option value="high">High</option><option value="low">Low</option></select>
+            </label>
+          </div>
+
+          <label>Track Story / Notes<textarea id="pmTrackNotes" placeholder="Story, scene, purpose and important creative notes..."></textarea></label>
+
+          <div class="project-manager-checklist-head">
+            <div><h3>Production Checklist</h3><p>Track progress is calculated from these steps.</p></div>
+            <button id="pmCompleteAll">Mark all complete</button>
+          </div>
+          <div id="pmChecklist" class="project-manager-checklist"></div>
+
+          <div class="project-manager-workflow-actions">
+            <button id="pmCaptureCurrent">📥 Capture Current Studio Data</button>
+            <button id="pmRestoreCurrent">📤 Restore Track to Studio</button>
+            <button id="pmCreateVersion">📸 Create Version Snapshot</button>
+          </div>
+        </div>
+
+        <div class="project-manager-tab" data-pm-panel="creative">
+          <div class="project-manager-data-grid">
+            <article>
+              <div class="project-manager-card-head"><h3>STYLE Prompt</h3><button data-copy-field="pmTrackStyle">Copy</button></div>
+              <textarea id="pmTrackStyle" placeholder="Saved STYLE prompt..."></textarea>
+            </article>
+            <article>
+              <div class="project-manager-card-head"><h3>Lyrics</h3><button data-copy-field="pmTrackLyrics">Copy</button></div>
+              <textarea id="pmTrackLyrics" placeholder="Saved lyrics..."></textarea>
+            </article>
+            <article>
+              <div class="project-manager-card-head"><h3>Blueprint</h3><button data-copy-field="pmTrackBlueprint">Copy</button></div>
+              <textarea id="pmTrackBlueprint" placeholder="Blueprint summary or JSON..."></textarea>
+            </article>
+            <article>
+              <div class="project-manager-card-head"><h3>Exclude Styles</h3><button data-copy-field="pmTrackExclude">Copy</button></div>
+              <textarea id="pmTrackExclude" placeholder="Saved exclusions..."></textarea>
+            </article>
+          </div>
+        </div>
+
+        <div class="project-manager-tab" data-pm-panel="release">
+          <div class="grid three">
+            <label>Suno Song Link<input id="pmSunoLink" type="url" placeholder="https://suno.com/song/..."></label>
+            <label>YouTube Link<input id="pmYoutubeLink" type="url" placeholder="https://youtube.com/..."></label>
+            <label>Spotify / Distributor Link<input id="pmSpotifyLink" type="url" placeholder="https://open.spotify.com/..."></label>
+          </div>
+          <div class="project-manager-data-grid">
+            <article><div class="project-manager-card-head"><h3>YouTube Description</h3><button data-copy-field="pmYoutubeDescription">Copy</button></div><textarea id="pmYoutubeDescription"></textarea></article>
+            <article><div class="project-manager-card-head"><h3>Release Notes</h3><button data-copy-field="pmReleaseNotes">Copy</button></div><textarea id="pmReleaseNotes"></textarea></article>
+          </div>
+          <div class="grid three">
+            <label>Planned Release Date<input id="pmReleaseDate" type="date"></label>
+            <label>ISRC / Identifier<input id="pmTrackIdentifier" placeholder="Optional"></label>
+            <label>Final Duration<input id="pmFinalDuration" placeholder="03:12"></label>
+          </div>
+        </div>
+
+        <div class="project-manager-tab" data-pm-panel="versions">
+          <div class="project-manager-section-head">
+            <div><h3>Version History</h3><p>Save milestones and restore them later.</p></div>
+            <button class="primary" id="pmNewVersion">＋ Snapshot</button>
+          </div>
+          <div id="pmVersionList" class="project-manager-version-list"></div>
+        </div>
+
+        <div class="project-manager-tab" data-pm-panel="assets">
+          <div class="project-manager-section-head">
+            <div><h3>Asset Manager</h3><p>Artwork, thumbnails, audio notes and project files remain in this browser.</p></div>
+            <button class="primary" id="pmUploadAsset">＋ Upload Assets</button>
+            <input id="pmAssetInput" type="file" multiple hidden>
+          </div>
+          <div id="pmAssetGrid" class="project-manager-asset-grid"></div>
+          <p class="project-manager-storage-note">Large files are stored with IndexedDB when supported. Project JSON exports include metadata, but not binary asset files.</p>
+        </div>
+
+        <div class="project-manager-savebar">
+          <span id="pmSaveStatus">All changes saved locally.</span>
+          <button class="primary" id="pmSaveTrack">💾 Save Track</button>
+        </div>
+      </section>
+    </main>
+  </div>
+</section>
+
 <section class="view" id="presetsView">
 <div class="view-head"><h1 data-i18n-full="ui_194">Preset Management</h1><p data-i18n-full="ui_195">Search, load, rename, duplicate, favorite and delete presets in the center.</p></div>
 <div class="panel dark-content">
@@ -932,10 +2104,16 @@ html
 <script src="lang/pl.js"></script>
 <script src="lang/loader.js"></script>
 <script src="lyrics_metatags.js"></script>
+<script src="metatag_encyclopedia.js"></script>
 <script src="prompt_intelligence.js"></script>
 <script src="lyrics_workspace.js"></script>
 <script src="lyrics_phase4.js"></script>
+<script src="lyrics_intelligence.js"></script>
 <script src="app.js"></script>
+<script src="production_intelligence_v2.js"></script>
+<script src="music_theory_intelligence_v2.js"></script>
+<script src="genre_intelligence.js"></script>
+<script src="instrument_dna_v2.js"></script>
 <script src="simple_mode.js"></script>
 <script src="ai_composer.js"></script>
 <script src="song_dna_analyzer.js"></script>
@@ -945,6 +2123,7 @@ html
 <script src="song_blueprint.js"></script>
 <script src="learning_engine.js"></script>
 <script src="ai_prompt_chat.js"></script>
+<script src="project_manager.js"></script>
 <script src="workspace_navigation.js"></script>
 </body>
 </html>
