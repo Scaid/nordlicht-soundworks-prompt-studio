@@ -1,5 +1,36 @@
 # Nordlicht Soundworks Prompt Studio – Changelog
 
+## Version 3.0.0 – Nordlicht AI Producer
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 2.9.0 – Learning Engine
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 2.8.0 – Song Blueprint
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 2.7.0 – Style Library
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 2.6.0 – Prompt Evolution
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 2.5.0 – Song DNA Analyzer
+
+- Dedicated Song DNA Analyzer
+- Reverse-engineers STYLE prompts into musical DNA
+- Detects genre fusion, BPM, vocals, instruments, production, theory, mood and structure
+- Confidence score, strengths, warnings and recommendations
+- Summary copy, JSON export and Style Builder transfer
+- Local and offline
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
 ## Version 2.4.0 – Prompt Optimizer
 
 - Dedicated offline Prompt Optimizer workspace

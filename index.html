@@ -23,7 +23,7 @@ html
 </div>
 <div class="top-actions">
 <div class="studio-mode-switch" role="group" aria-label="Studio mode"><button id="simpleModeButton" type="button">✨ Einfach</button><button id="advancedModeButton" class="active" type="button">🎛 Erweitert</button></div>
-<div class="language-picker"><button class="language-button" id="languageButton">🌐 English</button><div class="language-menu hidden" id="languageMenu"></div></div><span class="version-badge" title="Current version">v2.4.0</span>
+<div class="language-picker"><button class="language-button" id="languageButton">🌐 English</button><div class="language-menu hidden" id="languageMenu"></div></div><span class="version-badge" title="Current version">v3.0.1</span>
 <button data-i18n-full="ui_006" id="openChangelog">📋 Changelog</button>
 <button data-i18n-full="ui_007" id="topSavePreset">💾 Save Preset</button>
 <button data-i18n-full="ui_008" id="topImport">📂 Import</button>
@@ -37,26 +37,63 @@ html
 </div>
 <div class="sidebar-version">
 <b data-i18n-full="ui_010">Prompt Studio</b>
-<span data-i18n-full="ui_011">Version 2.4.0 · Prompt Optimizer</span>
+<span data-i18n-full="ui_011">Version 3.0.1 · Workspace Navigation</span>
 <small data-i18n-full="ui_012">© 2026 Nordlicht Soundworks</small>
 </div>
-<nav id="navigation">
-<button class="nav" data-view="composerView">🤖<span><b>AI Composer</b><small>Aus einer Idee drei Songrichtungen entwickeln</small></span></button>
-<button class="nav" data-view="optimizerView">🧹<span><b>Prompt Optimizer</b><small>STYLE analysieren, bereinigen und verbessern</small></span></button>
-<button class="nav active" data-i18n-full="ui_016" data-view="randomView">🎲<span><b data-i18n-full="ui_017">Smart Randomizer</b><small data-i18n-full="ui_018">Control randomness precisely</small></span></button>
-<button class="nav" data-view="lyricsView">✍️<span><b data-lyrics-i18n="nav_title">Lyrics Workspace</b><small data-lyrics-i18n="nav_subtitle">Write, structure and prepare lyrics</small></span></button>
-<button class="nav" data-i18n-full="ui_013" data-view="assistantView">🤖<span><b data-i18n-full="ui_014">Offline Smart Assistant</b><small data-i18n-full="ui_015">Analyze and apply a song idea</small></span></button>
-<button class="nav" data-i18n-full="ui_019" data-view="styleView">🎼<span><b data-i18n-full="ui_020">Music Style</b><small data-i18n-full="ui_021">Genres, language and BPM</small></span></button>
-<button class="nav" data-i18n-full="ui_022" data-view="vocalsView">🎤<span><b data-i18n-full="ui_023">Vocals</b><small data-i18n-full="ui_024">Lead voice and character</small></span></button>
-<button class="nav" data-i18n-full="ui_025" data-view="instrumentsView">🎻<span><b data-i18n-full="ui_026">Instruments</b><small data-i18n-full="ui_027">Country and region filters</small></span></button>
-<button class="nav" data-i18n-full="ui_028" data-view="storyView">🌍<span><b data-i18n-full="ui_029">Story &amp; Emotion</b><small data-i18n-full="ui_030">World, scene and energy</small></span></button>
-<button class="nav" data-i18n-full="ui_031" data-view="productionView">🎧<span><b data-i18n-full="ui_032">Production</b><small data-i18n-full="ui_033">Mix and sound design</small></span></button>
-<button class="nav" data-i18n-full="ui_034" data-view="theoryView">♫<span><b data-i18n-full="ui_035">Music Theory</b><small data-i18n-full="ui_036">Key, scale and meter</small></span></button>
-<button class="nav" data-i18n-full="ui_037" data-view="metatagsView">🏷️<span><b data-i18n-full="ui_038">Prompt Intelligence</b><small data-i18n-full="ui_039">MetaTags, Song Maps & Prompt DNA</small></span></button>
-<button class="nav" data-i18n-full="ui_040" data-view="presetsView">⭐<span><b data-i18n-full="ui_041">Presets</b><small data-i18n-full="ui_042">Manage, edit and delete</small></span></button>
+<nav id="navigation" class="workspace-navigation" aria-label="Main navigation">
+<button class="workspace-home-nav" type="button" data-view="homeView">🏠<span><b>Home</b><small>Quick access and recent tools</small></span></button>
+
+<section class="workspace-nav-group open" data-workspace="create">
+<button class="workspace-group-toggle" type="button" aria-expanded="true"><span>🎲 CREATE</span><small>Create styles, prompts and lyrics</small><i>⌄</i></button>
+<div class="workspace-group-items">
+<button class="nav active" data-view="randomView" type="button">🎲<span><b>Smart Randomizer</b><small>Play with intelligent combinations</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="composerView" type="button">🤖<span><b>AI Composer</b><small>Develop a song idea into directions</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="styleView" type="button">🎼<span><b>Style Builder</b><small>Fine-tune the complete musical style</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="lyricsView" type="button">✍️<span><b>Lyrics Workspace</b><small>Write, structure and prepare lyrics</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="promptChatView" type="button">💬<span><b>AI Prompt Chat</b><small>Change STYLE with natural instructions</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="assistantView" type="button">🧭<span><b>Offline Smart Assistant</b><small>Analyze and apply a song idea</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+</div></section>
+
+<section class="workspace-nav-group" data-workspace="analyze">
+<button class="workspace-group-toggle" type="button" aria-expanded="false"><span>🔍 ANALYZE</span><small>Understand, optimize and evolve prompts</small><i>›</i></button>
+<div class="workspace-group-items">
+<button class="nav" data-view="dnaAnalyzerView" type="button">🧬<span><b>Song DNA Analyzer</b><small>Reverse-engineer an existing STYLE</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="optimizerView" type="button">🧹<span><b>Prompt Optimizer</b><small>Clean and improve STYLE prompts</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="evolutionView" type="button">🌱<span><b>Prompt Evolution</b><small>Create controlled STYLE variations</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="learningView" type="button">🧠<span><b>Learning Engine</b><small>Rate results and learn preferences</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+</div></section>
+
+<section class="workspace-nav-group" data-workspace="knowledge">
+<button class="workspace-group-toggle" type="button" aria-expanded="false"><span>📚 KNOWLEDGE</span><small>Explore musical intelligence and libraries</small><i>›</i></button>
+<div class="workspace-group-items">
+<button class="nav" data-view="metatagsView" type="button">🏷️<span><b>Prompt Intelligence</b><small>MetaTags, Song Maps and Prompt DNA</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="styleLibraryView" type="button">📚<span><b>Style Library</b><small>Find and apply curated styles</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="blueprintView" type="button">🗺️<span><b>Song Blueprint</b><small>Plan structure, energy and roles</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="instrumentsView" type="button">🎻<span><b>Instrument Library</b><small>Explore instruments and recommendations</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="vocalsView" type="button">🎤<span><b>Vocal Intelligence</b><small>Voices, characters and duet controls</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="storyView" type="button">🌍<span><b>Story & Emotion</b><small>World, scene, emotion and energy</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="productionView" type="button">🎧<span><b>Production Intelligence</b><small>Mix, sound design and mastering</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="theoryView" type="button">♫<span><b>Musical Intelligence</b><small>Rhythm, harmony and dynamics</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+</div></section>
+
+<section class="workspace-nav-group" data-workspace="project">
+<button class="workspace-group-toggle" type="button" aria-expanded="false"><span>⚙ PROJECT</span><small>Manage presets, exports and settings</small><i>›</i></button>
+<div class="workspace-group-items">
+<button class="nav" data-view="presetsView" type="button">⭐<span><b>Presets</b><small>Save, organize and restore styles</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+</div></section>
 </nav>
 </aside>
-<main class="workspace">
+<main class="workspace"><div class="workspace-breadcrumb" id="workspaceBreadcrumb"><button id="workspaceBreadcrumbHome" type="button">Home</button><span>›</span><b id="workspaceBreadcrumbGroup">Create</b><span>›</span><strong id="workspaceBreadcrumbModule">Smart Randomizer</strong></div>
+<section class="view workspace-home-view" id="homeView">
+<div class="view-head workspace-home-head"><div><h1>🏠 Welcome back</h1><p>Start a new idea, continue with a recent tool or open one of your pinned modules.</p></div><span class="workspace-home-badge">Nordlicht Soundworks · v3.0.1</span></div>
+<div class="workspace-home-grid">
+<section class="panel dark-content workspace-home-hero"><span class="workspace-kicker">QUICK START</span><h2>What do you want to create?</h2><p>Choose a direct entry point. Smart Randomizer stays the fastest and most playful way to begin.</p><div class="workspace-quick-actions">
+<button class="primary" data-open-view="randomView">🎲 Smart Randomizer</button><button data-open-view="composerView">🤖 AI Composer</button><button data-open-view="styleView">🎼 Style Builder</button><button data-open-view="lyricsView">✍️ Lyrics Workspace</button>
+</div></section>
+<section class="panel dark-content workspace-home-card"><div class="workspace-card-head"><div><h2>⭐ Pinned modules</h2><p>Your personal shortcuts</p></div></div><div id="workspaceFavorites" class="workspace-shortcut-list"><span class="workspace-empty-state">Pin modules with the ☆ icon in the sidebar.</span></div></section>
+<section class="panel dark-content workspace-home-card"><div class="workspace-card-head"><div><h2>🕘 Recent</h2><p>Continue where you left off</p></div><button id="clearWorkspaceRecent" type="button">Clear</button></div><div id="workspaceRecent" class="workspace-shortcut-list"><span class="workspace-empty-state">Your recently used modules will appear here.</span></div></section>
+<section class="panel dark-content workspace-home-card workspace-principles"><div class="workspace-card-head"><div><h2>🎯 Design principles</h2><p>Every feature must create real value</p></div></div><div class="workspace-principle-list"><span>⏱ Save time</span><span>🎵 Improve Suno results</span><span>✨ Encourage creativity</span></div></section>
+</div></section>
 <section class="view simple-mode-view" id="simpleView">
 <div class="view-head simple-head"><div><h1>✨ Einfacher Modus</h1><p>In wenigen Schritten zu einem starken Suno-Style. Die Knowledge Engine ergänzt passende Details automatisch.</p></div><span class="simple-badge">Keine Sprachauswahl · Sprache kommt aus den Lyrics</span></div>
 <div class="simple-layout">
@@ -81,6 +118,145 @@ html
 </section>
 
 
+
+
+<section class="view" id="promptChatView"><div class="view-head"><div><h1>💬 AI Prompt Chat</h1><p>Ein lokaler Produktionsassistent: Schreibe, wie der STYLE verändert werden soll.</p></div><span class="dna-offline-badge">Nordlicht AI Producer · Offline</span></div><div class="feature-grid"><section class="panel dark-content feature-card"><div id="chatMessages" class="chat-box"><div class="chat-msg assistant">Hallo! Lade den aktuellen STYLE oder füge einen eigenen ein. Danach kannst du z. B. schreiben: „Mach ihn epischer“, „weniger Instrumente“, „mehr Electro Swing“ oder „Instrumental“.</div></div><div class="chat-compose"><textarea id="chatInput" placeholder="Wie soll der Prompt verändert werden?"></textarea><button class="primary" id="chatSend">Senden</button></div><div class="feature-actions"><button id="chatLoad">Aktuellen STYLE laden</button><button id="chatUndo">Letzte Änderung zurück</button><button id="chatClear">Chat leeren</button></div></section><aside class="panel dark-content feature-card"><h2>Aktueller Arbeits-STYLE</h2><textarea id="chatStyle" class="feature-output" placeholder="STYLE-Prompt..."></textarea><div class="feature-actions"><button id="chatCopy">Kopieren</button><button class="primary" id="chatApply">In Style Builder übernehmen</button></div><h3>Schnellbefehle</h3><div class="feature-chiprow"><button data-cmd="Mach den Style epischer">Epischer</button><button data-cmd="Mach ihn emotionaler">Emotionaler</button><button data-cmd="Weniger Instrumente">Weniger Instrumente</button><button data-cmd="Mehr Dynamik">Mehr Dynamik</button><button data-cmd="Instrumental">Instrumental</button></div></aside></div></section>
+<section class="view" id="learningView"><div class="view-head"><div><h1>🧠 Learning Engine</h1><p>Speichert dein Feedback ausschließlich lokal und erkennt bevorzugte Genres, Instrumente und Produktionsmerkmale.</p></div><span id="learnCount" class="dna-offline-badge">0 Bewertungen</span></div><div class="feature-grid"><section class="panel dark-content feature-card"><h2>Aktuelles Ergebnis bewerten</h2><textarea id="learnPrompt" class="feature-output" placeholder="STYLE-Prompt oder Ergebnisbeschreibung..."></textarea><div class="feature-toolbar"><label>Gesamtbewertung<select id="learnRating"><option value="5">★★★★★ Sehr gut</option><option value="4">★★★★☆ Gut</option><option value="3">★★★☆☆ Mittel</option><option value="2">★★☆☆☆ Schwach</option><option value="1">★☆☆☆☆ Schlecht</option></select></label><label>Was war besonders gut?<select id="learnPositive"><option>Overall Style</option><option>Vocals</option><option>Instruments</option><option>Production</option><option>Structure</option></select></label><label>Was war schwach?<select id="learnNegative"><option>Nothing</option><option>Vocals</option><option>Instruments</option><option>Production</option><option>Structure</option></select></label></div><div class="feature-actions"><button class="primary" id="learnSave">💾 FEEDBACK SPEICHERN</button><button id="learnCurrent">Aktuellen STYLE verwenden</button><button id="learnReset">Lerndaten löschen</button></div></section><aside class="panel dark-content feature-card"><h2>Persönliches Profil</h2><div id="learnProfile" class="feature-list"></div><button class="primary full" id="learnApply">Gelernte Vorlieben anwenden</button></aside></div><section class="panel dark-content feature-card" style="margin-top:16px"><h2>Feedback-Verlauf</h2><div id="learnHistory" class="feature-list feature-scroll"></div></section></section>
+<section class="view" id="blueprintView"><div class="view-head"><div><h1>🗺️ Song Blueprint</h1><p>Erstellt aus Lyrics oder einer Vorlage einen visuellen Produktionsplan.</p></div><span class="dna-offline-badge">Visual Song Plan</span></div><section class="panel dark-content feature-card"><div class="feature-toolbar"><label>Quelle<select id="bpSource"><option value="lyrics">Lyrics Workspace</option><option value="template">Vorlage</option></select></label><label>Vorlage<select id="bpTemplate"><option>Anime Opening</option><option>Classic Song</option><option>Viking Epic</option><option>Rap Song</option><option>EDM Track</option><option>Cinematic Build</option></select></label><button class="primary" id="bpGenerate">🗺️ BLUEPRINT ERSTELLEN</button><button id="bpExport">JSON exportieren</button></div></section><div class="feature-grid" style="margin-top:16px"><section class="panel dark-content feature-card"><h2>Song Map</h2><div id="bpMap" class="bp-map"></div></section><aside class="panel dark-content feature-card"><h2>Blueprint Summary</h2><div id="bpSummary" class="feature-list"></div><h3>Energiekurve</h3><div id="bpEnergy" class="bp-energy"></div></aside></div></section>
+<section class="view" id="styleLibraryView"><div class="view-head"><div><h1>📚 Style Library</h1><p>Eine lokale, durchsuchbare Sammlung kuratierter Suno-STYLE-Vorlagen.</p></div><span id="libCount" class="dna-offline-badge">0 Styles</span></div><section class="panel dark-content feature-card"><div class="feature-toolbar"><label>Suche<input id="libSearch" placeholder="Anime, Viking, Electro Swing..."></label><label>Kategorie<select id="libCategory"><option value="all">Alle Kategorien</option></select></label><label><input type="checkbox" id="libFavorites"> Nur Favoriten</label></div></section><div class="feature-grid" style="margin-top:16px"><section class="panel dark-content feature-card feature-scroll"><div id="libList" class="feature-list"></div></section><aside class="panel dark-content feature-card"><h2>STYLE-Vorschau</h2><h3 id="libTitle">Kein Style ausgewählt</h3><div id="libTags" class="feature-chiprow"></div><textarea id="libPreview" class="feature-output" readonly></textarea><div class="feature-actions"><button id="libCopy">Kopieren</button><button class="primary" id="libApply">In Style Builder</button></div></aside></div></section>
+<section class="view" id="evolutionView"><div class="view-head"><div><h1>🌱 Prompt Evolution</h1><p>Entwickelt einen bestehenden STYLE in mehrere Richtungen weiter, ohne die Grundidee zu verlieren.</p></div><span class="dna-offline-badge">🔒 Lokal · Offline</span></div><div class="feature-grid"><section class="panel dark-content feature-card"><h2>Ausgangs-STYLE</h2><textarea id="evoInput" class="feature-output" placeholder="STYLE hier einfügen..."></textarea><div class="feature-toolbar"><label>Entwicklungsstärke<select id="evoStrength"><option value="subtle">Dezent</option><option value="balanced" selected>Ausgewogen</option><option value="bold">Mutig</option></select></label><label>Anzahl Varianten<select id="evoCount"><option>3</option><option selected>4</option><option>5</option></select></label><label>Schwerpunkt<select id="evoFocus"><option value="all">Alles</option><option value="production">Produktion</option><option value="emotion">Emotion</option><option value="energy">Energie</option><option value="instruments">Instrumente</option></select></label></div><div class="feature-actions"><button class="primary" id="evoGenerate">🌱 VARIANTEN ERZEUGEN</button><button id="evoCurrent">Aktuellen STYLE verwenden</button><button id="evoClear">Leeren</button></div></section><aside class="panel dark-content feature-card"><h2>Entwicklungsprinzip</h2><div class="feature-list"><div class="feature-item"><h4>A · Originalgetreu</h4><p class="feature-muted">Bereinigt und verfeinert.</p></div><div class="feature-item"><h4>B · Moderner</h4><p class="feature-muted">Aktuellere Produktion und klarere Dynamik.</p></div><div class="feature-item"><h4>C · Cineastischer</h4><p class="feature-muted">Mehr Raum, Aufbau und emotionales Finale.</p></div><div class="feature-item"><h4>D · Experimenteller</h4><p class="feature-muted">Eine kontrollierte unerwartete Wendung.</p></div></div></aside></div><section class="panel dark-content feature-card hidden" id="evoResults"><div class="dna-result-head"><div><h2>Varianten</h2><p>Jede Variante kann kopiert oder in den Style Builder übernommen werden.</p></div></div><div id="evoList" class="feature-list"></div></section></section>
+<section class="view" id="dnaAnalyzerView">
+  <div class="view-head dna-head">
+    <div>
+      <h1>🧬 Song DNA Analyzer</h1>
+      <p>Zerlegt vorhandene Suno-STYLE-Prompts in Genre, BPM, Vocals, Instrumente, Produktion, Stimmung, Musiktheorie und Genre-Fusion.</p>
+    </div>
+    <span class="dna-offline-badge">🔒 Lokal · Offline</span>
+  </div>
+
+  <div class="dna-layout">
+    <section class="panel dark-content dna-input-card">
+      <div class="dna-title-row">
+        <div><h2>1. STYLE-Prompt einfügen</h2><p>Kommagetrennte und mehrzeilige Prompts werden unterstützt.</p></div>
+        <span id="dnaInputCount">0 Elemente</span>
+      </div>
+      <textarea id="dnaInput" class="dna-textarea" placeholder="Example: Rap-driven Viking Folk fusion, 132 BPM, Deep Male Rap Vocal, Nordic Male Choir, Tagelharpa, Heavy Hip-Hop Drums, Strong Groove, Cinematic Production, Dynamic Mix"></textarea>
+
+      <div class="grid three dna-controls">
+        <label>Analyse-Tiefe
+          <select id="dnaDepth">
+            <option value="quick">Schnell</option>
+            <option value="standard" selected>Standard</option>
+            <option value="deep">Tiefenanalyse</option>
+          </select>
+        </label>
+        <label>Primärgenre bevorzugen
+          <select id="dnaPrimaryPreference">
+            <option value="auto" selected>Automatisch erkennen</option>
+            <option value="first">Erste Genreangabe</option>
+            <option value="strongest">Stärkstes Signal</option>
+          </select>
+        </label>
+        <label class="dna-check"><input id="dnaIncludeUnknown" type="checkbox" checked> Unbekannte Begriffe anzeigen</label>
+      </div>
+
+      <div class="dna-actions">
+        <button class="primary" id="dnaAnalyze">🧬 SONG-DNA ANALYSIEREN</button>
+        <button id="dnaUseCurrent">↙ Aktuellen STYLE verwenden</button>
+        <button id="dnaClear">↺ Leeren</button>
+      </div>
+      <p id="dnaStatus" class="dna-status">Bereit für einen STYLE-Prompt.</p>
+    </section>
+
+    <aside class="panel dark-content dna-summary-card">
+      <div class="dna-overall">
+        <span>Analyse-Sicherheit</span>
+        <strong id="dnaConfidence">--%</strong>
+      </div>
+      <div class="dna-confidence-track"><i id="dnaConfidenceBar"></i></div>
+      <div id="dnaHeadline" class="dna-headline">Noch keine Song-DNA erkannt.</div>
+      <div id="dnaQuickFacts" class="dna-quick-facts"></div>
+    </aside>
+  </div>
+
+  <section class="panel dark-content dna-result hidden" id="dnaResult">
+    <div class="dna-result-head">
+      <div><h2>2. Erkannte Song-DNA</h2><p>Die Analyse ist eine musikalische Interpretation des STYLE-Prompts und keine Garantie für das Suno-Ergebnis.</p></div>
+      <div class="dna-result-actions">
+        <button id="dnaCopySummary">📋 Zusammenfassung kopieren</button>
+        <button id="dnaExportJson">⬇ DNA als JSON</button>
+        <button class="primary" id="dnaApplyBuilder">✨ In Style Builder übernehmen</button>
+      </div>
+    </div>
+
+    <div class="dna-dashboard">
+      <article class="dna-card dna-genre-card">
+        <header><span>🎵</span><div><h3>Genre & Fusion</h3><small>Primär-, Sekundärgenre und Einflussrichtung</small></div></header>
+        <div id="dnaGenres" class="dna-chip-list"></div>
+        <div class="dna-blend-visual hidden" id="dnaBlendVisual">
+          <div class="dna-blend-label"><b id="dnaBlendPrimary">Primary</b><strong id="dnaBlendRatio">70 / 30</strong><b id="dnaBlendSecondary">Secondary</b></div>
+          <div class="dna-blend-track"><i id="dnaBlendBar"></i></div>
+          <p id="dnaBlendPhrase"></p>
+        </div>
+      </article>
+
+      <article class="dna-card">
+        <header><span>⏱️</span><div><h3>Tempo & Groove</h3><small>BPM, Tempocharakter und Rhythmusgefühl</small></div></header>
+        <div id="dnaTempo" class="dna-value-grid"></div>
+      </article>
+
+      <article class="dna-card">
+        <header><span>🎤</span><div><h3>Vocals</h3><small>Stimmen, Rollen und Performance</small></div></header>
+        <div id="dnaVocals" class="dna-chip-list"></div>
+      </article>
+
+      <article class="dna-card">
+        <header><span>🎻</span><div><h3>Instrumente</h3><small>Erkannte Klangquellen und Rollen</small></div></header>
+        <div id="dnaInstruments" class="dna-chip-list"></div>
+      </article>
+
+      <article class="dna-card">
+        <header><span>🎧</span><div><h3>Produktion</h3><small>Mix, Mastering und Sound Design</small></div></header>
+        <div id="dnaProduction" class="dna-chip-list"></div>
+      </article>
+
+      <article class="dna-card">
+        <header><span>♫</span><div><h3>Musical Intelligence</h3><small>Harmonie, Melodie, Dynamik und Arrangement</small></div></header>
+        <div id="dnaTheory" class="dna-chip-list"></div>
+      </article>
+
+      <article class="dna-card">
+        <header><span>🌍</span><div><h3>Story, Stimmung & Atmosphäre</h3><small>Emotionale und thematische Richtung</small></div></header>
+        <div id="dnaMood" class="dna-chip-list"></div>
+      </article>
+
+      <article class="dna-card">
+        <header><span>🏷️</span><div><h3>Struktur & MetaTags</h3><small>Songabschnitte und bracketed instructions</small></div></header>
+        <div id="dnaStructure" class="dna-chip-list"></div>
+      </article>
+    </div>
+
+    <div class="dna-analysis-grid">
+      <article class="dna-card">
+        <header><span>✅</span><div><h3>Stärken</h3><small>Was im Prompt bereits klar definiert ist</small></div></header>
+        <ul id="dnaStrengths" class="dna-list"></ul>
+      </article>
+      <article class="dna-card">
+        <header><span>⚠️</span><div><h3>Unklarheiten</h3><small>Mehrdeutige, fehlende oder widersprüchliche Angaben</small></div></header>
+        <ul id="dnaWarnings" class="dna-list"></ul>
+      </article>
+      <article class="dna-card">
+        <header><span>💡</span><div><h3>Empfehlungen</h3><small>Sinnvolle nächste Schritte für das Feintuning</small></div></header>
+        <ul id="dnaRecommendations" class="dna-list"></ul>
+      </article>
+    </div>
+
+    <details class="dna-raw-details">
+      <summary>Unbekannte und nicht klassifizierte Begriffe</summary>
+      <div id="dnaUnknown" class="dna-chip-list"></div>
+    </details>
+  </section>
+</section>
 
 <section class="view" id="optimizerView">
   <div class="view-head optimizer-head"><div><h1>🧹 Prompt Optimizer</h1><p>Analysiert einen vorhandenen STYLE-Prompt, erkennt Überladung, Wiederholungen und Konflikte und erstellt eine klarere Suno-freundliche Fassung.</p></div><span class="optimizer-offline-badge">🔒 Lokal · Offline</span></div>
@@ -762,6 +938,13 @@ html
 <script src="app.js"></script>
 <script src="simple_mode.js"></script>
 <script src="ai_composer.js"></script>
+<script src="song_dna_analyzer.js"></script>
 <script src="prompt_optimizer.js"></script>
+<script src="prompt_evolution.js"></script>
+<script src="style_library.js"></script>
+<script src="song_blueprint.js"></script>
+<script src="learning_engine.js"></script>
+<script src="ai_prompt_chat.js"></script>
+<script src="workspace_navigation.js"></script>
 </body>
 </html>
