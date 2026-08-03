@@ -2,6 +2,10 @@
 (function(){
 'use strict';const $=id=>document.getElementById(id);
 const M={
+intelligence:{label:'Studio Intelligence',view:'studioIntelligenceView',read:()=>window.NSW_STUDIO_INTELLIGENCE_LAST||null,ready:x=>!!x},
+producer:{label:'AI Producer',view:'aiProducerView',read:()=>window.NSW_AI_PRODUCER_LAST||null,ready:x=>!!x},
+worldMusic:{label:'World Music Atlas',view:'worldMusicView',read:()=>window.NSW_WORLD_MUSIC_LAST||null,ready:x=>!!x},
+encyclopedia:{label:'Instrument Encyclopedia',view:'instrumentEncyclopediaView',read:()=>window.NSW_INSTRUMENT_ENCYCLOPEDIA_LAST||null,ready:x=>!!x},
 style:{label:'Style Builder',view:'styleView',read:()=>({style:$('styleOutput')?.value||$('customStyle')?.value||'',exclude:$('excludeOutput')?.value||$('customExclude')?.value||''}),ready:x=>!!x.style},
 lyrics:{label:'Lyrics Workspace',view:'lyricsView',read:()=>({lyrics:$('lyricsEditor')?.value||''}),ready:x=>!!x.lyrics.trim()},
 blueprint:{label:'Song Blueprint',view:'blueprintView',read:()=>window.NSW_SONG_BLUEPRINT_LAST||null,ready:x=>!!x},

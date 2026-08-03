@@ -8,6 +8,7 @@ const words=s=>(String(s||'').match(/[\p{L}\p{N}'’\-]+/gu)||[]);
 const has=(t,r)=>r.test(String(t||'').toLowerCase());
 
 const GENRES=[
+ {test:/medieval|mittelalter|tavern|taverne|minnes|gregorian|crusader|ritter|castle music|burgmusik/,key:'medieval',label:'Medieval Folk / Fantasy Medieval',bpm:112,keySig:'D minor',scale:'Dorian / Aeolian blend',meter:'6/8',groove:'Tabor pulse with drone-based folk movement',instruments:['Hurdy-Gurdy','Lute','Shawm','Frame Drum','Medieval Harp']},
  {test:/viking|nordic|wikinger|norse/,key:'folk',label:'Nordic Cinematic / Viking Folk',bpm:124,keySig:'D minor',scale:'Dorian / Natural Minor blend',meter:'6/8',groove:'Heavy ritual pulse with triplet movement',instruments:['Tagelharpa','Taiko','Cinematic Strings','War Horns','Deep Synth Bass']},
  {test:/anime|j-pop|opening|shonen/,key:'anime',label:'Anime Rock / J-Pop',bpm:150,keySig:'E minor',scale:'Natural Minor with major lift',meter:'4/4',groove:'Driving eighth-note rock pulse',instruments:['Electric Guitar','Cinematic Strings','Synthesizer','Acoustic Drums']},
  {test:/metalcore|deathcore/,key:'metal',label:'Cinematic Metalcore',bpm:150,keySig:'D minor',scale:'Natural Minor / Phrygian accents',meter:'4/4',groove:'Half-time verses, double-time chorus and breakdown pulse',instruments:['Distorted Guitars','Acoustic Drums','Deep Bass','Cinematic Strings']},
@@ -20,6 +21,7 @@ const GENRES=[
 ];
 
 const STRUCTURES={
+ medieval:['Tavern Intro','Verse 1','Processional Build','Chorus','Verse 2','Courtly Bridge','Final Chorus','Castle Outro'],
  anime:['Intro','Verse 1','Pre-Chorus','Chorus','Verse 2','Bridge','Final Chorus','Outro'],
  folk:['Ritual Intro','Verse 1','War Chant','Chorus','March Build','Battle Break','Final Chorus','Saga Outro'],
  metal:['Intro','Verse 1','Pre-Chorus','Chorus','Verse 2','Breakdown','Bridge','Final Chorus','Outro'],
@@ -32,6 +34,7 @@ const STRUCTURES={
 };
 
 const CHORDS={
+ medieval:['Dm','C','Bb','Dm'],
  anime:['Em','C','G','D'],folk:['Dm','Bb','C','Dm'],metal:['Dm','Bb','F','C'],
  edm:['Fm','Db','Ab','Eb'],ballad:['Am','F','C','G'],jazz:['Fm7','Bbm7','Eb7','Abmaj7'],
  rap:['Cm','Ab','Eb','Bb'],cinematic:['Dm','Bb','F','C'],pop:['Am','F','C','G']
@@ -66,6 +69,10 @@ function parseBrief(brief,options={}){
 
  const extraInst=[];
  const map=[
+  [/hurdy.?gurdy|drehleier/,'Hurdy-Gurdy'],[/lute|laute/,'Lute'],[/theorbo|theorbe/,'Theorbo'],
+  [/rebec/,'Rebec'],[/shawm|schalmei/,'Shawm'],[/crumhorn|krummhorn/,'Crumhorn'],
+  [/psaltery|psalter/,'Psaltery'],[/recorder|blockflöte/,'Recorder'],[/frame drum|rahmentrommel/,'Frame Drum'],
+  [/tabor/,'Tabor'],[/medieval harp|mittelalterharfe/,'Medieval Harp'],
   [/tagelharpa/,'Tagelharpa'],[/nyckelharpa/,'Nyckelharpa'],[/taiko/,'Taiko'],[/piano/,'Piano'],
   [/guitar|gitarre/,'Electric Guitar'],[/strings|streicher/,'Cinematic Strings'],[/duduk/,'Duduk'],
   [/koto/,'Koto'],[/shamisen/,'Shamisen'],[/brass|bläser/,'Brass Section'],[/synth/,'Synthesizer'],
@@ -73,6 +80,15 @@ function parseBrief(brief,options={}){
   [/kantele/,'Kantele'],[/jouhikko/,'Jouhikko'],[/dulcimer|hackbrett/,'Hammered Dulcimer']
  ];
  map.forEach(([r,v])=>{if(r.test(low))extraInst.push(v)});
+ const worldData=window.NSW_WORLD_MUSIC_DATA;
+ const worldAliases={medieval:['mittelalter','ritter','taverne','burg','schalmei','drehleier'],renaissance:['renaissance'],nordic:['wikinger','viking','nordic','norse'],celtic:['keltisch','celtic'],japan:['japanisch','japanese'],china:['chinesisch','chinese'],korea:['koreanisch','korean'],middleeast:['arabisch','arabic','middle eastern','orientalisch'],india:['indisch','indian'],balkan:['balkan'],easteurope:['slawisch','slavic','osteuropa'],africa:['afrikanisch','african'],northafrica:['nordafrika','maghreb','gnawa'],latin:['lateinamerika','latin'],andean:['anden','andean'],western:['western','country','americana'],polynesia:['polynesisch','pacific'],arctic:['inuit','arktisch','arctic']};
+ const detectedWorld=worldData?.worlds?.find(w=>{
+  const name=w.name.toLowerCase(),id=w.id.toLowerCase(),aliases=worldAliases[id]||[];
+  return low.includes(name)||low.includes(id)||aliases.some(a=>low.includes(a))||w.genres.some(g=>low.includes(g.toLowerCase()));
+ });
+ if(detectedWorld){
+  worldData.instruments.filter(i=>i.world===detectedWorld.name&&i.status==='Reliable').slice(0,4).forEach(i=>extraInst.push(i.name));
+ }
 
  let emotion='Determined → Triumphant';
  if(has(low,/dark|dunkel|shadow|bedroh/))emotion='Dark Mystery → Determination → Triumph';
@@ -98,7 +114,8 @@ function parseBrief(brief,options={}){
   instruments:uniq([...extraInst,...primary.instruments]).slice(0,8),
   emotion,production,structure,
   goal:options.goal||'song',profile:options.profile||'balanced',duration:options.duration||'3:00',
-  signals:found.length+vocals.length+extraInst.length+(explicitBpm?1:0)
+  detectedWorld:detectedWorld||null,
+  signals:found.length+vocals.length+extraInst.length+(explicitBpm?1:0)+(detectedWorld?1:0)
  };
 }
 
@@ -174,9 +191,10 @@ function buildDirectorResult(brief,options={}){
   {key:'emotion',title:'Emotion Flow',value:parsed.emotion,confidence:87,module:'lyricsView',reason:'Turns the song into a progression rather than one static mood.'},
   {key:'production',title:'Production Direction',value:parsed.production,confidence:88,module:'productionView',reason:'Translates the emotional and energy arc into mix and dynamics behavior.'}
  ];
+ const worldStyle=parsed.detectedWorld?`${parsed.detectedWorld.name}, ${parsed.detectedWorld.scales.slice(0,2).join(' and ')}, ${parsed.detectedWorld.rhythms.slice(0,2).join(', ')}`:'';
  const style=uniq([
   decisions[0].value,`${parsed.bpm} BPM`,parsed.vocals.join(', '),parsed.instruments.join(', '),
-  parsed.emotion,parsed.production,`${theory.key}`,theory.scale,theory.meter,theory.groove,
+  parsed.emotion,parsed.production,worldStyle,`${theory.key}`,theory.scale,theory.meter,theory.groove,
   'Section-Specific Arrangement','Clear Voice Separation'
  ]).join(', ');
  const lyricsBlueprint=architecture.map((s,i)=>{
@@ -186,6 +204,7 @@ function buildDirectorResult(brief,options={}){
  }).join('\n\n');
 
  const reasoning=[
+  ...(parsed.detectedWorld?[`The ${parsed.detectedWorld.name} World Music profile contributed authentic scales, rhythms and instrument choices.`]:[]),
   `The primary genre is ${parsed.primaryGenre.label} because it carries the strongest matching signals.`,
   `${parsed.bpm} BPM was selected as a practical starting point for ${parsed.primaryGenre.label}.`,
   `${theory.key} and ${theory.scale} support the chosen emotional direction while remaining simple enough for prompt use.`,
@@ -199,7 +218,7 @@ function buildDirectorResult(brief,options={}){
   instrument:{instruments:parsed.instruments,sections:architecture.map(x=>({name:x.name,instruments:sectionInstrumentRole(x.name,parsed)}))},
   vocal:{cast:parsed.vocals,sections:architecture.map(x=>({name:x.name,vocal:x.vocal,energy:x.energy}))},
   theory:{...theory,bpm:parsed.bpm},arrangement:{sections:architecture},
-  production:{direction:parsed.production},predictor:{ready:true}
+  production:{direction:parsed.production},worldMusic:parsed.detectedWorld?{world:parsed.detectedWorld.name,scales:parsed.detectedWorld.scales,rhythms:parsed.detectedWorld.rhythms}:null,predictor:{ready:true}
  };
  return{
   id:'song_director_'+Date.now()+'_'+Math.random().toString(36).slice(2,7),createdAt:Date.now(),
