@@ -1,5 +1,66 @@
 # Nordlicht Soundworks Prompt Studio – Changelog
 
+## Version 5.0.0 – Song Director AI 1.0
+
+- Central Studio Core for connected production planning
+- One-click complete song build from a creative brief
+- Fourteen transparent build stages
+- Genre, arrangement, vocal, instrument, theory, production, Lyrics and STYLE direction
+- Connected module-state deployment
+- Conflict protection, reasoning, confidence and coherence score
+- Local history, Project Manager and Success Predictor integration
+- Local and offline
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 4.4.3 – Connected Modules & Studio Assistant 2.0
+
+- Central connection layer and visual Connection Hub
+- Connected production planning and quick synchronization
+- Producer notes and next-module guidance
+- Local and offline
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 4.4.2 – Workspace Accordion Fix
+
+- Fixed workspace groups collapsing when opening newer modules
+- Workspace assignment is now derived from the actual sidebar structure
+- Knowledge stays open for Genre Intelligence and all other Knowledge modules
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 4.4.1 – Visual Polish & Header Layout Fix
+
+- Fixed overlapping Vocal Director header text and status badge
+- Added collision-safe shared module headers
+- Improved mobile header stacking and long-status handling
+- Added readable breadcrumb names for all newer modules
+- Local and offline
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 4.3.0 – Genre Evolution 1.0
+
+- Genre timelines, branch maps and era-specific DNA
+- Controlled fusion lab and compatibility scoring
+- Suno-ready evolution STYLE generation
+- Project Manager integration
+- Local and offline
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 4.2.0 – Suno Success Predictor 1.0
+
+- Transparent readiness prediction for STYLE, Lyrics and structure
+- Eight component scores, radar chart and usable-generation estimate
+- Critical risks, warnings, strengths and recommendations
+- Learning Engine and Project Manager integration
+- Safer prompt creation and local prediction history
+- Local and offline
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
 ## Version 4.0.0 – Suno Project Manager
 
 - Complete project, album and track management

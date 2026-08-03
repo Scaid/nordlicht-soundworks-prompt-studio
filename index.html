@@ -23,7 +23,7 @@ html
 </div>
 <div class="top-actions">
 <div class="studio-mode-switch" role="group" aria-label="Studio mode"><button id="simpleModeButton" type="button">✨ Einfach</button><button id="advancedModeButton" class="active" type="button">🎛 Erweitert</button></div>
-<div class="language-picker"><button class="language-button" id="languageButton">🌐 English</button><div class="language-menu hidden" id="languageMenu"></div></div><span class="version-badge" title="Current version">v4.0.0</span>
+<div class="language-picker"><button class="language-button" id="languageButton">🌐 English</button><div class="language-menu hidden" id="languageMenu"></div></div><span class="version-badge" title="Current version">v5.0.0</span>
 <button data-i18n-full="ui_006" id="openChangelog">📋 Changelog</button>
 <button data-i18n-full="ui_007" id="topSavePreset">💾 Save Preset</button>
 <button data-i18n-full="ui_008" id="topImport">📂 Import</button>
@@ -37,7 +37,7 @@ html
 </div>
 <div class="sidebar-version">
 <b data-i18n-full="ui_010">Prompt Studio</b>
-<span data-i18n-full="ui_011">Version 4.0.0 · Workspace Navigation</span>
+<span data-i18n-full="ui_011">Version 5.0.0 · Workspace Navigation</span>
 <small data-i18n-full="ui_012">© 2026 Nordlicht Soundworks</small>
 </div>
 <nav id="navigation" class="workspace-navigation" aria-label="Main navigation">
@@ -48,10 +48,13 @@ html
 <div class="workspace-group-items">
 <button class="nav active" data-view="randomView" type="button">🎲<span><b>Smart Randomizer</b><small>Play with intelligent combinations</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="composerView" type="button">🤖<span><b>AI Composer</b><small>Develop a song idea into directions</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="vocalDirectorView" type="button">🎤<span><b>Vocal Director</b><small>Section-by-section vocal direction</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="styleView" type="button">🎼<span><b>Style Builder</b><small>Fine-tune the complete musical style</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="lyricsView" type="button">✍️<span><b>Lyrics Workspace</b><small>Write, structure and prepare lyrics</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="promptChatView" type="button">💬<span><b>AI Prompt Chat</b><small>Change STYLE with natural instructions</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
-<button class="nav" data-view="assistantView" type="button">🧭<span><b>Offline Smart Assistant</b><small>Analyze and apply a song idea</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="assistantView" type="button">🧭<span><b>Studio Assistant 2.0</b><small>Plan, connect and synchronize all modules</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="musicDirectorView" type="button">🎬<span><b>AI Music Director</b><small>Coordinate every module with transparent decisions</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="songDirectorView" type="button">🧠<span><b>Song Director AI</b><small>One-click build across the complete Studio</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 </div></section>
 
 <section class="workspace-nav-group" data-workspace="analyze">
@@ -60,6 +63,7 @@ html
 <button class="nav" data-view="dnaAnalyzerView" type="button">🧬<span><b>Song DNA Analyzer</b><small>Reverse-engineer an existing STYLE</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="lyricsIntelligenceView" type="button">📝<span><b>Lyrics Intelligence</b><small>Rhyme, flow, hooks, emotion and singability</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="optimizerView" type="button">🧹<span><b>Prompt Optimizer</b><small>Clean and improve STYLE prompts</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="successPredictorView" type="button">🎯<span><b>Suno Success Predictor</b><small>Estimate clarity, compatibility and generation risk</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="evolutionView" type="button">🌱<span><b>Prompt Evolution</b><small>Create controlled STYLE variations</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="learningView" type="button">🧠<span><b>Learning Engine</b><small>Rate results and learn preferences</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 </div></section>
@@ -68,15 +72,20 @@ html
 <button class="workspace-group-toggle" type="button" aria-expanded="false"><span>📚 KNOWLEDGE</span><small>Explore musical intelligence and libraries</small><i>›</i></button>
 <div class="workspace-group-items">
 <button class="nav" data-view="genreIntelligenceView" type="button">🎵<span><b>Genre Intelligence</b><small>Explore genre DNA, fusion and Suno guidance</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="genreEvolutionView" type="button">🧭<span><b>Genre Evolution</b><small>Explore roots, eras, branches and controlled fusion</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="metaTagEncyclopediaView" type="button">📖<span><b>MetaTag Encyclopedia</b><small>Meaning, reliability, examples and conflicts</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="metatagsView" type="button">🏷️<span><b>Prompt Intelligence</b><small>MetaTags, Song Maps and Prompt DNA</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="styleLibraryView" type="button">📚<span><b>Style Library</b><small>Find and apply curated styles</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="blueprintView" type="button">🗺️<span><b>Song Blueprint</b><small>Plan structure, energy and roles</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="arrangementDesignerView" type="button">🎛️<span><b>Arrangement Designer</b><small>Visual section layers, density and transitions</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="instrumentsView" type="button">🎻<span><b>Instrument Library</b><small>Explore instruments and recommendations</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="instrumentEvolutionView" type="button">🧬<span><b>Instrument Evolution</b><small>Roles, articulations, layers and modern mutations</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="instrumentGraphView" type="button">🕸️<span><b>Instrument Relationship Graph</b><small>Visualize support, competition and masking</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="vocalsView" type="button">🎤<span><b>Vocal Intelligence</b><small>Voices, characters and duet controls</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="storyView" type="button">🌍<span><b>Story & Emotion</b><small>World, scene, emotion and energy</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="productionView" type="button">🎧<span><b>Production Intelligence</b><small>Mix, sound design and mastering</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 <button class="nav" data-view="theoryView" type="button">♫<span><b>Musical Intelligence</b><small>Rhythm, harmony and dynamics</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
+<button class="nav" data-view="theoryDirectorView" type="button">🎼<span><b>Music Theory Director</b><small>Key, scale, chords, groove and tension</small></span><i class="workspace-pin" role="button" tabindex="0" title="Pin module">☆</i></button>
 </div></section>
 
 <section class="workspace-nav-group" data-workspace="project">
@@ -89,7 +98,7 @@ html
 </aside>
 <main class="workspace"><div class="workspace-breadcrumb" id="workspaceBreadcrumb"><button id="workspaceBreadcrumbHome" type="button">Home</button><span>›</span><b id="workspaceBreadcrumbGroup">Create</b><span>›</span><strong id="workspaceBreadcrumbModule">Smart Randomizer</strong></div>
 <section class="view workspace-home-view" id="homeView">
-<div class="view-head workspace-home-head"><div><h1>🏠 Welcome back</h1><p>Start a new idea, continue with a recent tool or open one of your pinned modules.</p></div><span class="workspace-home-badge">Nordlicht Soundworks · v4.0.0</span></div>
+<div class="view-head workspace-home-head"><div><h1>🏠 Welcome back</h1><p>Start a new idea, continue with a recent tool or open one of your pinned modules.</p></div><span class="workspace-home-badge">Nordlicht Soundworks · v5.0.0</span></div>
 <div class="workspace-home-grid">
 <section class="panel dark-content workspace-home-hero"><span class="workspace-kicker">QUICK START</span><h2>What do you want to create?</h2><p>Choose a direct entry point. Smart Randomizer stays the fastest and most playful way to begin.</p><div class="workspace-quick-actions">
 <button class="primary" data-open-view="randomView">🎲 Smart Randomizer</button><button data-open-view="composerView">🤖 AI Composer</button><button data-open-view="styleView">🎼 Style Builder</button><button data-open-view="lyricsView">✍️ Lyrics Workspace</button>
@@ -300,6 +309,14 @@ html
   </section>
 </section>
 
+
+<section class="view" id="arrangementDesignerView">
+<div class="view-head arr-head"><div><h1>🎛️ Arrangement Designer 1.0</h1><p>Build a visual song arrangement with section timing, energy, vocals, instruments, density, production and transitions.</p></div><span class="arr-badge" id="arrBadge">No arrangement</span></div>
+<section class="panel dark-content arr-toolbar"><div class="grid four"><label>Source<select id="arrSource"><option value="director">AI Music Director</option><option value="blueprint">Song Blueprint</option><option value="lyrics">Lyrics Workspace</option><option value="preset">Preset</option></select></label><label>Preset<select id="arrPreset"><option>Anime Opening</option><option>Viking Cinematic</option><option>Metalcore</option><option>EDM Festival</option><option>Ballad</option><option>Electro Swing</option></select></label><label>Duration<select id="arrDuration"><option>2:30</option><option selected>3:00</option><option>3:30</option><option>4:00</option></select></label><label>Energy Arc<select id="arrArc"><option value="build">Gradual Build</option><option value="waves">Dynamic Waves</option><option value="contrast">Strong Contrast</option><option value="high">Constant High Energy</option></select></label></div><div class="arr-actions"><button class="primary" id="arrGenerate">Generate Arrangement</button><button id="arrAdd">Add Section</button><button id="arrNormalize">Normalize Duration</button><button id="arrClear">Clear</button></div><p id="arrStatus">Ready.</p></section>
+<section class="panel dark-content arr-canvas"><div class="arr-title"><div><h2>Arrangement Timeline</h2><p>Drag sections to reorder. Click a section to edit it.</p></div><label>Zoom <input id="arrZoom" type="range" min="70" max="170" value="100"></label></div><div id="arrRuler" class="arr-ruler"></div><div id="arrTimeline" class="arr-timeline"></div><div id="arrLanes" class="arr-lanes"></div></section>
+<div class="arr-layout"><section class="panel dark-content arr-inspector"><div class="arr-title"><div><h2>Section Inspector</h2><p>Complete arrangement DNA.</p></div><span id="arrSelected">None</span></div><div id="arrEditor"></div></section><aside class="panel dark-content arr-analysis"><h2>Arrangement Analysis</h2><div id="arrScore"></div><div id="arrMessages"></div></aside></div>
+<section class="panel dark-content arr-output"><div class="arr-title"><div><h2>Arrangement Output</h2><p>Section MetaTags and timing plan.</p></div><div class="arr-actions"><button id="arrCopy">Copy</button><button id="arrExport">Export JSON</button><button id="arrLyrics">Apply to Lyrics</button><button id="arrProject">Save to Project</button></div></div><textarea id="arrOutput" readonly></textarea></section>
+</section>
 <section class="view" id="blueprintView">
   <div class="view-head blueprint2-head">
     <div>
@@ -668,6 +685,109 @@ html
 </section>
 
 
+
+<section class="view" id="successPredictorView">
+  <div class="view-head sp-head">
+    <div><h1>🎯 Suno Success Predictor 1.0</h1><p>Transparent local readiness analysis for STYLE, Lyrics, structure and your personal Learning Engine history.</p></div>
+    <span class="sp-badge" id="spBadge">Local predictive analysis</span>
+  </div>
+
+  <div class="sp-layout">
+    <section class="panel dark-content sp-input">
+      <div class="sp-title-row">
+        <div><h2>1. Analyze Song Setup</h2><p>Import the current Studio state or evaluate a custom song setup.</p></div>
+        <span id="spInputStats">0 STYLE items · 0 lyric words</span>
+      </div>
+
+      <div class="sp-actions">
+        <button class="primary" id="spUseStudio">📥 Use Current Studio</button>
+        <button id="spUseProject">🗂️ Use Active Project Track</button>
+        <button id="spClear">↺ Clear</button>
+      </div>
+
+      <div class="sp-input-grid">
+        <label>STYLE Prompt<textarea id="spStyleInput" placeholder="Genre, vocals, instruments, production, dynamics, BPM..."></textarea></label>
+        <label>Lyrics / Song Structure<textarea id="spLyricsInput" placeholder="[Intro]&#10;[Verse 1]&#10;Lyrics...&#10;&#10;[Chorus]&#10;Lyrics..."></textarea></label>
+      </div>
+
+      <div class="grid four sp-options">
+        <label>Prediction Profile
+          <select id="spProfile">
+            <option value="balanced">Balanced</option><option value="strict">Strict / Reliable</option>
+            <option value="creative">Creative / Experimental</option><option value="commercial">Commercial Focus</option>
+            <option value="cinematic">Cinematic Focus</option>
+          </select>
+        </label>
+        <label>Target Genre
+          <select id="spTargetGenre">
+            <option value="auto">Auto / Current Builder Genre</option><option value="pop">Pop</option>
+            <option value="rock">Rock</option><option value="metal">Metal</option><option value="rap">Rap / Hip-Hop</option>
+            <option value="edm">EDM / Electronic</option><option value="anime">Anime / J-Pop</option>
+            <option value="cinematic">Cinematic</option><option value="folk">Folk / Viking</option>
+            <option value="jazz">Jazz / Swing</option><option value="ballad">Ballad</option>
+          </select>
+        </label>
+        <label>Lyrics Language
+          <select id="spLanguage"><option value="auto">Auto detect</option><option value="de">German</option><option value="en">English</option><option value="fr">French</option><option value="es">Spanish</option><option value="it">Italian</option><option value="pt">Portuguese</option><option value="ja">Japanese</option><option value="ko">Korean</option></select>
+        </label>
+        <label class="toggle sp-toggle"><input id="spUseLearning" type="checkbox" checked> Use Learning Engine history</label>
+      </div>
+
+      <div class="sp-actions">
+        <button class="primary" id="spAnalyze">🚀 Calculate Success Prediction</button>
+        <button id="spOptimize">🧹 Create Safer Version</button>
+        <button id="spCompare" disabled>⚖ Compare Original / Safer</button>
+      </div>
+      <p id="spStatus" class="sp-status">Ready for analysis.</p>
+    </section>
+
+    <aside class="panel dark-content sp-summary">
+      <div class="sp-overall"><div><span>Predicted Readiness</span><strong id="spOverall">--</strong></div><div id="spGrade" class="sp-grade">—</div></div>
+      <div class="sp-score-track"><i id="spOverallBar"></i></div>
+      <div id="spHeadline" class="sp-headline">No prediction yet.</div>
+      <div class="sp-probability"><div><small>Likely usable generation</small><strong id="spUsableProbability">--</strong></div><div><small>Likely needs retry</small><strong id="spRetryProbability">--</strong></div></div>
+      <div id="spQuickFacts" class="sp-quick-facts"></div>
+      <div class="sp-disclaimer"><b>Important</b><p>This is a heuristic readiness estimate, not a guarantee. Identical Suno prompts can still produce different results.</p></div>
+    </aside>
+  </div>
+
+  <section class="panel dark-content hidden" id="spResults">
+    <div class="sp-result-head">
+      <div><h2>2. Prediction Breakdown</h2><p>Every score is linked to visible signals and detected risks.</p></div>
+      <div class="sp-actions"><button id="spCopyReport">📋 Copy Report</button><button id="spExportJson">⬇ Export JSON</button><button id="spSaveProject">💾 Save to Project Manager</button></div>
+    </div>
+
+    <div id="spScoreGrid" class="sp-score-grid"></div>
+
+    <div class="sp-analysis-grid">
+      <article class="sp-card sp-radar-card"><header><span>📈</span><div><h3>Readiness Radar</h3><small>Eight prediction dimensions</small></div></header><svg id="spRadar" class="sp-radar" viewBox="0 0 420 360"></svg></article>
+      <article class="sp-card"><header><span>🧬</span><div><h3>Detected Song DNA</h3><small>Recognized STYLE and structure elements</small></div></header><div id="spDetectedDNA" class="sp-chip-list"></div></article>
+      <article class="sp-card"><header><span>🚨</span><div><h3>Critical Risks</h3><small>High-impact consistency problems</small></div></header><div id="spCriticalRisks" class="sp-message-list"></div></article>
+      <article class="sp-card"><header><span>⚠️</span><div><h3>Warnings</h3><small>Areas that may need refinement</small></div></header><div id="spWarnings" class="sp-message-list"></div></article>
+      <article class="sp-card"><header><span>✅</span><div><h3>Positive Signals</h3><small>What already improves readiness</small></div></header><div id="spStrengths" class="sp-message-list"></div></article>
+      <article class="sp-card"><header><span>💡</span><div><h3>Recommended Changes</h3><small>Concrete improvements ordered by impact</small></div></header><div id="spRecommendations" class="sp-message-list"></div></article>
+    </div>
+
+    <div class="sp-lower-grid">
+      <article class="sp-card"><header><span>🏷️</span><div><h3>MetaTag Reliability</h3><small>Stable, contextual and experimental terms</small></div></header><div id="spMetaTagAnalysis"></div></article>
+      <article class="sp-card"><header><span>🧠</span><div><h3>Learning Engine Influence</h3><small>Personal feedback adjustment</small></div></header><div id="spLearningAnalysis"></div></article>
+      <article class="sp-card"><header><span>🎯</span><div><h3>Commercial & Creative Balance</h3><small>Accessibility versus originality</small></div></header><div id="spBalanceAnalysis"></div></article>
+    </div>
+
+    <div id="spSaferPanel" class="sp-safer hidden">
+      <div class="sp-title-row"><div><h2>3. Safer Prompt Version</h2><p>A focused alternative that preserves the detected core idea.</p></div><span id="spSaferScore">Predicted score --</span></div>
+      <textarea id="spSaferStyle"></textarea>
+      <div class="sp-actions"><button class="primary" id="spCopySafer">📋 Copy Safer STYLE</button><button id="spApplySafer">✅ Apply to Style Builder</button><button id="spAnalyzeSafer">🔍 Analyze Safer Version</button></div>
+      <div id="spComparison" class="sp-comparison"></div>
+    </div>
+  </section>
+
+  <section class="panel dark-content sp-history-card">
+    <div class="sp-title-row"><div><h2>4. Prediction History</h2><p>Compare local prompt and project versions.</p></div><button id="spClearHistory">Clear History</button></div>
+    <div id="spHistory" class="sp-history"></div>
+  </section>
+</section>
+
 <section class="view" id="optimizerView">
   <div class="view-head optimizer2-head">
     <div>
@@ -794,6 +914,237 @@ html
   </section>
 </section>
 
+
+
+<section class="view" id="songDirectorView">
+  <div class="view-head sd-head">
+    <div>
+      <h1>🧠 Song Director AI 1.0</h1>
+      <p>Build an entire Suno production system from one creative brief, then review and apply every decision transparently.</p>
+    </div>
+    <span class="sd-badge" id="sdBadge">Studio Core ready</span>
+  </div>
+
+  <div class="sd-layout">
+    <section class="panel dark-content sd-brief-panel">
+      <div class="sd-title-row">
+        <div><h2>1. Creative Brief</h2><p>Describe the song, story, sound, voice, energy and any fixed requirements.</p></div>
+        <span id="sdBriefStats">0 words · 0 detected signals</span>
+      </div>
+
+      <textarea id="sdBrief" class="sd-brief" placeholder="Example: A German anime opening about a Viking warrior returning from the shadow realm. Female lead, deep male narrator, choir, Tagelharpa, Taiko, dark verses and a huge electronic finale."></textarea>
+
+      <div class="grid four sd-controls">
+        <label>Director Profile
+          <select id="sdProfile">
+            <option value="balanced">Balanced Director</option>
+            <option value="safe">Suno-Safe Director</option>
+            <option value="bold">Bold Creative Director</option>
+            <option value="cinematic">Cinematic Director</option>
+            <option value="commercial">Commercial Director</option>
+          </select>
+        </label>
+        <label>Primary Goal
+          <select id="sdGoal">
+            <option value="song">Complete Song</option>
+            <option value="anime">Anime Opening</option>
+            <option value="album">Album Track</option>
+            <option value="trailer">Trailer / Game OST</option>
+            <option value="spotify">Spotify Release</option>
+            <option value="experimental">Experimental Concept</option>
+          </select>
+        </label>
+        <label>Target Duration
+          <select id="sdDuration">
+            <option>2:30</option><option selected>3:00</option><option>3:30</option><option>4:00</option><option>5:00</option>
+          </select>
+        </label>
+        <label>Language
+          <select id="sdLanguage">
+            <option value="auto">Auto from brief / lyrics</option>
+            <option>German</option><option>English</option><option>Japanese</option>
+            <option>French</option><option>Spanish</option><option>Korean</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="sd-option-grid">
+        <label class="toggle"><input id="sdPreserve" type="checkbox" checked> Preserve existing manual work</label>
+        <label class="toggle"><input id="sdUseLearning" type="checkbox" checked> Use Learning Engine history</label>
+        <label class="toggle"><input id="sdBuildLyrics" type="checkbox" checked> Build section MetaTags for Lyrics</label>
+        <label class="toggle"><input id="sdRunPredictor" type="checkbox" checked> Run Success Predictor after build</label>
+        <label class="toggle"><input id="sdSaveProject" type="checkbox"> Save complete result to active project</label>
+        <label class="toggle"><input id="sdStrictConflicts" type="checkbox" checked> Stop unsafe conflicting decisions</label>
+      </div>
+
+      <div class="sd-actions">
+        <button class="primary huge" id="sdBuild">🚀 ONE-CLICK SONG BUILD</button>
+        <button id="sdAnalyzeOnly">Analyze Without Applying</button>
+        <button id="sdImportStudio">Import Current Studio</button>
+        <button id="sdExample">Load Example</button>
+        <button id="sdClear">Clear</button>
+      </div>
+      <p id="sdStatus" class="sd-status">Ready to build a complete song direction.</p>
+    </section>
+
+    <aside class="panel dark-content sd-overview">
+      <div class="sd-score-head">
+        <div><span>Director Coherence</span><strong id="sdScore">--</strong></div>
+        <div class="sd-grade" id="sdGrade">—</div>
+      </div>
+      <div class="sd-score-track"><i id="sdScoreBar"></i></div>
+      <div class="sd-summary" id="sdSummary">No song direction generated yet.</div>
+      <div class="sd-overview-grid" id="sdOverviewGrid"></div>
+      <div class="sd-readiness" id="sdReadiness"></div>
+    </aside>
+  </div>
+
+  <section class="panel dark-content hidden" id="sdProgressPanel">
+    <div class="sd-title-row">
+      <div><h2>2. Studio Core Build Process</h2><p>Each stage is generated locally and connected to the next decision.</p></div>
+      <span id="sdProgressText">0 / 14 stages</span>
+    </div>
+    <div class="sd-progress-track"><i id="sdProgressBar"></i></div>
+    <div id="sdStageGrid" class="sd-stage-grid"></div>
+  </section>
+
+  <section class="panel dark-content hidden" id="sdResults">
+    <div class="sd-title-row">
+      <div><h2>3. Director Decisions</h2><p>Every major production choice includes its reason, confidence and target module.</p></div>
+      <div class="sd-actions compact">
+        <button id="sdCopyReport">Copy Report</button>
+        <button id="sdExportJson">Export JSON</button>
+        <button id="sdSaveSnapshot">Save Director Snapshot</button>
+      </div>
+    </div>
+
+    <div id="sdDecisionGrid" class="sd-decision-grid"></div>
+
+    <div class="sd-results-grid">
+      <article class="sd-card">
+        <header><span>🧬</span><div><h3>Master Song DNA</h3><small>Global STYLE direction</small></div></header>
+        <textarea id="sdMasterStyle" readonly></textarea>
+        <div class="sd-actions"><button class="primary" id="sdApplyStyle">Apply STYLE</button><button id="sdCopyStyle">Copy STYLE</button></div>
+      </article>
+
+      <article class="sd-card">
+        <header><span>🗺️</span><div><h3>Song Architecture</h3><small>Sections, timing and energy arc</small></div></header>
+        <div id="sdArchitecture" class="sd-architecture"></div>
+      </article>
+
+      <article class="sd-card">
+        <header><span>🎤</span><div><h3>Vocal Production Plan</h3><small>Cast, roles, range and transitions</small></div></header>
+        <div id="sdVocalPlan" class="sd-list"></div>
+      </article>
+
+      <article class="sd-card">
+        <header><span>🎻</span><div><h3>Instrument & Layer Plan</h3><small>Primary and supporting roles</small></div></header>
+        <div id="sdInstrumentPlan" class="sd-list"></div>
+      </article>
+
+      <article class="sd-card">
+        <header><span>🎼</span><div><h3>Music Theory Plan</h3><small>Key, scale, chords, meter and groove</small></div></header>
+        <div id="sdTheoryPlan" class="sd-list"></div>
+      </article>
+
+      <article class="sd-card">
+        <header><span>🎚️</span><div><h3>Production & Mix Plan</h3><small>Dynamics, space and final impact</small></div></header>
+        <div id="sdProductionPlan" class="sd-list"></div>
+      </article>
+
+      <article class="sd-card">
+        <header><span>⚠️</span><div><h3>Conflicts & Risks</h3><small>Competing or overloaded decisions</small></div></header>
+        <div id="sdConflicts" class="sd-messages"></div>
+      </article>
+
+      <article class="sd-card">
+        <header><span>💡</span><div><h3>Producer Reasoning</h3><small>Why the Director chose this path</small></div></header>
+        <div id="sdReasoning" class="sd-messages"></div>
+      </article>
+    </div>
+
+    <div class="sd-module-panel">
+      <div class="sd-title-row">
+        <div><h2>4. Connected Module Deployment</h2><p>Apply individual plans or deploy the complete result across the Studio.</p></div>
+        <span id="sdDeploymentStatus">Not applied</span>
+      </div>
+      <div id="sdModuleGrid" class="sd-module-grid"></div>
+      <div class="sd-actions">
+        <button class="primary huge" id="sdDeployAll">✅ DEPLOY COMPLETE SONG</button>
+        <button id="sdOpenNext">Open Next Recommended Module</button>
+        <button id="sdRunFinalCheck">Run Final Success Check</button>
+      </div>
+    </div>
+
+    <div class="sd-output-panel">
+      <div class="sd-title-row">
+        <div><h2>5. Lyrics & MetaTag Blueprint</h2><p>Section-specific directions following the Studio bracket rules.</p></div>
+        <div class="sd-actions"><button id="sdApplyLyrics">Apply to Lyrics</button><button id="sdCopyLyrics">Copy Blueprint</button></div>
+      </div>
+      <textarea id="sdLyricsBlueprint" readonly></textarea>
+    </div>
+  </section>
+
+  <section class="panel dark-content sd-history-panel">
+    <div class="sd-title-row">
+      <div><h2>Director History</h2><p>Compare locally generated song directions and restore earlier concepts.</p></div>
+      <button id="sdClearHistory">Clear History</button>
+    </div>
+    <div id="sdHistory" class="sd-history"></div>
+  </section>
+</section>
+
+<section class="view" id="musicDirectorView">
+  <div class="view-head md-head">
+    <div><h1>🎬 AI Music Director 1.0</h1><p>Turns one creative brief into a transparent, connected production direction across genre, arrangement, vocals, instruments, theory and production.</p></div>
+    <span class="md-badge" id="mdBadge">Director ready</span>
+  </div>
+
+  <div class="md-layout">
+    <section class="panel dark-content md-brief">
+      <div class="md-title-row"><div><h2>1. Creative Brief</h2><p>Describe the song, story, desired impact and any fixed requirements.</p></div><span id="mdBriefStats">0 words</span></div>
+      <textarea id="mdBrief" class="md-brief-text" placeholder="Example: A German Viking-anime opening about a fallen warrior returning from the shadow realm. Female lead, deep narrator, Tagelharpa, Taiko and a huge electronic finale."></textarea>
+      <div class="grid four md-controls">
+        <label>Director Mode<select id="mdMode"><option value="balanced">Balanced Producer</option><option value="bold">Bold Creative Director</option><option value="safe">Suno-Safe Director</option><option value="cinematic">Cinematic Director</option><option value="commercial">Commercial Director</option></select></label>
+        <label>Target Duration<select id="mdDuration"><option>2:30</option><option selected>3:00</option><option>3:30</option><option>4:00</option><option>5:00</option></select></label>
+        <label>Language<select id="mdLanguage"><option value="auto">Auto from brief / lyrics</option><option>German</option><option>English</option><option>Japanese</option><option>French</option><option>Spanish</option></select></label>
+        <label class="toggle md-toggle"><input id="mdUseLearning" type="checkbox" checked> Use personal Learning Engine</label>
+      </div>
+      <div class="md-actions">
+        <button class="primary huge" id="mdDirect">🎬 DIRECT COMPLETE SONG</button>
+        <button id="mdImportStudio">Import Current Studio</button>
+        <button id="mdExample">Load Example</button>
+        <button id="mdClear">Clear</button>
+      </div>
+      <p id="mdStatus" class="md-status">Ready to direct a song.</p>
+    </section>
+
+    <aside class="panel dark-content md-score-panel">
+      <div class="md-score-head"><div><span>Direction Coherence</span><strong id="mdScore">--</strong></div><div id="mdGrade" class="md-grade">—</div></div>
+      <div class="md-score-track"><i id="mdScoreBar"></i></div>
+      <div id="mdSummary" class="md-summary">No direction generated yet.</div>
+      <div id="mdMetrics" class="md-metrics"></div>
+    </aside>
+  </div>
+
+  <section class="panel dark-content hidden" id="mdResults">
+    <div class="md-title-row"><div><h2>2. Director Decisions</h2><p>Every recommendation includes the reason and the module it controls.</p></div><div class="md-actions"><button id="mdCopyPlan">Copy Plan</button><button id="mdExport">Export JSON</button><button id="mdSaveProject">Save to Project</button></div></div>
+    <div id="mdDecisionGrid" class="md-decision-grid"></div>
+
+    <div class="md-columns">
+      <article class="md-card"><header><h3>🧭 Decision Chain</h3><small>How one decision influences the next</small></header><div id="mdChain" class="md-chain"></div></article>
+      <article class="md-card"><header><h3>⚠ Director Conflicts</h3><small>Competing ideas and compromises</small></header><div id="mdConflicts" class="md-messages"></div></article>
+      <article class="md-card"><header><h3>💡 Producer Reasoning</h3><small>Why these choices were made</small></header><div id="mdReasons" class="md-messages"></div></article>
+      <article class="md-card"><header><h3>🔗 Module Actions</h3><small>Apply decisions selectively or all at once</small></header><div id="mdModuleActions" class="md-module-actions"></div></article>
+    </div>
+
+    <div class="md-master-plan">
+      <div class="md-title-row"><div><h2>3. Master Production Plan</h2><p>Complete output ready for connected modules.</p></div><button class="primary" id="mdApplyAll">Apply All Decisions</button></div>
+      <textarea id="mdMasterPlan" readonly></textarea>
+    </div>
+  </section>
+</section>
+
 <section class="view" id="composerView">
   <div class="view-head composer-head"><div><h1>🤖 AI Composer</h1><p>Beschreibe deine Songidee. Die lokale Knowledge Engine entwickelt daraus drei musikalische Richtungen und überträgt deine Auswahl in den Style Builder.</p></div><span class="composer-offline-badge">🔒 Lokal · Offline · Keine Datenübertragung</span></div>
   <div class="composer-layout">
@@ -836,6 +1187,26 @@ html
       <button class="primary huge" id="composerApply">✅ AUSGEWÄHLTE RICHTUNG ÜBERNEHMEN</button>
     </div>
   </section>
+</section>
+
+
+<section class="view" id="vocalDirectorView">
+<div class="view-head vd-head"><div><h1>🎤 Vocal Director 2.0</h1><p>Direct complete vocal casting, ranges, duet choreography, transitions, ad-libs, pronunciation and section-level performance.</p></div><span class="vd-badge" id="vdBadge">Local vocal direction</span></div>
+<div class="vd-layout">
+<section class="panel dark-content vd-main">
+<div class="vd-row"><div><h2>1. Vocal Direction</h2><p>Create a timeline from Lyrics, Song Blueprint, a preset or a blank structure.</p></div><span id="vdSummaryBadge">0 sections</span></div>
+<div class="grid four"><label>Source<select id="vdSource"><option value="lyrics">Lyrics Workspace</option><option value="blueprint">Song Blueprint</option><option value="preset">Vocal Preset</option><option value="blank">Blank Structure</option></select></label><label>Preset<select id="vdPreset"></select></label><label>Target Genre<select id="vdGenre"><option value="auto">Auto / Current Builder Genre</option><option value="anime">Anime / J-Pop</option><option value="metal">Metal / Metalcore</option><option value="viking">Viking / Nordic</option><option value="pop">Pop</option><option value="kpop">K-Pop</option><option value="rap">Rap / Hip-Hop</option><option value="edm">EDM</option><option value="cinematic">Cinematic</option><option value="swing">Jazz / Swing</option><option value="ballad">Ballad</option></select></label><label>Vocal Arc<select id="vdArc"><option value="build">Gradual Power Build</option><option value="waves">Dynamic Waves</option><option value="early">Early Peak</option><option value="late">Late Peak</option><option value="contrast">Strong Contrast</option><option value="constant">Constant High Energy</option></select></label></div>
+<div class="vd-actions"><button class="primary" id="vdGenerate">🎙️ GENERATE</button><button id="vdAddSection">＋ Add Section</button><button id="vdSmartDirector">🧠 Smart Vocal Director</button><button id="vdReset">↺ Reset</button></div><p id="vdStatus" class="vd-status">Ready.</p>
+<div class="vd-card"><div class="vd-row"><div><h3>Vocal Timeline</h3><p>Drag to reorder. Select a block to edit.</p></div><label>Zoom <input id="vdZoom" type="range" min="70" max="160" value="100"></label></div><div id="vdTimeline" class="vd-timeline"></div></div>
+<div class="vd-card"><div class="vd-row"><div><h3>Vocal Heatmap</h3><p>Intensity, choir, harmony and production density.</p></div><span id="vdPeakLabel">Peak: —</span></div><div id="vdHeatmap" class="vd-heatmap"></div></div>
+</section>
+<aside class="panel dark-content vd-side"><div class="vd-score"><div><span>Vocal Coherence</span><strong id="vdScore">--</strong></div><div class="vd-track"><i id="vdScoreBar"></i></div></div><div class="vd-inspector" id="vdInspector"><div class="vd-empty"><span>🎤</span><h3>Select a section</h3><p>Edit its complete Vocal DNA.</p></div></div><div class="vd-box"><h3>📊 Summary</h3><div id="vdMetrics" class="vd-metrics"></div></div><div class="vd-box"><h3>⚠ Compatibility</h3><div id="vdWarnings" class="vd-messages"></div></div><div class="vd-box"><h3>💡 Recommendations</h3><div id="vdRecommendations" class="vd-messages"></div></div><div class="vd-box"><div class="vd-row compact"><div><h3>🧬 Vocal DNA</h3><p>Suno-friendly MetaTags</p></div><button id="vdCopyDNA">Copy</button></div><textarea id="vdDNA" class="vd-dna" readonly></textarea><button class="primary full" id="vdApplyLyrics">Apply to Lyrics</button><button class="full" id="vdApplyStyle">Add Global Direction to STYLE</button></div></aside>
+</div>
+
+<section class="panel dark-content vd2-panel"><div class="vd2-title"><div><h2>Advanced Vocal Casting</h2><p>Define global cast roles, comfortable ranges and performer separation.</p></div><span id="vd2CastCount">0 cast roles</span></div><div class="vd2-grid"><label>Primary Voice<select id="vd2Primary"><option>Female Mezzo-Soprano</option><option>Female Alto</option><option>Female Soprano</option><option>Male Tenor</option><option>Male Baritone</option><option>Male Bass</option></select></label><label>Secondary Voice<select id="vd2Secondary"><option>None</option><option>Deep Male Narrator</option><option>Female Whisper Voice</option><option>Male Clean Vocal</option><option>Female Clean Vocal</option><option>Harsh Male Vocal</option><option>Child Choir</option></select></label><label>Comfortable Range<select id="vd2Range"><option>Low</option><option selected>Mid</option><option>High</option><option>Wide Cinematic Range</option></select></label><label>Voice Separation<select id="vd2Separation"><option>Strictly Separated Roles</option><option>Occasional Overlap</option><option>Frequent Duet Interaction</option><option>Layered Ensemble</option></select></label></div><div class="vd2-actions"><button class="primary" id="vd2AutoCast">Auto-Cast from Genre</button><button id="vd2Transitions">Build Transitions</button><button id="vd2Adlibs">Generate Ad-Libs</button><button id="vd2RangeCheck">Check Range</button></div><div id="vd2Cards" class="vd2-cards"></div></section>
+<section class="panel dark-content vd2-panel"><div class="vd2-title"><div><h2>Vocal Performance Matrix</h2><p>Performer, range, technique, background vocals, ad-libs and handoffs per section.</p></div><div class="vd2-actions"><button id="vd2Copy">Copy Matrix</button><button id="vd2Apply">Apply to Lyrics</button></div></div><div id="vd2Matrix"></div><div class="vd2-pron"><label>Pronunciation & Delivery Notes<textarea id="vd2Pronunciation" placeholder="Names, foreign words, syllable stress and spoken phrases..."></textarea></label><button id="vd2SavePronunciation">Save Notes</button></div></section>
+<section class="panel dark-content vd-table-card"><div class="vd-row"><div><h2>2. Detailed Vocal Plan</h2><p>Complete section-by-section direction.</p></div><div class="vd-actions"><button id="vdCopyPlan">📋 Copy Plan</button><button id="vdExportJson">⬇ JSON</button><button id="vdExportTxt">⬇ TXT</button><button id="vdSaveProject">💾 Save to Project</button></div></div><div class="vd-table-wrap"><table class="vd-table"><thead><tr><th>Section</th><th>Identity</th><th>Character</th><th>Emotion</th><th>Intensity</th><th>Harmony</th><th>Production</th><th>Transition</th></tr></thead><tbody id="vdTableBody"></tbody></table></div></section>
+<section class="panel dark-content vd-presets"><div class="vd-row"><div><h2>3. Vocal Preset Library</h2><p>Complete profiles for common genres and story worlds.</p></div><span id="vdPresetCount">0 presets</span></div><div id="vdPresetGrid" class="vd-preset-grid"></div></section>
 </section>
 
 <section class="view" id="lyricsView">
@@ -946,9 +1317,8 @@ html
 </div>
 </section>
 <section class="view" id="assistantView">
-<div class="view-head">
-<h1 data-i18n-full="ui_043">Offline Smart Assistant</h1>
-<p data-i18n-full="ui_044">Describe your desired song in natural language. The assistant analyzes your idea locally and suggests suitable settings.</p>
+<div class="view-head studio-assistant-head">
+<div><h1>🧭 Studio Assistant 2.0</h1><p>Describe a song idea, create a connected production plan and synchronize the relevant Studio modules.</p></div><span class="studio-assistant-badge" id="saConnectionBadge">0 modules connected</span>
 </div>
 <div class="panel dark-content">
 <label data-i18n-full="ui_045">Describe song idea<textarea class="assistant-prompt" data-i18n-placeholder="placeholder_001" id="assistantPrompt" placeholder="Example: A dark anime opening about a Viking awakening in a cyber world. Female lead voice, deep male narrator, large choir, Tagelharpa and hard electronic drops."></textarea>
@@ -964,7 +1334,7 @@ html
 <option data-i18n-full="ui_051" value="all">Analyze complete builder</option>
 <option data-i18n-full="ui_052" value="instruments">Recommend instruments only</option>
 <option data-i18n-full="ui_053" value="metatags">Generate MetaTags only</option>
-<option data-i18n-full="ui_054" value="vocals">Recommend vocals only</option>
+<option data-i18n-full="ui_054" value="vocals">Recommend vocals only</option><option value="production-plan">Create connected production plan</option><option value="diagnostic">Analyze current Studio state</option>
 </select>
 </label>
 <label data-i18n-full="ui_055">Description language<select id="assistantInputLanguage">
@@ -974,6 +1344,14 @@ html
 </select>
 </label>
 </div>
+
+<div class="studio-assistant-options">
+<label class="toggle"><input id="saAutoConnect" type="checkbox" checked> Connect compatible modules automatically</label>
+<label class="toggle"><input id="saPreserveWork" type="checkbox" checked> Preserve existing manual settings</label>
+<label class="toggle"><input id="saRunPrediction" type="checkbox" checked> Run Success Predictor after applying</label>
+<label class="toggle"><input id="saSaveProject" type="checkbox"> Save result to active Project Manager track</label>
+</div>
+
 <div class="assistant-actions">
 <button class="primary huge" data-i18n-full="ui_059" id="assistantAnalyze">🧠 ANALYZE SONG IDEA</button>
 <button data-i18n-full="ui_060" id="assistantExample">Insert example</button>
@@ -1011,6 +1389,36 @@ html
 <button data-i18n-full="ui_076" id="assistantOnlyMeta">Apply MetaTags only</button>
 </div>
 </div>
+
+<div class="studio-assistant-grid">
+<section class="panel dark-content studio-connection-panel">
+<div class="studio-assistant-title-row"><div><h2>🔗 Module Connection Hub</h2><p>Shows which modules contain usable data and how they influence one another.</p></div><button id="saRefreshConnections">Refresh</button></div>
+<div id="saModuleGraph" class="studio-module-graph"></div>
+<div id="saConnectionMessages" class="studio-assistant-messages"></div>
+</section>
+<section class="panel dark-content studio-plan-panel">
+<div class="studio-assistant-title-row"><div><h2>🎼 Connected Production Plan</h2><p>Review the complete cross-module direction before applying it.</p></div><span id="saPlanScore">Plan score --</span></div>
+<div id="saPlanCards" class="studio-plan-cards"></div>
+<div class="studio-assistant-actions"><button class="primary" id="saApplyConnectedPlan">✅ Apply Connected Plan</button><button id="saOpenNextModule">Open Next Recommended Module</button><button id="saCopyPlan">📋 Copy Plan</button><button id="saExportPlan">⬇ Export JSON</button></div>
+</section>
+</div>
+<section class="panel dark-content studio-sync-panel">
+<div class="studio-assistant-title-row"><div><h2>⚡ Quick Module Sync</h2><p>Transfer current decisions between modules without rebuilding them manually.</p></div><span id="saSyncStatus">Ready</span></div>
+<div class="studio-sync-grid">
+<button data-sa-sync="genre-to-instrument"><b>Genre → Instrument</b><small>Guide Instrument Evolution from Genre Evolution</small></button>
+<button data-sa-sync="genre-to-vocal"><b>Genre → Vocals</b><small>Guide Vocal Director from Genre Evolution</small></button>
+<button data-sa-sync="blueprint-to-vocal"><b>Blueprint → Vocals</b><small>Match vocal sections to Song Blueprint</small></button>
+<button data-sa-sync="all-to-style"><b>All Modules → STYLE</b><small>Merge global DNA into Style Builder</small></button>
+<button data-sa-sync="all-to-lyrics"><b>All Modules → Lyrics</b><small>Add section-aware MetaTags to Lyrics</small></button>
+<button data-sa-sync="studio-to-project"><b>Studio → Project</b><small>Capture current module states</small></button>
+<button data-sa-sync="studio-to-predictor"><b>Studio → Predictor</b><small>Analyze synchronized setup</small></button>
+<button data-sa-sync="project-to-studio"><b>Project → Studio</b><small>Restore active track</small></button>
+</div>
+</section>
+<section class="panel dark-content studio-assistant-log-panel">
+<div class="studio-assistant-title-row"><div><h2>🧠 Producer Notes</h2><p>The assistant explains what it changed and why.</p></div><button id="saClearLog">Clear Notes</button></div>
+<div id="saProducerLog" class="studio-producer-log"></div>
+</section>
 </section>
 <section class="view active" id="randomView">
 <div class="view-head">
@@ -1170,6 +1578,37 @@ html
 </div>
 </section>
 
+
+<section class="view" id="genreEvolutionView">
+  <div class="view-head ge-head"><div><h1>🧭 Genre Evolution 1.0</h1><p>Explore how genres developed, compare eras, trace subgenre branches and create controlled Suno-ready fusion paths.</p></div><span class="ge-badge" id="geBadge">Local genre map</span></div>
+  <div class="ge-layout">
+    <section class="panel dark-content ge-main">
+      <div class="ge-title-row"><div><h2>1. Evolution Explorer</h2><p>Select a genre family and move through its musical evolution.</p></div><span id="gePathCount">0 stages</span></div>
+      <div class="grid four ge-controls">
+        <label>Genre Family<select id="geFamily"></select></label>
+        <label>Evolution Path<select id="gePath"></select></label>
+        <label>Era<select id="geEra"></select></label>
+        <label>Evolution Goal<select id="geGoal"><option value="authentic">Authentic Roots</option><option value="modern" selected>Modernized</option><option value="cinematic">Cinematic Expansion</option><option value="experimental">Experimental Mutation</option><option value="commercial">Accessible / Commercial</option></select></label>
+      </div>
+      <div class="ge-actions"><button class="primary" id="geGenerate">🧬 GENERATE EVOLUTION</button><button id="geUseBuilder">↙ Use Current Builder Genre</button><button id="geRandom">🎲 Random Evolution</button><button id="geReset">↺ Reset</button></div>
+      <div class="ge-timeline-wrap"><div class="ge-title-row"><div><h3>Evolution Timeline</h3><p>Click a stage to inspect its Genre DNA.</p></div><label class="ge-era-slider">Era Position <input id="geEraSlider" type="range" min="0" max="4" value="4"></label></div><div id="geTimeline" class="ge-timeline"></div></div>
+      <div class="ge-branch-card"><div class="ge-title-row"><div><h3>Branch Map</h3><p>Roots, parent genres, related branches and modern descendants.</p></div><span id="geActiveStage">—</span></div><div id="geBranchMap" class="ge-branch-map"></div></div>
+      <div class="ge-fusion-card"><div class="ge-title-row"><div><h3>Controlled Fusion Lab</h3><p>Blend one supporting genre without losing the primary identity.</p></div><span id="geFusionScore">Compatibility --</span></div><div class="grid four"><label>Primary Genre<input id="gePrimary" readonly></label><label>Supporting Genre<select id="geSecondary"></select></label><label>Blend Strength<select id="geBlend"><option value="light">Light influence</option><option value="balanced" selected>Balanced support</option><option value="strong">Strong hybrid</option></select></label><label>Fusion Focus<select id="geFusionFocus"><option value="rhythm">Rhythm</option><option value="instruments">Instruments</option><option value="production">Production</option><option value="vocals">Vocals</option><option value="atmosphere">Atmosphere</option></select></label></div><button id="geBuildFusion" class="primary">Build Fusion DNA</button><div id="geFusionResult" class="ge-fusion-result"></div></div>
+    </section>
+    <aside class="panel dark-content ge-sidebar">
+      <div class="ge-score"><div><span>Genre Coherence</span><strong id="geScore">--</strong></div><div class="ge-score-track"><i id="geScoreBar"></i></div></div>
+      <div class="ge-card"><h3>🎵 Genre DNA</h3><div id="geDNA" class="ge-chip-list"></div></div>
+      <div class="ge-card"><h3>🥁 Rhythm & Tempo</h3><div id="geRhythm"></div></div>
+      <div class="ge-card"><h3>🎻 Instrument Palette</h3><div id="geInstruments" class="ge-chip-list"></div></div>
+      <div class="ge-card"><h3>🎤 Vocal Direction</h3><div id="geVocals" class="ge-chip-list"></div></div>
+      <div class="ge-card"><h3>🎧 Production Evolution</h3><div id="geProduction" class="ge-chip-list"></div></div>
+      <div class="ge-card"><h3>⚠ Fusion Risks</h3><div id="geWarnings" class="ge-message-list"></div></div>
+      <div class="ge-card"><div class="ge-title-row compact"><div><h3>📋 Suno STYLE</h3><p>Generated from the active evolution stage</p></div><button id="geCopyStyle">Copy</button></div><textarea id="geStyleOutput" readonly></textarea><button class="primary ge-full" id="geApplyStyle">Apply to Style Builder</button><button class="ge-full" id="geSaveProject">Save to Project Manager</button></div>
+    </aside>
+  </div>
+  <section class="panel dark-content ge-library"><div class="ge-title-row"><div><h2>2. Evolution Presets</h2><p>Curated paths from roots to modern forms.</p></div><span id="gePresetCount">0 presets</span></div><div id="gePresetGrid" class="ge-preset-grid"></div></section>
+</section>
+
 <section class="view" id="genreIntelligenceView">
   <div class="view-head genre-intelligence-head">
     <div>
@@ -1251,6 +1690,28 @@ html
   </section>
 </section>
 
+
+
+<section class="view" id="instrumentGraphView"><div class="view-head igr-head"><div><h1>🕸️ Instrument Relationship Graph 1.0</h1><p>Visualize complementary roles, frequency overlap, rhythmic competition and leaner instrument palettes.</p></div><span id="igrBadge" class="igr-badge">Graph ready</span></div>
+<section class="panel dark-content igr-toolbar"><div class="grid four"><label>Source<select id="igrSource"><option value="studio">Current Studio</option><option value="arrangement">Arrangement Designer</option><option value="evolution">Instrument Evolution</option><option value="custom">Custom List</option></select></label><label>Focus<select id="igrFocus"><option value="all">All Relationships</option><option value="support">Support</option><option value="conflict">Competition</option><option value="masking">Frequency Masking</option></select></label><label>Layout<select id="igrLayout"><option>Radial</option><option>Role Columns</option><option>Frequency Bands</option></select></label><label>Custom Instruments<input id="igrCustom" placeholder="Tagelharpa, Taiko, Choir"></label></div><div class="igr-actions"><button class="primary" id="igrBuild">Build Graph</button><button id="igrLean">Suggest Lean Palette</button><button id="igrReset">Reset</button></div><p id="igrStatus">Ready.</p></section>
+<div class="igr-layout"><section class="panel dark-content igr-graph-card"><div class="igr-title"><div><h2>Interactive Graph</h2><p>Click a node to inspect its strongest relationships.</p></div><span id="igrCount">0 instruments</span></div><svg id="igrGraph" viewBox="0 0 900 560"></svg><div class="igr-legend"><span>Green: support</span><span>Blue: compatible</span><span>Red: competition</span></div></section><aside class="panel dark-content igr-side"><div id="igrScore"></div><div id="igrInspector"></div><div id="igrWarnings"></div></aside></div>
+<section class="panel dark-content igr-matrix-card"><div class="igr-title"><div><h2>Compatibility Matrix</h2><p>Pairwise support and competition scores.</p></div><div class="igr-actions"><button id="igrCopy">Copy Report</button><button id="igrExport">Export JSON</button><button id="igrApply">Apply Lean Palette</button></div></div><div id="igrMatrix"></div><textarea id="igrReport" readonly></textarea></section></section>
+<section class="view" id="instrumentEvolutionView">
+<div class="view-head ie-head"><div><h1>🧬 Instrument Evolution 1.0</h1><p>Turn a basic instrument into a precise arrangement role with articulation, register, movement, production and section placement.</p></div><span class="ie-badge" id="ieBadge">Local instrument direction</span></div>
+<div class="ie-layout">
+<section class="panel dark-content ie-main">
+<div class="ie-title"><div><h2>1. Evolution Path</h2><p>Choose an instrument, goal and genre, then evolve it across six practical stages.</p></div><span id="iePathBadge">No path selected</span></div>
+<div class="grid four"><label>Family<select id="ieFamily"></select></label><label>Instrument<select id="ieInstrument"></select></label><label>Evolution Goal<select id="ieGoal"><option value="authentic">Authentic</option><option value="modern">Modernized</option><option value="cinematic">Cinematic</option><option value="aggressive">Aggressive</option><option value="emotional">Emotional</option><option value="experimental">Experimental</option></select></label><label>Target Genre<select id="ieGenre"><option value="auto">Auto / Builder Genre</option><option>anime</option><option>rock</option><option>metal</option><option>rap</option><option>edm</option><option>cinematic</option><option>folk</option><option>jazz</option><option>ballad</option></select></label></div>
+<div class="ie-actions"><button class="primary" id="ieGenerate">🧬 Generate Evolution</button><button id="ieSmart">🧠 Smart Director</button><button id="ieAddLayer">＋ Add Layer</button><button id="ieReset">↺ Reset</button></div><p id="ieStatus">Ready.</p>
+<div class="ie-card"><div class="ie-title"><div><h3>Evolution Timeline</h3><p>Identity → articulation → arrangement → cinematic expansion → hybrid mutation → signature role.</p></div><span id="ieStageLabel">Stage 1 of 6</span></div><div id="ieTimeline" class="ie-timeline"></div><input id="ieStageSlider" type="range" min="0" max="5" value="0"></div>
+<div class="ie-card"><div class="ie-title"><div><h3>Role & Layer Map</h3><p>Lead, harmony, rhythm, texture and bass responsibilities.</p></div><span id="ieRoleCount">0 roles</span></div><div id="ieRoleMap" class="ie-rolemap"></div></div>
+</section>
+<aside class="panel dark-content ie-side"><div class="ie-score"><div><span>Arrangement Compatibility</span><strong id="ieScore">--</strong></div><div><i id="ieScoreBar"></i></div></div><div class="ie-inspector" id="ieInspector"></div><div class="ie-box"><h3>📊 Summary</h3><div id="ieMetrics" class="ie-metrics"></div></div><div class="ie-box"><h3>⚠ Compatibility</h3><div id="ieWarnings"></div></div><div class="ie-box"><h3>💡 Recommendations</h3><div id="ieRecommendations"></div></div><div class="ie-box"><div class="ie-title compact"><div><h3>🧬 Instrument DNA</h3><p>Suno-friendly direction</p></div><button id="ieCopyDNA">Copy</button></div><textarea id="ieDNA" readonly></textarea><button class="primary full" id="ieApplyStyle">Apply to STYLE</button><button class="full" id="ieApplyLyrics">Apply section MetaTags</button></div></aside>
+</div>
+<section class="panel dark-content ie-lab"><div class="ie-title"><div><h2>2. Performance Lab</h2><p>Edit the active stage or supporting layer.</p></div><span id="ieLabStage">No active stage</span></div><div class="grid four"><label>Role<select id="ieRole"></select></label><label>Articulation<select id="ieArticulation"></select></label><label>Register<select id="ieRegister"></select></label><label>Movement<select id="ieMovement"></select></label><label>Dynamics<select id="ieDynamics"></select></label><label>Production<select id="ieProduction"></select></label><label>Placement<select id="iePlacement"></select></label><label>Priority<select id="iePriority"></select></label></div><div class="ie-sliders"><label>Presence <b id="iePresenceValue">70%</b><input id="iePresence" type="range" min="0" max="100" value="70"></label><label>Complexity <b id="ieComplexityValue">45%</b><input id="ieComplexity" type="range" min="0" max="100" value="45"></label><label>Human Feel <b id="ieHumanValue">70%</b><input id="ieHuman" type="range" min="0" max="100" value="70"></label><label>Stereo Width <b id="ieWidthValue">45%</b><input id="ieWidth" type="range" min="0" max="100" value="45"></label></div><label>Custom Notes<textarea id="ieNotes"></textarea></label><div class="ie-actions"><button class="primary" id="ieSaveStage">Save Changes</button><button id="ieDuplicateStage">Duplicate as Layer</button><button id="ieRemoveLayer">Remove Layer</button></div></section>
+<section class="panel dark-content ie-table-card"><div class="ie-title"><div><h2>3. Detailed Instrument Plan</h2><p>Every stage and supporting layer in one overview.</p></div><div class="ie-actions"><button id="ieCopyPlan">📋 Copy Plan</button><button id="ieExportJson">⬇ JSON</button><button id="ieExportTxt">⬇ TXT</button><button id="ieSaveProject">💾 Project Manager</button></div></div><div class="ie-table-wrap"><table class="ie-table"><thead><tr><th>Stage</th><th>Role</th><th>Articulation</th><th>Register</th><th>Movement</th><th>Dynamics</th><th>Production</th><th>Placement</th></tr></thead><tbody id="ieTableBody"></tbody></table></div></section>
+<section class="panel dark-content ie-presets"><div class="ie-title"><div><h2>4. Evolution Presets</h2><p>Ready-made instrument concepts.</p></div><span id="iePresetCount">0 presets</span></div><div id="iePresetGrid" class="ie-preset-grid"></div></section>
+</section>
 <section class="view" id="instrumentsView">
 <div class="view-head instrument-dna-head"><div><h1>🎻 Instrument DNA 2.0</h1><p>Explore instruments as a connected knowledge base with origin, era, tone, energy, genre fit, pairings and practical Suno reliability.</p></div><span class="instrument-dna-version">723 instruments · local knowledge</span></div>
 <div class="panel dark-content">
@@ -1488,6 +1949,10 @@ html
 </section>
 
 
+
+<section class="view" id="theoryDirectorView"><div class="view-head mtd-head"><div><h1>🎼 Music Theory Director 1.0</h1><p>Create a practical harmonic language, chord movement, groove and tension arc that supports the song without overloading Suno.</p></div><span id="mtdBadge" class="mtd-badge">Theory ready</span></div>
+<div class="mtd-layout"><section class="panel dark-content mtd-input"><div class="mtd-title"><div><h2>1. Musical Goal</h2><p>Import connected decisions or define the target manually.</p></div><button id="mtdImport">Import Connected Modules</button></div><textarea id="mtdBrief" placeholder="Describe the emotional and musical movement..."></textarea><div class="grid four"><label>Genre<select id="mtdGenre"><option>Anime / J-Pop</option><option>Viking / Nordic</option><option>Metal / Metalcore</option><option>EDM / Electronic</option><option>Cinematic</option><option>Pop</option><option>Rap / Hip-Hop</option><option>Jazz / Swing</option><option>Ballad</option></select></label><label>Emotional Arc<select id="mtdEmotion"><option>Dark → Heroic</option><option>Sad → Hopeful</option><option>Mysterious → Triumphant</option><option>Calm → Explosive</option><option>Playful → Celebratory</option><option>Constant Tension</option></select></label><label>Complexity<select id="mtdComplexity"><option value="simple">Simple / Suno-Safe</option><option value="moderate" selected>Moderate</option><option value="advanced">Advanced</option></select></label><label>Target BPM<input id="mtdBpm" type="number" min="50" max="220" value="124"></label></div><div class="mtd-actions"><button class="primary" id="mtdGenerate">Generate Theory Direction</button><button id="mtdVariation">Create Variation</button><button id="mtdReset">Reset</button></div><p id="mtdStatus">Ready.</p></section><aside class="panel dark-content mtd-summary"><span>Theory Coherence</span><strong id="mtdScore">--</strong><div class="mtd-track"><i id="mtdScoreBar"></i></div><div id="mtdQuick"></div></aside></div>
+<section class="panel dark-content hidden" id="mtdResults"><div class="mtd-title"><div><h2>2. Harmonic Direction</h2><p>Core theory decisions and section-level use.</p></div><div class="mtd-actions"><button id="mtdCopy">Copy DNA</button><button id="mtdStyle">Apply to STYLE</button><button id="mtdLyrics">Apply to Lyrics</button><button id="mtdProject">Save to Project</button></div></div><div id="mtdDecisions" class="mtd-decisions"></div><div class="mtd-charts"><article class="mtd-card"><h3>Chord Progression</h3><div id="mtdChords"></div></article><article class="mtd-card"><h3>Tension Curve</h3><svg id="mtdCurve" viewBox="0 0 700 230"></svg></article></div><div class="mtd-charts"><article class="mtd-card"><h3>Section Theory Plan</h3><div id="mtdSections"></div></article><article class="mtd-card"><h3>Compatibility</h3><div id="mtdWarnings"></div></article></div><textarea id="mtdOutput" readonly></textarea></section></section>
 <section class="view" id="theoryView">
   <div class="view-head theory-intelligence-head">
     <div>
@@ -2124,6 +2589,19 @@ html
 <script src="learning_engine.js"></script>
 <script src="ai_prompt_chat.js"></script>
 <script src="project_manager.js"></script>
+<script src="vocal_director.js"></script>
+<script src="success_predictor.js"></script>
+<script src="genre_evolution.js"></script>
+<script src="instrument_evolution.js"></script>
+<script src="module_connections.js"></script>
+<script src="studio_assistant_v2.js"></script>
+<script src="ai_music_director.js"></script>
+<script src="arrangement_designer.js"></script>
+<script src="instrument_relationship_graph.js"></script>
+<script src="vocal_director_v2.js"></script>
+<script src="music_theory_director.js"></script>
+<script src="song_director_core.js"></script>
+<script src="song_director_ai.js"></script>
 <script src="workspace_navigation.js"></script>
 </body>
 </html>
