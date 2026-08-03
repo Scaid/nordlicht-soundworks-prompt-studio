@@ -1,5 +1,48 @@
 # Nordlicht Soundworks Prompt Studio – Changelog
 
+## Version 7.0.0 – Studio Intelligence
+
+- Central mentor, coach, genre mixer and sound designer
+- Complete Studio readiness analysis and intelligent workflow
+- Safe coordinated actions, undo and connected pipeline
+- Final Phase 6 tools included: Health Check, Simplifier, Variation Engine and Conflict Resolver
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 6.2.0 – Producer Knowledge Base 2.0
+
+- 94 detailed genre and subgenre profiles
+- 19 vocal profiles, 8 production profiles and 10 conflict rules
+- Weighted profile matching and primary/supporting genre detection
+- Genre-aware BPM, modes, meter, instruments, vocals and arrangement
+- Searchable Knowledge Browser
+- Visible Knowledge Trace and Suno guidance
+- World Music Atlas, Instrument Encyclopedia and local-learning integration
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 6.1.0 – AI Producer 1.0
+
+- Practical musical recommendations from natural-language ideas
+- Confidence, alternatives, avoid-list, producer notes and focused STYLE
+- Commercial, Cinematic, Experimental, Authentic and Suno-Safe profiles
+- Local accept/reject learning and Producer history
+- Connected Style Builder, Song Director, Success Predictor and Project Manager workflows
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 5.1.0 – World Music Expansion & Instrument Encyclopedia
+
+- World Music Atlas with 18 historical and regional sound worlds
+- Dedicated Medieval and Renaissance categories
+- Instrument Encyclopedia with 77 detailed world instruments
+- Pairing, masking, range and Suno-reliability guidance
+- World palette and instrument comparison builders
+- Song Director, Music Theory, Instrument Evolution, Relationship Graph and Project Manager integration
+- Local and offline
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
 ## Version 5.0.0 – Song Director AI 1.0
 
 - Central Studio Core for connected production planning
