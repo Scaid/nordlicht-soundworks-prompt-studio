@@ -1,5 +1,60 @@
 # Nordlicht Soundworks Prompt Studio – Changelog
 
+## Version 7.5.4 – Workspace Welcome Tour
+
+- Workspace-first tour covers CREATE, ANALYZE, KNOWLEDGE and PROJECT
+- Dedicated Lyrics Workspace step highlights MetaTag library and editor together
+- Tour explains MetaTag insertion by Drag & Drop or ＋ click
+- Stable semantic step IDs replace positional translation arrays
+- Generic primary/secondary focus geometry supports any target direction
+- Completion summary is generated from the canonical tour definitions
+- All 14 First-Start languages updated
+- Intentional `first-start-v2` revision presents the new tour once to completed 7.5.3 users
+
+## Version 7.5.3 – First-Start State Machine
+
+- Deterministic phase-specific transition table replaces direct state manipulation
+- Pure state machine, schema-v2 repository, DOM view adapter and composition controller
+- One canonical snapshot for Welcome, Tour, Completion, Help, profiles and tips
+- Validated legacy-v1 migration and safe storage fallback
+- Release version and onboarding flow revision are now independent
+- Real remembered versus session-only choice behavior
+- Strict post-DOM module loading and canonical language-change events
+- Automated state, migration, DOM, reload and complete-app smoke coverage
+
+## Version 7.5.2 – Onboarding Component Fix
+
+- Welcome, Tour, Completion and Help Center fully separated
+- Correct welcome screen is shown once after upgrading to 7.5.2
+- Help menu can no longer appear as the first-start dialog
+- Explicit state machine and native hidden attributes
+- Language and dual-spotlight improvements from 7.5.1 preserved
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 7.5.1 – First Start Experience Polish
+
+- Sidebar and workspace are highlighted together during the tour
+- Dual-hole SVG spotlight and visual connector
+- Tutorial card avoids the explained work area
+- Correct module opens for every tour step
+- Centralized and load-safe onboarding localization
+- Complete onboarding records for all 14 interface languages
+- German/English mixing removed
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
+## Version 7.5.0 – First Start Experience
+
+- First-launch welcome and experience selection
+- Beginner view with essential modules only
+- Six-step interactive spotlight tour
+- Context tips and persistent help button
+- Restart, reset and expert-view controls
+- Onboarding localization for all 14 interface languages
+
+# Nordlicht Soundworks Prompt Studio – Changelog
+
 ## Version 7.0.0 – Studio Intelligence
 
 - Central mentor, coach, genre mixer and sound designer
