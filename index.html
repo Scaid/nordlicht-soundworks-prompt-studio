@@ -23,7 +23,7 @@ html
 </div>
 <div class="top-actions">
 <div class="studio-mode-switch" role="group" aria-label="Studio mode"><button id="simpleModeButton" type="button">✨ Einfach</button><button id="guidedModeButton" type="button">🧭 Geführt</button><button id="advancedModeButton" class="active" type="button">🎛 Erweitert</button></div>
-<div class="language-picker"><button class="language-button" id="languageButton">🌐 English</button><div class="language-menu hidden" id="languageMenu"></div></div><span class="version-badge" title="Current version">v7.2.0</span>
+<div class="language-picker"><button class="language-button" id="languageButton">🌐 English</button><div class="language-menu hidden" id="languageMenu"></div></div><span class="version-badge" title="Current version">v7.5.4</span>
 <button data-i18n-full="ui_006" id="openChangelog">📋 Changelog</button>
 <button data-i18n-full="ui_007" id="topSavePreset">💾 Save Preset</button>
 <button data-i18n-full="ui_008" id="topImport">📂 Import</button>
@@ -37,7 +37,7 @@ html
 </div>
 <div class="sidebar-version">
 <b data-i18n-full="ui_010">Prompt Studio</b>
-<span data-i18n-full="ui_011">Version 7.2.0 · Workflow Reorganization</span>
+<span>Version 7.5.4 · Workspace Welcome Tour</span>
 <small data-i18n-full="ui_012">© 2026 Nordlicht Soundworks</small>
 </div>
 <nav id="navigation" class="workspace-navigation" aria-label="Main navigation">
@@ -106,7 +106,7 @@ html
 </aside>
 <main class="workspace"><div class="workspace-breadcrumb" id="workspaceBreadcrumb"><button id="workspaceBreadcrumbHome" type="button">Home</button><span>›</span><b id="workspaceBreadcrumbGroup">Create</b><span>›</span><strong id="workspaceBreadcrumbModule">Smart Randomizer</strong></div>
 <section class="view workspace-home-view" id="homeView">
-<div class="view-head workspace-home-head"><div><h1>🏠 Welcome back</h1><p>Start a new idea, continue with a recent tool or open one of your pinned modules.</p></div><span class="workspace-home-badge">Nordlicht Soundworks · v7.2.0</span></div>
+<div class="view-head workspace-home-head"><div><h1>🏠 Welcome back</h1><p>Start a new idea, continue with a recent tool or open one of your pinned modules.</p></div><span class="workspace-home-badge">Nordlicht Soundworks · v7.5.4</span></div>
 <div class="workspace-home-grid">
 <section class="panel dark-content workspace-home-hero"><span class="workspace-kicker">QUICK START</span><h2>What do you want to create?</h2><p>Choose a direct entry point. Smart Randomizer stays the fastest and most playful way to begin.</p><div class="workspace-quick-actions">
 <button class="primary" data-open-view="randomView">🎲 Smart Randomizer</button><button data-open-view="composerView">🤖 AI Composer</button><button data-open-view="styleView">🎼 Style Builder</button><button data-open-view="lyricsView">✍️ Lyrics Workspace</button>
@@ -2865,6 +2865,113 @@ html
 <script src="studio_intelligence.js"></script>
 <script src="sidebar_organization_v71.js"></script>
 <script src="translation_overlay_v72.js"></script>
+<script src="instrument_dna_interaction_fix.js"></script>
 <script src="workspace_navigation.js"></script>
+<div id="fseRoot" class="fse-root" aria-hidden="true">
+  <div id="fseBackdrop" class="fse-backdrop"></div>
+
+  <section id="fseWelcome" class="fse-modal fse-welcome" data-fse-component="welcome" role="dialog" aria-modal="true" aria-labelledby="fseWelcomeTitle">
+    <button id="fseCloseWelcome" class="fse-close" type="button" aria-label="Close">×</button>
+    <div class="fse-brand-mark">🌌</div>
+    <p class="fse-eyebrow">FIRST START EXPERIENCE</p>
+    <h1 id="fseWelcomeTitle">Willkommen bei Nordlicht Soundworks</h1>
+    <p class="fse-lead">Dieses Studio besitzt über <strong>70 intelligente Werkzeuge</strong>.</p>
+    <p>Keine Sorge – du musst sie nicht alle kennen. Wir passen das Studio jetzt an deinen Erfahrungsstand an.</p>
+
+    <div class="fse-start-grid">
+      <button class="fse-start-card" data-fse-choice="quick" type="button">
+        <span class="fse-card-icon">🚀</span>
+        <b>Ich möchte sofort loslegen</b>
+        <small>Nur die fünf wichtigsten Module anzeigen.</small>
+        <em>ca. 30 Sekunden</em>
+      </button>
+
+      <button class="fse-start-card recommended" data-fse-choice="tour" type="button">
+        <span class="fse-recommended">EMPFOHLEN</span>
+        <span class="fse-card-icon">🎓</span>
+        <b>Führe mich Schritt für Schritt</b>
+        <small>Interaktive Tour durch die wichtigsten Bereiche.</small>
+        <em>ca. 3 Minuten</em>
+      </button>
+
+      <button class="fse-start-card" data-fse-choice="expert" type="button">
+        <span class="fse-card-icon">🧠</span>
+        <b>Ich kenne mich bereits aus</b>
+        <small>Alle Module und Expertenfunktionen sofort anzeigen.</small>
+        <em>Direkt starten</em>
+      </button>
+    </div>
+
+    <label class="fse-remember"><input id="fseDoNotShow" type="checkbox" checked> Diese Auswahl merken und beim nächsten Start nicht mehr fragen.</label>
+    <p class="fse-footnote">Die Auswahl kann später jederzeit über den Hilfe-Button geändert werden.</p>
+  </section>
+
+  <section id="fseTourCard" class="fse-tour-card" data-fse-component="tour" role="dialog" aria-modal="true" aria-labelledby="fseTourTitle">
+    <div class="fse-tour-top">
+      <span id="fseTourCounter">1 / 6</span>
+      <button id="fseSkipTour" type="button">Tour überspringen</button>
+    </div>
+    <div class="fse-tour-icon" id="fseTourIcon">🎲</div>
+    <h2 id="fseTourTitle">Smart Randomizer</h2>
+    <p id="fseTourText">Hier entstehen erste Ideen. Du musst noch nichts wissen – einfach ausprobieren.</p>
+    <div class="fse-tour-progress"><i id="fseTourProgress"></i></div>
+    <div class="fse-tour-actions">
+      <button id="fseTourBack" type="button">← Zurück</button>
+      <button id="fseTourNext" class="primary" type="button">Weiter →</button>
+    </div>
+  </section>
+
+  <section id="fseDone" class="fse-modal fse-done" data-fse-component="complete" role="dialog" aria-modal="true" aria-labelledby="fseDoneTitle">
+    <div class="fse-brand-mark">🎉</div>
+    <h1 id="fseDoneTitle">Du kennst jetzt die wichtigsten Bereiche</h1>
+    <p>Viel Spaß beim Produzieren mit dem Nordlicht Soundworks Prompt Studio.</p>
+    <div id="fseCompleteList" class="fse-complete-list">
+      <span>✓ CREATE Workspace</span>
+      <span>✓ Lyrics Workspace</span>
+      <span>✓ ANALYZE Workspace</span>
+      <span>✓ KNOWLEDGE Workspace</span>
+      <span>✓ PROJECT Workspace</span>
+      <span>✓ Studio Intelligence</span>
+    </div>
+    <button id="fseFinish" class="primary huge" type="button">Studio öffnen</button>
+  </section>
+</div>
+
+<svg id="fseMaskOverlay" class="fse-mask-overlay" aria-hidden="true">
+  <defs>
+    <mask id="fseTourMask">
+      <rect width="100%" height="100%" fill="white"></rect>
+      <rect id="fseMaskHolePrimary" rx="14" ry="14" fill="black"></rect>
+      <rect id="fseMaskHoleSecondary" rx="16" ry="16" fill="black"></rect>
+    </mask>
+  </defs>
+  <rect width="100%" height="100%" class="fse-mask-dim" mask="url(#fseTourMask)"></rect>
+</svg>
+<div id="fseSpotlightPrimary" class="fse-spotlight fse-spotlight-primary" aria-hidden="true"></div>
+<div id="fseSpotlightSecondary" class="fse-spotlight fse-spotlight-secondary" aria-hidden="true"></div>
+<div id="fseConnector" class="fse-connector" aria-hidden="true"><i></i></div>
+
+<button id="fseHelpButton" class="fse-help-button" type="button" title="Onboarding & Hilfe" aria-label="Onboarding and help" aria-expanded="false" hidden>🎓</button>
+
+<div id="fseHelpMenu" class="fse-help-menu" data-fse-component="help" hidden aria-hidden="true">
+  <b>Studio kennenlernen</b>
+  <button data-fse-action="tour" type="button">🎓 Tour erneut starten</button>
+  <button data-fse-action="beginner" type="button">🚀 Anfängeransicht aktivieren</button>
+  <button data-fse-action="expert" type="button">🧠 Alle Module anzeigen</button>
+  <button data-fse-action="reset" type="button">↺ Ersteinrichtung zurücksetzen</button>
+</div>
+
+<div id="fseTip" class="fse-tip" hidden aria-hidden="true">
+  <button id="fseTipClose" type="button">×</button>
+  <span>💡</span>
+  <div><b id="fseTipTitle">Tipp</b><p id="fseTipText"></p></div>
+</div>
+
+<script src="first_start_state_machine.js"></script>
+<script src="first_start_repository.js"></script>
+<script src="first_start_experience_i18n.js"></script>
+<script src="first_start_view.js"></script>
+<script src="first_start_experience.js"></script>
+
 </body>
 </html>

@@ -1,4 +1,4 @@
-Nordlicht Soundworks Prompt Studio – Version 2.1.0 – Knowledge Engine
+Nordlicht Soundworks Prompt Studio – Version 7.5.4 – Workspace Welcome Tour
 
 Nordlicht Soundworks Prompt Studio – Stable Rebuild
 
@@ -14,6 +14,28 @@ Behoben:
 
 Start:
 ZIP entpacken und STARTEN.bat oder index.html öffnen.
+
+
+VERSION 7.5.4 – WORKSPACE WELCOME TOUR:
+- Begrüßungstour vollständig auf die tatsächliche Workspace-Struktur ausgerichtet
+- CREATE, ANALYZE, KNOWLEDGE und PROJECT werden jeweils einmal kompakt vorgestellt
+- eigener Lyrics-Workspace-Schritt mit Fokus auf MetaTag-Bibliothek und Lyrics Editor
+- erklärt beide Einfügewege: MetaTags per Drag & Drop ziehen oder mit ＋ anklicken
+- stabile Schritt-IDs statt positionsabhängiger Übersetzungsarrays
+- generische Primär-/Sekundär-Spotlights funktionieren auch innerhalb eines Workspaces
+- Abschlussliste wird automatisch aus derselben Tour-Definition erzeugt
+- alle 14 First-Start-Sprachen enthalten die neue Tour vollständig
+- bewusste Flow-Revision v2: Nutzer von 7.5.3 sehen die neue Einführung genau einmal
+
+
+VERSION 7.5.3 – FIRST-START STATE MACHINE:
+- kompletter Neuaufbau des First-Start-Systems als deterministische State Machine
+- getrennte Module für Zustandslogik, Persistenz, DOM-Ansicht und Steuerung
+- versioniertes Storage-Schema mit sauberer Migration alter 7.5.x-Daten
+- Release-Version und Onboarding-Revision sind voneinander entkoppelt
+- Auswahl kann dauerhaft gespeichert oder nur für die aktuelle Sitzung verwendet werden
+- robuste Tour-, Reload-, Hilfe-, Reset-, Sprach- und Moduswechsel-Logik
+- Architektur- und Testdokumentation im Paket enthalten
 
 
 CLEAN EDITION:
