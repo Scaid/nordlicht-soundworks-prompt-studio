@@ -1,5 +1,80 @@
 # Nordlicht Soundworks Prompt Studio – Changelog
 
+## Version 7.5.10 – UX Foundations & Contextual Help
+
+- Ten unobtrusive `?` controls provide help beside important work areas
+- Each control opens exactly one matching semantic tour step and navigates to the correct workspace and tab
+- Context help is a declared First-Start state-machine transition, not a simulated partial tour
+- Full tour and contextual help share the same stable IDs, translations, focus targets and navigation effects
+- Central release manifest synchronizes the top badge, sidebar, Home and localized release center
+- The stale hard-coded changelog body is replaced by a dynamic version history sourced from that manifest
+- One canonical schema-v2 workspace document owns favorites, recent modules, last view and open groups
+- Legacy workspace and productivity stores merge safely without deleting user data
+- Module search and shortcuts read the same canonical state and language lifecycle
+- Explicit action IDs replace translated-text matching for apply/deploy operations
+- Large cross-module actions preview affected areas before execution
+- Undo captures the real pre-action builder and lyrics snapshot and restores it through the canonical form APIs
+- All new dynamic UX strings are complete in the 14 enabled interface languages
+- Pipe-Stack remains the sole section-instruction format and is not changed by this release
+
+## Version 7.5.9 – Vocal Clarity Live Guidance & Context Tour
+
+- Prominent accessible on/off switch for the complete five-part Vocal Clarity block
+- One canonical persisted `smart | off | force` mode; the switch is a view adapter and never creates a second preference
+- Re-enabling deliberately returns to recommended Smart mode
+- Pure `vocal_clarity_guidance.js` model presents the real STYLE placement without owning domain or persistence state
+- Live STYLE order shows whether the five terms actually occupy positions 1–5 before genre, voice, instruments and production
+- Safe Automatic action returns Off or Force to the canonical Smart mode without rewriting STYLE or lyrics
+- Plain-language explanation of why early STYLE instructions receive priority
+- “Broadway musical clarity” is explicitly described as intelligibility guidance rather than a genre request
+- Separate explanations for story-first enunciation, hard consonants, dry forward lead vocal and close mic
+- Complete interface and dynamic conflict messages for all 14 enabled languages
+- First-Start flow revision `first-start-v4` expands the tour to eleven stable semantic steps
+- Dedicated tour step opens Style Builder → Vocals and focuses the explanation plus the real setting
+- Context help starts the state-machine tour directly at the validated semantic `vocal-clarity` step
+- Completed v3 users receive the enhanced v4 introduction exactly once
+- Smart compatibility rules, Force override, Instrumental suppression and Pipe-Stack ownership remain unchanged
+- Canonical form persistence keeps presets, imports and exports backward compatible
+
+## Version 7.5.7 – Workspace Localization & Guided Tour
+
+- One canonical interface-language source for all 14 enabled languages
+- Semantic, reversible localization for all seven workspaces, Home, breadcrumbs, pins and shared tabs
+- Complete Studio Intelligence localization, including generated analysis, mentor guidance, workflow, actions, history and report export
+- Existing Studio Intelligence results re-render on language changes without being recalculated or mutated
+- Explicit workspace lifecycle events replace the retired text-matching translation overlay and broad DOM observation
+- First-Start flow revision `first-start-v3` expands the guided tour from six to ten stable semantic steps
+- The tour now covers Home, CREATE, STYLE, SONG, LYRICS, KNOWLEDGE, ANALYSIS, PROJECT, Live Output and Studio Intelligence
+- Longer, simpler explanations cover Lyrics Drag & Drop, ＋ insertion, Pipe-Stack priority and Vocal Clarity compatibility
+- Canonical Suno STYLE values and Pipe-Stack output remain English by design
+- Language switching avoids duplicate dynamic-list and instrument rendering
+
+## Version 7.5.6 – Vocal Clarity Assistant
+
+- Central pure `vocal_clarity_engine.js` for deterministic STYLE priority and compatibility decisions
+- Exact five-part clarity prefix is front-loaded before genre and production
+- Smart, Off and Force modes preserve explicit user control
+- Compatibility analysis covers intentionally murky vocals, murky genres, vocal/global reverb, Instrumental Mode and lyric density
+- Instrument-only spatial effects such as `reverb-soaked guitars` remain valid
+- Lyrics are analyzed without truncation or automatic rewriting
+- Prompt Optimizer, Style Simplifier and Style Health Check preserve and validate the complete prefix
+- MetaTag Pipe-Stack remains the sole section-level instruction format
+- Pipe-Stack Doctor compares strong section reverb against the global dry/close vocal priority
+- First-Start flow revision remains intentionally unchanged at `first-start-v2`
+
+## Version 7.5.5 – MetaTag Pipe-Stack Engine
+
+- One canonical, section-aware Pipe-Stack format with explicit left-to-right priority
+- Shared parser, renderer, classifier, migrator, analyzer and merge API in `metatag_stack_engine.js`
+- Lossless migration from legacy standalone section tags and legacy colon notation
+- Lyrics Stack Builder with element Drag & Drop, keyboard reordering, removal and canonical auto-order
+- Seven-element focus recommendation is warning-only and never truncates user content
+- Section-local contradiction detection and comparison against the global STYLE prompt
+- Existing custom priority survives later library insertions
+- Pipe-Stack output integrated across Prompt Intelligence, Instrument Evolution, Vocal Directors, Song Blueprint, Arrangement Designer, Music Theory Director, Song Director and project restore paths
+- Composer output, including Instrumental Mode and custom elements, stays inside Pipe-Stacks
+- Expanded regression suite with pure domain tests and complete JSDOM application smoke coverage
+
 ## Version 7.5.4 – Workspace Welcome Tour
 
 - Workspace-first tour covers CREATE, ANALYZE, KNOWLEDGE and PROJECT
