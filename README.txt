@@ -1,4 +1,4 @@
-Nordlicht Soundworks Prompt Studio – Version 7.5.4 – Workspace Welcome Tour
+Nordlicht Soundworks Prompt Studio – Version 7.5.10 – UX Foundations & Contextual Help
 
 Nordlicht Soundworks Prompt Studio – Stable Rebuild
 
@@ -13,7 +13,95 @@ Behoben:
 - Alte, übereinandergelegte Patches wurden nicht übernommen.
 
 Start:
-ZIP entpacken und STARTEN.bat oder index.html öffnen.
+ZIP entpacken und index.html öffnen.
+
+
+VERSION 7.5.10 – UX FOUNDATIONS & CONTEXTUAL HELP:
+- kleine ?-Schaltflächen erklären zehn wichtige Bereiche direkt am Ort der Nutzung
+- ein Klick navigiert automatisch zum richtigen Workspace und – wenn nötig – zum richtigen Reiter
+- die kontextbezogene Hilfe zeigt genau einen passenden Tour-Schritt mit „Verstanden“ statt die restliche Tour fortzusetzen
+- Volltour und Einzelhilfe verwenden dieselben stabilen Schritt-IDs, Übersetzungen und Navigationseffekte der First-Start-State-Machine
+- zentrales Release-Manifest hält Kopfzeile, Seitenleiste, Home und Changelog bei Version 7.5.10 synchron
+- neues dynamisches Release Center ersetzt die veraltete fest codierte Changelog-Version
+- Favoriten, zuletzt verwendete Module, letzter Workspace und geöffnete Gruppen verwenden einen gemeinsamen Workspace-Zustand
+- vorhandene getrennte Speicherstände werden verlustfrei zusammengeführt; alte Schlüssel bleiben als sichere Migrationsquelle erhalten
+- die Modulsuche liest denselben Zustand und folgt sofort dem Sprachwechsel
+- große modulübergreifende Aktionen zeigen vor dem Anwenden die betroffenen Bereiche
+- Rückgängig speichert den echten Zustand vor der Aktion und ist unabhängig vom sichtbaren oder übersetzten Buttontext
+- alle neuen dynamischen Texte vollständig in den 14 aktivierten Oberflächensprachen
+- Pipe-Stack bleibt unverändert das einzige Format für Abschnittsanweisungen
+- vollständige Offline-Funktion ohne API oder Internetverbindung
+
+
+VERSION 7.5.9 – VOCAL CLARITY LIVE GUIDANCE & CONTEXT TOUR:
+- gut sichtbarer Ein-/Aus-Schalter für den vollständigen Vocal-Clarity-Block
+- nur ein kanonischer, gespeicherter Zustand: smart, off oder force
+- der Schalter arbeitet als Bedienadapter auf demselben Modus und erzeugt keinen zweiten Speicherwert
+- erneutes Einschalten wechselt bewusst zurück zu Automatisch als sicherer Empfehlung
+- Live-STYLE-Reihenfolge zeigt, ob der Fünferblock tatsächlich auf Position 1–5 eingesetzt wird
+- sicheres „Automatik verwenden“ setzt nur den kanonischen Modus zurück und schreibt weder STYLE noch Lyrics eigenmächtig um
+- eigener, DOM-unabhängiger Guidance-Presenter für Position und sichere Empfehlung
+- verständliche Erklärung, warum der Block von „Broadway musical clarity“ bis „close mic“ am Anfang des STYLE steht
+- „Broadway“ wird ausdrücklich als Musical-Deutlichkeit und nicht als Genre erklärt
+- Artikulation, harte Konsonanten, trockene Präsenz und Close-Mic-Nähe werden einzeln verständlich erläutert
+- alle neuen Oberflächentexte und dynamischen Konfliktgründe in allen 14 aktivierten Sprachen
+- First-Start-Tour v4 mit elf Schritten und eigenem Vocal-Clarity-Schritt
+- der Tour-Schritt öffnet automatisch STYLE → Vocals und markiert Erklärung sowie Einstellung
+- „In der Tour zeigen“ startet über die State Machine direkt an der semantischen Schritt-ID `vocal-clarity`
+- bestehende Nutzer mit abgeschlossener v3-Tour erhalten die v4-Ergänzung genau einmal
+- Smart-, Off- und Force-Entscheidungen, Presets, Import/Export und STYLE-Erzeugung bleiben kompatibel
+- Pipe-Stacks bleiben unverändert für die Regie einzelner Songabschnitte zuständig
+- vollständige Offline-Funktion ohne API oder Internetverbindung
+
+
+VERSION 7.5.7 – WORKSPACE LOCALIZATION & GUIDED TOUR:
+- eine kanonische Sprachquelle für alle 14 aktivierten Oberflächensprachen
+- CREATE, STYLE, SONG, LYRICS, KNOWLEDGE, ANALYSIS und PROJECT vollständig lokalisiert
+- Workspace-Beschreibungen, Home-Dashboard, Breadcrumbs, Pins und dynamische Zeitangaben folgen sofort der gewählten Sprache
+- Reiter in Style Builder, Prompt Intelligence, Project Manager, Presets und Live Output verwenden dasselbe Sprachereignis
+- Studio Intelligence vollständig semantisch lokalisiert: Oberfläche, Analyse, Mentor, Workflow, Aktionen, Status, Verlauf und Berichtsexport
+- vorhandene Studio-Intelligence-Analysen werden beim Sprachwechsel neu dargestellt, aber nicht erneut berechnet oder verändert
+- First-Start-Tour v3 mit zehn verständlichen, ausführlicheren Schritten
+- alle sieben Workspaces, Home-Orientierung, Live Output und Studio Intelligence werden vorgestellt
+- Lyrics-Schritt erklärt Drag & Drop, ＋-Einfügen und die links-nach-rechts gelesene Pipe-Stack-Priorität
+- STYLE-Schritt erklärt Vocal Clarity für klare, nahe Stimmen und bewusste Kompatibilitätsgrenzen
+- explizite Lebenszyklusereignisse statt globaler DOM-Beobachtung oder textbasierter Übersetzungs-Patches
+- Suno-Ausgabewerte, STYLE und Pipe-Stacks bleiben absichtlich in kanonischem Englisch
+- vollständige Offline-Funktion ohne API oder Internetverbindung
+
+
+VERSION 7.5.6 – VOCAL CLARITY ASSISTANT:
+- ein zentraler, DOM-unabhängiger Entscheidungsdienst für klare und verständliche Stimmen
+- vollständiger STYLE-Präfix in fester Reihenfolge:
+  Broadway musical clarity, story-first enunciation, hard consonants, dry forward lead vocal, close mic
+- der Klarheitsblock wird vor Genre, Instrumentierung und Produktion gesetzt
+- drei bewusste Modi: Automatisch, Aus und Immer erzwingen
+- Automatik erkennt absichtlich verwaschene Vocal-Ästhetik, starkes Vocal-/Global-Reverb, Instrumental Mode und zu dichte Lyrics
+- weiche oder räumliche Genres erzeugen einen sichtbaren Hinweis statt einer stillen Änderung
+- instrumentbezogener Hall wie „reverb-soaked guitars“ bleibt erlaubt und wird nicht als Vocal-Konflikt gewertet
+- Lyrics werden analysiert, aber niemals gekürzt oder umgeschrieben
+- Prompt Optimizer, Style Simplifier und Style Health Check erhalten die Präfix-Priorität
+- Pipe-Stack bleibt unverändert das einzige Format für Abschnittsanweisungen; Vocal Clarity gehört ausschließlich in den globalen STYLE
+- keine Klanggarantie: Der Assistent priorisiert Artikulation und Nähe innerhalb des Prompts
+- First-Start-Flow bleibt bewusst bei first-start-v2
+- vollständige Offline-Funktion ohne API oder Internetverbindung
+
+
+VERSION 7.5.5 – METATAG PIPE-STACK ENGINE:
+- ein kanonisches Format für Abschnittsanweisungen:
+  [Section | Mood | Vocal Style | Key Instruments | Dynamics | Spatial Effects | Production Style]
+- Priorität wird eindeutig von links nach rechts gelesen
+- zentraler Parser, Renderer, Sortierer, Migrator, Analyzer und Merge-Service
+- verlustfreie Migration bestehender Abschnitts-Tags in Pipe-Stacks
+- interaktiver Stack-Builder im Lyrics Workspace mit Drag & Drop, Entfernen und Auto-Sortierung
+- Einfügen aus MetaTag-Bibliothek und Smart Suggestions direkt in den aktiven Stack
+- maximal sieben Elemente als Fokus-Empfehlung; längere Stacks bleiben vollständig erhalten und erhalten nur eine Warnung
+- abschnittsbezogene Konfliktprüfung sowie Abgleich mit dem globalen STYLE
+- manuelle Prioritätsreihenfolgen bleiben bei späteren Einfügungen erhalten
+- Instrument Evolution, beide Vocal Directors, Song Blueprint, Arrangement Designer, Music Theory Director, Song Director, Prompt Intelligence und Project Restore verwenden dieselbe Engine
+- bestehende Einzel-Tags werden beim Restore und über die explizite Migration sicher übernommen
+- vollständige Offline-Funktion ohne API oder Internetverbindung
+- automatisierte Unit-, Integrations-, CSS-, Onboarding- und Full-App-Smoke-Tests
 
 
 VERSION 7.5.4 – WORKSPACE WELCOME TOUR:

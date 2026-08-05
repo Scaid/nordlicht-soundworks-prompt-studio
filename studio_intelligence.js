@@ -1,77 +1,144 @@
-
-(function(){
+(function(root){
 'use strict';
-const $=id=>document.getElementById(id),K=window.NSW_AI_PRODUCER_KNOWLEDGE;
-const HK='nsw-studio-intelligence-history-v1',UK='nsw-studio-intelligence-undo-v1';
+
+const $=id=>document.getElementById(id);
+const K=root.NSW_AI_PRODUCER_KNOWLEDGE;
+const I18N=root.NSWStudioIntelligenceI18n;
+const HK='nsw-studio-intelligence-history-v2';
+const LEGACY_HK='nsw-studio-intelligence-history-v1';
+const UK='nsw-studio-intelligence-undo-v1';
 let current=null;
-const esc=s=>String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
-const load=(k,d=[])=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(d))}catch(e){return d}};
-const store=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
-const split=s=>String(s||'').split(/[,;\n]+/).map(x=>x.trim()).filter(Boolean);
-const uniq=a=>[...new Set(a.filter(Boolean))];
+
+const esc=value=>String(value??'').replace(/[&<>"']/g,character=>({
+ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+})[character]);
+const load=(key,fallback=[])=>{try{return JSON.parse(localStorage.getItem(key)||JSON.stringify(fallback))}catch(error){return fallback}};
+const store=(key,value)=>localStorage.setItem(key,JSON.stringify(value));
+const split=value=>String(value||'').split(/[,;\n]+/).map(item=>item.trim()).filter(Boolean);
+const uniq=values=>[...new Set(values.filter(Boolean))];
+const message=(key,variables={})=>Object.freeze({key,variables});
+const messageValue=value=>value&&typeof value==='object'&&'message' in value?value.message:value;
+
+function text(value,code=I18N?.language?.()||'en'){
+ if(value==null)return'';
+ if(typeof value==='string'||typeof value==='number')return String(value);
+ if(value.key){
+  const variables=Object.fromEntries(Object.entries(value.variables||{}).map(([key,item])=>[key,text(item,code)]));
+  return I18N?.format?.(value.key,variables,code)||value.key;
+ }
+ return String(value);
+}
+
+function t(key,variables={},code){
+ return I18N?.format?.(key,variables,code)||key;
+}
 
 function snapshot(){
- const conn=window.NSWConnections?.snapshot?.()||{};
- let project=null;try{const p=JSON.parse(localStorage.getItem('nsw-project-manager-v4')||'null');const pr=p?.projects?.find(x=>x.id===p.activeProjectId)||p?.projects?.[0];project={name:pr?.name||'',track:pr?.tracks?.[0]||null}}catch(e){}
+ const connections=root.NSWConnections?.snapshot?.()||{};
+ let project=null;
+ try{
+  const data=JSON.parse(localStorage.getItem('nsw-project-manager-v4')||'null');
+  const active=data?.projects?.find(item=>item.id===data.activeProjectId)||data?.projects?.[0];
+  project={name:active?.name||'',track:active?.tracks?.[0]||null};
+ }catch(error){}
  return{
-  style:$('siUseStyle')?.checked?($('customStyle')?.value||conn?.modules?.style?.data?.style||''):'',
-  lyrics:$('siUseLyrics')?.checked?($('lyricsInput')?.value||conn?.modules?.lyrics?.data?.lyrics||''):'',
+  style:$('siUseStyle')?.checked?($('customStyle')?.value||connections?.modules?.style?.data?.style||''):'',
+  lyrics:$('siUseLyrics')?.checked?($('lyricsInput')?.value||connections?.modules?.lyrics?.data?.lyrics||''):'',
   bpm:$('bpm')?.value||'',
   project:$('siUseProject')?.checked?project:null,
-  producer:window.NSW_AI_PRODUCER_LAST||null,
-  health:window.NSW_STYLE_HEALTH_LAST||null,
-  simplifier:window.NSW_STYLE_SIMPLIFIER_LAST||null,
-  variation:window.NSW_VARIATION_ENGINE_LAST||null,
-  conflict:window.NSW_CONFLICT_RESOLVER_LAST||null,
-  songDirector:window.NSW_SONG_DIRECTOR_LAST||null
+  producer:root.NSW_AI_PRODUCER_LAST||null,
+  health:root.NSW_STYLE_HEALTH_LAST||null,
+  simplifier:root.NSW_STYLE_SIMPLIFIER_LAST||null,
+  variation:root.NSW_VARIATION_ENGINE_LAST||null,
+  conflict:root.NSW_CONFLICT_RESOLVER_LAST||null,
+  songDirector:root.NSW_SONG_DIRECTOR_LAST||null
  };
 }
-function genreMatches(text){
- const t=String(text||'').toLowerCase();
- return (K?.genreProfiles||[]).map(p=>({p,score:p.patterns.reduce((n,x)=>n+(t.includes(x.toLowerCase())?(x.includes(' ')?12:8):0),0)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score);
+
+function genreMatches(value){
+ const haystack=String(value||'').toLowerCase();
+ return(K?.genreProfiles||[])
+  .map(profile=>({profile,score:profile.patterns.reduce((sum,pattern)=>sum+(haystack.includes(pattern.toLowerCase())?(pattern.includes(' ')?12:8):0),0)}))
+  .filter(item=>item.score>0)
+  .sort((left,right)=>right.score-left.score);
 }
+
+function issue(code,key,variables={}){return Object.freeze({code,message:message(key,variables)})}
+function strength(code,key,variables={}){return Object.freeze({code,message:message(key,variables)})}
+function action(id,labelKey,detailKey,safe,view){return Object.freeze({id,label:message(labelKey),detail:message(detailKey),safe,view})}
+function workflow(id,label,view,done,detailKey){return Object.freeze({id,label,view,done,detail:message(detailKey)})}
+
 function analyze(){
- const context=snapshot(),brief=$('siBrief').value.trim(),combined=[brief,context.style,context.lyrics?.slice(0,1200)].filter(Boolean).join('\n');
- if(!combined.trim()){$('siStatus').textContent='Add a goal or import Studio context first.';return}
- const styleTerms=split(context.style),genres=genreMatches(combined),primary=genres[0]?.p,secondary=genres[1]?.p;
- const issues=[],strengths=[],mentor=[],coach=[],mixer=[],sound=[],actions=[];
- if(!context.style)issues.push('No active STYLE is available. Start with AI Producer or Song Director.');
- else strengths.push(`A STYLE with ${styleTerms.length} terms is available.`);
- if(styleTerms.length>40){issues.push('The STYLE is long and may benefit from simplification.');actions.push({id:'simplify',label:'Simplify STYLE',detail:'Reduce repeated and low-priority terms.',safe:true,view:'styleSimplifierView'})}
- if(context.health?.score<80){issues.push(`The latest Health Check score is ${context.health.score}/100.`);actions.push({id:'health',label:'Repair Health Issues',detail:'Use the repaired STYLE from Style Health Check.',safe:true,view:'styleHealthView'})}
- if(context.conflict?.conflicts?.length){issues.push(`${context.conflict.conflicts.length} unresolved or recently detected conflict(s).`);actions.push({id:'conflict',label:'Resolve Conflicts',detail:'Apply the Conflict Resolver output.',safe:true,view:'conflictResolverView'})}
- if(genres.length>3){issues.push(`${genres.length} genre signals compete for attention.`);actions.push({id:'focus',label:'Focus Genre Blend',detail:'Keep one primary and one supporting genre.',safe:true,view:'aiProducerView'})}
- if(primary)strengths.push(`${primary.label} is the strongest musical identity.`);
- if(secondary)strengths.push(`${secondary.label} can work as a supporting influence.`);
- if(!/vocal|voice|choir|spoken|rap|growl|whisper/i.test(context.style))issues.push('The STYLE has no clear vocal direction.');
- else strengths.push('A vocal direction is present.');
- if(!/contrast|build|final|chorus|drop|bridge|section/i.test(context.style))issues.push('The STYLE does not clearly describe an energy or section arc.');
- else strengths.push('The prompt contains section or dynamic guidance.');
+ const context=snapshot();
+ const brief=$('siBrief').value.trim();
+ const combined=[brief,context.style,context.lyrics?.slice(0,1200)].filter(Boolean).join('\n');
+ if(!combined.trim()){$('siStatus').textContent=t('noInput');return}
 
- mentor.push(primary?`Keep ${primary.label} as the main identity${secondary?` and use ${secondary.label} only as a supporting color`:''}.`:'Choose one clear main genre before adding detailed production terms.');
- mentor.push(issues.length?`Address the highest-impact issue first: ${issues[0]}`:'The concept is coherent; move to arrangement and final validation.');
- mentor.push('Use fewer simultaneous priorities and distribute complexity across song sections.');
+ const styleTerms=split(context.style);
+ const genres=genreMatches(combined);
+ const primary=genres[0]?.profile;
+ const secondary=genres[1]?.profile;
+ const issues=[];
+ const strengths=[];
+ const mentor=[];
+ const coach=[];
+ const mixer=[];
+ const sound=[];
+ const actions=[];
 
- coach.push(...strengths.map(x=>'Strength: '+x));
- coach.push(...issues.slice(0,4).map(x=>'Improve: '+x));
- coach.push(context.lyrics?`Lyrics context detected with approximately ${context.lyrics.split(/\s+/).length} words.`:'No Lyrics Workspace content was detected.');
+ if(!context.style)issues.push(issue('no-style','noStyle'));
+ else strengths.push(strength('style-available','styleAvailable',{count:styleTerms.length}));
+ if(styleTerms.length>40){
+  issues.push(issue('long-style','longStyle'));
+  actions.push(action('simplify','simplifyLabel','simplifyDetail',true,'styleSimplifierView'));
+ }
+ if(context.health?.score<80){
+  issues.push(issue('health-low','healthLow',{score:context.health.score}));
+  actions.push(action('health','healthLabel','healthDetail',true,'styleHealthView'));
+ }
+ if(context.conflict?.conflicts?.length){
+  issues.push(issue('conflicts','conflicts',{count:context.conflict.conflicts.length}));
+  actions.push(action('conflict','conflictLabel','conflictDetail',true,'conflictResolverView'));
+ }
+ if(genres.length>3){
+  issues.push(issue('genre-competition','genreCompetition',{count:genres.length}));
+  actions.push(action('focus','focusLabel','focusDetail',true,'aiProducerView'));
+ }
+ if(primary)strengths.push(strength('primary-identity','primaryIdentity',{name:primary.label}));
+ if(secondary)strengths.push(strength('secondary-identity','secondaryIdentity',{name:secondary.label}));
+ if(!/vocal|voice|choir|spoken|rap|growl|whisper/i.test(context.style))issues.push(issue('no-vocal','noVocal'));
+ else strengths.push(strength('vocal-present','vocalPresent'));
+ if(!/contrast|build|final|chorus|drop|bridge|section/i.test(context.style))issues.push(issue('no-arc','noArc'));
+ else strengths.push(strength('arc-present','arcPresent'));
+
+ if(primary&&secondary)mentor.push(message('keepBoth',{primary:primary.label,secondary:secondary.label}));
+ else if(primary)mentor.push(message('keepOne',{primary:primary.label}));
+ else mentor.push(message('chooseGenre'));
+ mentor.push(issues.length?message('firstIssue',{issue:issues[0].message}):message('coherent'));
+ mentor.push(message('priorities'));
+
+ strengths.forEach(item=>coach.push({tone:'info',message:message('strengthPrefix',{text:item.message})}));
+ issues.slice(0,4).forEach(item=>coach.push({tone:'warn',message:message('improvePrefix',{text:item.message})}));
+ coach.push({tone:context.lyrics?'info':'warn',message:context.lyrics
+  ?message('lyricsDetected',{count:context.lyrics.split(/\s+/).filter(Boolean).length})
+  :message('noLyrics')});
 
  if(primary&&secondary){
-  mixer.push(`Primary: ${primary.label}. Supporting influence: ${secondary.label}.`);
-  mixer.push(`Use ${primary.recommended.slice(0,3).join(', ')} as the core palette.`);
-  mixer.push(`Introduce ${secondary.recommended.slice(0,2).join(', ')} only in transitions, bridge or final chorus.`);
+  mixer.push(message('mixBoth',{primary:primary.label,secondary:secondary.label}));
+  mixer.push(message('corePalette',{items:primary.recommended.slice(0,3).join(', ')}));
+  mixer.push(message('supportingPalette',{items:secondary.recommended.slice(0,2).join(', ')}));
  }else if(primary){
-  mixer.push(`${primary.label} is sufficiently clear as a single main identity.`);
-  mixer.push(`Potential alternatives: ${primary.alts.slice(0,2).join(' or ')}.`);
- }else mixer.push('No reliable genre blend could be detected. Start with AI Producer.');
+  mixer.push(message('singleGenre',{primary:primary.label}));
+  mixer.push(message('alternatives',{items:primary.alts.slice(0,2).join(' / ')}));
+ }else mixer.push(message('noBlend'));
 
- const sections=context.songDirector?.architecture?.map(x=>x.name)||['Intro','Verse','Pre-Chorus','Chorus','Bridge','Final Chorus'];
- sound.push(`Intro: establish the identity with ${primary?.recommended?.slice(0,2).join(' and ')||'one main motif and restrained texture'}.`);
- sound.push('Verse: reduce density and protect the vocal range.');
- sound.push('Chorus: widen the mix, strengthen drums and introduce the main hook.');
- sound.push('Bridge: remove one core layer to create contrast.');
- sound.push('Final Chorus: use the full palette, choir or harmony stack and the widest production.');
- if(primary?.production)sound.push(`Production anchor: ${primary.production}.`);
+ const introItems=primary?.recommended?.slice(0,2)||[];
+ sound.push(introItems.length?message('introCustom',{items:introItems.join(' + ')}):message('introGeneric'));
+ sound.push(message('verseSound'));
+ sound.push(message('chorusSound'));
+ sound.push(message('bridgeSound'));
+ sound.push(message('finalSound'));
+ if(primary?.production)sound.push(message('productionAnchor',{value:primary.production}));
 
  const suggestedStyle=uniq([
   primary?.label,
@@ -85,71 +152,243 @@ function analyze(){
   'Controlled Contrast','Clear Voice Separation','Section-Specific Arrangement','Huge Cinematic Finale'
  ]).join(', ');
 
- const workflow=[
-  {id:'producer',label:'AI Producer',view:'aiProducerView',done:!!context.producer,detail:'Confirm genre, tempo, vocals and palette.'},
-  {id:'conflict',label:'Conflict Resolver',view:'conflictResolverView',done:!issues.some(x=>/conflict|compete/i.test(x)),detail:'Separate contradictory directions.'},
-  {id:'simplifier',label:'Style Simplifier',view:'styleSimplifierView',done:styleTerms.length>0&&styleTerms.length<=32,detail:'Reduce prompt density.'},
-  {id:'health',label:'Health Check',view:'styleHealthView',done:(context.health?.score||0)>=85,detail:'Validate final STYLE health.'},
-  {id:'arrangement',label:'Arrangement',view:'arrangementDesignerView',done:!!context.songDirector?.architecture,detail:'Plan section energy and layers.'},
-  {id:'vocals',label:'Vocal Director',view:'vocalDirectorView',done:!!window.NSW_VOCAL_DIRECTOR_V2_LAST,detail:'Assign performer roles.'},
-  {id:'theory',label:'Music Theory',view:'theoryDirectorView',done:!!window.NSW_MUSIC_THEORY_DIRECTOR_LAST,detail:'Confirm key, mode and harmonic arc.'},
-  {id:'predictor',label:'Success Predictor',view:'successPredictorView',done:false,detail:'Run final Suno readiness check.'}
+ const hasDirectionConflict=issues.some(item=>item.code==='conflicts'||item.code==='genre-competition');
+ const workflowItems=[
+  workflow('producer','AI Producer','aiProducerView',!!context.producer,'workflowProducer'),
+  workflow('conflict','Conflict Resolver','conflictResolverView',!hasDirectionConflict,'workflowConflict'),
+  workflow('simplifier','Style Simplifier','styleSimplifierView',styleTerms.length>0&&styleTerms.length<=32,'workflowSimplifier'),
+  workflow('health','Health Check','styleHealthView',(context.health?.score||0)>=85,'workflowHealth'),
+  workflow('arrangement','Arrangement','arrangementDesignerView',!!context.songDirector?.architecture,'workflowArrangement'),
+  workflow('vocals','Vocal Director','vocalDirectorView',!!root.NSW_VOCAL_DIRECTOR_V2_LAST,'workflowVocals'),
+  workflow('theory','Music Theory','theoryDirectorView',!!root.NSW_MUSIC_THEORY_DIRECTOR_LAST,'workflowTheory'),
+  workflow('predictor','Success Predictor','successPredictorView',false,'workflowPredictor')
  ];
- if(!actions.length)actions.push({id:'style',label:'Apply Coordinated STYLE',detail:'Use the Studio Intelligence STYLE as the new focused master prompt.',safe:true,view:'styleView'});
- actions.push({id:'producer',label:'Refresh AI Producer',detail:'Generate recommendations from the coordinated Studio context.',safe:false,view:'aiProducerView'});
- actions.push({id:'variation',label:'Create Alternatives',detail:'Generate controlled alternatives after the core is stable.',safe:false,view:'variationEngineView'});
+ if(!actions.length)actions.push(action('style','styleLabel','styleDetail',true,'styleView'));
+ actions.push(action('producer','producerLabel','producerDetail',false,'aiProducerView'));
+ actions.push(action('variation','variationLabel','variationDetail',false,'variationEngineView'));
 
  const readiness=Math.max(35,Math.min(98,88+strengths.length*3-issues.length*7+(context.health?.score>=85?5:0)));
- current={id:'si_'+Date.now(),createdAt:Date.now(),brief,role:$('siRole').value,tone:$('siTone').value,goal:$('siGoal').value,automation:$('siAutomation').value,context,primary:primary?.id||null,secondary:secondary?.id||null,issues,strengths,mentor,coach,mixer,sound,actions,workflow,suggestedStyle,readiness};
- window.NSW_STUDIO_INTELLIGENCE_LAST=JSON.parse(JSON.stringify(current));saveHistory();render();
+ current={
+  schemaVersion:2,id:'si_'+Date.now(),createdAt:Date.now(),brief,
+  role:$('siRole').value,tone:$('siTone').value,goal:$('siGoal').value,automation:$('siAutomation').value,
+  context,primary:primary?.id||null,secondary:secondary?.id||null,
+  issues,strengths,mentor,coach,mixer,sound,actions,workflow:workflowItems,suggestedStyle,readiness
+ };
+ root.NSW_STUDIO_INTELLIGENCE_LAST=JSON.parse(JSON.stringify(current));
+ saveHistory();
+ render();
  if($('siAutomation').value==='apply')applySafe();
 }
+
 function render(){
- const r=current;$('siResults').classList.remove('hidden');$('siScore').textContent=r.readiness;$('siGrade').textContent=r.readiness>=92?'A+':r.readiness>=84?'A':r.readiness>=74?'B+':r.readiness>=62?'B':'C';$('siScoreBar').style.width=r.readiness+'%';
- $('siSummary').textContent=r.issues.length?`${r.strengths.length} strengths and ${r.issues.length} improvement areas were detected.`:'The Studio state is coherent and ready for final development.';
- $('siMetrics').innerHTML=[['Strengths',r.strengths.length],['Issues',r.issues.length],['Actions',r.actions.length],['Workflow',r.workflow.filter(x=>x.done).length+'/'+r.workflow.length],['Primary',r.primary||'Unknown'],['Secondary',r.secondary||'None']].map(x=>`<div class="aip-metric"><small>${x[0]}</small><b>${esc(x[1])}</b></div>`).join('');
- const next=r.workflow.find(x=>!x.done);$('siNextStep').innerHTML=`<b>Recommended next step:</b><br>${next?`${next.label} — ${next.detail}`:'Final Success Predictor and export.'}`;
- $('siMentor').innerHTML=r.mentor.map(x=>`<div class="aip-message info">${esc(x)}</div>`).join('');
- $('siCoach').innerHTML=r.coach.map(x=>`<div class="aip-message ${x.startsWith('Improve')?'warn':'info'}">${esc(x)}</div>`).join('');
- $('siMixer').innerHTML=r.mixer.map(x=>`<div class="aip-message info">${esc(x)}</div>`).join('');
- $('siSound').innerHTML=r.sound.map(x=>`<div class="aip-message info">${esc(x)}</div>`).join('');
- $('siWorkflow').innerHTML=r.workflow.map((x,i)=>`<article class="si-step ${x.done?'done':(!x.done&&r.workflow.slice(0,i).every(y=>y.done)?'recommended':'')}" data-view="${x.view}"><b>${x.done?'✓ ':''}${esc(x.label)}</b><small>${esc(x.detail)}</small></article>`).join('');
- document.querySelectorAll('.si-step').forEach(x=>x.onclick=()=>window.NSWConnections?.navigate(x.dataset.view));
- $('siWorkflowProgress').textContent=`${r.workflow.filter(x=>x.done).length}/${r.workflow.length} complete`;
- $('siActions').innerHTML=r.actions.map((x,i)=>`<article class="si-action"><b>${esc(x.label)}</b><small>${esc(x.detail)}</small><label><input type="checkbox" data-action="${i}" ${x.safe?'checked':''}> Include action</label></article>`).join('');
- $('siActionCount').textContent=`${r.actions.length} actions`;
- $('siOutput').value=r.suggestedStyle;$('siStyleState').textContent='Coordinated STYLE ready';$('siBadge').textContent=`Readiness ${r.readiness}/100`;$('siContextCount').textContent=`${Object.values(r.context).filter(Boolean).length} connected signals`;$('siStatus').textContent='Studio Intelligence analysis complete.';
+ if(!current)return;
+ const result=current;
+ I18N?.apply?.();
+ $('siResults').classList.remove('hidden');
+ $('siScore').textContent=result.readiness;
+ $('siGrade').textContent=result.readiness>=92?'A+':result.readiness>=84?'A':result.readiness>=74?'B+':result.readiness>=62?'B':'C';
+ $('siScoreBar').style.width=result.readiness+'%';
+ $('siSummary').textContent=result.issues.length?t('summaryIssues',{strengths:result.strengths.length,issues:result.issues.length}):t('summaryGood');
+ const metrics=[
+  [t('metricStrengths'),result.strengths.length],
+  [t('metricIssues'),result.issues.length],
+  [t('metricActions'),result.actions.length],
+  [t('metricWorkflow'),`${result.workflow.filter(item=>item.done).length}/${result.workflow.length}`],
+  [t('metricPrimary'),result.primary||t('unknown')],
+  [t('metricSecondary'),result.secondary||t('none')]
+ ];
+ $('siMetrics').innerHTML=metrics.map(item=>`<div class="aip-metric"><small>${esc(item[0])}</small><b>${esc(item[1])}</b></div>`).join('');
+ const next=result.workflow.find(item=>!item.done);
+ $('siNextStep').innerHTML=`<b>${esc(t('recommendedNext'))}</b><br>${next?`${esc(text(next.label))} — ${esc(text(next.detail))}`:esc(t('finalStep'))}`;
+ $('siMentor').innerHTML=result.mentor.map(item=>`<div class="aip-message info">${esc(text(item))}</div>`).join('');
+ $('siCoach').innerHTML=result.coach.map(item=>`<div class="aip-message ${item.tone==='warn'?'warn':'info'}">${esc(text(messageValue(item)))}</div>`).join('');
+ $('siMixer').innerHTML=result.mixer.map(item=>`<div class="aip-message info">${esc(text(item))}</div>`).join('');
+ $('siSound').innerHTML=result.sound.map(item=>`<div class="aip-message info">${esc(text(item))}</div>`).join('');
+ $('siWorkflow').innerHTML=result.workflow.map((item,index)=>`<article class="si-step ${item.done?'done':(!item.done&&result.workflow.slice(0,index).every(previous=>previous.done)?'recommended':'')}" data-view="${esc(item.view)}"><b>${item.done?'✓ ':''}${esc(text(item.label))}</b><small>${esc(text(item.detail))}</small></article>`).join('');
+ document.querySelectorAll('.si-step').forEach(element=>element.onclick=()=>root.NSWConnections?.navigate(element.dataset.view));
+ $('siWorkflowProgress').textContent=`${result.workflow.filter(item=>item.done).length}/${result.workflow.length} ${t('complete')}`;
+ $('siActions').innerHTML=result.actions.map((item,index)=>`<article class="si-action"><b>${esc(text(item.label))}</b><small>${esc(text(item.detail))}</small><label><input type="checkbox" data-action="${index}" ${item.safe?'checked':''}> ${esc(t('includeAction'))}</label></article>`).join('');
+ $('siActionCount').textContent=t('actionCount',{count:result.actions.length});
+ $('siOutput').value=result.suggestedStyle;
+ $('siStyleState').textContent=t('styleReady');
+ $('siBadge').textContent=t('readinessValue',{score:result.readiness});
+ $('siContextCount').textContent=t('signalCount',{count:Object.values(result.context).filter(Boolean).length});
+ $('siStatus').textContent=t('analysisComplete');
 }
+
 function applySafe(){
- if(!current)return;store(UK,{style:$('customStyle')?.value||'',lyrics:$('lyricsInput')?.value||'',bpm:$('bpm')?.value||''});
- const selected=[...document.querySelectorAll('[data-action]:checked')].map(x=>current.actions[+x.dataset.action]);
- if(selected.some(x=>['style','simplify','health','conflict'].includes(x.id))||!selected.length){
-  const e=$('customStyle');if(e){e.value=current.suggestedStyle;e.dispatchEvent(new Event('input',{bubbles:true}));if(typeof generateOutput==='function')generateOutput()}
+ if(!current)return;
+ store(UK,{style:$('customStyle')?.value||'',lyrics:$('lyricsInput')?.value||'',bpm:$('bpm')?.value||''});
+ const selected=[...document.querySelectorAll('[data-action]:checked')].map(element=>current.actions[+element.dataset.action]);
+ if(selected.some(item=>['style','simplify','health','conflict'].includes(item.id))||!selected.length){
+  const target=$('customStyle');
+  if(target){
+   target.value=current.suggestedStyle;
+   target.dispatchEvent(new Event('input',{bubbles:true}));
+   if(typeof root.generateOutput==='function')root.generateOutput();
+  }
  }
- window.NSW_STUDIO_INTELLIGENCE_LAST=JSON.parse(JSON.stringify(current));$('siStatus').textContent=`Applied ${Math.max(1,selected.length)} safe Studio improvement(s).`;
+ root.NSW_STUDIO_INTELLIGENCE_LAST=JSON.parse(JSON.stringify(current));
+ $('siStatus').textContent=t('applied',{count:Math.max(1,selected.length)});
 }
+
 function runPipeline(){
  if(!current)return;
- const e=$('customStyle');if(e){e.value=current.suggestedStyle;e.dispatchEvent(new Event('input',{bubbles:true}))}
- window.NSWConnections?.navigate('styleHealthView');
- setTimeout(()=>{const i=$('shInput');if(i){i.value=current.suggestedStyle;i.dispatchEvent(new Event('input',{bubbles:true}));$('shAnalyze')?.click()}},80);
- $('siStatus').textContent='Intelligent pipeline prepared: coordinated STYLE → Health Check.';
+ const target=$('customStyle');
+ if(target){target.value=current.suggestedStyle;target.dispatchEvent(new Event('input',{bubbles:true}))}
+ root.NSWConnections?.navigate('styleHealthView');
+ root.setTimeout(()=>{
+  const input=$('shInput');
+  if(input){input.value=current.suggestedStyle;input.dispatchEvent(new Event('input',{bubbles:true}));$('shAnalyze')?.click()}
+ },80);
+ $('siStatus').textContent=t('pipeline');
 }
-function undo(){const u=load(UK,null);if(!u){$('siStatus').textContent='No Studio Intelligence application to undo.';return}if($('customStyle'))$('customStyle').value=u.style||'';if($('lyricsInput'))$('lyricsInput').value=u.lyrics||'';if($('bpm'))$('bpm').value=u.bpm||'';localStorage.removeItem(UK);$('siStatus').textContent='Last Studio Intelligence application undone.'}
-function importContext(){const c=snapshot(),parts=[];if(c.style)parts.push('Current STYLE: '+c.style);if(c.lyrics)parts.push('Lyrics concept: '+c.lyrics.slice(0,800));if(c.project?.name)parts.push('Project: '+c.project.name);$('siBrief').value=parts.join('\n\n')||'Inspect the current Studio and recommend the best next step.';stats()}
-function saveHistory(){const h=load(HK);h.unshift({id:current.id,createdAt:current.createdAt,brief:current.brief,readiness:current.readiness,full:current});store(HK,h.slice(0,40));renderHistory()}
-function renderHistory(){const h=load(HK);$('siHistory').innerHTML=h.length?h.map(x=>`<article class="aip-history-item"><header><b>${x.readiness}/100 · Studio Intelligence</b><small>${new Date(x.createdAt).toLocaleString()}</small></header><p>${esc((x.brief||'Studio context analysis').slice(0,240))}</p><button data-si-load="${x.id}">Load</button></article>`).join(''):'<div class="feature-empty">No Studio Intelligence history yet.</div>';document.querySelectorAll('[data-si-load]').forEach(b=>b.onclick=()=>{const x=load(HK).find(y=>y.id===b.dataset.siLoad);if(x?.full){current=x.full;$('siBrief').value=current.brief||'';render()}})}
-function report(){if(!current)return'';return['STUDIO INTELLIGENCE REPORT',`Readiness: ${current.readiness}/100`,`Goal: ${current.goal}`,'','AI MENTOR:',...current.mentor.map(x=>'- '+x),'','AI SONG COACH:',...current.coach.map(x=>'- '+x),'','AI GENRE MIXER:',...current.mixer.map(x=>'- '+x),'','AI SOUND DESIGNER:',...current.sound.map(x=>'- '+x),'','WORKFLOW:',...current.workflow.map(x=>`- ${x.done?'DONE':'NEXT'}: ${x.label} — ${x.detail}`),'','STYLE:',current.suggestedStyle].join('\n')}
-function saveProject(){if(!current)return;let p;try{p=JSON.parse(localStorage.getItem('nsw-project-manager-v4')||'null')}catch(e){}const pr=p?.projects?.find(x=>x.id===p.activeProjectId)||p?.projects?.[0],t=pr?.tracks?.[0];if(!t){$('siStatus').textContent='No active project track found.';return}t.studioIntelligence=JSON.parse(JSON.stringify(current));t.updated=Date.now();pr.updated=Date.now();localStorage.setItem('nsw-project-manager-v4',JSON.stringify(p));$('siStatus').textContent='Studio Intelligence snapshot saved.'}
-function stats(){const c=snapshot();$('siContextCount').textContent=`${Object.values(c).filter(Boolean).length} connected signals`}
-function send(view,id,button){if(!current)return;window.NSWConnections?.navigate(view);setTimeout(()=>{const e=$(id);if(e){e.value=current.suggestedStyle;e.dispatchEvent(new Event('input',{bubbles:true}));$(button)?.click()}},70)}
+
+function undo(){
+ const undoState=load(UK,null);
+ if(!undoState){$('siStatus').textContent=t('undoMissing');return}
+ if($('customStyle'))$('customStyle').value=undoState.style||'';
+ if($('lyricsInput'))$('lyricsInput').value=undoState.lyrics||'';
+ if($('bpm'))$('bpm').value=undoState.bpm||'';
+ localStorage.removeItem(UK);
+ $('siStatus').textContent=t('undoDone');
+}
+
+function importContext(){
+ const context=snapshot();
+ const parts=[];
+ if(context.style)parts.push(t('currentStyle',{value:context.style}));
+ if(context.lyrics)parts.push(t('lyricsConcept',{value:context.lyrics.slice(0,800)}));
+ if(context.project?.name)parts.push(t('projectName',{value:context.project.name}));
+ $('siBrief').value=parts.join('\n\n')||t('inspectDefault');
+ stats();
+}
+
+function historyRows(){
+ const currentRows=load(HK,[]);
+ if(currentRows.length)return currentRows;
+ return load(LEGACY_HK,[]);
+}
+
+function saveHistory(){
+ const history=load(HK,[]);
+ history.unshift({id:current.id,createdAt:current.createdAt,brief:current.brief,readiness:current.readiness,full:current});
+ store(HK,history.slice(0,40));
+ renderHistory();
+}
+
+function renderHistory(){
+ const history=historyRows();
+ $('siHistory').innerHTML=history.length?history.map(item=>`<article class="aip-history-item"><header><b>${esc(item.readiness)}/100 · Studio Intelligence</b><small>${esc(new Date(item.createdAt).toLocaleString(I18N?.language?.()||undefined))}</small></header><p>${esc((item.brief||t('historyContext')).slice(0,240))}</p><button data-si-load="${esc(item.id)}">${esc(t('load'))}</button></article>`).join(''):`<div class="feature-empty">${esc(t('historyEmpty'))}</div>`;
+ document.querySelectorAll('[data-si-load]').forEach(button=>button.onclick=()=>{
+  const item=historyRows().find(row=>row.id===button.dataset.siLoad);
+  if(item?.full){current=item.full;$('siBrief').value=current.brief||'';render()}
+ });
+}
+
+function goalText(value,code){
+ const key={improve:'goalImprove',build:'goalBuild',simplify:'goalSimplify',experiment:'goalExperiment',finish:'goalFinish'}[value];
+ return key?(I18N?.value?.(key,code)||value):value;
+}
+
+function report(){
+ if(!current)return'';
+ const code=I18N?.language?.()||'en';
+ const tx=(key,variables={})=>t(key,variables,code);
+ return[
+  tx('exportTitle'),`${tx('exportReadiness')}: ${current.readiness}/100`,`${tx('exportGoal')}: ${goalText(current.goal,code)}`,'',
+  'AI MENTOR:',...current.mentor.map(item=>'- '+text(item,code)),'',
+  'AI SONG COACH:',...current.coach.map(item=>'- '+text(messageValue(item),code)),'',
+  'AI GENRE MIXER:',...current.mixer.map(item=>'- '+text(item,code)),'',
+  'AI SOUND DESIGNER:',...current.sound.map(item=>'- '+text(item,code)),'',
+  `${tx('exportWorkflow')}:`,...current.workflow.map(item=>`- ${item.done?tx('exportDone'):tx('exportNext')}: ${text(item.label,code)} — ${text(item.detail,code)}`),'',
+  `${tx('exportStyle')}:`,current.suggestedStyle
+ ].join('\n');
+}
+
+function saveProject(){
+ if(!current)return;
+ let data;
+ try{data=JSON.parse(localStorage.getItem('nsw-project-manager-v4')||'null')}catch(error){}
+ const project=data?.projects?.find(item=>item.id===data.activeProjectId)||data?.projects?.[0];
+ const track=project?.tracks?.[0];
+ if(!track){$('siStatus').textContent=t('noProject');return}
+ track.studioIntelligence=JSON.parse(JSON.stringify(current));
+ track.updated=Date.now();
+ project.updated=Date.now();
+ localStorage.setItem('nsw-project-manager-v4',JSON.stringify(data));
+ $('siStatus').textContent=t('snapshotSaved');
+}
+
+function stats(){
+ const context=snapshot();
+ $('siContextCount').textContent=t('signalCount',{count:Object.values(context).filter(Boolean).length});
+}
+
+function send(view,id,button){
+ if(!current)return;
+ root.NSWConnections?.navigate(view);
+ root.setTimeout(()=>{
+  const target=$(id);
+  if(target){target.value=current.suggestedStyle;target.dispatchEvent(new Event('input',{bubbles:true}));$(button)?.click()}
+ },70);
+}
+
+function renderInitial(){
+ $('siBadge').textContent=t('brainReady');
+ $('siStatus').textContent=t('readyInspect');
+ $('siSummary').textContent=t('noAnalysis');
+ $('siNextStep').textContent=t('nextPlaceholder');
+ $('siWorkflowProgress').textContent=t('stepCount',{count:0});
+ $('siActionCount').textContent=t('actionCount',{count:0});
+ $('siStyleState').textContent=t('notGenerated');
+ stats();
+}
+
+function refreshLanguage(){
+ I18N?.apply?.();
+ if(current)render();else renderInitial();
+ renderHistory();
+}
+
 function init(){
  if(!$('siAnalyze'))return;
- $('siBrief').oninput=stats;$('siAnalyze').onclick=analyze;$('siImport').onclick=importContext;$('siExample').onclick=()=>{$('siBrief').value='Improve my Viking EDM anime opening. Keep female lead and deep male narrator, reduce overload, strengthen the final chorus and make the STYLE safer for Suno.';stats()};$('siClear').onclick=()=>{$('siBrief').value='';current=null;$('siResults').classList.add('hidden');stats()};
- $('siCopyReport').onclick=()=>navigator.clipboard?.writeText(report());$('siExport').onclick=()=>{if(!current)return;const b=new Blob([JSON.stringify(current,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='studio-intelligence-report.json';a.click()};$('siSaveProject').onclick=saveProject;
- $('siApplySafe').onclick=applySafe;$('siOpenNext').onclick=()=>{const n=current?.workflow.find(x=>!x.done);if(n)window.NSWConnections?.navigate(n.view)};$('siRunPipeline').onclick=runPipeline;$('siUndo').onclick=undo;
- $('siCopyStyle').onclick=()=>navigator.clipboard?.writeText(current?.suggestedStyle||'');$('siSendHealth').onclick=()=>send('styleHealthView','shInput','shAnalyze');$('siSendProducer').onclick=()=>send('aiProducerView','aipBrief','aipProduce');$('siSendDirector').onclick=()=>send('songDirectorView','sdBrief','sdAnalyzeOnly');
- $('siClearHistory').onclick=()=>{localStorage.removeItem(HK);renderHistory()};renderHistory();stats();
+ $('siBrief').oninput=stats;
+ $('siAnalyze').onclick=analyze;
+ $('siImport').onclick=importContext;
+ $('siExample').onclick=()=>{$('siBrief').value=t('example');stats()};
+ $('siClear').onclick=()=>{$('siBrief').value='';current=null;$('siResults').classList.add('hidden');renderInitial()};
+ $('siCopyReport').onclick=()=>navigator.clipboard?.writeText(report());
+ $('siExport').onclick=()=>{
+  if(!current)return;
+  const blob=new Blob([JSON.stringify(current,null,2)],{type:'application/json'});
+  const link=document.createElement('a');
+  link.href=URL.createObjectURL(blob);
+  link.download='studio-intelligence-report.json';
+  link.click();
+ };
+ $('siSaveProject').onclick=saveProject;
+ $('siApplySafe').onclick=applySafe;
+ $('siOpenNext').onclick=()=>{const next=current?.workflow.find(item=>!item.done);if(next)root.NSWConnections?.navigate(next.view)};
+ $('siRunPipeline').onclick=runPipeline;
+ $('siUndo').onclick=undo;
+ $('siCopyStyle').onclick=()=>navigator.clipboard?.writeText(current?.suggestedStyle||'');
+ $('siSendHealth').onclick=()=>send('styleHealthView','shInput','shAnalyze');
+ $('siSendProducer').onclick=()=>send('aiProducerView','aipBrief','aipProduce');
+ $('siSendDirector').onclick=()=>send('songDirectorView','sdBrief','sdAnalyzeOnly');
+ $('siClearHistory').onclick=()=>{localStorage.removeItem(HK);localStorage.removeItem(LEGACY_HK);renderHistory()};
+ document.addEventListener('nordlicht-language-changed',refreshLanguage);
+ refreshLanguage();
 }
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-})();
+
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});
+else init();
+
+root.NSWStudioIntelligence=Object.freeze({
+ VERSION:'7.5.7',
+ analyze,
+ refreshLanguage,
+ report,
+ getCurrent:()=>current?JSON.parse(JSON.stringify(current)):null
+});
+})(typeof globalThis!=='undefined'?globalThis:this);

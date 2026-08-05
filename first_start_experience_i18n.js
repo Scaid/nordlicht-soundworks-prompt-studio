@@ -5,7 +5,7 @@ window.NSW_FSE_I18N={"en":{"welcome":"Welcome to Nordlicht Soundworks","lead":"T
 'use strict';
 const $=id=>document.getElementById(id);
 function resolveLanguage(){
- const stored=localStorage.getItem('nordlicht-ui-language')||localStorage.getItem('nsw-v72-language');
+ const stored=window.NSWInterfaceI18n?.getLanguage?.()||localStorage.getItem('nordlicht-ui-language');
  const html=document.documentElement.lang;
  const raw=stored||html||navigator.language||'en';
  if(window.NSW_FSE_I18N[raw])return raw;
@@ -23,7 +23,8 @@ function apply(){
  text(document.querySelector('.fse-lead'),d.lead);
  text(document.querySelector('.fse-lead + p'),d.intro);
  const cards=document.querySelectorAll('.fse-start-card');
- const rows=[[d.quick,d.quickd,d.quickTime],[d.tour,d.tourd,d.tourTime],[d.expert,d.expertd,d.expertTime]];
+ const tourTime=window.NSW_FSE_TOUR_V4_I18N?.tourTime?.(code)||d.tourTime;
+ const rows=[[d.quick,d.quickd,d.quickTime],[d.tour,d.tourd,tourTime],[d.expert,d.expertd,d.expertTime]];
  rows.forEach((row,i)=>{text(cards[i]?.querySelector('b'),row[0]);text(cards[i]?.querySelector('small'),row[1]);text(cards[i]?.querySelector('em'),row[2])});
  text(document.querySelector('.fse-recommended'),d.recommended);
  const remember=document.querySelector('.fse-remember');
@@ -42,7 +43,7 @@ function apply(){
 }
 function init(){
  document.addEventListener('nordlicht-language-changed',apply);
- window.addEventListener('storage',e=>{if(e.key==='nordlicht-ui-language'||e.key==='nsw-v72-language')apply()});
+ window.addEventListener('storage',e=>{if(e.key==='nordlicht-ui-language')apply()});
  apply();
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();

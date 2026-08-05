@@ -25,6 +25,12 @@ function analyze(){
  if(raw.length>45)issues.push({type:'warn',text:`The STYLE contains ${raw.length} terms and may be clipped or partially ignored.`});else strengths.push(`Prompt length is manageable at ${raw.length} terms.`);
  if(/clear voice separation/i.test(input))strengths.push('Clear Voice Separation supports multiple performers.');
  if(/section-specific|controlled contrast/i.test(input))strengths.push('Section-aware dynamics improve complex prompts.');
+ const clarityEngine=window.NSWVocalClarityEngine,clarityPrefix=clarityEngine?.prefixState(input),clarityReport=clarityPrefix?.complete?clarityEngine.analyze({style:input,lyrics:$('lyricsEditor')?.value||'',vocalMode:document.querySelector('input[name="vocalMode"]:checked')?.value||'vocals'}):null;
+ if(clarityPrefix?.complete){
+  if(clarityPrefix.frontLoaded)strengths.push('The complete Vocal Clarity block is correctly front-loaded.');
+  else issues.push({type:'warn',text:'Vocal Clarity is present but not at the beginning of the STYLE.'});
+  clarityReport.issues.forEach(item=>issues.push({type:item.severity==='info'?'info':'warn',text:`Vocal Clarity: ${clarityEngine.messageFor(item,'en')}`}));
+ }
  let repaired=unique.filter((x,i,a)=>{
    const l=x.toLowerCase();
    if(i>=45)return false;
@@ -34,8 +40,10 @@ function analyze(){
  if(inst.length>max){let kept=0;repaired=repaired.filter(x=>{const is=instrumentNames().some(n=>x.toLowerCase().includes(n));if(!is)return true;kept++;return kept<=max})}
  if(vocals.length>4){let kept=0;repaired=repaired.filter(x=>{const is=/vocal|voice|choir|spoken|rap|growl|whisper/i.test(x);if(!is)return true;kept++;return kept<=4})}
  const strict=$('shStrict').value;if(strict==='safe'&&repaired.length>32)repaired=repaired.slice(0,32);if(strict==='strict'&&repaired.length>26)repaired=repaired.slice(0,26);
- const score=Math.max(30,Math.min(100,96-duplicates*3-Math.max(0,inst.length-max)*4-conflicts.length*10-Math.max(0,genreHits.length-3)*5-Math.max(0,raw.length-38)*1.2-Math.max(0,hypeCount-4)*3-Math.max(0,vocals.length-4)*5));
- last={input,terms:raw,unique,repaired:repaired.join(', '),issues,strengths,score:Math.round(score),metrics:{terms:raw.length,unique:unique.length,instruments:inst.length,genres:genreHits.length,vocals:vocals.length,conflicts:conflicts.length},createdAt:Date.now()};
+ if(clarityPrefix?.complete)repaired=terms(clarityEngine.applyPrefix(repaired.join(', ')));
+ const clarityPenalty=(clarityReport?.errors||0)*10+(clarityReport?.warnings||0)*4;
+ const score=Math.max(30,Math.min(100,96-duplicates*3-Math.max(0,inst.length-max)*4-conflicts.length*10-Math.max(0,genreHits.length-3)*5-Math.max(0,raw.length-38)*1.2-Math.max(0,hypeCount-4)*3-Math.max(0,vocals.length-4)*5-clarityPenalty));
+ last={input,terms:raw,unique,repaired:repaired.join(', '),issues,strengths,score:Math.round(score),clarity:clarityReport,metrics:{terms:raw.length,unique:unique.length,instruments:inst.length,genres:genreHits.length,vocals:vocals.length,conflicts:conflicts.length,clarity:clarityPrefix?.complete?(clarityReport?.score??100):'off'},createdAt:Date.now()};
  window.NSW_STYLE_HEALTH_LAST=JSON.parse(JSON.stringify(last));render()
 }
 function render(){const r=last;$('shResults').classList.remove('hidden');$('shScore').textContent=r.score;$('shGrade').textContent=r.score>=90?'A+':r.score>=82?'A':r.score>=72?'B':r.score>=60?'C':'D';$('shScoreBar').style.width=r.score+'%';$('shSummary').textContent=r.score>=85?'The STYLE is focused and should be easy for Suno to interpret.':r.score>=70?'The STYLE is usable but benefits from a few repairs.':'The STYLE is overloaded or contradictory and should be simplified.';$('shMetrics').innerHTML=Object.entries(r.metrics).map(([k,v])=>`<div class="aip-metric"><small>${k}</small><b>${v}</b></div>`).join('');$('shIssues').innerHTML=(r.issues.length?r.issues:[{type:'info',text:'No significant issues detected.'}]).map(x=>`<div class="aip-message ${x.type}">${x.text}</div>`).join('');$('shStrengths').innerHTML=(r.strengths.length?r.strengths:['A clear base prompt is present.']).map(x=>`<div class="aip-message info">${x}</div>`).join('');$('shOutput').value=r.repaired;const red=Math.max(0,Math.round((1-r.repaired.length/r.input.length)*100));$('shReduction').textContent=`${red}% shorter`;$('shRisk').textContent=r.issues.length?`${r.issues.length} issue(s)`:'No major risk';$('shBadge').textContent=`Health ${r.score}/100`;stats()}

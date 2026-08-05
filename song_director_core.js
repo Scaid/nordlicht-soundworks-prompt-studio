@@ -200,7 +200,10 @@ function buildDirectorResult(brief,options={}){
  const lyricsBlueprint=architecture.map((s,i)=>{
   const role=sectionInstrumentRole(s.name,parsed);
   const transition=i===0?'Controlled opening':s.energy>architecture[i-1].energy+15?'Building intensity into the next peak':s.energy<architecture[i-1].energy-15?'Dynamic drop and contrast':'Smooth continuation';
-  return `[${s.name}: ${s.vocal}; ${role}; Energy ${s.energy}%; Density ${s.density}%; ${transition}]`;
+  const directives=[s.vocal,role,`Energy ${s.energy}%`,`Density ${s.density}%`,transition,parsed.production];
+  return globalThis.NSWMetaTagStackEngine
+   ?globalThis.NSWMetaTagStackEngine.createStack(s.name,directives,{sort:true}).line
+   :`[${[s.name,...directives].join(' | ')}]`;
  }).join('\n\n');
 
  const reasoning=[

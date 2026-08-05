@@ -30,12 +30,15 @@ function simplify(){
    if(found.length>1){const preferred=found.sort((a,b)=>b.length-a.length)[0];found.filter(x=>x!==preferred).forEach(x=>{kept.splice(kept.indexOf(x),1);removed.push({term:x,reason:`Merged into ${preferred}`})})}
   });
  }
- const limits={short:18,balanced:28,detailed:40},limit=limits[$('ssLength').value];
+ const clarityEngine=window.NSWVocalClarityEngine,clarityPrefix=clarityEngine?.prefixState(input);
+ if(clarityPrefix?.complete){for(let index=kept.length-1;index>=0;index-=1)if(clarityEngine.isClarityTerm(kept[index]))kept.splice(index,1)}
+ const limits={short:18,balanced:28,detailed:40},limit=Math.max(0,limits[$('ssLength').value]-(clarityPrefix?.complete?clarityEngine.PREFIX_TERMS.length:0));
  let ordered=[...kept];if($('ssOrder').value==='smart')ordered.sort((a,b)=>category(a).p-category(b).p);
  if(ordered.length>limit){ordered.slice(limit).forEach(x=>removed.push({term:x,reason:'Below selected priority limit'}));ordered=ordered.slice(0,limit)}
  const preserve=$('ssPreserve').value;
  if(preserve==='genre'){ordered.sort((a,b)=>(category(a).name==='Genre'?-1:0)-(category(b).name==='Genre'?-1:0))}
  if(preserve==='production'){ordered.sort((a,b)=>(category(a).name==='Production'?-1:0)-(category(b).name==='Production'?-1:0))}
+ if(clarityPrefix?.complete)ordered=split(clarityEngine.applyPrefix(ordered.join(', ')));
  const dna={};ordered.forEach(x=>{const c=category(x).name;(dna[c]??=[]).push(x)});
  const score=Math.max(65,Math.min(100,100-Math.max(0,removed.filter(x=>x.reason.includes('priority')).length-8)*2));
  last={input,output:ordered.join(', '),raw,ordered,removed,dna,score,createdAt:Date.now()};window.NSW_STYLE_SIMPLIFIER_LAST=JSON.parse(JSON.stringify(last));render()

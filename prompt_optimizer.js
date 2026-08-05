@@ -35,6 +35,11 @@ function repeated(items){const map=new Map();items.forEach(x=>map.set(low(x),(ma
 function conflicts(items){const j=low(items.join(', ')),out=[];CONFLICTS.forEach(c=>{if(c.a.some(x=>j.includes(x))&&c.b.some(x=>j.includes(x)))out.push(c.label)});return out}
 function numericWeights(items){return items.filter(x=>/(?:genre blend\s*)?\d+\s*\/\s*\d+|:\s*0[.,]\s*\d/i.test(x))}
 function languageTerms(items){return items.filter(x=>LANGUAGE.some(w=>low(x).includes(w)))}
+function clarityFor(items){
+ const engine=window.NSWVocalClarityEngine,text=items.join(', '),prefix=engine?.prefixState(text);
+ if(!engine||!prefix?.complete)return null;
+ return{engine,prefix,report:engine.analyze({style:text,lyrics:$('lyricsEditor')?.value||'',vocalMode:document.querySelector('input[name="vocalMode"]:checked')?.value||'vocals'})}
+}
 function detect(items){
  const groups={genre:[],vocal:[],instrument:[],production:[],theory:[],mood:[],other:[]};
  items.forEach(x=>groups[classify(x)].push(x));return groups
@@ -76,9 +81,11 @@ function optimize(items,analysis){
  if(goal==='brevity')out=out.slice(0,length==='compact'?10:14);
  if(goal==='genre'){const gg=detect(out);out=[...gg.genre,...gg.mood,...gg.vocal,...gg.instrument,...gg.production,...gg.theory,...gg.other]}
  if(goal==='production'){const gg=detect(out);out=[...gg.genre,...gg.vocal,...gg.instrument,...gg.production,...gg.theory,...gg.mood,...gg.other]}
- return uniq(out)
+ out=uniq(out);
+ const clarity=clarityFor(items);if(clarity)out=split(clarity.engine.applyPrefix(out.join(', ')));
+ return out
 }
-function issues(a,items){const out=[];if(a.dup.length)out.push(`${a.dup.length} duplicate term group${a.dup.length===1?'':'s'} detected.`);out.push(...a.con);if(a.weights.length)out.push('Numeric genre weighting may not be interpreted consistently by Suno.');if(a.langs.length)out.push('Lyrics language usually belongs outside the STYLE prompt.');if(a.groups.genre.length>3)out.push('Too many genre signals may reduce focus.');if(a.groups.instrument.length>8)out.push('The instrument palette is dense.');if(items.length>22)out.push('The prompt is long and may contain low-priority details.');return out}
+function issues(a,items){const out=[];if(a.dup.length)out.push(`${a.dup.length} duplicate term group${a.dup.length===1?'':'s'} detected.`);out.push(...a.con);if(a.weights.length)out.push('Numeric genre weighting may not be interpreted consistently by Suno.');if(a.langs.length)out.push('Lyrics language usually belongs outside the STYLE prompt.');if(a.groups.genre.length>3)out.push('Too many genre signals may reduce focus.');if(a.groups.instrument.length>8)out.push('The instrument palette is dense.');if(items.length>22)out.push('The prompt is long and may contain low-priority details.');const clarity=clarityFor(items);if(clarity){if(!clarity.prefix.frontLoaded)out.push('The Vocal Clarity block must be moved to the beginning of the STYLE.');clarity.report.issues.forEach(item=>out.push(`Vocal Clarity: ${clarity.engine.messageFor(item,'en')}`))}return out}
 function suggestions(a,items){const out=[];if(!a.groups.genre.length)out.push('Add one clear primary genre.');if(!a.groups.vocal.length)out.push('Define vocals or explicitly request Instrumental Only.');if(!a.groups.production.length)out.push('Add one production or mix direction.');if(!a.groups.mood.length)out.push('Add one emotional direction.');if(a.groups.genre.length>2)out.push('Keep one primary genre and one supporting influence.');if(a.groups.instrument.length>6)out.push('Keep the most important four to six instruments.');if(!a.groups.theory.length)out.push('A groove, BPM or dynamic arc can improve movement.');return out}
 function strengths(a){return Object.entries(COMPLEMENTS).filter(([k])=>a.groups[k].length).map(([k,v])=>v)}
 function chip(x,type){return`<span class="optimizer2-chip ${type}">${escapeHtml(x)}</span>`}

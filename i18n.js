@@ -5,7 +5,7 @@ let currentUiLanguage="en";
 function tr(k){return (I18N[currentUiLanguage]||I18N.en)[k]||I18N.en[k]||k}
 function detectLanguage(){const s=localStorage.getItem("nordlicht-ui-language");if(s&&COMPLETE_INTERFACE_LANGUAGES.has(s))return s;const b=(navigator.language||"en").toLowerCase();const exact=I18N_LANGUAGES.find(x=>COMPLETE_INTERFACE_LANGUAGES.has(x.code)&&x.code.toLowerCase()===b);if(exact)return exact.code;const base=I18N_LANGUAGES.find(x=>COMPLETE_INTERFACE_LANGUAGES.has(x.code)&&x.code.split("-")[0]===b.split("-")[0]);return base?.code||"en"}
 function buildLanguageMenu(){const m=document.getElementById("languageMenu");if(!m)return;const visible=I18N_LANGUAGES.filter(l=>COMPLETE_INTERFACE_LANGUAGES.has(l.code));m.innerHTML=visible.map(l=>`<button type="button" data-lang="${l.code}">${l.flag}<span>${l.name}</span></button>`).join("");m.querySelectorAll("[data-lang]").forEach(b=>b.onclick=()=>{applyLanguage(b.dataset.lang);m.classList.add("hidden")})}
-function applyLanguage(code){currentUiLanguage=COMPLETE_INTERFACE_LANGUAGES.has(code)?code:"en";localStorage.setItem("nordlicht-ui-language",currentUiLanguage);const info=I18N_LANGUAGES.find(x=>x.code===currentUiLanguage);document.documentElement.lang=currentUiLanguage;document.documentElement.dir=info?.dir||"ltr";const lb=document.getElementById("languageButton");if(lb){lb.textContent=`${info.flag} ${info.name}`;lb.setAttribute("lang",info.code)};const nav=[['assistantView','assistant'],['randomView','random'],['styleView','style'],['vocalsView','vocals'],['instrumentsView','instruments'],['storyView','story'],['productionView','production'],['theoryView','theory'],['metatagsView','metatags'],['presetsView','presets']];nav.forEach(([v,k])=>{const b=document.querySelector(`.nav[data-view="${v}"] b`);if(b)b.textContent=tr(k)});const ids={topSavePreset:'save_preset',topImport:'import',topExport:'export',openChangelog:'changelog',copyStyle:'copy_style',copyExclude:'copy_exclude',copyMetaTags:'copy_meta',mainRandomButton:'randomize',rightRandomButton:'randomize',assistantAnalyze:'analyze',assistantApply:'apply'};Object.entries(ids).forEach(([id,k])=>{const e=document.getElementById(id);if(e)e.textContent=tr(k)});document.querySelectorAll('[data-i18n-label]').forEach(e=>{if(e.firstChild&&e.firstChild.nodeType===3)e.firstChild.textContent=tr(e.dataset.i18nLabel)});localizeAllLibraryControls();normalizeCompleteLanguageCoverage();const ai=I18N_LANGUAGES.find(x=>x.code===currentUiLanguage)||I18N_LANGUAGES[0];const ab=document.getElementById("languageButton");if(ab)ab.textContent=`${ai.flag} ${ai.name}`;const vb=document.querySelector(".version-badge");if(vb)vb.textContent="v7.5.4";if(typeof renderRandomOptions==="function")renderRandomOptions();if(typeof updateScore==="function")updateScore();if(typeof renderDynamicLists==="function")renderDynamicLists();if(typeof renderMetaSuggestions==="function")renderMetaSuggestions();if(typeof updateMetaFormatExample==="function")updateMetaFormatExample();if(typeof renderInstruments==="function")renderInstruments();if(window.NSWLyricsWorkspace&&typeof window.NSWLyricsWorkspace.refreshLanguage==="function")window.NSWLyricsWorkspace.refreshLanguage();if(typeof translateV207Controls==="function")translateV207Controls();if(window.NSWPromptIntelligence&&typeof window.NSWPromptIntelligence.refreshLanguage==="function")window.NSWPromptIntelligence.refreshLanguage();document.dispatchEvent(new CustomEvent("nordlicht-language-changed",{detail:{language:currentUiLanguage}}))}
+function applyLanguage(code){currentUiLanguage=COMPLETE_INTERFACE_LANGUAGES.has(code)?code:"en";localStorage.setItem("nordlicht-ui-language",currentUiLanguage);const info=I18N_LANGUAGES.find(x=>x.code===currentUiLanguage);document.documentElement.lang=currentUiLanguage;document.documentElement.dir=info?.dir||"ltr";const lb=document.getElementById("languageButton");if(lb){lb.textContent=`${info.flag} ${info.name}`;lb.setAttribute("lang",info.code)};const nav=[['assistantView','assistant'],['randomView','random'],['styleView','style'],['vocalsView','vocals'],['instrumentsView','instruments'],['storyView','story'],['productionView','production'],['theoryView','theory'],['metatagsView','metatags'],['presetsView','presets']];nav.forEach(([v,k])=>{const b=document.querySelector(`.nav[data-view="${v}"] b`);if(b)b.textContent=tr(k)});const ids={topSavePreset:'save_preset',topImport:'import',topExport:'export',openChangelog:'changelog',copyStyle:'copy_style',copyExclude:'copy_exclude',copyMetaTags:'copy_meta',mainRandomButton:'randomize',rightRandomButton:'randomize',assistantAnalyze:'analyze',assistantApply:'apply'};Object.entries(ids).forEach(([id,k])=>{const e=document.getElementById(id);if(e)e.textContent=tr(k)});document.querySelectorAll('[data-i18n-label]').forEach(e=>{if(e.firstChild&&e.firstChild.nodeType===3)e.firstChild.textContent=tr(e.dataset.i18nLabel)});localizeAllLibraryControls();normalizeCompleteLanguageCoverage();const ai=I18N_LANGUAGES.find(x=>x.code===currentUiLanguage)||I18N_LANGUAGES[0];const ab=document.getElementById("languageButton");if(ab)ab.textContent=`${ai.flag} ${ai.name}`;const vb=document.querySelector(".version-badge");if(vb)vb.textContent=window.NSWReleaseManifest?.badge||"v7.5.10";if(typeof renderRandomOptions==="function")renderRandomOptions();if(typeof updateScore==="function")updateScore();if(typeof renderDynamicLists==="function")renderDynamicLists();else if(typeof renderInstruments==="function")renderInstruments();if(typeof renderMetaSuggestions==="function")renderMetaSuggestions();if(typeof updateMetaFormatExample==="function")updateMetaFormatExample();if(window.NSWLyricsWorkspace&&typeof window.NSWLyricsWorkspace.refreshLanguage==="function")window.NSWLyricsWorkspace.refreshLanguage();if(typeof translateV207Controls==="function")translateV207Controls();document.dispatchEvent(new CustomEvent("nordlicht-language-changed",{detail:{language:currentUiLanguage}}))}
 
 
 /* ===== Full library localization engine =====
@@ -101,6 +101,19 @@ const LIBRARY_PHRASE_MAPS={
 };
 LIBRARY_PHRASE_MAPS["pt-BR"]=LIBRARY_PHRASE_MAPS.pt;
 
+const LIBRARY_REPLACEMENT_CACHE=new Map();
+function libraryReplacements(language){
+ if(LIBRARY_REPLACEMENT_CACHE.has(language))return LIBRARY_REPLACEMENT_CACHE.get(language);
+ const replacements=Object.entries(LIBRARY_PHRASE_MAPS[language]||{})
+  .sort((a,b)=>b[0].length-a[0].length)
+  .map(([source,target])=>{
+   const escaped=source.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+   return [new RegExp(`\\b${escaped}\\b`,"gi"),target];
+  });
+ LIBRARY_REPLACEMENT_CACHE.set(language,replacements);
+ return replacements;
+}
+
 function libraryLabel(value,context="generic"){
  const original=String(value??"");
  if(currentUiLanguage==="en"||!original)return original;
@@ -110,11 +123,7 @@ function libraryLabel(value,context="generic"){
  // Proper names, named instruments, abbreviations and genre names remain intact
  // unless a meaningful localized descriptor exists.
  let result=original;
- const entries=Object.entries(map).sort((a,b)=>b[0].length-a[0].length);
- for(const [source,target] of entries){
-   const escaped=source.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
-   result=result.replace(new RegExp(`\\b${escaped}\\b`,"gi"),target);
- }
+ for(const [pattern,target] of libraryReplacements(currentUiLanguage))result=result.replace(pattern,target);
  return result;
 }
 function localizeSelectOptions(select){
@@ -125,8 +134,6 @@ function localizeSelectOptions(select){
 }
 function localizeAllLibraryControls(){
  document.querySelectorAll("select").forEach(localizeSelectOptions);
- if(typeof renderDynamicLists==="function")renderDynamicLists();if(typeof updateMetaFormatExample==="function")updateMetaFormatExample();
- if(typeof renderInstruments==="function")renderInstruments();
 }
 
 
@@ -895,6 +902,14 @@ function normalizeCompleteLanguageCoverage(){
  translateCompleteStaticUi();
 }const COMPLETE_INTERFACE_LANGUAGES=new Set(["en","de","es","fr","ja","ko","it","pt","pt-BR","ru","zh-CN","tr","nl","pl"]);
 function effectiveTranslationLanguage(code){return COMPLETE_INTERFACE_LANGUAGES.has(code)?code:"en"}
+
+window.NSWInterfaceI18n=Object.freeze({
+ getLanguage:()=>currentUiLanguage,
+ setLanguage:applyLanguage,
+ translate:tr,
+ isSupported:code=>COMPLETE_INTERFACE_LANGUAGES.has(code),
+ languages:Object.freeze([...COMPLETE_INTERFACE_LANGUAGES])
+});
 
 
 Object.assign(I18N.en,{random_genre:"Genre",random_bpm:"BPM",random_song:"Song Type & Language",random_vocals:"Vocals",random_instruments:"Instruments",random_world:"Story World",random_emotion:"Emotion",random_scene:"Scene & Atmosphere",random_energy:"Energy & Dynamics",random_production:"Production",random_exclude:"Exclude",score_genre:"Genre",score_vocals:"Vocals",score_instruments:"Instruments",score_story:"Story",score_production:"Production"});

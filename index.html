@@ -23,7 +23,7 @@ html
 </div>
 <div class="top-actions">
 <div class="studio-mode-switch" role="group" aria-label="Studio mode"><button id="simpleModeButton" type="button">✨ Einfach</button><button id="guidedModeButton" type="button">🧭 Geführt</button><button id="advancedModeButton" class="active" type="button">🎛 Erweitert</button></div>
-<div class="language-picker"><button class="language-button" id="languageButton">🌐 English</button><div class="language-menu hidden" id="languageMenu"></div></div><span class="version-badge" title="Current version">v7.5.4</span>
+<div class="language-picker"><button class="language-button" id="languageButton">🌐 English</button><div class="language-menu hidden" id="languageMenu"></div></div><span class="version-badge" title="Current version">v7.5.10</span>
 <button data-i18n-full="ui_006" id="openChangelog">📋 Changelog</button>
 <button data-i18n-full="ui_007" id="topSavePreset">💾 Save Preset</button>
 <button data-i18n-full="ui_008" id="topImport">📂 Import</button>
@@ -37,7 +37,7 @@ html
 </div>
 <div class="sidebar-version">
 <b data-i18n-full="ui_010">Prompt Studio</b>
-<span>Version 7.5.4 · Workspace Welcome Tour</span>
+<span>Version 7.5.10 · UX Foundations &amp; Contextual Help</span>
 <small data-i18n-full="ui_012">© 2026 Nordlicht Soundworks</small>
 </div>
 <nav id="navigation" class="workspace-navigation" aria-label="Main navigation">
@@ -106,7 +106,7 @@ html
 </aside>
 <main class="workspace"><div class="workspace-breadcrumb" id="workspaceBreadcrumb"><button id="workspaceBreadcrumbHome" type="button">Home</button><span>›</span><b id="workspaceBreadcrumbGroup">Create</b><span>›</span><strong id="workspaceBreadcrumbModule">Smart Randomizer</strong></div>
 <section class="view workspace-home-view" id="homeView">
-<div class="view-head workspace-home-head"><div><h1>🏠 Welcome back</h1><p>Start a new idea, continue with a recent tool or open one of your pinned modules.</p></div><span class="workspace-home-badge">Nordlicht Soundworks · v7.5.4</span></div>
+<div class="view-head workspace-home-head"><div><h1>🏠 Welcome back</h1><p>Start a new idea, continue with a recent tool or open one of your pinned modules.</p></div><span class="workspace-home-badge">Nordlicht Soundworks · v7.5.10</span></div>
 <div class="workspace-home-grid">
 <section class="panel dark-content workspace-home-hero"><span class="workspace-kicker">QUICK START</span><h2>What do you want to create?</h2><p>Choose a direct entry point. Smart Randomizer stays the fastest and most playful way to begin.</p><div class="workspace-quick-actions">
 <button class="primary" data-open-view="randomView">🎲 Smart Randomizer</button><button data-open-view="composerView">🤖 AI Composer</button><button data-open-view="styleView">🎼 Style Builder</button><button data-open-view="lyricsView">✍️ Lyrics Workspace</button>
@@ -1531,18 +1531,26 @@ html
 <aside class="lyrics-tag-panel panel dark-content" aria-label="MetaTag library">
 <div class="lyrics-panel-title"><div><h2 data-lyrics-i18n="library_title">MetaTag Library</h2><small data-lyrics-i18n="library_subtitle">Drag a tag into the lyrics or click ＋</small></div><button id="lyricsTagHelp" title="Drag & Drop help">?</button></div>
 <div class="lyrics-context-card" id="lyricsContextCard"><span data-lyrics-i18n="current_section">Current section</span><strong id="lyricsCurrentSection">General</strong><small id="lyricsContextHint">Place the cursor inside a song section for focused suggestions.</small></div>
+<section class="lyrics-pipe-builder" id="lyricsPipeBuilder" aria-labelledby="lyricsPipeTitle">
+<div class="lyrics-subhead"><h3 id="lyricsPipeTitle">Pipe-Stack</h3><span id="lyricsPipeHealth" class="lyrics-pipe-health">Ready</span></div>
+<p id="lyricsPipeHint">Priority runs left to right. Auto-order: Mood → Vocal → Instruments → Dynamics → Space → Production. Drag elements to set a custom priority.</p>
+<div class="lyrics-pipe-stack" id="lyricsPipeStack" aria-live="polite"><small>Select a song section to edit its stack.</small></div>
+<code class="lyrics-pipe-preview" id="lyricsPipePreview">[Section | Mood | Vocal | Instruments | Dynamics | Space | Production]</code>
+<div class="lyrics-pipe-metrics"><span><b id="lyricsPipeCount">0 / 7</b><small>Elements</small></span><span><b id="lyricsPipePriority">—</b><small>Top priority</small></span><span><b id="lyricsPipeStyleState">—</b><small>STYLE match</small></span></div>
+<div class="lyrics-pipe-actions"><button id="lyricsSortStack" type="button">⇄ Auto-order</button><button class="primary" id="lyricsMigrateStacks" type="button">⤳ Build Pipe-Stacks</button></div>
+</section>
 <div class="lyrics-smart-suggestions"><div class="lyrics-subhead"><h3 data-lyrics-i18n="smart_suggestions">Smart Suggestions</h3><button id="lyricsRefreshSuggestions" title="Refresh suggestions">↻</button></div><div class="lyrics-suggestion-chips" id="lyricsSuggestionChips"></div></div>
 <div class="lyrics-tag-controls"><input id="lyricsTagSearch" type="search" placeholder="Search MetaTags…" data-lyrics-placeholder="search_tags" autocomplete="off"/><select id="lyricsTagCategory" aria-label="MetaTag category"><option value="all" data-lyrics-i18n="all_categories">All categories</option></select><label class="lyrics-favorites-filter"><input id="lyricsFavoritesOnly" type="checkbox"/><span data-lyrics-i18n="favorites_only">Only favorites</span></label></div>
 <div class="lyrics-tag-library-summary"><span><b id="lyricsLibraryAvailable">0</b> <span data-lyrics-i18n="available">available</span></span><span><b id="lyricsLibraryUsed">0</b> <span data-lyrics-i18n="used">used</span></span></div>
 <div class="lyrics-tag-library" id="lyricsTagLibrary"></div>
 <div class="lyrics-tag-doctor">
 <div class="lyrics-subhead"><h3 data-lyrics-i18n="doctor_title">MetaTag Doctor</h3><span id="lyricsTagHealth">Ready</span></div>
-<p data-lyrics-i18n="doctor_description">Checks duplicates, conflicts, placement and bracket syntax without changing your lyrics automatically.</p>
-<div class="lyrics-doctor-stats lyrics-doctor-stats-four"><span><b id="lyricsTagCount">0</b><span data-lyrics-i18n="tags">Tags</span></span><span><b id="lyricsIssueCount">0</b><span data-lyrics-i18n="issues">Issues</span></span><span><b id="lyricsDuplicateCount">0</b><span data-lyrics-i18n="duplicates">Duplicates</span></span><span><b id="lyricsConflictCount">0</b><span data-lyrics-i18n="conflicts">Conflicts</span></span></div>
+<p data-lyrics-i18n="doctor_description">Checks Pipe-Stack priority, element count, conflicts, STYLE compatibility and bracket syntax.</p>
+<div class="lyrics-doctor-stats lyrics-doctor-stats-four"><span><b id="lyricsTagCount">0</b><span data-lyrics-i18n="tags">Elements</span></span><span><b id="lyricsIssueCount">0</b><span data-lyrics-i18n="issues">Issues</span></span><span><b id="lyricsDuplicateCount">0</b><span data-lyrics-i18n="duplicates">Duplicates</span></span><span><b id="lyricsConflictCount">0</b><span data-lyrics-i18n="conflicts">Conflicts</span></span></div>
 <div class="lyrics-doctor-report" id="lyricsDoctorReport"><small>No issues detected yet.</small></div>
-<div class="lyrics-doctor-actions"><button id="lyricsAnalyzeTags">⌕ Analyze</button><button class="primary" id="lyricsOptimizeTags">✨ Optimize safely</button></div>
+<div class="lyrics-doctor-actions"><button id="lyricsAnalyzeTags">⌕ Analyze</button><button class="primary" id="lyricsOptimizeTags">✨ Optimize Pipe-Stacks</button></div>
 </div>
-<div class="lyrics-custom-tag"><h3 data-lyrics-i18n="custom_tag">Custom MetaTag</h3><div><input id="lyricsCustomTag" type="text" placeholder="e.g. Style: cold, intimate" data-lyrics-placeholder="custom_tag_placeholder"/><button id="lyricsInsertCustomTag">＋</button></div><small data-lyrics-i18n="brackets_added">Brackets are added automatically.</small></div>
+<div class="lyrics-custom-tag"><h3 data-lyrics-i18n="custom_tag">Custom Stack Element</h3><div><input id="lyricsCustomTag" type="text" placeholder="e.g. cold and intimate" data-lyrics-placeholder="custom_tag_placeholder"/><button id="lyricsInsertCustomTag">＋</button></div><small data-lyrics-i18n="brackets_added">The element is added to the active Pipe-Stack.</small></div>
 </aside>
 </div>
 </section>
@@ -1764,6 +1772,58 @@ html
 <label data-i18n-full="ui_112">Voice Separation<select id="voiceSeparation"></select></label>
 <label data-i18n-full="ui_113">Character Category<select id="voiceCharacterCategory"></select></label>
 </div>
+<section class="vocal-clarity-card" id="vocalClarityCard" data-status="off" aria-labelledby="vocalClarityTitle">
+<div class="vocal-clarity-head">
+<div>
+<span class="vocal-clarity-kicker" id="vocalClarityKicker">VOICE CLARITY</span>
+<h3 id="vocalClarityTitle">Klare &amp; verständliche Stimme</h3>
+<p id="vocalClarityDescription">Setzt einen gezielten Klarheitsblock vor Genre und Produktion, wenn er zum Song passt.</p>
+</div>
+<button class="vocal-clarity-toggle active" id="vocalClarityToggle" type="button" role="switch" aria-checked="true" aria-controls="vocalClarityControls vocalClarityOverview vocalClarityGuidance" aria-describedby="vocalClarityDescription vocalClarityModeHelp">
+<span class="vocal-clarity-switch-track" aria-hidden="true"><i></i></span>
+<span class="vocal-clarity-toggle-copy"><b id="vocalClarityToggleLabel">Klarheitsblock im STYLE verwenden</b><small id="vocalClarityToggleState">Ein</small></span>
+</button>
+</div>
+<div class="vocal-clarity-why" id="vocalClarityWhy">
+<h4 id="vocalClarityWhyTitle">Warum steht dieser Block am Anfang?</h4>
+<p id="vocalClarityWhyText">Frühe STYLE-Anweisungen erhalten meist mehr Gewicht. Deshalb legen diese fünf Begriffe zuerst Verständlichkeit und Stimmnähe fest.</p>
+<div class="vocal-clarity-meanings">
+<span><code>Broadway musical clarity</code><small id="vocalClarityBroadwayMeaning">fordert Musical-Deutlichkeit, aber kein Broadway-Genre.</small></span>
+<span><code>story-first enunciation · hard consonants</code><small id="vocalClarityArticulationMeaning">macht Wörter und Konsonanten leichter verständlich.</small></span>
+<span><code>dry forward lead vocal · close mic</code><small id="vocalClarityCloseMicMeaning">hält die Hauptstimme trocken, präsent und nah.</small></span>
+</div>
+</div>
+<div class="vocal-clarity-controls" id="vocalClarityControls">
+<label class="vocal-clarity-mode"><span id="vocalClarityModeLabel">Kompatibilitätsmodus</span><select id="vocalClarityMode"><option selected value="smart">Automatisch (empfohlen)</option><option value="off">Aus</option><option value="force">Immer erzwingen</option></select><small id="vocalClarityModeHelp">Automatisch wird empfohlen. Erzwingen ignoriert bewusst Warnungen; Aus entfernt den gesamten Block.</small></label>
+<div class="vocal-clarity-prefix"><span id="vocalClarityPrefixLabel">Exakter STYLE-Block</span><code id="vocalClarityPrefix">Broadway musical clarity, story-first enunciation, hard consonants, dry forward lead vocal, close mic</code></div>
+</div>
+<div class="vocal-clarity-overview" id="vocalClarityOverview">
+<strong id="vocalClarityStatus" aria-live="polite">Wird geprüft …</strong>
+<span id="vocalClaritySummary">Die Kompatibilität wird aus STYLE und Lyrics berechnet.</span>
+</div>
+<div class="vocal-clarity-guidance" id="vocalClarityGuidance">
+<div class="vocal-clarity-placement" id="vocalClarityPlacement">
+<small id="vocalClarityPlacementTitle">Live-STYLE-Reihenfolge</small>
+<div class="vocal-clarity-placement-flow" aria-live="polite">
+<b id="vocalClarityPlacementBlock">1–5 · Vocal Clarity</b>
+<i aria-hidden="true">→</i>
+<span id="vocalClarityPlacementRest">danach Genre · Stimme · Instrumente · Produktion</span>
+</div>
+<p id="vocalClarityPlacementSummary">Die aktuelle Einordnung wird mit jeder Änderung neu berechnet.</p>
+</div>
+<div class="vocal-clarity-actions">
+<button id="vocalClarityRecommend" type="button" aria-describedby="vocalClarityModeHelp vocalClarityPlacementSummary">Automatik ist aktiv</button>
+<button id="vocalClarityTourButton" type="button">🎓 In der Tour zeigen</button>
+</div>
+</div>
+<div class="vocal-clarity-metrics">
+<div><small id="vocalClarityGenreLabel">Genre</small><b id="vocalClarityGenreState">–</b></div>
+<div><small id="vocalClarityReverbLabel">Vocal-Raum</small><b id="vocalClarityReverbState">–</b></div>
+<div><small id="vocalClarityLyricsLabel">Lyrics-Dichte</small><b id="vocalClarityLyricsState">–</b></div>
+</div>
+<div class="vocal-clarity-issues" id="vocalClarityIssues"></div>
+<small class="vocal-clarity-note" id="vocalClarityNote">Dieser Block gehört nur in den globalen STYLE. Die Pipe-Stacks bleiben für die Abschnittsregie zuständig.</small>
+</section>
 <div class="named-singer-box">
 <div class="named-singer-head">
 <div>
@@ -2475,17 +2535,17 @@ html
 </div>
 
 <details class="panel dark-content pi-classic-composer">
-<summary id="piClassicSummary">Klassischen MetaTag Composer öffnen</summary>
+<summary id="piClassicSummary">Pipe-Stack Composer öffnen</summary>
 <div class="metatag-composer-card">
-<div><h3 data-i18n-label="meta_composer_title">MetaTag Composer</h3><p data-i18n-label="meta_composer_desc">Choose how section tags are formatted and assigned.</p></div>
+<div><h3 id="pipeComposerTitle">Pipe-Stack Composer</h3><p id="pipeComposerDesc">Build section-aware Pipe-Stacks with explicit left-to-right priority.</p></div>
 <div class="grid three metatag-format-grid">
-<label data-i18n-label="meta_format">MetaTag Format<select id="metaTagFormat"><option value="classic">Classic</option><option selected value="compact">Compact (Recommended)</option><option value="optimized">AI Optimized</option></select></label>
+<label data-i18n-label="meta_format">MetaTag Format<select id="metaTagFormat"><option selected value="pipe">Pipe-Stack (Standard)</option></select></label>
 <label class="toggle composer-toggle" data-i18n-label="section_aware"><input checked id="sectionAwareMetaTags" type="checkbox"/>Section-aware assignment</label>
 <label class="toggle composer-toggle" data-i18n-label="avoid_repetition"><input checked id="avoidMetaRepetition" type="checkbox"/>Avoid repeated tags</label>
-</div><div class="format-examples"><code id="metaFormatExample">[Verse 1] [Male Vocal] [Style: Warm, storytelling]</code></div></div>
+</div><div class="format-examples"><code id="metaFormatExample">[Verse 1 | Warm, storytelling | Male Vocal | Acoustic Guitar | Restrained | Close | Analog Production]</code></div></div>
 <div class="metatag-toolbar"><label class="toggle" data-i18n-full="ui_178"><input checked id="autoMetaTags" type="checkbox"/>Automatically derive suitable MetaTags from the current STYLE</label><button data-i18n-full="ui_179" id="refreshMetaSuggestions">✨ Refresh Suggestions</button><button data-i18n-full="ui_180" id="clearMetaTags">Clear selection</button></div>
 <div class="named-singer-meta-info"><b data-i18n-full="ui_181">Duet control with names:</b><code>[Duet – Niclas (male) &amp; Kristina (female)]</code><code>[Male vocals: Niclas, Female vocals: Kristina, Both: together]</code><code data-i18n-full="ui_182">[Niclas] Lyrics</code><code data-i18n-full="ui_183">[Kristina] Lyrics</code><code data-i18n-full="ui_184">[Both] Lyrics</code></div>
-<div class="meta-help"><b data-i18n-full="ui_185">Recommended format:</b><code>[Verse 1] [Female Vocal: Warm, intimate] [Style: Storytelling, emotional] [Music: Gentle piano melody, soft strings]</code></div>
+<div class="meta-help"><b data-i18n-full="ui_185">Pipe-Stack standard:</b><code>[Verse 1 | Warm, intimate | Female Vocal | Gentle piano and soft strings | Restrained | Close | Analog Production]</code></div>
 <h3 data-i18n-full="ui_186">Song Structure</h3><div class="chips" id="metaStructure"></div>
 <h3 data-i18n-full="ui_187">Music Cues &amp; Sound Events</h3><div class="chips scroll" id="metaMusic"></div>
 <h3 data-i18n-full="ui_188">Voices &amp; Performance</h3><div class="chips scroll" id="metaVoices"></div>
@@ -2493,8 +2553,8 @@ html
 <h3 data-i18n-full="ui_190">Ad-libs &amp; Calls</h3><div class="chips" id="metaAdlibs"></div>
 <h3 data-i18n-full="ui_191">Choirs</h3><div class="chips" id="metaChoirs"></div>
 <h3 data-i18n-full="ui_192">Automatically Recommended MetaTags</h3><div class="meta-suggestions" id="metaSuggestions"></div>
-<label data-i18n-full="ui_193">Custom MetaTags – one tag per line<textarea data-i18n-placeholder="placeholder_007" id="customMetaTags" placeholder="[Break: Abrupt silence, tension]
-[Instrumental Solo: Chaotic strings and heavy drums]"></textarea></label>
+<label id="customPipeStacksLabel">Custom Pipe-Stacks or elements – one per line<textarea id="customMetaTags" placeholder="[Break | Tense | Abrupt Silence]
+[Instrumental Solo | Chaotic Strings | Heavy Drums]"></textarea></label>
 </details>
 </section>
 
@@ -2767,24 +2827,15 @@ html
 <section class="modal-card">
 <button aria-label="Changelog schließen" class="modal-close" id="closeChangelog">×</button>
 <img alt="Nordlicht Soundworks" class="modal-logo" src="logo.svg"/>
-<h2 data-i18n-full="ui_214" id="changelogTitle">Changelog</h2>
-<article class="release-note">
-<div><b data-i18n-full="ui_215">Version 1.7.0</b><span data-i18n-full="ui_216">Quality & Stability Update</span></div>
-<ul>
-<li data-i18n-full="ui_217">Style Builder with genre, BPM, vocals, instruments and production</li>
-<li data-i18n-full="ui_218">Offline Smart Assistant for free-form song ideas</li>
-<li data-i18n-full="ui_219">Suno MetaTag Builder with automatic suggestions</li>
-<li data-i18n-full="ui_220">Named singers and clear duet control</li>
-<li data-i18n-full="ui_221">Smart Randomizer and intelligent energy/dynamics tags</li>
-<li data-i18n-full="ui_222">Preset management, favorites, import and export</li>
-<li data-i18n-full="ui_223">Responsive use on desktop, tablet and smartphone</li>
-</ul>
-</article>
-<p class="changelog-note" data-i18n-full="ui_224">Future updates will be documented here.</p>
+<h2 id="changelogTitle">Changelog</h2>
+<div class="release-center-content" id="releaseCenterContent"></div>
 </section>
 </div>
 <input accept=".json" hidden="" id="importFile" type="file"/>
 <div class="toast" id="toast"></div>
+<script src="release_manifest.js"></script>
+<script src="ux_foundation_i18n.js"></script>
+<script src="workspace_state.js"></script>
 <script src="instruments.js"></script>
 <script src="genres.js"></script>
 <script src="vocals.js"></script>
@@ -2812,7 +2863,15 @@ html
 <script src="lang/nl.js"></script>
 <script src="lang/pl.js"></script>
 <script src="lang/loader.js"></script>
+<script src="workspace_i18n_catalog.js"></script>
+<script src="workspace_i18n.js"></script>
+<script src="release_center.js"></script>
 <script src="lyrics_metatags.js"></script>
+<script src="metatag_stack_engine.js"></script>
+<script src="vocal_clarity_engine.js"></script>
+<script src="vocal_clarity_i18n.js"></script>
+<script src="vocal_clarity_guidance.js"></script>
+<script src="vocal_clarity_controller.js"></script>
 <script src="metatag_encyclopedia.js"></script>
 <script src="prompt_intelligence.js"></script>
 <script src="lyrics_workspace.js"></script>
@@ -2862,9 +2921,10 @@ html
 <script src="style_simplifier.js"></script>
 <script src="variation_engine.js"></script>
 <script src="conflict_resolver.js"></script>
+<script src="studio_intelligence_dynamic_locales.js"></script>
+<script src="studio_intelligence_i18n.js"></script>
 <script src="studio_intelligence.js"></script>
 <script src="sidebar_organization_v71.js"></script>
-<script src="translation_overlay_v72.js"></script>
 <script src="instrument_dna_interaction_fix.js"></script>
 <script src="workspace_navigation.js"></script>
 <div id="fseRoot" class="fse-root" aria-hidden="true">
@@ -2891,7 +2951,7 @@ html
         <span class="fse-card-icon">🎓</span>
         <b>Führe mich Schritt für Schritt</b>
         <small>Interaktive Tour durch die wichtigsten Bereiche.</small>
-        <em>ca. 3 Minuten</em>
+        <em>ca. 5 Minuten</em>
       </button>
 
       <button class="fse-start-card" data-fse-choice="expert" type="button">
@@ -2908,12 +2968,12 @@ html
 
   <section id="fseTourCard" class="fse-tour-card" data-fse-component="tour" role="dialog" aria-modal="true" aria-labelledby="fseTourTitle">
     <div class="fse-tour-top">
-      <span id="fseTourCounter">1 / 6</span>
+    <span id="fseTourCounter">1 / 11</span>
       <button id="fseSkipTour" type="button">Tour überspringen</button>
     </div>
-    <div class="fse-tour-icon" id="fseTourIcon">🎲</div>
-    <h2 id="fseTourTitle">Smart Randomizer</h2>
-    <p id="fseTourText">Hier entstehen erste Ideen. Du musst noch nichts wissen – einfach ausprobieren.</p>
+    <div class="fse-tour-icon" id="fseTourIcon">🧭</div>
+    <h2 id="fseTourTitle">Das Studio im Überblick</h2>
+    <p id="fseTourText">Oben wechselst du Modus und Sprache. Die Seitenleiste ordnet alle Werkzeuge; Home bietet schnelle Einstiege, Favoriten und zuletzt verwendete Module.</p>
     <div class="fse-tour-progress"><i id="fseTourProgress"></i></div>
     <div class="fse-tour-actions">
       <button id="fseTourBack" type="button">← Zurück</button>
@@ -2969,9 +3029,12 @@ html
 
 <script src="first_start_state_machine.js"></script>
 <script src="first_start_repository.js"></script>
+<script src="first_start_tour_v4_i18n.js"></script>
 <script src="first_start_experience_i18n.js"></script>
 <script src="first_start_view.js"></script>
 <script src="first_start_experience.js"></script>
+<script src="contextual_help.js"></script>
+<script src="action_transactions.js"></script>
 
 </body>
 </html>

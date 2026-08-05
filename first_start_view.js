@@ -16,9 +16,17 @@ function freezeStep(definition){
 // can therefore gain, lose or reorder steps without shifting localized content.
 const STEPS=Object.freeze([
  freezeStep({
-  id:'workspace-create',icon:'🎲',kind:'workspace',
-  title:'CREATE Workspace',
-  text:'Hier startest du neue Songs: Ideen erzeugen, STYLE und Vocals gestalten, Lyrics schreiben und intelligente Directors oder Producer nutzen.',
+  id:'studio-orientation',icon:'🧭',kind:'overview',title:'Das Studio im Überblick',
+  text:'Oben wechselst du Modus und Sprache. Die Seitenleiste ordnet alle Werkzeuge; Home bietet schnelle Einstiege, Favoriten und zuletzt verwendete Module.',
+  location:{workspace:'create',view:'homeView'},
+  focus:{
+   primary:{selector:'.workspace-home-nav',fallback:'#navigation',padding:6},
+   secondary:{selector:'#homeView .workspace-home-hero',fallback:'#homeView',padding:10}
+  }
+ }),
+ freezeStep({
+  id:'workspace-create',icon:'✨',kind:'workspace',title:'CREATE – Ideen und Regie',
+  text:'Hier beginnt ein neuer Song. Ideenwerkzeuge und Directors stimmen STYLE, Vocals, Lyrics und die nächsten Schritte aufeinander ab.',
   location:{workspace:'create',view:'randomView'},
   focus:{
    primary:{selector:'.workspace-nav-group[data-workspace="create"] > .workspace-group-toggle',padding:6},
@@ -26,29 +34,44 @@ const STEPS=Object.freeze([
   }
  }),
  freezeStep({
-  id:'lyrics-workspace',icon:'✍️',kind:'feature',
-  title:'Lyrics Workspace',
-  text:'Schreibe und strukturiere hier deinen Songtext. MetaTags kannst du rechts suchen und per Drag & Drop an die gewünschte Stelle im Editor ziehen – oder mit ＋ einfügen.',
-  location:{workspace:'create',view:'lyricsView'},
+  id:'workspace-style',icon:'🎨',kind:'workspace',title:'STYLE – Klang und klare Stimme',
+  text:'Hier entsteht der globale STYLE. Vocal Clarity kann Hinweise für eine klare, verständliche Stimme früh einordnen, wenn sie zum gewählten Klang passt.',
+  location:{workspace:'style',view:'styleView'},
+  focus:{
+   primary:{selector:'.workspace-nav-group[data-workspace="style"] > .workspace-group-toggle',padding:6},
+   secondary:{selector:'#styleView .panel',fallback:'#styleView',padding:10}
+  }
+ }),
+ freezeStep({
+  id:'vocal-clarity',icon:'🎙️',kind:'feature',title:'Vocal Clarity – warum dieser Block zuerst kommt',
+  text:'Der Klarheitsblock steht absichtlich am Anfang des STYLE, damit Aussprache und Stimmnähe früh priorisiert werden. Hier kannst du ihn ein- oder ausschalten, den Kompatibilitätsmodus wählen und in der Live-Reihenfolge sehen, ob er wirklich auf Position 1–5 steht.',
+  location:{workspace:'style',view:'styleView',styleTab:'vocals'},
+  focus:{
+   primary:{selector:'#vocalClarityWhy',fallback:'#vocalClarityCard',padding:8},
+   secondary:{selector:'#vocalClarityControls',fallback:'#vocalClarityMode',padding:8}
+  }
+ }),
+ freezeStep({
+  id:'workspace-song',icon:'🎵',kind:'workspace',title:'SONG – Aufbau und Performance',
+  text:'Arrangement, Vocal-Rollen, Musiktheorie und Produktion machen aus der Klangidee einen vollständigen Songplan mit einem klaren Energiebogen.',
+  location:{workspace:'song',view:'arrangementDesignerView'},
+  focus:{
+   primary:{selector:'.workspace-nav-group[data-workspace="song"] > .workspace-group-toggle',padding:6},
+   secondary:{selector:'#arrangementDesignerView .panel',fallback:'#arrangementDesignerView',padding:10}
+  }
+ }),
+ freezeStep({
+  id:'lyrics-workspace',icon:'✍️',kind:'workspace',title:'LYRICS – Text und Pipe-Stacks',
+  text:'Schreibe und strukturiere hier deinen Songtext. MetaTags lassen sich per Drag & Drop oder ＋ in den aktiven Pipe-Stack einfügen und dort nach Priorität neu anordnen.',
+  location:{workspace:'lyrics',view:'lyricsView'},
   focus:{
    primary:{selector:'#lyricsTagLibrary',fallback:'#lyricsView .lyrics-tag-panel',padding:8},
    secondary:{selector:'#lyricsView .lyrics-editor-shell',fallback:'#lyricsEditor',padding:10}
   }
  }),
  freezeStep({
-  id:'workspace-analyze',icon:'🔍',kind:'workspace',
-  title:'ANALYZE Workspace',
-  text:'Hier verstehst und verbesserst du vorhandene STYLEs und Lyrics: DNA analysieren, Konflikte finden, Varianten entwickeln und Prompts optimieren.',
-  location:{workspace:'analyze',view:'dnaAnalyzerView'},
-  focus:{
-   primary:{selector:'.workspace-nav-group[data-workspace="analyze"] > .workspace-group-toggle',padding:6},
-   secondary:{selector:'#dnaAnalyzerView .panel',fallback:'#dnaAnalyzerView',padding:10}
-  }
- }),
- freezeStep({
-  id:'workspace-knowledge',icon:'📚',kind:'workspace',
-  title:'KNOWLEDGE Workspace',
-  text:'Deine Musik-Enzyklopädie für Genres, Instrumente, MetaTags, Arrangements, Vocals, Produktion und Musiktheorie.',
+  id:'workspace-knowledge',icon:'📚',kind:'workspace',title:'KNOWLEDGE – Musikwissen',
+  text:'Hier findest du Wissen zu Genres, Instrumenten, MetaTags, Vocals, Arrangements und Musiktheorie und kannst passende Elemente sicherer kombinieren.',
   location:{workspace:'knowledge',view:'genreIntelligenceView'},
   focus:{
    primary:{selector:'.workspace-nav-group[data-workspace="knowledge"] > .workspace-group-toggle',padding:6},
@@ -56,19 +79,35 @@ const STEPS=Object.freeze([
   }
  }),
  freezeStep({
-  id:'workspace-project',icon:'⚙️',kind:'workspace',
-  title:'PROJECT Workspace',
-  text:'Hier organisierst du Alben, Tracks und Versionen und speicherst Presets, damit du jederzeit zu einem früheren Stand zurückkehren kannst.',
-  location:{workspace:'project',view:'projectManagerView'},
+  id:'workspace-analysis',icon:'🔍',kind:'workspace',title:'ANALYSIS – Prüfen und verbessern',
+  text:'Analysewerkzeuge zeigen Dichte, Konflikte und schwache Prioritäten. Danach kannst du einen STYLE gezielt vereinfachen, vergleichen und verbessern.',
+  location:{workspace:'analysis',view:'dnaAnalyzerView'},
   focus:{
-   primary:{selector:'.workspace-nav-group[data-workspace="project"] > .workspace-group-toggle',padding:6},
-   secondary:{selector:'#projectManagerView .panel',fallback:'#projectManagerView',padding:10}
+   primary:{selector:'.workspace-nav-group[data-workspace="analysis"] > .workspace-group-toggle',padding:6},
+   secondary:{selector:'#dnaAnalyzerView .panel',fallback:'#dnaAnalyzerView',padding:10}
   }
  }),
  freezeStep({
-  id:'studio-intelligence',icon:'🧠',kind:'feature',
-  title:'Studio Intelligence',
-  text:'Wenn du nicht weißt, wie es weitergeht, hilft dir das Gehirn des Studios: Es verbindet Module, bewertet den Stand und empfiehlt den nächsten sinnvollen Schritt.',
+  id:'workspace-project',icon:'📁',kind:'workspace',title:'PROJECTS – Sichern und ordnen',
+  text:'Hier bleiben Alben, Tracks, Dateien, Presets und Versionen zusammen. Zwischenstände machen größere Änderungen sicher und vergleichbar.',
+  location:{workspace:'project',view:'projectManagerView'},
+  focus:{
+   primary:{selector:'.workspace-nav-group[data-workspace="project"] > .workspace-group-toggle',padding:6},
+   secondary:{selector:'#projectManagerView .project-manager-shell',fallback:'#projectManagerView',padding:10}
+  }
+ }),
+ freezeStep({
+  id:'live-output',icon:'📤',kind:'feature',title:'LIVE OUTPUT – direkt kopierbar',
+  text:'Rechts siehst du immer das aktuelle Ergebnis. Die Reiter STYLE, LYRICS, METATAGS und EXCLUDE trennen die Bereiche, damit du genau den benötigten Teil kopierst.',
+  location:{workspace:'style',view:'styleView'},
+  focus:{
+   primary:{selector:'.live-output-tabs',fallback:'.live-output-card',padding:7},
+   secondary:{selector:'.live-output-card .live-output-panel.active',fallback:'.live-output-card',padding:8}
+  }
+ }),
+ freezeStep({
+  id:'studio-intelligence',icon:'🧠',kind:'feature',title:'Studio Intelligence – der nächste Schritt',
+  text:'Wenn das Projekt unübersichtlich wird, liest Studio Intelligence die verbundenen Signale. Es erklärt Stärken und Probleme einfach und empfiehlt eine sinnvolle Reihenfolge.',
   location:{workspace:'create',view:'studioIntelligenceView'},
   focus:{
    primary:{selector:'.nav[data-view="studioIntelligenceView"]',padding:6},
@@ -78,14 +117,10 @@ const STEPS=Object.freeze([
 ]);
 
 const TIPS=Object.freeze({
- randomView:Object.freeze(['Smart Randomizer','Nutze „Überrasch mich“, um ungewöhnliche Kombinationen zu entdecken.']),
- styleView:Object.freeze(['Style Builder','Beginne mit Genre und Vocals. Instrumente und Produktion kannst du danach gezielt ergänzen.']),
- songDirectorView:Object.freeze(['Song Director','Ein kurzer, klarer Satz reicht. Der Director entwickelt daraus einen vollständigen Songplan.']),
- aiProducerView:Object.freeze(['AI Producer','Der Producer ist am stärksten, wenn du Ziel, Stimmung, Vocals und gewünschte Klangwelt erwähnst.']),
- instrumentsView:Object.freeze(['Instrument DNA','Klicke auf eine Instrumentenkarte, um Klang, Rolle, Genres, Pairings und Suno-Hinweise zu öffnen.']),
- styleHealthView:Object.freeze(['Style Health Check','Prüfe deinen STYLE vor dem Export auf Wiederholungen, Konflikte und zu viele Instrumente.']),
- projectManagerView:Object.freeze(['Project Manager','Speichere wichtige Zwischenstände, bevor du große automatische Änderungen übernimmst.']),
- studioIntelligenceView:Object.freeze(['Studio Intelligence','Nutze dieses Modul, wenn du nicht weißt, welcher Arbeitsschritt als Nächstes sinnvoll ist.'])
+ randomView:'workspace-create',aiProducerView:'workspace-create',songDirectorView:'workspace-create',
+ styleView:'workspace-style',styleHealthView:'workspace-analysis',arrangementDesignerView:'workspace-song',
+ lyricsView:'lyrics-workspace',instrumentsView:'workspace-knowledge',projectManagerView:'workspace-project',
+ studioIntelligenceView:'studio-intelligence'
 });
 
 const REQUIRED_IDS=Object.freeze([
@@ -107,13 +142,20 @@ function createView(options={}){
  const cleanups=[];
 
  function translation(){return win.NSW_FSE_ACTIVE_TRANSLATION||win.NSW_FSE_I18N?.en||null}
+ function tourLanguage(){
+  return win.NSW_FSE_TOUR_V4_I18N?.languageOf?.(
+   win.NSW_FSE_ACTIVE_LANGUAGE||win.NSWInterfaceI18n?.getLanguage?.()||doc.documentElement.lang||'en'
+  )||'en';
+ }
+ function tourStep(id){return win.NSW_FSE_TOUR_V4_I18N?.step?.(tourLanguage(),id)||null}
+ function uxText(key){return win.NSWUXFoundationI18n?.text?.(tourLanguage(),key)||key}
  function rootState(phase){return phase==='welcome'||phase==='tour'||phase==='complete'?phase:'closed'}
  function isLocked(phase){return phase==='welcome'||phase==='tour'||phase==='complete'}
  function rememberChoice(){return $('fseDoNotShow')?.checked!==false}
 
  function translatedStep(index){
   const base=STEPS[index]||STEPS[0];
-  const row=translation()?.steps?.[base.id];
+  const row=tourStep(base.id)||translation()?.steps?.[base.id];
   return row?{...base,title:row.title||base.title,text:row.text||base.text}:base;
  }
 
@@ -128,22 +170,28 @@ function createView(options={}){
    language?.all||'Expertenansicht aktiv',
    language?.expertd||'Alle Module und Expertenfunktionen sind sichtbar.'
   ];
-  return TIPS[tip.view]||null;
+  const stepId=TIPS[tip.view];
+  const row=stepId?tourStep(stepId):null;
+  return row?[row.title,row.text]:null;
  }
 
  function renderTourContent(state){
   const data=translatedStep(state.tourStep);
   const language=translation();
+  const contextual=state.tourOrigin==='context';
   elements.fseTourCard.dataset.fseStep=data.id;
   elements.fseTourCard.dataset.fseKind=data.kind;
-  elements.fseTourCounter.textContent=`${state.tourStep+1} / ${STEPS.length}`;
+  elements.fseTourCard.dataset.fseTourMode=contextual?'context':'full';
+  elements.fseTourCounter.textContent=contextual?uxText('contextCounter'):`${state.tourStep+1} / ${STEPS.length}`;
   elements.fseTourIcon.textContent=data.icon;
   elements.fseTourTitle.textContent=data.title;
   elements.fseTourText.textContent=data.text;
-  elements.fseTourProgress.style.width=`${((state.tourStep+1)/STEPS.length)*100}%`;
-  elements.fseTourBack.disabled=state.tourStep===0;
+  elements.fseTourProgress.style.width=contextual?'100%':`${((state.tourStep+1)/STEPS.length)*100}%`;
+  elements.fseTourBack.hidden=contextual;
+  elements.fseTourBack.disabled=contextual||state.tourStep===0;
   elements.fseTourBack.textContent=language?.back||'← Zurück';
-  elements.fseTourNext.textContent=state.tourStep===STEPS.length-1?(language?.finish||'Tour beenden 🎉'):(language?.next||'Weiter →');
+  elements.fseSkipTour.textContent=contextual?uxText('close'):(language?.skip||'Tour überspringen');
+  elements.fseTourNext.textContent=contextual?uxText('gotIt'):(state.tourStep===STEPS.length-1?(language?.finish||'Tour beenden 🎉'):(language?.next||'Weiter →'));
  }
 
  function renderCompleteList(){
@@ -442,6 +490,7 @@ function createView(options={}){
   const token=++navigationToken;
   openWorkspace(data.location.workspace);
   navigate(data.location.view);
+  if(data.location.styleTab)win.NSWStyleBuilderWorkspace?.activate?.(data.location.styleTab);
   afterFrames(2,()=>{
    if(token!==navigationToken||currentState?.phase!=='tour')return;
    const resolve=spec=>({

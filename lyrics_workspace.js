@@ -1,23 +1,25 @@
 (() => {
   'use strict';
 
-  const STORAGE_KEY = 'nswLyricsWorkspace.v2.phase3';
+  const STORAGE_KEY = 'nswLyricsWorkspace.v3.pipeStacks';
+  const LEGACY_STORAGE_KEYS = ['nswLyricsWorkspace.v2.phase3', 'nswLyricsWorkspace.v2.phase2', 'nswLyricsWorkspace.v2.phase1'];
   const FAVORITES_KEY = 'nswLyricsMetaTagFavorites.v1';
   const OPEN_GROUPS_KEY = 'nswLyricsMetaTagOpenGroups.v1';
   const HISTORY_LIMIT = 120;
+  const StackEngine = window.NSWMetaTagStackEngine;
 
   const L10N = {
     en: {
-      nav_title:'Lyrics Workspace', nav_subtitle:'Write, structure and prepare lyrics', workspace_title:'Lyrics Workspace', workspace_subtitle:'Write your lyrics, organize the song structure and prepare the final Suno lyrics output.',
-      structure_title:'Song Structure', structure_subtitle:'Detected automatically from section tags', insert_template:'Insert template', normalize_structure:'Sync & normalize structure', clear_lyrics:'Clear lyrics', live_analysis:'Live Analysis', undo:'Undo', redo:'Redo', find:'Find', copy_lyrics:'Copy lyrics', export_txt:'Export .txt', syntax_preview:'Syntax Preview', library_title:'MetaTag Library', library_subtitle:'Drag a tag into the lyrics or click +', current_section:'Current section', smart_suggestions:'Smart Suggestions', all_categories:'All categories', favorites_only:'Only favorites', available:'available', used:'used', doctor_title:'MetaTag Doctor', doctor_description:'Checks duplicates, conflicts, placement and bracket syntax without changing your lyrics automatically.', tags:'Tags', issues:'Issues', duplicates:'Duplicates', conflicts:'Conflicts', custom_tag:'Custom MetaTag', brackets_added:'Brackets are added automatically.',
-      find_text:'Find text…', replace_with:'Replace with…', editor_placeholder:'Paste or write your lyrics here…\n\nUse section tags such as [Intro], [Verse 1], [Chorus], [Bridge] and [Outro].', search_tags:'Search MetaTags…', custom_tag_placeholder:'e.g. Style: cold, intimate',
-      general:'General', context_general:'Place the cursor inside a song section for focused suggestions.', context_section:'Suggestions are optimized for {section}.', no_tags:'No MetaTags found.', insert_tag:'Insert MetaTag', favorite_add:'Add to favorites', favorite_remove:'Remove from favorites', healthy:'Healthy', review:'Review', attention:'Needs attention', no_issues:'No duplicate, syntax or placement problems found.', analyze:'Analyze', optimize:'Optimize safely', ready:'Ready', autosave_ready:'Autosave ready', autosave_saving:'Saving…', autosave_saved:'Saved locally', autosave_failed:'Save failed', autosave_restored:'Restored from autosave'
+      nav_title:'Lyrics Workspace', nav_subtitle:'Write, structure and prepare lyrics', workspace_title:'Lyrics Workspace', workspace_subtitle:'Write your lyrics, organize the song structure and prepare the final Suno lyrics output with section-based Pipe-Stacks.',
+      structure_title:'Song Structure', structure_subtitle:'Detected automatically from Pipe-Stack sections', insert_template:'Insert template', normalize_structure:'Sync & normalize structure', clear_lyrics:'Clear lyrics', live_analysis:'Live Analysis', undo:'Undo', redo:'Redo', find:'Find', copy_lyrics:'Copy lyrics', export_txt:'Export .txt', syntax_preview:'Syntax Preview', library_title:'MetaTag Library', library_subtitle:'Drag an element into the active Pipe-Stack or click +', current_section:'Current section', smart_suggestions:'Smart Suggestions', all_categories:'All categories', favorites_only:'Only favorites', available:'available', used:'used', doctor_title:'MetaTag Doctor', doctor_description:'Checks Pipe-Stack priority, element count, conflicts, STYLE compatibility and bracket syntax.', tags:'Elements', issues:'Issues', duplicates:'Duplicates', conflicts:'Conflicts', custom_tag:'Custom Stack Element', brackets_added:'The element is added to the active Pipe-Stack.',
+      find_text:'Find text…', replace_with:'Replace with…', editor_placeholder:'Paste or write your lyrics here…\n\nUse Pipe-Stacks such as [Chorus | Soulful | Female Vocal | Piano | Building Intensity | Deep Reverb | Analog Production].', search_tags:'Search MetaTags…', custom_tag_placeholder:'e.g. cold and intimate',
+      general:'General', context_general:'Place the cursor inside a song section for focused suggestions.', context_section:'Suggestions are optimized for {section}.', no_tags:'No MetaTags found.', insert_tag:'Insert stack element', favorite_add:'Add to favorites', favorite_remove:'Remove from favorites', healthy:'Healthy', review:'Review', attention:'Needs attention', no_issues:'No Pipe-Stack, conflict or syntax problems found.', analyze:'Analyze', optimize:'Optimize Pipe-Stacks', ready:'Ready', autosave_ready:'Autosave ready', autosave_saving:'Saving…', autosave_saved:'Saved locally', autosave_failed:'Save failed', autosave_restored:'Restored from autosave'
     },
     de: {
-      nav_title:'Lyrics Workspace', nav_subtitle:'Lyrics schreiben, strukturieren und vorbereiten', workspace_title:'Lyrics Workspace', workspace_subtitle:'Schreibe deine Lyrics, organisiere die Songstruktur und bereite die fertige Suno-Ausgabe vor.',
-      structure_title:'Songstruktur', structure_subtitle:'Wird automatisch anhand der Abschnitts-Tags erkannt', insert_template:'Vorlage einfügen', normalize_structure:'Struktur synchronisieren und vereinheitlichen', clear_lyrics:'Lyrics löschen', live_analysis:'Live-Analyse', undo:'Rückgängig', redo:'Wiederholen', find:'Suchen', copy_lyrics:'Lyrics kopieren', export_txt:'.txt exportieren', syntax_preview:'Syntax-Vorschau', library_title:'MetaTag-Bibliothek', library_subtitle:'Ziehe ein Tag in die Lyrics oder klicke auf +', current_section:'Aktueller Abschnitt', smart_suggestions:'Intelligente Vorschläge', all_categories:'Alle Kategorien', favorites_only:'Nur Favoriten', available:'verfügbar', used:'verwendet', doctor_title:'MetaTag Doctor', doctor_description:'Prüft Duplikate, Konflikte, Platzierung und Klammer-Syntax, ohne deine Lyrics automatisch zu verändern.', tags:'Tags', issues:'Probleme', duplicates:'Duplikate', conflicts:'Konflikte', custom_tag:'Eigenes MetaTag', brackets_added:'Eckige Klammern werden automatisch hinzugefügt.',
-      find_text:'Text suchen…', replace_with:'Ersetzen durch…', editor_placeholder:'Füge deine Lyrics ein oder schreibe sie hier…\n\nNutze Abschnitts-Tags wie [Intro], [Verse 1], [Chorus], [Bridge] und [Outro].', search_tags:'MetaTags suchen…', custom_tag_placeholder:'z. B. Style: kalt, intim',
-      general:'Allgemein', context_general:'Setze den Cursor in einen Songabschnitt, um passende Vorschläge zu erhalten.', context_section:'Die Vorschläge sind für {section} optimiert.', no_tags:'Keine MetaTags gefunden.', insert_tag:'MetaTag einfügen', favorite_add:'Zu Favoriten hinzufügen', favorite_remove:'Aus Favoriten entfernen', healthy:'Gesund', review:'Prüfen', attention:'Handlungsbedarf', no_issues:'Keine Duplikate, Syntax- oder Platzierungsprobleme gefunden.', analyze:'Analysieren', optimize:'Sicher optimieren', ready:'Bereit', autosave_ready:'Autosave bereit', autosave_saving:'Wird gespeichert…', autosave_saved:'Lokal gespeichert', autosave_failed:'Speichern fehlgeschlagen', autosave_restored:'Aus Autosave wiederhergestellt'
+      nav_title:'Lyrics Workspace', nav_subtitle:'Lyrics schreiben, strukturieren und vorbereiten', workspace_title:'Lyrics Workspace', workspace_subtitle:'Schreibe deine Lyrics, organisiere die Songstruktur und bereite die fertige Suno-Ausgabe mit abschnittsbezogenen Pipe-Stacks vor.',
+      structure_title:'Songstruktur', structure_subtitle:'Wird automatisch anhand der Pipe-Stack-Abschnitte erkannt', insert_template:'Vorlage einfügen', normalize_structure:'Struktur synchronisieren und vereinheitlichen', clear_lyrics:'Lyrics löschen', live_analysis:'Live-Analyse', undo:'Rückgängig', redo:'Wiederholen', find:'Suchen', copy_lyrics:'Lyrics kopieren', export_txt:'.txt exportieren', syntax_preview:'Syntax-Vorschau', library_title:'MetaTag-Bibliothek', library_subtitle:'Ziehe ein Element in den aktiven Pipe-Stack oder klicke auf +', current_section:'Aktueller Abschnitt', smart_suggestions:'Intelligente Vorschläge', all_categories:'Alle Kategorien', favorites_only:'Nur Favoriten', available:'verfügbar', used:'verwendet', doctor_title:'MetaTag Doctor', doctor_description:'Prüft Pipe-Stack-Priorität, Elementanzahl, Konflikte, STYLE-Kompatibilität und Klammer-Syntax.', tags:'Elemente', issues:'Probleme', duplicates:'Duplikate', conflicts:'Konflikte', custom_tag:'Eigenes Stack-Element', brackets_added:'Das Element wird dem aktiven Pipe-Stack hinzugefügt.',
+      find_text:'Text suchen…', replace_with:'Ersetzen durch…', editor_placeholder:'Füge deine Lyrics ein oder schreibe sie hier…\n\nNutze Pipe-Stacks wie [Chorus | Soulful | Female Vocal | Piano | Building Intensity | Deep Reverb | Analog Production].', search_tags:'MetaTags suchen…', custom_tag_placeholder:'z. B. kalt und intim',
+      general:'Allgemein', context_general:'Setze den Cursor in einen Songabschnitt, um passende Vorschläge zu erhalten.', context_section:'Die Vorschläge sind für {section} optimiert.', no_tags:'Keine MetaTags gefunden.', insert_tag:'Stack-Element einfügen', favorite_add:'Zu Favoriten hinzufügen', favorite_remove:'Aus Favoriten entfernen', healthy:'Gesund', review:'Prüfen', attention:'Handlungsbedarf', no_issues:'Keine Pipe-Stack-, Konflikt- oder Syntaxprobleme gefunden.', analyze:'Analysieren', optimize:'Pipe-Stacks optimieren', ready:'Bereit', autosave_ready:'Autosave bereit', autosave_saving:'Wird gespeichert…', autosave_saved:'Lokal gespeichert', autosave_failed:'Speichern fehlgeschlagen', autosave_restored:'Aus Autosave wiederhergestellt'
     }
   };
 
@@ -95,6 +97,10 @@
     initialized: false,
     currentSection: 'general',
     draggedSectionIndex: null,
+    draggedPipeIndex: null,
+    activeStackLineIndex: null,
+    restoredFromLegacy: false,
+    restoredMigration: null,
     favoriteTags: new Set(),
     openGroups: new Set(['Sections'])
   };
@@ -123,9 +129,17 @@
     return data ? Object.values(data.categories).flat() : [];
   }
   function usedLibraryTagSet() {
-    const known = new Map(allLibraryTags().map(tag => [tag.toLowerCase(), tag]));
+    const known = new Map(allLibraryTags().map(tag => {
+      const value=StackEngine?.normalizeDirective(tag)?.value||normalizeTag(tag);
+      return [value.toLowerCase(),tag];
+    }));
     const used = new Set();
-    getText().split('\n').filter(isStandaloneTag).forEach(line => { const normalized=normalizeTag(line).toLowerCase(); if (known.has(normalized)) used.add(known.get(normalized)); });
+    if(StackEngine){
+      StackEngine.parseLyrics(getText()).sections.forEach(section=>section.stack.directives.forEach(item=>{
+        const key=item.value.toLowerCase();
+        if(known.has(key))used.add(known.get(key));
+      }));
+    }else getText().split('\n').filter(isStandaloneTag).forEach(line => { const normalized=normalizeTag(line).toLowerCase(); if (known.has(normalized)) used.add(known.get(normalized)); });
     return used;
   }
 
@@ -163,6 +177,9 @@
   }
 
   function parseSections(text = getText()) {
+    if(StackEngine)return StackEngine.parseLyrics(text).sections.map(section=>({
+      label:`[${section.stack.section}]`,stackLine:section.sourceLine,stack:section.stack,line:section.line,index:section.index,start:section.start,end:section.end
+    }));
     const lines = text.split('\n');
     const sections = [];
     lines.forEach((line, index) => {
@@ -187,43 +204,53 @@
       const tags = body.filter(line => isStandaloneTag(line));
       const lyricLines = body.filter(line => line.trim() && !isStandaloneTag(line));
       const words = lyricLines.join(' ').trim() ? lyricLines.join(' ').trim().split(/\s+/).length : 0;
-      return { ...section, endLine, body, tags, lyricLines, words, tagCount: tags.length };
+      const directiveCount=section.stack?.directives?.length??tags.length;
+      return { ...section, endLine, body, tags, lyricLines, words, tagCount: directiveCount, elementCount:directiveCount+1 };
     });
   }
 
   function canonicalSectionLabel(label, verseNumber = null) {
-    const raw = String(label || '').replace(/^\s*\[|\]\s*$/g, '').trim().toLowerCase();
-    if (/^intro/.test(raw)) return '[Intro]';
-    if (/^verse/.test(raw)) return `[Verse ${verseNumber || Number(raw.match(/\d+/)?.[0]) || 1}]`;
-    if (/^pre[-\s]?chorus/.test(raw)) return '[Pre-Chorus]';
-    if (/^post[-\s]?chorus/.test(raw)) return '[Post-Chorus]';
-    if (/^final\s+chorus/.test(raw)) return '[Final Chorus]';
-    if (/^chorus/.test(raw)) return '[Chorus]';
-    if (/^bridge/.test(raw)) return '[Bridge]';
-    if (/^breakdown/.test(raw)) return '[Breakdown]';
-    if (/^drop/.test(raw)) return '[Drop]';
-    if (/^instrumental\s+break/.test(raw)) return '[Instrumental Break]';
-    if (/^instrumental/.test(raw)) return '[Instrumental]';
-    if (/^solo/.test(raw)) return '[Solo]';
-    if (/^interlude/.test(raw)) return '[Interlude]';
-    if (/^outro/.test(raw)) return '[Outro]';
-    return normalizeTag(label);
+    const parsedStack=StackEngine?.parseStack(label);
+    const directives=parsedStack?.directives||[];
+    const inputSection=parsedStack?.section||label;
+    const raw = String(inputSection || '').replace(/^\s*\[|\]\s*$/g, '').trim().toLowerCase();
+    let section;
+    if (/^intro/.test(raw)) section='Intro';
+    else if (/^verse/.test(raw)) section=`Verse ${verseNumber || Number(raw.match(/\d+/)?.[0]) || 1}`;
+    else if (/^pre[-\s]?chorus/.test(raw)) section='Pre-Chorus';
+    else if (/^post[-\s]?chorus/.test(raw)) section='Post-Chorus';
+    else if (/^final\s+chorus/.test(raw)) section='Final Chorus';
+    else if (/^chorus/.test(raw)) section='Chorus';
+    else if (/^bridge/.test(raw)) section='Bridge';
+    else if (/^breakdown/.test(raw)) section='Breakdown';
+    else if (/^drop/.test(raw)) section='Drop';
+    else if (/^instrumental\s+break/.test(raw)) section='Instrumental Break';
+    else if (/^instrumental/.test(raw)) section='Instrumental';
+    else if (/^solo/.test(raw)) section='Solo';
+    else if (/^interlude/.test(raw)) section='Interlude';
+    else if (/^outro/.test(raw)) section='Outro';
+    else section=StackEngine?.canonicalSection(inputSection)||String(inputSection).replace(/^\[|\]$/g,'');
+    return StackEngine?StackEngine.renderStack({section,directives}):normalizeTag(section);
   }
 
   function analyzeLyricsDetailed(text = getText()) {
     const lines = text.split('\n');
     const details = sectionDetails(text);
     const issues = [];
-    const tagLines = [];
     const add = (severity, message, line = null, code = '') => issues.push({ severity, message, line, code });
+    const stylePrompt = $('styleOutput')?.value || $('customStyle')?.value || '';
+    const stackAnalysis = StackEngine
+      ? StackEngine.analyzeLyrics(text, { stylePrompt, language: lyricsLanguage() })
+      : { issues: [], elementCount: 0, conflictCount: 0, stacks: [] };
+
+    stackAnalysis.issues.forEach(issue => add(issue.severity, issue.message, issue.line || null, issue.code));
 
     lines.forEach((line, index) => {
       const trimmed = line.trim();
       if (!trimmed) return;
-      if ((trimmed.startsWith('[') || trimmed.endsWith(']')) && !isStandaloneTag(trimmed)) {
+      if (!StackEngine && (trimmed.startsWith('[') || trimmed.endsWith(']')) && !isStandaloneTag(trimmed)) {
         add('error', 'Malformed square-bracket tag', index + 1, 'brackets');
       }
-      if (isStandaloneTag(trimmed)) tagLines.push({ tag: trimmed.replace(/\s+/g, ' '), line: index + 1 });
       if (/^\([^)]{81,}\)$/.test(trimmed)) add('warn', 'Very long echo or ad-lib in round brackets', index + 1, 'long-adlib');
     });
 
@@ -236,17 +263,7 @@
     if (verseNumbers.length && verseNumbers.some((n, i) => n !== i + 1)) add('warn', 'Verse numbering is not sequential', null, 'verse-number');
 
     details.forEach(section => {
-      const seen = new Map();
-      section.tags.forEach((tag, idx) => {
-        const normalized = tag.trim().replace(/\s+/g, ' ').toLowerCase();
-        if (seen.has(normalized)) add('warn', `Duplicate MetaTag in ${section.label}`, section.index + idx + 2, 'duplicate-tag');
-        else seen.set(normalized, true);
-      });
-      if (section.tagCount > 7) add('warn', `${section.label} may be overloaded with ${section.tagCount} MetaTags`, section.line, 'tag-overload');
-      const hasInstrumental = /^\[Instrumental\s*\]$/i.test(section.label) || section.tags.some(tag => /^\[Instrumental\s*\]$/i.test(tag));
-      const hasVocal = section.tags.some(tag => /(vocal|choir|ad-libs|spoken|growl|duet|gang shouts)/i.test(tag));
-      if (hasInstrumental && hasVocal) add('error', `Instrumental and vocal directions conflict in ${section.label}`, section.line, 'instrumental-vocal');
-      if (!section.words && !section.tags.length && !/^\[(Intro|Outro|Drop|Breakdown|Instrumental|Solo)/i.test(section.label)) {
+      if (!section.words && !section.tagCount && !/^\[(Intro|Outro|Drop|Breakdown|Instrumental|Solo)/i.test(section.label)) {
         add('warn', `${section.label} is empty`, section.line, 'empty-section');
       }
     });
@@ -258,7 +275,7 @@
     const errors = issues.filter(i => i.severity === 'error').length;
     const warnings = issues.filter(i => i.severity === 'warn').length;
     const score = Math.max(0, Math.min(100, 100 - errors * 14 - warnings * 5));
-    return { issues, errors, warnings, score, tagCount: tagLines.length, details, wordCount };
+    return { issues, errors, warnings, score, tagCount: stackAnalysis.elementCount, details, wordCount, stackAnalysis };
   }
 
   function renderStructure() {
@@ -277,7 +294,7 @@
       return `
       <button class="lyrics-structure-item${warning ? ' has-warning' : ''}${isActive ? ' active-section' : ''}" data-line="${section.line}" data-section-index="${i}" draggable="true" type="button">
         <span class="lyrics-structure-index">${String(i + 1).padStart(2, '0')}</span>
-        <span><b>${escapeHtml(section.label)}</b><small class="lyrics-structure-meta"><em>${lyricsLanguage()==='de'?'Zeile':'Line'} ${section.line}</em><em>${section.words} ${lyricsLanguage()==='de'?'Wörter':'words'}</em><em>${section.tagCount} Tags</em></small></span>
+        <span><b>${escapeHtml(section.label)}</b><small class="lyrics-structure-meta"><em>${lyricsLanguage()==='de'?'Zeile':'Line'} ${section.line}</em><em>${section.words} ${lyricsLanguage()==='de'?'Wörter':'words'}</em><em>${section.elementCount} ${lyricsLanguage()==='de'?'Elemente':'elements'}</em></small></span>
       </button>`;
     }).join('');
     list.querySelectorAll('[data-line]').forEach((button) => {
@@ -322,6 +339,11 @@
     const html = getText().split('\n').map((line) => {
       const safe = escapeHtml(line);
       if (/^\s*\[[^\]]+\]\s*$/.test(line)) {
+        const stack=StackEngine?.parseStack(line);
+        if (stack) {
+          const parts=[stack.section,...stack.directives.map(item=>item.value)];
+          return `<span class="syntax-pipe"><span class="pipe-section">[${escapeHtml(parts[0])}</span>${parts.slice(1).map(part=>` <span class="pipe-divider">|</span> ${escapeHtml(part)}`).join('')}]</span>`;
+        }
         if (SECTION_RE.test(line)) return `<span class="syntax-section">${safe}</span>`;
         return `<span class="syntax-tag">${safe}</span>`;
       }
@@ -347,7 +369,7 @@
     const visible = [...baseChecks, ...result.issues.slice(0, 7)];
     target.innerHTML = visible.map((item) => {
       const status = item.severity === 'ok' ? 'ok' : item.severity;
-      const icon = status === 'ok' ? '✓' : status === 'warn' ? '!' : '×';
+      const icon = status === 'ok' ? '✓' : status === 'info' ? 'i' : status === 'warn' ? '!' : '×';
       const jump = item.line ? `<button type="button" data-analysis-line="${item.line}">Line ${item.line}</button>` : '';
       return `<div class="lyrics-analysis-item ${status}"><span>${icon}</span><small>${escapeHtml(localizeAnalysisMessage(item.message))}</small>${jump}</div>`;
     }).join('');
@@ -358,8 +380,8 @@
     const result = analyzeLyricsDetailed();
     if ($('lyricsTagCount')) $('lyricsTagCount').textContent = result.tagCount;
     if ($('lyricsIssueCount')) $('lyricsIssueCount').textContent = result.issues.length;
-    if ($('lyricsDuplicateCount')) $('lyricsDuplicateCount').textContent = result.issues.filter(issue => issue.code === 'duplicate-tag').length;
-    if ($('lyricsConflictCount')) $('lyricsConflictCount').textContent = result.issues.filter(issue => issue.code === 'instrumental-vocal').length;
+    if ($('lyricsDuplicateCount')) $('lyricsDuplicateCount').textContent = result.issues.filter(issue => /duplicate/.test(issue.code)).length;
+    if ($('lyricsConflictCount')) $('lyricsConflictCount').textContent = result.issues.filter(issue => /conflict/.test(issue.code)).length;
     const health = $('lyricsTagHealth');
     if (health) {
       health.textContent = result.errors ? lt('attention') : result.warnings ? lt('review') : lt('healthy');
@@ -371,7 +393,97 @@
       report.innerHTML = `<small>✓ ${escapeHtml(lt('no_issues'))}</small>`;
       return;
     }
-    report.innerHTML = result.issues.slice(0, 10).map(issue => `<div class="lyrics-doctor-item ${issue.severity}"><b>${issue.severity === 'error' ? '×' : '!'}</b><span>${escapeHtml(localizeAnalysisMessage(issue.message))}${issue.line ? ` · ${lyricsLanguage()==='de'?'Zeile':'line'} ${issue.line}` : ''}</span></div>`).join('');
+    report.innerHTML = result.issues.slice(0, 12).map(issue => `<div class="lyrics-doctor-item ${issue.severity}"><b>${issue.severity === 'error' ? '×' : issue.severity === 'info' ? 'i' : '!'}</b><span>${escapeHtml(localizeAnalysisMessage(issue.message))}${issue.line ? ` · ${lyricsLanguage()==='de'?'Zeile':'line'} ${issue.line}` : ''}</span></div>`).join('');
+  }
+
+  function stylePromptForStackCheck(){return $('styleOutput')?.value||$('customStyle')?.value||''}
+
+  function applyStackResult(result,message){
+    if(!result?.changed)return toast(lyricsLanguage()==='de'?'Keine Änderung erforderlich':'No change required');
+    const lineIndex=result.stack?state.activeStackLineIndex:result.section?.index;
+    setText(result.text);
+    if(Number.isInteger(lineIndex)){
+      goToLine(lineIndex+1);
+      state.activeStackLineIndex=lineIndex;
+    }
+    renderPipeBuilder();
+    toast(message);
+  }
+
+  function renderPipeBuilder(){
+    const root=$('lyricsPipeStack');
+    if(!root||!StackEngine)return;
+    const section=getSectionAtCursor();
+    const de=lyricsLanguage()==='de';
+    if(!section.stack){
+      state.activeStackLineIndex=null;
+      root.innerHTML=`<small>${de?'Wähle einen Songabschnitt, um seinen Stack zu bearbeiten.':'Select a song section to edit its stack.'}</small>`;
+      $('lyricsPipePreview').textContent='[Section | Mood | Vocal | Instruments | Dynamics | Space | Production]';
+      $('lyricsPipeCount').textContent='0 / 7';
+      $('lyricsPipePriority').textContent='—';
+      $('lyricsPipeStyleState').textContent='—';
+      $('lyricsPipeHealth').textContent=de?'Bereit':'Ready';
+      $('lyricsPipeHealth').className='lyrics-pipe-health';
+      return;
+    }
+    state.activeStackLineIndex=section.index;
+    const report=StackEngine.analyzeStack(section.stack,{stylePrompt:stylePromptForStackCheck(),language:lyricsLanguage()});
+    const health=report.errors?'error':report.warnings?'warn':'';
+    $('lyricsPipeHealth').textContent=report.errors?(de?'Konflikt':'Conflict'):report.warnings?(de?'Prüfen':'Review'):(de?'Sauber':'Clean');
+    $('lyricsPipeHealth').className=`lyrics-pipe-health${health?' '+health:''}`;
+    const sectionChip=`<span class="lyrics-pipe-chip section" data-category="section"><span>${escapeHtml(section.stack.section)}</span></span>`;
+    const directives=section.stack.directives.map((item,index)=>`<span class="lyrics-pipe-chip" draggable="true" tabindex="0" data-pipe-index="${index}" data-category="${escapeHtml(item.category)}"><span title="${escapeHtml(item.value)}">${escapeHtml(item.value)}</span><button type="button" data-remove-pipe="${index}" title="${de?'Element entfernen':'Remove element'}">×</button></span>`).join('');
+    root.innerHTML=sectionChip+directives;
+    $('lyricsPipePreview').textContent=StackEngine.renderStack(section.stack);
+    $('lyricsPipeCount').textContent=`${report.elementCount} / ${StackEngine.MAX_RECOMMENDED_ELEMENTS}`;
+    $('lyricsPipePriority').textContent=report.primary||'—';
+    $('lyricsPipeStyleState').textContent=report.styleState==='conflict'?(de?'Konflikt':'Conflict'):report.styleState==='aligned'?(de?'Passend':'Aligned'):(de?'Nicht geprüft':'Unchecked');
+
+    root.querySelectorAll('[data-pipe-index]').forEach(chip=>{
+      chip.addEventListener('dragstart',event=>{
+        state.draggedPipeIndex=Number(chip.dataset.pipeIndex);
+        event.dataTransfer?.setData('application/x-nsw-pipe-element',String(state.draggedPipeIndex));
+        if(event.dataTransfer)event.dataTransfer.effectAllowed='move';
+        chip.classList.add('dragging');
+      });
+      chip.addEventListener('dragover',event=>{event.preventDefault();if(event.dataTransfer)event.dataTransfer.dropEffect='move';chip.classList.add('drag-target')});
+      chip.addEventListener('dragleave',()=>chip.classList.remove('drag-target'));
+      chip.addEventListener('drop',event=>{
+        event.preventDefault();
+        const from=Number(event.dataTransfer?.getData('application/x-nsw-pipe-element')??state.draggedPipeIndex);
+        const to=Number(chip.dataset.pipeIndex);
+        root.querySelectorAll('.lyrics-pipe-chip').forEach(item=>item.classList.remove('dragging','drag-target'));
+        state.draggedPipeIndex=null;
+        if(!Number.isInteger(from)||from===to)return;
+        applyStackResult(StackEngine.reorderDirective(getText(),state.activeStackLineIndex,from,to),de?'Priorität im Pipe-Stack geändert':'Pipe-Stack priority changed');
+      });
+      chip.addEventListener('dragend',()=>{state.draggedPipeIndex=null;root.querySelectorAll('.lyrics-pipe-chip').forEach(item=>item.classList.remove('dragging','drag-target'))});
+      chip.addEventListener('keydown',event=>{
+        if(!['ArrowLeft','ArrowRight'].includes(event.key)||!event.altKey)return;
+        event.preventDefault();
+        const from=Number(chip.dataset.pipeIndex),to=from+(event.key==='ArrowLeft'?-1:1);
+        if(to<0||to>=section.stack.directives.length)return;
+        applyStackResult(StackEngine.reorderDirective(getText(),state.activeStackLineIndex,from,to),de?'Priorität im Pipe-Stack geändert':'Pipe-Stack priority changed');
+      });
+    });
+    root.querySelectorAll('[data-remove-pipe]').forEach(button=>button.addEventListener('click',event=>{
+      event.stopPropagation();
+      const index=Number(button.dataset.removePipe);
+      applyStackResult(StackEngine.removeDirective(getText(),state.activeStackLineIndex,index),de?'Element entfernt':'Element removed');
+    }));
+  }
+
+  function sortActiveStack(){
+    if(!StackEngine||!Number.isInteger(state.activeStackLineIndex))return toast(lyricsLanguage()==='de'?'Wähle zuerst einen Songabschnitt':'Select a song section first');
+    applyStackResult(StackEngine.sortStack(getText(),state.activeStackLineIndex),lyricsLanguage()==='de'?'Pipe-Stack automatisch sortiert':'Pipe-Stack automatically ordered');
+  }
+
+  function migrateAllStacks(){
+    if(!StackEngine)return;
+    const migration=StackEngine.migrateLyrics(getText(),{sortExisting:true});
+    if(!migration.changed)return toast(lyricsLanguage()==='de'?'Alle Pipe-Stacks sind bereits sauber':'All Pipe-Stacks are already clean');
+    setText(migration.text);
+    toast(lyricsLanguage()==='de'?`${migration.convertedStacks} Pipe-Stacks aufgebaut · ${migration.convertedTags} Einzel-Tags übernommen`:`${migration.convertedStacks} Pipe-Stacks built · ${migration.convertedTags} standalone tags migrated`);
   }
 
   function syncLyricsOutput() {
@@ -394,6 +506,7 @@
     renderHighlightedPreview();
     renderAnalysis();
     renderTagDoctor();
+    renderPipeBuilder();
     syncLyricsOutput();
     updateContextSuggestions();
     updateHistoryButtons();
@@ -417,10 +530,19 @@
 
   function restoreSaved() {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('nswLyricsWorkspace.v2.phase2') || localStorage.getItem('nswLyricsWorkspace.v2.phase1');
+      let raw = localStorage.getItem(STORAGE_KEY);
+      let legacy=false;
+      if(!raw){
+        for(const key of LEGACY_STORAGE_KEYS){raw=localStorage.getItem(key);if(raw){legacy=true;break}}
+      }
       if (!raw) return '';
       const data = JSON.parse(raw);
-      return typeof data.text === 'string' ? data.text : '';
+      const text=typeof data.text === 'string' ? data.text : '';
+      if(!StackEngine||!text)return text;
+      const migration=StackEngine.migrateLyrics(text,{sortExisting:false});
+      state.restoredFromLegacy=legacy||migration.changed;
+      state.restoredMigration=migration;
+      return migration.text;
     } catch (error) {
       console.warn('Lyrics restore failed', error);
       return '';
@@ -583,6 +705,19 @@
   function getSectionAtCursor() {
     const editor = $('lyricsEditor');
     if (!editor) return { key: 'general', label: 'General', line: 0 };
+    if(StackEngine){
+      const section=StackEngine.sectionAtOffset(editor.value,editor.selectionStart);
+      if(!section)return{key:'general',label:'General',line:0,index:null,stack:null};
+      const raw=section.stack.section.toLowerCase();
+      let key=raw;
+      if (/verse/.test(raw)) key = 'verse';
+      else if (/pre[-\s]?chorus/.test(raw)) key = 'pre-chorus';
+      else if (/post[-\s]?chorus/.test(raw)) key = 'post-chorus';
+      else if (/final\s+chorus/.test(raw)) key = 'final chorus';
+      else if (/instrumental/.test(raw)) key = 'instrumental';
+      else if (/solo/.test(raw)) key = 'solo';
+      return{key,label:`[${section.stack.section}]`,line:section.line,index:section.index,stack:section.stack,sourceLine:section.sourceLine,start:section.start};
+    }
     const before = editor.value.slice(0, editor.selectionStart).split('\n');
     for (let i = before.length - 1; i >= 0; i -= 1) {
       const line = before[i].trim();
@@ -669,6 +804,22 @@
     if (!editor || !normalized) return;
     let pos = Number.isInteger(preferredPosition) ? preferredPosition : editor.selectionStart;
     pos = Math.max(0, Math.min(pos, editor.value.length));
+    if(StackEngine){
+      const addition=StackEngine.addDirective(editor.value,pos,normalized,{createSection:true,defaultSection:'Verse 1'});
+      if(addition.kind==='directive'){
+        if(addition.reason==='no-section')return toast(lyricsLanguage()==='de'?'Wähle zuerst einen Songabschnitt für das Stack-Element':'Select a song section before adding a stack element');
+        if(addition.reason==='duplicate')return toast(lyricsLanguage()==='de'?'Dieses Element ist bereits im Pipe-Stack':'This element is already in the Pipe-Stack');
+        if(addition.changed){
+          editor.value=addition.text;
+          editor.setSelectionRange(addition.cursor,addition.cursor);
+          pushHistory(editor.value);
+          updateAll();
+          scheduleSave();
+          editor.focus();
+          return toast(`${StackEngine.normalizeDirective(normalized)?.value||normalized} ${lyricsLanguage()==='de'?'zum Pipe-Stack hinzugefügt':'added to Pipe-Stack'}`);
+        }
+      }
+    }
     const before = editor.value.slice(0, pos);
     const after = editor.value.slice(pos);
     const atLineStart = pos === 0 || before.endsWith('\n');
@@ -774,8 +925,9 @@
     const lines = text.split('\n');
     let verse = 0;
     const normalized = lines.map(line => {
-      if (!SECTION_RE.test(line)) return line.replace(/[ \t]+$/g, '');
-      if (/^\s*\[\s*verse/i.test(line)) verse += 1;
+      const stack=StackEngine?.parseStack(line);
+      if (!(stack||SECTION_RE.test(line))) return line.replace(/[ \t]+$/g, '');
+      if (/^verse/i.test(stack?.section||line.replace(/^\s*\[\s*/,''))) verse += 1;
       return canonicalSectionLabel(line, verse || null);
     }).join('\n').replace(/\n{4,}/g, '\n\n\n').trimEnd() + '\n';
     if (normalized === text) return toast('Structure is already synchronized');
@@ -786,6 +938,12 @@
   function optimizeMetaTags() {
     const text = getText();
     if (!text.trim()) return toast('No lyrics to optimize');
+    if(StackEngine){
+      const migration=StackEngine.migrateLyrics(text,{sortExisting:true});
+      if(!migration.changed)return toast(lyricsLanguage()==='de'?'Die Pipe-Stacks sind bereits optimiert':'The Pipe-Stacks are already optimized');
+      setText(migration.text);
+      return toast(lyricsLanguage()==='de'?`Pipe-Stacks optimiert · ${migration.convertedTags} Einzel-Tags übernommen · Duplikate entfernt`:`Pipe-Stacks optimized · ${migration.convertedTags} standalone tags migrated · duplicates removed`);
+    }
     const lines = text.split('\n');
     const mergeable = /^(Style|Music|Choir|Production|Ad-libs|Transition):\s*(.+)$/i;
     const output = [];
@@ -847,7 +1005,7 @@
     const editor = $('lyricsEditor');
     const shell = editor?.closest('.lyrics-editor-shell');
     if (!editor || !shell) return;
-    ['click', 'keyup', 'select'].forEach(name => editor.addEventListener(name, () => { updateContextSuggestions(); renderStructure(); }));
+    ['click', 'keyup', 'select'].forEach(name => editor.addEventListener(name, () => { updateContextSuggestions(); renderStructure(); renderPipeBuilder(); }));
     shell.addEventListener('dragover', event => { event.preventDefault(); event.dataTransfer.dropEffect = 'copy'; shell.classList.add('drag-over'); });
     shell.addEventListener('dragleave', event => { if (!shell.contains(event.relatedTarget)) shell.classList.remove('drag-over'); });
     shell.addEventListener('drop', event => {
@@ -869,10 +1027,13 @@
     $('lyricsCustomTag')?.addEventListener('keydown', event => {
       if (event.key === 'Enter') { event.preventDefault(); $('lyricsInsertCustomTag').click(); }
     });
-    $('lyricsTagHelp')?.addEventListener('click', () => toast('Drag tags into the editor, click ＋ to insert, or drag song sections to reorder them.'));
+    $('lyricsTagHelp')?.addEventListener('click', () => toast(lyricsLanguage()==='de'?'Ziehe Elemente in den aktiven Abschnitt. Im Pipe-Stack kannst du ihre Priorität anschließend per Drag & Drop ändern.':'Drag elements into the active section. Then use drag and drop inside the Pipe-Stack to change their priority.'));
     $('lyricsNormalizeStructure')?.addEventListener('click', normalizeStructure);
     $('lyricsAnalyzeTags')?.addEventListener('click', () => { renderTagDoctor(); renderAnalysis(); toast('Lyrics and MetaTags analyzed'); });
     $('lyricsOptimizeTags')?.addEventListener('click', optimizeMetaTags);
+    $('lyricsSortStack')?.addEventListener('click', sortActiveStack);
+    $('lyricsMigrateStacks')?.addEventListener('click', migrateAllStacks);
+    ['styleOutput','customStyle'].forEach(id=>$(id)?.addEventListener('input',()=>{renderPipeBuilder();renderTagDoctor();renderAnalysis()}));
     renderTagLibrary();
     updateContextSuggestions();
   }
@@ -885,7 +1046,13 @@
     const de=lyricsLanguage()==='de';
     const direct={lyricsReplaceOne:de?'Ersetzen':'Replace',lyricsReplaceAll:de?'Alle ersetzen':'Replace all',lyricsFindStatus:de?'0 Treffer':'0 matches'};
     Object.entries(direct).forEach(([id,text])=>{const el=$(id);if(el)el.textContent=text;});
-    renderTagLibrary(); updateContextSuggestions(); renderTagDoctor(); renderAnalysis(); updateStats(); renderStructure();
+    if($('lyricsPipeTitle'))$('lyricsPipeTitle').textContent='Pipe-Stack';
+    if($('lyricsPipeHint'))$('lyricsPipeHint').textContent=de?'Priorität läuft von links nach rechts. Auto-Reihenfolge: Stimmung → Vocal → Instrumente → Dynamik → Raum → Produktion. Elemente lassen sich frei ziehen.':'Priority runs left to right. Auto-order: Mood → Vocal → Instruments → Dynamics → Space → Production. Drag elements to set a custom priority.';
+    if($('lyricsSortStack'))$('lyricsSortStack').textContent=de?'⇄ Automatisch sortieren':'⇄ Auto-order';
+    if($('lyricsMigrateStacks'))$('lyricsMigrateStacks').textContent=de?'⤳ Pipe-Stacks aufbauen':'⤳ Build Pipe-Stacks';
+    const metricLabels=$('lyricsPipeBuilder')?.querySelectorAll('.lyrics-pipe-metrics small');
+    if(metricLabels?.length===3){metricLabels[0].textContent=de?'Elemente':'Elements';metricLabels[1].textContent=de?'Höchste Priorität':'Top priority';metricLabels[2].textContent=de?'STYLE-Abgleich':'STYLE match'}
+    renderTagLibrary(); updateContextSuggestions(); renderTagDoctor(); renderAnalysis(); updateStats(); renderStructure(); renderPipeBuilder();
     const stateLabel=$('lyricsSaveState'); if(stateLabel && !/Saving|Wird gespeichert|Saved|Gespeichert|Restored|wiederhergestellt|failed|fehlgeschlagen/i.test(stateLabel.textContent)) stateLabel.textContent=`● ${lt('autosave_ready')}`;
   }
 
@@ -967,9 +1134,13 @@
     updateAll();
     refreshLanguage();
     $('lyricsSaveState').textContent = `● ${restored ? lt('autosave_restored') : lt('autosave_ready')}`;
+    if(state.restoredFromLegacy){
+      scheduleSave();
+      setTimeout(()=>toast(lyricsLanguage()==='de'?`${state.restoredMigration?.convertedTags||0} bestehende Einzel-Tags wurden sicher in Pipe-Stacks übernommen`:`${state.restoredMigration?.convertedTags||0} existing standalone tags were safely migrated into Pipe-Stacks`),120);
+    }
   }
 
-  window.NSWLyricsWorkspace = { refreshLanguage, renderTagLibrary, updateAll };
+  window.NSWLyricsWorkspace = { refreshLanguage, renderTagLibrary, renderPipeBuilder, analyzeLyricsDetailed, migrateAllStacks, updateAll };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();

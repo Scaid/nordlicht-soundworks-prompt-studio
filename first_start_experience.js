@@ -1,8 +1,8 @@
 (function(root){
 'use strict';
 
-const RELEASE_VERSION='7.5.4';
-const FLOW_REVISION='first-start-v2';
+const RELEASE_VERSION=root.NSWReleaseManifest?.VERSION||'7.5.10';
+const FLOW_REVISION='first-start-v4';
 const LEGACY_COMPLETED_REVISION='first-start-v1';
 const Machine=root.NSWFirstStartStateMachine;
 const Repository=root.NSWFirstStartRepository;
@@ -145,6 +145,20 @@ function init(){
   machine.dispatch({type:Machine.EVENTS.SHOW_WELCOME});
  }
 
+ function startTourAt(stepId){
+  const step=view.steps.findIndex(item=>item.id===stepId);
+  if(step<0||machine.getState().phase!==Machine.PHASES.READY)return false;
+  machine.dispatch({type:Machine.EVENTS.RESTART_TOUR,step});
+  return true;
+ }
+
+ function showContextHelp(stepId){
+  const step=view.steps.findIndex(item=>item.id===stepId);
+  if(step<0||machine.getState().phase!==Machine.PHASES.READY)return false;
+  machine.dispatch({type:Machine.EVENTS.OPEN_CONTEXT_HELP,step});
+  return true;
+ }
+
  function setProfile(profile){
   machine.dispatch({type:profile==='beginner'?Machine.EVENTS.SET_BEGINNER:Machine.EVENTS.SET_EXPERT});
  }
@@ -160,6 +174,8 @@ function init(){
   version:RELEASE_VERSION,
   flowRevision:FLOW_REVISION,
   startTour,
+  startTourAt,
+  showContextHelp,
   showWelcome:()=>machine.dispatch({type:Machine.EVENTS.SHOW_WELCOME}),
   reset:()=>machine.dispatch({type:Machine.EVENTS.RESET}),
   setProfile,

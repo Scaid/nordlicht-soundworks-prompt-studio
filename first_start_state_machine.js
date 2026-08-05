@@ -25,6 +25,7 @@ const EVENTS=Object.freeze({
  SELECT_EXPERT:'SELECT_EXPERT',
  START_TOUR:'START_TOUR',
  RESTART_TOUR:'RESTART_TOUR',
+ OPEN_CONTEXT_HELP:'OPEN_CONTEXT_HELP',
  TOUR_NEXT:'TOUR_NEXT',
  TOUR_BACK:'TOUR_BACK',
  TOUR_SKIP:'TOUR_SKIP',
@@ -240,7 +241,13 @@ function startOnboardingTour(state,event){
  ]);
 }
 
-function restartTour(state){
+function requestedTourStep(event,config){
+ const step=Number(event?.step);
+ return Number.isInteger(step)&&step>=0&&step<config.tourStepCount?step:0;
+}
+
+function restartTour(state,event,config){
+ const tourStep=requestedTourStep(event,config);
  return result({
   ...clearTransient(state),
   phase:PHASES.TOUR,
@@ -249,17 +256,35 @@ function restartTour(state){
   persistedProfile:'expert',
   profileIsSessionOnly:false,
   rememberChoice:true,
-  tourStep:0,
+  tourStep,
   tourOrigin:'replay'
  },[
   effect(EFFECTS.CLEAR_TIMERS),
   effect(EFFECTS.PERSIST),
   effect(EFFECTS.ENSURE_ADVANCED_MODE),
-  effect(EFFECTS.NAVIGATE_TOUR_STEP,{step:0})
+  effect(EFFECTS.NAVIGATE_TOUR_STEP,{step:tourStep})
+ ]);
+}
+
+function openContextHelp(state,event,config){
+ const tourStep=requestedTourStep(event,config);
+ return result({
+  ...clearTransient(state),
+  phase:PHASES.TOUR,
+  studioMode:'advanced',
+  tourStep,
+  tourOrigin:'context'
+ },[
+  effect(EFFECTS.CLEAR_TIMERS),
+  effect(EFFECTS.ENSURE_ADVANCED_MODE),
+  effect(EFFECTS.NAVIGATE_TOUR_STEP,{step:tourStep})
  ]);
 }
 
 function tourNext(state,event,config){
+ if(state.tourOrigin==='context'){
+  return result({...clearTransient(state),phase:PHASES.READY,tourOrigin:null},[effect(EFFECTS.CLEAR_TIMERS)]);
+ }
  if(state.tourStep<config.tourStepCount-1){
   const tourStep=state.tourStep+1;
   return result({...state,tourStep},[effect(EFFECTS.NAVIGATE_TOUR_STEP,{step:tourStep})]);
@@ -278,12 +303,16 @@ function tourNext(state,event,config){
 }
 
 function tourBack(state){
+ if(state.tourOrigin==='context')return ignored(state);
  if(state.tourStep===0)return ignored(state);
  const tourStep=state.tourStep-1;
  return result({...state,tourStep},[effect(EFFECTS.NAVIGATE_TOUR_STEP,{step:tourStep})]);
 }
 
 function tourSkip(state,event,config){
+ if(state.tourOrigin==='context'){
+  return result({...clearTransient(state),phase:PHASES.READY,tourOrigin:null},[effect(EFFECTS.CLEAR_TIMERS)]);
+ }
  const shouldPersist=state.tourOrigin==='replay'||state.rememberChoice;
  const completedRevision=state.tourOrigin==='onboarding'&&state.rememberChoice?config.flowRevision:state.completedRevision;
  return result({
@@ -398,7 +427,8 @@ const TRANSITIONS={
   [EVENTS.COMPLETE_ACK]:acknowledgeComplete
  },
  [PHASES.READY]:{
-  [EVENTS.RESTART_TOUR]:restartTour,
+ [EVENTS.RESTART_TOUR]:restartTour,
+  [EVENTS.OPEN_CONTEXT_HELP]:openContextHelp,
   [EVENTS.TOGGLE_HELP]:toggleHelp,
   [EVENTS.CLOSE_HELP]:closeHelp,
   [EVENTS.SET_BEGINNER]:(state)=>setReadyProfile(state,'beginner'),

@@ -50,17 +50,11 @@ function init(){
  // Randomizer remains the first visible module.
  const createItems=nav.querySelector('[data-workspace="create"] .workspace-group-items');
  const random=byView.get('randomView');if(random&&createItems)createItems.prepend(random);
- // Re-bind accordion independently, preventing old group-state conflicts.
- nav.querySelectorAll('.workspace-group-toggle').forEach(t=>t.onclick=()=>{
-  const sec=t.closest('.workspace-nav-group'),open=!sec.classList.contains('open');
-  sec.classList.toggle('open',open);t.setAttribute('aria-expanded',String(open));const i=t.querySelector('i');if(i)i.textContent=open?'⌄':'›';
-  localStorage.setItem('nsw-v71-group-'+sec.dataset.workspace,open?'1':'0');
- });
- nav.querySelectorAll('.workspace-nav-group').forEach(sec=>{
-  const saved=localStorage.getItem('nsw-v71-group-'+sec.dataset.workspace);
-  if(saved!==null){const open=saved==='1';sec.classList.toggle('open',open);sec.querySelector('.workspace-group-toggle')?.setAttribute('aria-expanded',String(open));const i=sec.querySelector('.workspace-group-toggle i');if(i)i.textContent=open?'⌄':'›'}
- });
+ // Interaction and persistence belong to the canonical workspace navigation.
+ // This module owns only the DOM grouping so that no second accordion state can
+ // diverge from favorites, recent modules or the active workspace.
  window.NSW_SIDEBAR_GROUPS_V71=GROUPS;
+ document.dispatchEvent(new CustomEvent('nsw:workspace-navigation-built',{detail:{version:'7.5.10',groups:GROUPS.map(group=>group.id)}}));
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
